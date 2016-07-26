@@ -40,24 +40,19 @@ class GuanJianCi extends Responser
             $pqItem = pq($item);
             $time = '';
             $type = '';
-            $threadId = 0;
-            $threadPid = 0;
+            $threadUrl = '';
             $threadName = '';
             $publisher = '';
             $time = trim_strip($pqItem->find('td:first-child')->text());
             $type = trim_strip($pqItem->find('td:nth-child(2)')->text());
             $pqThread = $pqItem->find('td:nth-child(3) > a');
-            if (preg_match('/tid=(\d+)&spid=(\d+)/', $pqThread->attr('href'), $matches)) {
-                $threadId = intval($matches[1]);
-                $threadPid = intval($matches[2]);
-            }
+            $threadUrl = $pqThread->attr('href');
             $threadName = trim_strip($pqThread->text());
             $publisher = trim_strip($pqItem->find('td:nth-child(4)')->text());
             $threadList[] = [
                 'time' => $time,
                 'type' => $type,
-                'threadId' => $threadId,
-                'threadPid' => $threadPid,
+                'threadUrl' => $threadUrl,
                 'threadName' => $threadName,
                 'publisher' => $publisher,
             ];

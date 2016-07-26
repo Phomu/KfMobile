@@ -38,7 +38,7 @@
           {else /}
           <span class="tag tag-success">{$vo.type}</span>
           {/eq}
-          <a class="thread-link" href="/read.php?tid={$vo.threadId}&spid={$vo.threadPid}" title="{$vo.threadName}">
+          <a class="thread-link" href="/{$vo.threadUrl}" title="{$vo.threadName}">
             {$vo.threadName}
           </a>
         </div>
