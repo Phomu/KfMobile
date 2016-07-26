@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="robots" content="noindex,nofollow">
+  <title>错误信息 - {:config('site_name')}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="errorPage">
+<main class="container p-x-0 p-t-3">
+  <h1 class="display-1 font-weight-normal p-l-1 p-b-2">:(</h1>
+  <div class="alert alert-danger" role="alert">
+    <p><b>错误信息</b></p>
+    <p>{$msg|strip_tags}</p>
+    <div>
+      <a class="alert-link" href="javascript:history.go(-1);">返回上一步操作</a>
+      &nbsp;或&nbsp;
+      <a class="alert-link" href="__PUBLIC__">返回首页</a>
+    </div>
+  </div>
+</main>
+</body>
+</html>

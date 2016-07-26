@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  <meta name="keywords" content="{$keywords}"/>
+  <meta name="description" content="{$description}"/>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="indexPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 功能区 -->
+  <section class="m-b-2">
+    {empty name="atTipsTime"}
+    <a class="btn btn-outline-primary btn-block" href="{:url('GuanJianCi/index?gjc=' . $userName)}">最近无人@你</a>
+    {else /}
+    <a class="btn {eq name='Think.cookie.kf_at_tips_time' value='$atTipsTime'}btn-outline-primary{else /}btn-outline-danger{/eq} btn-block"
+       id="atTips" data-time="{$atTipsTime}" href="{:url('GuanJianCi/index?gjc=' . $userName)}">
+      有人@你({$atTipsTime})
+    </a>
+    {/empty}
+    <a class="btn btn-outline-danger btn-block" href="/kf_givemekfb.php" title="网站虚拟货币">{$kfbMsg}</a>
+    <a class="btn btn-outline-danger btn-block" href="/kf_growup.php" title="用户等级和权限">
+      神秘{$smLevel}级 (系数排名第 <span class="text-primary">{$smRank}</span> 位)
+    </a>
+    <a class="btn btn-outline-danger btn-block" href="/kf_fw_ig_index.php" title="通过简单游戏获得每日KFB奖励(推荐)">争夺奖励</a>
+    <a class="btn btn-outline-danger btn-block" href="/kf_smbox.php" title="通过随机抽取获得每日KFB奖励(不推荐)">神秘盒子</a>
+    {eq name="hasRatingBonus" value="true"}
+    <a class="btn btn-outline-danger btn-block" href="/kf_fw_1wkfb.php?ping=3" title="参与分享贴评分获得奖励">
+      自助评分<span class="text-success">+你获得新的奖励</span>
+    </a>
+    {else /}
+    <a class="btn btn-outline-danger btn-block" href="/kf_fw_1wkfb.php" title="参与分享贴评分获得奖励">自助评分</a>
+    {/eq}
+  </section>
+
+  <!-- 最新回复 -->
+  <section class="row m-b-2">
+    <h4 class="m-b-1">
+      <i class="fa fa-signal" aria-hidden="true"></i>
+      最新回复
+    </h4>
+
+    <!-- 最新回复 Tab -->
+    <ul class="nav nav-tabs m-b-1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#galgameNewReplyPanel" role="tab"
+           aria-controls="galgameNewReplyPanel">游戏区</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#resourceNewReplyPanel" role="tab" aria-controls="resourceNewReplyPanel">动漫区</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#otherNewReplyPanel" role="tab" aria-controls="otherNewReplyPanel">其它区</a>
+      </li>
+    </ul>
+
+    <!-- 最新回复 Panel -->
+    <div class="tab-content">
+      <ul class="tab-pane list-group active" id="galgameNewReplyPanel" role="tabpanel">
+        {volist name="galgameNewReplyList" id="vo"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <span class="sr-only">跳转到帖子末页</span>
+          </a>
+        </li>
+        {/volist}
+      </ul>
+
+      <ul class="tab-pane list-group" id="resourceNewReplyPanel" role="tabpanel">
+        {volist name="resourceNewReplyList" id="vo"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <span class="sr-only">跳转到帖子末页</span>
+          </a>
+        </li>
+        {/volist}
+      </ul>
+
+      <ul class="tab-pane list-group" id="otherNewReplyPanel" role="tabpanel">
+        {volist name="otherNewReplyList" id="vo"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <span class="sr-only">跳转到帖子末页</span>
+          </a>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 最新推荐 -->
+  <section class="row m-b-2">
+    <h4 class="m-b-1">
+      <i class="fa fa-signal" aria-hidden="true"></i>
+      最新推荐
+    </h4>
+
+    <!-- 最新推荐 Tab -->
+    <ul class="nav nav-tabs m-b-1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#galgameTopRecommendPanel" role="tab"
+           aria-controls="galgameTopRecommendPanel">游戏区</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#resourceTopRecommendPanel" role="tab"
+           aria-controls="resourceTopRecommendPanel">动漫区</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#otherTopRecommendPanel" role="tab"
+           aria-controls="otherTopRecommendPanel">其它区</a>
+      </li>
+    </ul>
+
+    <!-- 最新推荐 Panel -->
+    <div class="tab-content">
+      <ul class="tab-pane list-group active" id="galgameTopRecommendPanel" role="tabpanel">
+        {volist name="galgameTopRecommendList" id="vo"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <span class="sr-only">跳转到帖子末页</span>
+          </a>
+        </li>
+        {/volist}
+      </ul>
+
+      <ul class="tab-pane list-group" id="resourceTopRecommendPanel" role="tabpanel">
+        {volist name="resourceTopRecommendList" id="vo"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <span class="sr-only">跳转到帖子末页</span>
+          </a>
+        </li>
+        {/volist}
+      </ul>
+
+      <ul class="tab-pane list-group" id="otherTopRecommendPanel" role="tabpanel">
+        {volist name="otherTopRecommendList" id="vo"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <span class="sr-only">跳转到帖子末页</span>
+          </a>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 最新发表 -->
+  <section class="row m-b-1">
+    <h4 class="m-b-1">
+      <i class="fa fa-signal" aria-hidden="true"></i>
+      最新发表
+    </h4>
+
+    <!-- 最新发表 List -->
+    <ul class="list-group" id="newPublishPanel" role="list">
+      {volist name="newPublishList" id="vo"}
+      <li class="list-group-item thread-link-group">
+        <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+        <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="sr-only">跳转到帖子末页</span>
+        </a>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

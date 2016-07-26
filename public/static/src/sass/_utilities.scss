@@ -1,0 +1,9 @@
+@include font-size-make(base, $font-size-base);
+@include font-size-make(xl, $font-size-xl);
+@include font-size-make(lg, $font-size-lg);
+@include font-size-make(sm, $font-size-sm);
+@include font-size-make(xs, $font-size-xs);
+
+.text-overflow {
+  @include text-overflow();
+}

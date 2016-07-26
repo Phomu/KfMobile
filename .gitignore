@@ -1,0 +1,11 @@
+.idea/
+node_modules/
+runtime/
+vendor/
+vps/
+public/my/
+composer.lock
+*.log
+build.bat
+composerUpdate.bat
+env.php

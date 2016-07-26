@@ -1,0 +1,24 @@
+<link rel="apple-touch-icon" href="__PUBLIC__{$Think.config.static_path}img/favicon-128x128.png" sizes="128x128">
+<link rel="icon" type="image/png" href="__PUBLIC__{$Think.config.static_path}img/favicon-16x16.png" sizes="16x16">
+<link rel="shortcut icon" href="__PUBLIC__favicon.ico">
+<link rel="stylesheet" href="__PUBLIC__{$Think.config.static_path}css/app.css?ts={$Think.config.static_file_timestamp}">
+{eq name="Think.config.static_file_cdn" value="true"}
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+{else/}
+<script src="__PUBLIC__{$Think.config.static_path}js/jquery.js?v3.1.0"></script>
+{/eq}
+{empty name="noPageInfo"}
+<script>
+  // 页面信息
+  var pageInfo = {
+    'uid': {$uid},
+    'userName': '{$userName}',
+    'verify': '{$verify}',
+    'safeId': '{$safeId}',
+    'rootPath': '{$rootPath}',
+    'urlParam': '{$urlParam}',
+    'remoteUrl': '{$remoteUrl}',
+    'cookiePrefix': '{$Think.config.cookie.prefix}',
+  }
+</script>
+{/empty}

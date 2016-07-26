@@ -1,0 +1,11 @@
+@mixin font-size-make($name, $size) {
+  .font-size-#{$name} {
+    font-size: $size;
+  }
+}
+
+@mixin text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
