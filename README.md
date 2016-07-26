@@ -8,6 +8,12 @@ _Present for every KFer!_
 ## 网址
 https://m.miaola.info/
 
+## 环境要求
+本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
+
+    php >= 5.6.0
+    cURL PHP Extension
+
 ## 源码下载方式
 共分为两种方式：
 
@@ -22,12 +28,6 @@ https://m.miaola.info/
 
     composer update
 以后在项目目录下执行`git pull`即可获取更新。
-
-## 环境要求
-本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
-
-    php >= 5.6.0
-    cURL PHP Extension
 
 ## 调试
 在项目目录下复制一份的`env.debug.php`文件并将其命名为`env.php`即可开启调试模式。
@@ -120,7 +120,7 @@ Nginx虚拟主机配置参考：
     }
 
 ## 讨论帖
-http://bbs.2dkf.com/read.php?tid=564787
+
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
