@@ -20,13 +20,10 @@ https://m.miaola.info/
 ### 1、直接下载
 访问[releases页面](https://github.com/miaolapd/KfMobile/releases)下载最新版的打包文件。
 
-### 2、使用git
+### 2、使用git下载
 在适当目录下执行：
 
     git clone https://github.com/miaolapd/KfMobile.git
-之后在KfMobile项目目录下执行（需安装composer）：
-
-    composer update
 以后在项目目录下执行`git pull`即可获取更新。
 
 ## 调试
