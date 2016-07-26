@@ -39,7 +39,8 @@ https://m.miaola.info/
 
 ## 部署
 删除之前用于调试的`env.php`文件，并在项目目录下复制一份的`env.product.php`文件且将其命名为`env.php`。  
-可修改`env.php`文件里的设置，还可增加任何在`application\config.php`文件中你想覆盖的设置。
+可修改`env.php`文件里的设置，还可增加任何在`application\config.php`文件中你想覆盖的设置。  
+每次更新文件后（在非调试模式下），请删除`runtime`目录下的`cache`及`temp`文件夹，以更新模板缓存。
 
 ### 虚拟主机配置
 网站的入口为`public/index.php`文件，因此请将虚拟主机的root目录设为项目目录下的`public`文件夹。
@@ -117,6 +118,9 @@ Nginx虚拟主机配置参考：
             include        fastcgi_params;
         }
     }
+
+## 讨论帖
+http://bbs.2dkf.com/read.php?tid=564787
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
