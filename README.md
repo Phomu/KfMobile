@@ -2,22 +2,26 @@
 _为这美好的KF献上祝福！_
 
 ## 项目简介
-本项目为【为这美好的KF献上祝福！】计划第三弹，旨在为广大KFer提供适用于移动浏览器的KF反向代理服务。
+本项目为【为这美好的KF献上祝福！】计划第三弹，旨在为广大KFer提供适用于移动浏览器的KF反向代理服务。  
+_Present for every KFer!_
+
+## 网址
+https://m.miaola.info/
 
 ## 源码下载方式
 共分为两种方式：
 
 ### 1、直接下载
-访问[releases页面](https://github.com/miaolapd/KfMobile/releases)下载最新版的打包文件
+访问[releases页面](https://github.com/miaolapd/KfMobile/releases)下载最新版的打包文件。
 
 ### 2、使用git
-在适当目录下执行：  
+在适当目录下执行：
 
     git clone https://github.com/miaolapd/KfMobile.git
 之后在KfMobile项目目录下执行（需安装composer）：
 
     composer update
-以后在项目目录下执行`git pull`即可获取更新
+以后在项目目录下执行`git pull`即可获取更新。
 
 ## 环境要求
 本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
@@ -26,19 +30,19 @@ _为这美好的KF献上祝福！_
     cURL PHP Extension
 
 ## 调试
-在项目目录下复制一份的`env.debug.php`文件并将其命名为`env.php`即可开启调试模式
+在项目目录下复制一份的`env.debug.php`文件并将其命名为`env.php`即可开启调试模式。
 
 ### 编译静态资源文件
-在项目目录下执行`npm install`安装依赖包（需安装Node.js）  
-执行`gulp bulid`，可对静态资源文件进行编译  
-执行`gulp watch`，可监视静态资源文件的改动并立即进行编译
+在项目目录下执行`npm install`安装依赖包（需安装Node.js）；  
+执行`gulp bulid`，可对静态资源文件进行编译；  
+执行`gulp watch`，可监视静态资源文件的改动并立即进行编译；
 
 ## 部署
-删除之前用于调试的`env.php`文件，并在项目目录下复制一份的`env.product.php`文件且将其命名为`env.php`  
-可修改`env.php`文件里的设置，还可增加任何在`application\config.php`文件中你想覆盖的设置
+删除之前用于调试的`env.php`文件，并在项目目录下复制一份的`env.product.php`文件且将其命名为`env.php`。  
+可修改`env.php`文件里的设置，还可增加任何在`application\config.php`文件中你想覆盖的设置。
 
 ### 虚拟主机配置
-网站的入口为`public/index.php`文件，因此请将虚拟主机的root目录设为项目目录下的 __public文件夹__
+网站的入口为`public/index.php`文件，因此请将虚拟主机的root目录设为项目目录下的`public`文件夹。
 
 Nginx虚拟主机配置参考：
 
@@ -69,7 +73,8 @@ Nginx虚拟主机配置参考：
         }
     
         location ^~ /static/ {
-            index    index.html;
+            index   index.html;
+            expires 7d;
             charset utf-8;
         }
     

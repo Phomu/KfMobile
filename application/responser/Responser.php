@@ -51,7 +51,7 @@ class Responser
         )) {
             trace('跳转url：' . $matches[2]);
             success($matches[1], $this->jumpUrl ? $this->jumpUrl : $matches[2]);
-        } elseif (preg_match('/操作提示<br\s*\/>\r\n([^<>]+)<br\s*\/>\r\n<a href="javascript:history\.go\(-1\);">/i', $document, $matches)) {
+        } elseif (preg_match('/操作提示<br\s*\/>\r\n(.+?)<br\s*\/>\r\n<a href="javascript:history\.go\(-1\);">/i', $document, $matches)) {
             error($matches[1]);
         }
     }
