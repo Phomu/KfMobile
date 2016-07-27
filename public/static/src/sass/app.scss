@@ -4,8 +4,10 @@ $body-bg: #fcfcfc;
 $font-size-root: 14px;
 // 超大字体
 $font-size-xl: 1.5rem; // ~21px
+// 较小间隔
+$spacer-sm: .5714rem; // ~8px
 // 超小间隔
-$spacer-xs: .357rem; // ~5px
+$spacer-xs: .3571rem; // ~5px
 
 // 使用本地的字体文件
 //$fa-font-path: '../fonts/font-awesome';
@@ -23,6 +25,20 @@ body {
 
 #successPage, #errorPage, #loginPage {
   padding-top: 0;
+}
+
+// 导航栏
+.navbar {
+  padding-left: 0;
+
+  // 导航栏标志
+  .navbar-brand {
+    margin-right: 0;
+    padding: {
+      left: $spacer;
+      right: $spacer;
+    }
+  }
 }
 
 // 下拉菜单
@@ -95,7 +111,7 @@ body {
   .thread-link {
     @include make-col(10);
     @include text-overflow;
-    padding-right: 0;
+    padding-left: $spacer-sm;
     line-height: $line-height;
 
     &:hover {
@@ -136,8 +152,8 @@ body {
       max-height: 3.357rem;
       padding: {
         top: $spacer-xs;
-        left: $spacer;
-        right: $spacer;
+        left: $spacer-sm;
+        right: $spacer-sm;
       }
       overflow: hidden;
 
@@ -151,8 +167,8 @@ body {
     .thread-item-footer {
       @include clearfix;
       padding: {
-        left: $spacer;
-        right: $spacer;
+        left: $spacer-sm;
+        right: $spacer-sm;
       }
 
       small {

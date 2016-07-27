@@ -62,7 +62,7 @@ class Index extends Responser
             else $galgameNewReplyList[] = $linkData;
         }
 
-        // 最新推荐帖子 & 最新发表帖子
+        // 当前推荐帖子 & 最新发表帖子
         $galgameTopRecommendList = [];
         $resourceTopRecommendList = [];
         $otherTopRecommendList = [];

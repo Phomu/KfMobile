@@ -117,7 +117,7 @@ Nginx虚拟主机配置参考：
     }
 
 ## 讨论帖
-
+http://bbs.2dkf.com/read.php?tid=564787
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

@@ -11,4 +11,6 @@ return [
     //'static_file_cdn' => false,
     // 是否关闭网站，默认值：false
     //'site_close' => true,
+    // 登录页面提示信息
+    //'login_page_msg' => '',
 ];

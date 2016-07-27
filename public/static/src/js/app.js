@@ -1,6 +1,8 @@
 'use strict';
 // 页面ID
 var pageId = $('body').attr('id');
+var configName = 'kf_config';
+var config = {};
 
 /**
  * 设置Cookie
@@ -83,10 +85,34 @@ var getDate = function (value) {
 };
 
 /**
+ * 读取设置
+ */
+var readConfig = function () {
+    var options = null;
+    options = localStorage['configName'];
+    if (!options) return;
+    try {
+        options = JSON.parse(options);
+    }
+    catch (ex) {
+        return;
+    }
+    if (!options || $.type(options) !== 'object' || $.isEmptyObject(options)) return;
+    config = options;
+};
+
+/**
+ * 写入设置
+ */
+var writeConfig = function () {
+    localStorage['configName'] = JSON.stringify(config);
+};
+
+/**
  * 处理主菜单
  */
 var handleMainMenu = function () {
-    $('#mainMenuToggler').click(function () {
+    $('#mainMenuTogglerBtn').click(function () {
         $('#mainMenu').css('max-height', document.documentElement.clientHeight - 50 + 'px');
     });
 };
@@ -229,8 +255,31 @@ var highlightUnReadAtTipsMsg = function () {
     });
 };
 
+/**
+ * 处理首页主题链接面板
+ */
+var handleIndexThreadPanel = function () {
+    if (config['activeNewReplyPanel']) {
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', config['activeNewReplyPanel'])).tab('show');
+    }
+    if (config['activeTopRecommendPanel']) {
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', config['activeTopRecommendPanel'])).tab('show');
+    }
+
+    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        var $target = $(e.target);
+        readConfig();
+        var panelName = $target.attr('href');
+        var typeName = 'activeNewReplyPanel';
+        if (panelName.indexOf('TopRecommendPanel') > 0) typeName = 'activeTopRecommendPanel';
+        config[typeName] = $target.attr('href');
+        writeConfig();
+    });
+};
+
 $(function () {
     if (pageId === 'loginPage') return;
+    readConfig();
 
     handleMainMenu();
     handleBackToTop();
@@ -238,6 +287,7 @@ $(function () {
     handleLogoutButton();
     if (pageId === 'indexPage') {
         handleAtTipsBtn();
+        handleIndexThreadPanel();
     }
     else if (pageId === 'threadPage') {
         handleThreadPageNav();
