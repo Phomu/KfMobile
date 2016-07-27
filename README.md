@@ -18,7 +18,7 @@ https://m.miaola.info/
 共分为两种方式：
 
 ### 1、直接下载
-访问[releases页面](https://github.com/miaolapd/KfMobile/releases)下载最新版的打包文件。
+点击GitHub项目页面上方的`Clone or download` &gt; `Download ZIP`按钮下载最新版的打包文件。
 
 ### 2、使用git下载
 在适当目录下执行：
