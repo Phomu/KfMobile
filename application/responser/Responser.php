@@ -96,12 +96,17 @@ class Responser
         $hasNewMsg = trim(pq('.topright > a[href="message.php"]', $doc)->text()) === '新消息';
 
         $verify = '';
-        if (preg_match('/&verify=(\w+)/i', pq('.topright > a[href^="login.php?action=quit&verify="]', $doc)->attr('href'), $matches))
+        if (preg_match('/&verify=(\w+)/i', pq('.topright > a[href^="login.php?action=quit&verify="]', $doc)->attr('href'), $matches)) {
             $verify = $matches[1];
-
+        }
         $safeId = '';
-        if (preg_match('/&safeid=(\w+)/i', pq('a[href*="safeid="]:first', $doc)->attr('href'), $matches))
+        if (preg_match('/&safeid=(\w+)/i', pq('a[href*="safeid="]:first', $doc)->attr('href'), $matches)) {
             $safeId = $matches[1];
+        }
+        $imgPath = '';
+        if (preg_match('/var imgpath\s*=\s*\'(\d+)\';/i', $this->response['document'], $matches)) {
+            $imgPath = $matches[1];
+        }
 
         return [
             'title' => $title,
@@ -112,6 +117,7 @@ class Responser
             'hasNewMsg' => $hasNewMsg,
             'verify' => $verify,
             'safeId' => $safeId,
+            'imgPath' => $imgPath,
             'rootPath' => PUBLIC_PATH,
             'urlParam' => http_build_query(request()->param()),
             'remoteUrl' => $this->response['remoteUrl'],

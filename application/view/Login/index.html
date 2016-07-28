@@ -17,7 +17,7 @@
 <header class="container">
   <h1 class="p-y-2">{:config('site_name')}</h1>
 </header>
-<main class="container m-b-1">
+<main class="container">
   <form class="m-b-2" action="{:url('Login/login')}" method="post">
     <input name="jumpurl" type="hidden" value="{$jumpUrl}">
     <input name="step" type="hidden" value="2">
@@ -48,7 +48,9 @@
     </button>
   </form>
 
+  {notempty name="Think.config.login_page_msg"}
   <div class="alert alert-danger" role="alert">{$Think.config.login_page_msg}</div>
+  {/notempty}
 </main>
 {include file="Public/footer" /}
 </body>

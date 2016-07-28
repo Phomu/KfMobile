@@ -122,7 +122,7 @@ var handleMainMenu = function () {
  */
 var handleBackToTop = function () {
     $(window).scroll(function () {
-        if ($(window).scrollTop() > 100)
+        if ($(window).scrollTop() > 300)
             $("#backToTop").fadeIn();
         else
             $("#backToTop").fadeOut();

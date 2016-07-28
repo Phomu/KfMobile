@@ -27,6 +27,10 @@ body {
   padding-top: 0;
 }
 
+main {
+  margin-bottom: $spacer*1.5;
+}
+
 // 导航栏
 .navbar {
   padding-left: 0;
@@ -55,7 +59,7 @@ body {
 
 // 当前分页链接
 .page-item.active {
-  .page-link {
+  .page-link:hover {
     cursor: pointer;
   }
 }
@@ -81,10 +85,10 @@ body {
 // 回到顶部按钮
 #backToTop {
   position: fixed;
-  right: .857rem; // ~12px
+  right: 1rem; // ~14px
   bottom: 2.286rem; // ~32px
   display: none;
-  padding: .857rem;
+  padding: 1rem;
   color: #fff;
   line-height: 1rem;
   background-color: #000;
@@ -93,7 +97,7 @@ body {
   opacity: .15;
 
   &:hover {
-    opacity: .4;
+    opacity: .35;
   }
 }
 

@@ -23,7 +23,7 @@
     {empty name="atTipsTime"}
     <a class="btn btn-outline-primary btn-block" href="{:url('GuanJianCi/index?gjc=' . $userName)}">最近无人@你</a>
     {else /}
-    <a class="btn {eq name='Think.cookie.kf_at_tips_time' value='$atTipsTime'}btn-outline-primary{else /}btn-outline-danger{/eq} btn-block"
+    <a class="btn {eq name='Think.cookie.at_tips_time' value='$atTipsTime'}btn-outline-primary{else /}btn-outline-danger{/eq} btn-block"
        id="atTips" data-time="{$atTipsTime}" href="{:url('GuanJianCi/index?gjc=' . $userName)}">
       有人@你({$atTipsTime})
     </a>
@@ -168,7 +168,7 @@
   </section>
 
   <!-- 最新发表 -->
-  <section class="row m-b-1">
+  <section class="row">
     <h4 class="m-b-1">
       <i class="fa fa-signal" aria-hidden="true"></i>
       最新发表

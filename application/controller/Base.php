@@ -4,6 +4,7 @@ namespace app\controller;
 use think\Controller;
 use think\Response;
 use think\exception\HttpResponseException;
+use think\Cookie;
 
 /**
  * 控制器基类
@@ -19,7 +20,7 @@ class Base extends Controller
         if (config('site_close')) {
             error(config('site_close_msg'));
         }
-        if (!cookie(config('kf_cookie_prefix') . 'winduser')) {
+        if (!Cookie::get('winduser', config('kf_cookie_prefix'))) {
             $result = action('Login/index', ['isRemote' => false, 'jumpUrl' => request()->url()]);
             $response = Response::create($result, 'html');
             throw new HttpResponseException($response);
