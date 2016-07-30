@@ -1,7 +1,9 @@
 'use strict';
 // 页面ID
 var pageId = $('body').attr('id');
+// 配置名称
 var configName = 'kf_config';
+// 配置
 var config = {};
 
 /**
@@ -85,6 +87,124 @@ var getDate = function (value) {
 };
 
 /**
+ * 获取指定字符串的字节长度（1个GBK字符按2个字节来算）
+ * @param {string} str 指定字符串
+ * @returns {number} 字符串的长度
+ */
+var getStrLen = function (str) {
+    var len = 0;
+    var s_len = str.indexOf('\n') !== -1 ? str.replace(/\r?\n/g, '_').length : str.length;
+    var c_len = 2;
+    for (var i = 0; i < s_len; i++) {
+        len += str.charCodeAt(i) < 0 || str.charCodeAt(i) > 255 ? c_len : 1;
+    }
+    return len;
+};
+
+/**
+ * 获取当前域名的URL
+ * @returns {string} 当前域名的URL
+ */
+var getHostNameUrl = function () {
+    return location.protocol + '//' + location.host;
+};
+
+/**
+ * 添加BBCode
+ * @param textArea 文本框
+ * @param {string} code BBCode
+ * @param {string} selText 选择文本
+ */
+var addCode = function (textArea, code, selText) {
+    var startPos = selText === '' ? code.indexOf(']') + 1 : code.indexOf(selText);
+    if (typeof textArea.selectionStart !== 'undefined') {
+        var prePos = textArea.selectionStart;
+        textArea.value = textArea.value.substr(0, prePos) + code + textArea.value.substr(textArea.selectionEnd);
+        textArea.selectionStart = prePos + startPos;
+        textArea.selectionEnd = prePos + startPos + selText.length;
+    }
+    else {
+        textArea.value += code;
+    }
+};
+
+/**
+ * 获取选择文本
+ * @param textArea 文本框
+ * @returns {string} 选择文本
+ */
+var getSelText = function (textArea) {
+    return textArea.value.substr(textArea.selectionStart, textArea.selectionEnd - textArea.selectionStart);
+};
+
+/**
+ * 从URL查询字符串提取参数对象
+ * @param {string} str URL查询字符串
+ * @returns {{}} 参数对象
+ */
+var extractQueryStr = function (str) {
+    var param = {};
+    $.each(str.split('&'), function (i, value) {
+        if (!value) return;
+        var arr = value.split('=');
+        param[arr[0]] = typeof arr[1] !== 'undefined' ? arr[1] : '';
+    });
+    return param;
+};
+
+/**
+ * 从参数对象中创建URL查询字符串
+ * @param {{}} obj 参数对象
+ * @returns {string} URL查询字符串
+ */
+var buildQueryStr = function (obj) {
+    var queryStr = '';
+    $.each(obj, function (key, value) {
+        queryStr += '/' + key + '/' + value;
+    });
+    return queryStr;
+};
+
+/**
+ * 生成指定的URL
+ * @param {string} action 控制器（小写）
+ * @param {string} [param=''] 查询参数
+ * @param {boolean} [includeOtherParam=false] 是否包括当前页面的其它查询参数
+ * @returns {string} URL 最终的URL
+ */
+var makeUrl = function (action, param, includeOtherParam) {
+    var url = '';
+    var paramList = extractQueryStr(param ? param : '');
+    if (includeOtherParam) {
+        paramList = $.extend(extractQueryStr(pageInfo.urlParam), paramList);
+    }
+    var hasEntryFile = location.pathname.indexOf(pageInfo.baseFile) === 0;
+    if (hasEntryFile) url = pageInfo.baseFile;
+    else url = pageInfo.rootPath.substr(0, pageInfo.rootPath.length - 1);
+    var queryStr = '';
+    if (!$.isEmptyObject(paramList)) queryStr = buildQueryStr(paramList);
+    if (pageInfo.urlType === 2) url += '?s=' + '/' + action + queryStr;
+    else url += '/' + action + queryStr;
+    return url;
+};
+
+/**
+ * 解码HTML特殊字符
+ * @param {string} str 待解码的字符串
+ * @returns {string} 解码后的字符串
+ */
+var decodeHtmlSpecialChar = function (str) {
+    if (str.length === 0) return '';
+    return str.replace(/<br\s*\/?>/gi, '\n')
+        .replace(/&quot;/gi, '\"')
+        .replace(/&#39;/gi, '\'')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&gt;/gi, '>')
+        .replace(/&lt;/gi, '<')
+        .replace(/&amp;/gi, '&');
+};
+
+/**
  * 读取设置
  */
 var readConfig = function () {
@@ -147,16 +267,16 @@ var handleSearchDialog = function () {
         var searchType = $this.find('#searchType').val();
         var keyword = $.trim($searchKeyword.val());
         if (searchType === 'gjc') {
-            $this.attr('action', pageInfo.rootPath + 'gjc/' + keyword);
+            $this.attr('action', makeUrl('gjc/' + keyword));
         }
         else if (searchType === 'username') {
-            $this.attr('action', pageInfo.rootPath + 'user/username/' + keyword);
+            $this.attr('action', makeUrl('user/username/' + keyword));
         }
         else {
-            $this.attr('action', pageInfo.rootPath + 'search');
+            $this.attr('action', makeUrl('search'));
             $searchKeyword.attr('name', searchType === 'author' ? 'pwuser' : 'keyword');
             if (searchType === 'title') {
-                if (keyword.length === 1 || (keyword.length === 2 && /^[\w\-]+$/.test(keyword))) {
+                if (keyword.length && getStrLen(keyword) <= 2) {
                     var $method = $this.find('input[name="method"]');
                     $method.val('OR');
                     $searchKeyword.val(keyword + ' ' + Math.floor(new Date().getTime() / 1000));
@@ -193,20 +313,6 @@ var handleSearchDialog = function () {
 var handleLogoutButton = function () {
     $(document).on('click', '#dropdownItemLogout', function () {
         if (!window.confirm('是否登出账号？')) return false;
-    });
-};
-
-/**
- * 处理版块页面下的分页导航
- */
-var handleThreadPageNav = function () {
-    $(document).on('click', '.page-item.active > .page-link', function (e) {
-        e.preventDefault();
-        var num = parseInt(window.prompt('要跳转到第几页？（共' + pageInfo.maxPageNum + '页）', pageInfo.currentPageNum));
-        if (num) {
-            var urlParam = pageInfo.urlParam.replace(/&?page=\d*/i, '') + '&page=' + num;
-            location.href = pageInfo.rootPath + 'thread?' + urlParam;
-        }
     });
 };
 
@@ -277,6 +383,176 @@ var handleIndexThreadPanel = function () {
     });
 };
 
+/**
+ * 处理分页导航
+ * @param {string} action 控制器
+ */
+var handlePageNav = function (action) {
+    $(document).on('click', '.page-item.active > .page-link', function (e) {
+        e.preventDefault();
+        var num = parseInt(window.prompt('要跳转到第几页？（共' + pageInfo.maxPageNum + '页）', pageInfo.currentPageNum));
+        if (num) {
+            location.href = makeUrl(action, 'page=' + num, true);
+        }
+    });
+};
+
+/**
+ * 显示楼层跳转链接
+ */
+var showFloorLink = function () {
+    $(document).on('click', '.floor-num', function (e) {
+        e.preventDefault();
+        window.prompt('本楼的跳转链接：', getHostNameUrl() + $(this).attr('href'));
+    });
+};
+
+/**
+ * 处理快速回复按钮
+ */
+var handleFastReplyBtn = function () {
+    $(document).on('click', '.fast-reply-btn', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var floor = $this.data('floor');
+        var userName = $this.data('username');
+        $('#articleGjc').val(userName);
+        var replyContent = $('#articleContent').get(0);
+        replyContent.value = '[quote]回 {0}楼({1}) 的帖子[/quote]\n'.replace('{0}', floor).replace('{1}', userName);
+        replyContent.selectionStart = replyContent.value.length;
+        replyContent.selectionEnd = replyContent.value.length;
+        replyContent.focus();
+    });
+};
+
+/**
+ * 处理购买帖子按钮
+ */
+var handleBuyThreadBtn = function () {
+    $(document).on('click', '.buy-thread-btn', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var pid = $this.data('pid');
+        var price = $this.data('price');
+        if (price > 5 && !window.confirm('此贴售价{0}KFB，是否购买？'.replace('{0}', price))) return;
+        //location.href = '/job.php?action=buytopic&tid={0}&pid={1}&verify={2}'
+        location.href = makeUrl(
+            'job/buytopic',
+            'tid={0}&pid={1}&verify={2}'
+                .replace('{0}', pageInfo.tid)
+                .replace('{1}', pid)
+                .replace('{2}', pageInfo.verify)
+        );
+    });
+};
+
+/**
+ * 插入表情代码
+ */
+var addSmileCode = function () {
+    $('.smile-panel').on('click', 'img', function () {
+        $('.smile-panel').addClass('open');
+        var textArea = $('#articleContent').get(0);
+        if (!textArea) return;
+        var code = '[s:' + $(this).data('id') + ']';
+        addCode(textArea, code, '');
+        textArea.blur();
+    }).parent().on('hide.bs.dropdown', function (e) {
+        var $relatedTarget = $(e.relatedTarget);
+        if (!$relatedTarget.data('open')) $relatedTarget.removeData('open');
+        else return e.preventDefault();
+    });
+
+    $('#smileDropdownBtn').click(function () {
+        var $this = $(this);
+        $this.data('open', !$this.data('open'));
+    });
+};
+
+/**
+ * 发帖提醒
+ */
+var alertPostArticle = function () {
+    $('#articleForm').submit(function () {
+        var minLen = 12;
+        var $textArea = $('#articleContent');
+        if (getStrLen($.trim($textArea.val())) < minLen) {
+            alert('文章内容少于 ' + minLen + ' 个字节');
+            return false;
+        }
+    });
+};
+
+/**
+ * 推帖子
+ */
+var tuiThread = function () {
+    $('.tui-btn').click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        if ($this.data('wait')) return;
+        $this.data('wait', true);
+        $.ajax({
+            type: 'POST',
+            url: '/diy_read_tui.php',
+            data: 'tid=' + pageInfo.tid + '&safeid=' + pageInfo.safeId,
+            success: function (msg) {
+                var matches = /<span.+?\+\d+!<\/span>\s*(\d+)/i.exec(msg);
+                if (matches) {
+                    var $num = $this.find('span:first');
+                    $num.append('<span class="text-info">+1</span>');
+                    window.setTimeout(function () {
+                        $num.text(matches[1]);
+                    }, 1000);
+                }
+                else if (/已推过/.test(msg)) {
+                    alert('已推过');
+                }
+                else {
+                    alert('操作失败');
+                }
+            },
+            error: function () {
+                alert('操作失败');
+            },
+            complete: function () {
+                $this.removeData('wait');
+            }
+        });
+    });
+};
+
+/**
+ * 复制代码
+ */
+var copyCode = function () {
+    $(document).on('click', '.copy-code', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var code = $this.data('code');
+        if (code) {
+            $this.text('复制代码').removeData('code');
+            $this.next('textarea').remove();
+            $this.after('<pre class="pre-scrollable">' + code + '</pre>');
+        }
+        else {
+            var $pre = $this.next('pre');
+            var html = $pre.html();
+            $this.text('还原代码').data('code', html);
+            html = decodeHtmlSpecialChar(html);
+            var height = $pre.height();
+            if (height < 50) height = 50;
+            if (height > 340) height = 340;
+            $pre.remove();
+            $('<textarea class="form-control code-textarea" style="height: ' + height + 'px" wrap="off">' + html + '</textarea>')
+                .insertAfter($this).select().focus();
+        }
+    });
+};
+
+/**
+ * 初始化
+ */
 $(function () {
     if (pageId === 'loginPage') return;
     readConfig();
@@ -290,7 +566,16 @@ $(function () {
         handleIndexThreadPanel();
     }
     else if (pageId === 'threadPage') {
-        handleThreadPageNav();
+        handlePageNav('thread/index');
+    } else if (pageId === 'readPage') {
+        handlePageNav('read/index');
+        tuiThread();
+        showFloorLink();
+        handleFastReplyBtn();
+        handleBuyThreadBtn();
+        alertPostArticle();
+        copyCode();
+        addSmileCode();
     } else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
     }

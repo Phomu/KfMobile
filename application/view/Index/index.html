@@ -21,10 +21,10 @@
   <!-- 功能区 -->
   <section class="m-b-2">
     {empty name="atTipsTime"}
-    <a class="btn btn-outline-primary btn-block" href="{:url('GuanJianCi/index?gjc=' . $userName)}">最近无人@你</a>
+    <a class="btn btn-outline-primary btn-block" href="{:url('GuanJianCi/index?gjc=' . $userName)}" target="_blank">最近无人@你</a>
     {else /}
     <a class="btn {eq name='Think.cookie.at_tips_time' value='$atTipsTime'}btn-outline-primary{else /}btn-outline-danger{/eq} btn-block"
-       id="atTips" data-time="{$atTipsTime}" href="{:url('GuanJianCi/index?gjc=' . $userName)}">
+       id="atTips" data-time="{$atTipsTime}" href="{:url('GuanJianCi/index?gjc=' . $userName)}" target="_blank">
       有人@你({$atTipsTime})
     </a>
     {/empty}

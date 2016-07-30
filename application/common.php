@@ -46,18 +46,39 @@ function error($msg)
  */
 function convert_url($url)
 {
+    $url = str_replace('&amp;', '&', $url);
     if ($url === '/' || $url === 'index.php') return url('/');
+    elseif (strpos($url, '#') === 0 || strpos($url, 'javascript:') === 0) return $url;
     $matches = [];
-    if (preg_match('/^(\w+\.php)(?:\?(.+))?/i', $url, $matches)) {
+    if (preg_match('/^\/?(\w+\.php)(?:\?(.+))?/i', $url, $matches)) {
         $path = strtolower($matches[1]);
         $params = isset($matches[2]) ? $matches[2] : '';
+        $anchor = '';
+        if (preg_match('/(.+)(#.+)/', $params, $matches)) {
+            $params = $matches[1];
+            $anchor = $matches[2];
+        }
         if ($path === 'login.php') return url('Login/index');
-        elseif ($path === 'thread.php') return url('Thread/index', $params);
+        elseif ($path === 'thread.php') return url('Thread/index', $params) . $anchor;
+        elseif ($path === 'read.php') return url('Read/index', $params) . $anchor;
+        elseif ($path === 'guanjianci.php') return url('GuanJianCi/index', $params);
+        if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {
         return $url;
     }
     return url($url);
+}
+
+/**
+ * 将KF其它域名的URL转换为当前域名
+ * @param string $url 转换前的URL
+ * @return string 转换后的URL
+ */
+function convert_to_current_domain_url($url)
+{
+    $url = str_replace(request()->domain() . '/', '/', $url);
+    return preg_replace('/^https?:\/\/(?:[\w\.]+?\.)?(?:2dgal|ddgal|9gal|9baka|9moe|kfgal|2dkf|kfer|miaola)\.\w+\/(.+)/i', '/$1', $url);
 }
 
 /**

@@ -31,60 +31,60 @@ class Thread extends Responser
 
         // 日本语版
         if (!empty($extraData) && $extraData['jpn']) {
-            $forumId = 98;
+            $fid = 98;
             $forumName = '苍雪日本語版';
             $subForumList = [];
             $pqSubForumList = pq('td.b_tit4 > a[href^="thread.php?fid="]');
             foreach ($pqSubForumList as $subForum) {
                 $pqSubForum = pq($subForum);
-                $subForumId = 0;
+                $subFid = 0;
                 if (preg_match('/fid=(\d+)/i', $pqSubForum->attr('href'), $matches)) {
-                    $subForumId = intval($matches[1]);
+                    $subFid = intval($matches[1]);
                 }
                 $subForumName = trim_strip($pqSubForum->contents()->eq(0)->text());
-                $subForumList[] = ['forumId' => $subForumId, 'forumName' => $subForumName];
+                $subForumList[] = ['fid' => $subFid, 'forumName' => $subForumName];
             }
 
             $data = [
-                'forumId' => $forumId,
+                'fid' => $fid,
                 'forumName' => $forumName,
                 'subForumList' => $subForumList,
             ];
             debug('end');
             trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
-            trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+            if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
             return array_merge($commonData, $data);
         }
 
         // 版块导航
-        $forumId = 0;
+        $fid = 0;
         $forumName = '';
-        $parentForumId = 0;
+        $parentFid = 0;
         $parentForumName = '';
         $subForumList = [];
         $pqForumList = pq('.b_tit5:first > li > a[href^="thread.php?fid="]');
         if (!$pqForumList->length) error('版块ID错误！');
         $pqCurrentForum = $pqForumList->eq($pqForumList->length - 1);
         if (preg_match('/fid=(\d+)/i', $pqCurrentForum->attr('href'), $matches)) {
-            $forumId = intval($matches[1]);
+            $fid = intval($matches[1]);
         }
         $forumName = trim_strip($pqCurrentForum->text());
         if ($pqForumList->length === 2) {
             $pqParentForum = $pqForumList->eq(0);
             if (preg_match('/fid=(\d+)/i', $pqParentForum->attr('href'), $matches)) {
-                $parentForumId = intval($matches[1]);
+                $parentFid = intval($matches[1]);
             }
             $parentForumName = trim_strip($pqParentForum->text());
         }
         $pqSubForumList = pq('td.b_tit4 > a[href^="thread.php?fid="]');
         foreach ($pqSubForumList as $subForum) {
             $pqSubForum = pq($subForum);
-            $subForumId = 0;
+            $subFid = 0;
             if (preg_match('/fid=(\d+)/i', $pqSubForum->attr('href'), $matches)) {
-                $subForumId = intval($matches[1]);
+                $subFid = intval($matches[1]);
             }
             $subForumName = trim_strip($pqSubForum->contents()->eq(0)->text());
-            $subForumList[] = ['forumId' => $subForumId, 'forumName' => $subForumName];
+            $subForumList[] = ['fid' => $subFid, 'forumName' => $subForumName];
         }
 
         // 主题分类
@@ -110,7 +110,7 @@ class Thread extends Responser
         // 分页导航
         $currentPageNum = 1;
         $totalPageNum = 1;
-        $maxPageNum = 200;
+        $maxPageNum = 1;
         $pageParam = [];
         $pqPages = pq('.pages:first');
         if (preg_match('/-\s*(\d+)\s*-/', $pqPages->find('li > a[href="javascript:;"]')->text(), $matches)) {
@@ -120,7 +120,7 @@ class Thread extends Responser
         if (preg_match('/…(\d+)页/', $pqEndPage->text(), $matches)) {
             $totalPageNum = intval($matches[1]);
         }
-        if (preg_match('/page=(\d+)/', $pqEndPage->attr('href'), $matches)) {
+        if (preg_match('/(?<!\w)page=(\d+)/', $pqEndPage->attr('href'), $matches)) {
             $maxPageNum = intval($matches[1]);
         }
         $pageParam = http_build_query($request->except('page'));
@@ -144,7 +144,7 @@ class Thread extends Responser
             $typeName = '';
             $typeColor = '#000';
             $isNewWorks = false;
-            $threadId = 0;
+            $tid = 0;
             $threadName = '';
             $threadNameStyle = '';
             $pqThreadType = $pqThreadLinkCell->find('a[href*="type="] > font');
@@ -155,7 +155,7 @@ class Thread extends Responser
             $isNewWorks = $pqThreadLinkCell->find('font:contains("[新作]")')->length > 0;
             $pqThreadLink = $pqThreadLinkCell->find('a[href^="read.php?tid="]');
             if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
-                $threadId = intval($matches[1]);
+                $tid = intval($matches[1]);
             }
             $threadName = trim_strip($pqThreadLink->text());
             if ($pqThreadLink->find('b')->length > 0) $threadNameStyle .= 'font-weight: bold; ';
@@ -200,7 +200,7 @@ class Thread extends Responser
                 'typeName' => $typeName,
                 'typeColor' => $typeColor,
                 'isNewWorks' => $isNewWorks,
-                'threadId' => $threadId,
+                'tid' => $tid,
                 'threadName' => $threadName,
                 'threadNameStyle' => $threadNameStyle,
 
@@ -217,9 +217,9 @@ class Thread extends Responser
         }
 
         $data = [
-            'forumId' => $forumId,
+            'fid' => $fid,
             'forumName' => $forumName,
-            'parentForumId' => $parentForumId,
+            'parentFid' => $parentFid,
             'parentForumName' => $parentForumName,
             'subForumList' => $subForumList,
             'threadTypeList' => $threadTypeList,
@@ -235,7 +235,7 @@ class Thread extends Responser
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
-        trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
     }
 }

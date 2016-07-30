@@ -45,12 +45,21 @@ class Responser
         $document = $this->response['document'];
         $matches = [];
         if (preg_match(
-            '/<span style="[^"]+">([^<>]+)<\/span><br\s*\/><a href="([^"]+)">如果您的浏览器没有自动跳转,请点击这里<\/a><\/div>/i',
+            '/<span style="[^"]+">(.+?)<\/span><br\s*\/><a href="([^"]+)">如果您的浏览器没有自动跳转,请点击这里<\/a><\/div>/i',
             $document,
             $matches
         )) {
-            trace('跳转url：' . $matches[2]);
-            success($matches[1], $this->jumpUrl ? $this->jumpUrl : $matches[2]);
+            $msg = $matches[1];
+            $jumpUrl = $matches[2];
+            trace('跳转url：' . $jumpUrl);
+            $msg = preg_replace_callback(
+                '/href="?([^>"]+)"?>/i',
+                function ($matches) {
+                    return 'class="alert-link" href="' . convert_url($matches[1]) . '">';
+                },
+                $msg
+            );
+            success($msg, $this->jumpUrl ? $this->jumpUrl : $jumpUrl);
         } elseif (preg_match('/操作提示<br\s*\/>\r\n(.+?)<br\s*\/>\r\n<a href="javascript:history\.go\(-1\);">/i', $document, $matches)) {
             error($matches[1]);
         }
@@ -102,12 +111,15 @@ class Responser
         $safeId = '';
         if (preg_match('/&safeid=(\w+)/i', pq('a[href*="safeid="]:first', $doc)->attr('href'), $matches)) {
             $safeId = $matches[1];
+        } else {
+            $safeId = pq('#safeid', $doc)->val();
         }
         $imgPath = '';
         if (preg_match('/var imgpath\s*=\s*\'(\d+)\';/i', $this->response['document'], $matches)) {
             $imgPath = $matches[1];
         }
 
+        $request = request();
         return [
             'title' => $title,
             'keywords' => $keywords,
@@ -119,7 +131,9 @@ class Responser
             'safeId' => $safeId,
             'imgPath' => $imgPath,
             'rootPath' => PUBLIC_PATH,
-            'urlParam' => http_build_query(request()->param()),
+            'baseFile' => $request->baseFile(),
+            'urlType' => config('url_common_param') ? 2 : 1,
+            'urlParam' => http_build_query($request->param()),
             'remoteUrl' => $this->response['remoteUrl'],
         ];
     }
@@ -139,6 +153,8 @@ class Responser
             'hasNewMsg' => false,
             'verify' => 'abcdef',
             'safeId' => 'abc123',
+            'imgPath' => '123456789',
+            'urlParam' => http_build_query(request()->param()),
             'rootPath' => PUBLIC_PATH,
             'remoteUrl' => config('proxy_base_url'),
         ];

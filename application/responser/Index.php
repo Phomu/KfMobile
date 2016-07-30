@@ -100,7 +100,7 @@ class Index extends Responser
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
-        trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
     }
 }

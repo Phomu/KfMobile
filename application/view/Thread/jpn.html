@@ -9,7 +9,7 @@
   <meta name="description" content="{$description}"/>
   {include file="Public/head" /}
   <script>
-    pageInfo.fid = {$forumId};
+    pageInfo.fid = {$fid};
   </script>
   {/* 编辑器提示用
   <link rel="stylesheet" href="../../public/static/src/css/app.css">
@@ -21,7 +21,7 @@
 <body id="threadJpnPage">
 {include file="Public/header" /}
 <main class="container p-t-2">
-  <!-- 页面导航结构 -->
+  <!-- 面包屑导航 -->
   <ol class="breadcrumb m-b-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">{$forumName}</li>
@@ -33,7 +33,7 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="subBoardDropdownBtn">
         {volist name="subForumList" id="vo"}
-        <a class="dropdown-item" href="{:url('Thread/index?fid=' . $vo['forumId'])}">{$vo.forumName}</a>
+        <a class="dropdown-item" href="{:url('Thread/index?fid=' . $vo['fid'])}">{$vo.forumName}</a>
         {/volist}
       </div>
     </li>

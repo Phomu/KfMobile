@@ -7,7 +7,7 @@ use think\Response;
 use think\response\Redirect;
 
 /**
- * 消息控制器
+ * 消息页面控制器
  * @package app\controller
  */
 class Msg extends Controller

@@ -7,7 +7,7 @@ use app\lib\Proxy;
 use app\responser\Responser;
 
 /**
- * 登录控制器
+ * 登录页面控制器
  * @package app\controller
  */
 class Login extends Controller
@@ -47,7 +47,7 @@ class Login extends Controller
      */
     public function login(Request $request)
     {
-        if (!$this->request->isPost()) return error('请求类型错误！');
+        if (!$this->request->isPost()) return error('非法请求');
 
         $response = Proxy::post('login.php', $request->param());
         if ($response['code'] !== 200) {
@@ -64,7 +64,7 @@ class Login extends Controller
         }
 
         new Responser($response, $request->param('jumpurl', ''));
-        return $this->error('登录失败');
+        return error('登录失败');
     }
 
     /**

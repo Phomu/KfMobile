@@ -1,48 +1,5 @@
 [
     {
-        "name": "topthink/think-installer",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-installer.git",
-            "reference": "4a656d354dfa542fe21d963832149a6cc3968836"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/think-installer/4a656d354dfa542fe21d963832149a6cc3968836.zip",
-            "reference": "4a656d354dfa542fe21d963832149a6cc3968836",
-            "shasum": ""
-        },
-        "require": {
-            "composer-plugin-api": "^1.0"
-        },
-        "require-dev": {
-            "composer/composer": "1.0.*@dev"
-        },
-        "time": "2016-05-04 04:32:26",
-        "type": "composer-plugin",
-        "extra": {
-            "class": "think\\composer\\Plugin"
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\composer\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ]
-    },
-    {
         "name": "jaeger/phpquery-single",
         "version": "0.9.7",
         "version_normalized": "0.9.7.0",
@@ -88,23 +45,66 @@
         "homepage": "http://code.google.com/p/phpquery/"
     },
     {
+        "name": "topthink/think-installer",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-installer.git",
+            "reference": "6fbab3ed12ce31a455c0f62aac25afe39ec1499a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://packagist.phpcomposer.com/files/top-think/think-installer/6fbab3ed12ce31a455c0f62aac25afe39ec1499a.zip",
+            "reference": "6fbab3ed12ce31a455c0f62aac25afe39ec1499a",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev"
+        },
+        "time": "2016-07-29 10:04:04",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "think\\composer\\Plugin"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\composer\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ]
+    },
+    {
         "name": "topthink/framework",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "0889fe975af8dc565d0bd27d3bf93884170d1a86"
+            "reference": "62b8d6039ce3e2a65ae834c3c17634bafe8e00bd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/framework/0889fe975af8dc565d0bd27d3bf93884170d1a86.zip",
-            "reference": "0889fe975af8dc565d0bd27d3bf93884170d1a86",
+            "url": "https://packagist.phpcomposer.com/files/top-think/framework/62b8d6039ce3e2a65ae834c3c17634bafe8e00bd.zip",
+            "reference": "62b8d6039ce3e2a65ae834c3c17634bafe8e00bd",
             "shasum": ""
         },
         "require": {
             "php": ">=5.4.0",
-            "topthink/think-installer": "*"
+            "topthink/think-installer": "~1.0"
         },
         "require-dev": {
             "johnkary/phpunit-speedtrap": "^1.0",
@@ -115,7 +115,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2016-07-28 08:22:01",
+        "time": "2016-07-30 12:52:36",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",

@@ -36,7 +36,7 @@ class GuanJianCi extends Responser
 
         // 关键词帖子列表
         $threadList = [];
-        foreach (pq('.kf_share1:eq(1) tr:gt(0)') as $item) {
+        foreach (pq('.kf_share1:eq(1) > tr:gt(0)') as $item) {
             $pqItem = pq($item);
             $time = '';
             $type = '';
@@ -46,7 +46,12 @@ class GuanJianCi extends Responser
             $time = trim_strip($pqItem->find('td:first-child')->text());
             $type = trim_strip($pqItem->find('td:nth-child(2)')->text());
             $pqThread = $pqItem->find('td:nth-child(3) > a');
-            $threadUrl = $pqThread->attr('href');
+            if (preg_match('/tid=(\d+)(?:&spid=(\d+))?/i', $pqThread->attr('href'), $matches)) {
+                $tid = intval($matches[1]);
+                $spid = 0;
+                if (isset($matches[2])) $spid = intval($matches[2]);
+                $threadUrl = url('Read/index?', 'tid=' . $tid . ($spid ? '&spid=' . $spid : ''));
+            }
             $threadName = trim_strip($pqThread->text());
             $publisher = trim_strip($pqItem->find('td:nth-child(4)')->text());
             $threadList[] = [
@@ -64,7 +69,7 @@ class GuanJianCi extends Responser
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
-        trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
     }
 }

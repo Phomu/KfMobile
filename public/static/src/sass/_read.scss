@@ -1,0 +1,150 @@
+// 楼层
+.read-floor {
+  @include make-row();
+  margin-bottom: $spacer;
+  padding: $spacer-sm;
+  border: 1px solid $list-group-border-color;
+  border-radius: $border-radius;
+
+  // 楼层顶部
+  header {
+    .avatar {
+      max-width: 40px;
+      max-height: 57px;
+    }
+  }
+
+  // 楼层底部
+  footer {
+    // 签名
+    .floor-sign {
+      @include text-overflow;
+      color: $text-muted;
+      line-height: 2.171;
+    }
+  }
+}
+
+// 楼层内容
+.read-content {
+  padding: {
+    top: $spacer;
+    bottom: $spacer;
+  }
+
+  // 引用框
+  .blockquote {
+    margin: {
+      top: $spacer-sm;
+      bottom: $spacer-sm;
+    }
+    padding: $spacer-sm;
+    font-size: 1rem;
+    text-align: left !important;
+    background-color: #f7f7f9;
+    border-left: {
+      width: .3rem;
+      color: #e8e8e8;
+    }
+
+    p {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  // 代码区域
+  .code-area {
+    margin: {
+      top: $spacer;
+      bottom: $spacer;
+    }
+    text-align: left !important;
+    background-color: #f7f7f9;
+
+    a {
+      line-height: 2.5;
+      font-size: $font-size-sm;
+    }
+
+    pre {
+      padding-bottom: $spacer-sm;
+      font-size: $font-size-sm;
+    }
+
+    .code-textarea{
+      height: 340px;
+      font-size: $font-size-sm;
+    }
+  }
+
+  // 功能区域
+  fieldset {
+    margin: {
+      top: $spacer-sm;
+      bottom: $spacer-sm;
+    }
+    padding: $spacer-sm;
+    font-size: $font-size-sm;
+    text-align: left !important;
+    border: 1px solid $btn-secondary-border;
+    border-radius: $border-radius;
+
+    legend {
+      width: auto;
+      margin-bottom: 0;
+      padding: {
+        left: $spacer-sm;
+        right: $spacer-sm;
+      }
+      font-size: $font-size-sm;
+
+      select {
+        width: 5rem;
+        margin: {
+          left: $spacer-sm;
+          right: $spacer-sm;
+        }
+      }
+    }
+  }
+
+  // 提示区域
+  .fieldset-alert {
+    margin-bottom: $spacer;
+    border-color: $btn-danger-border;
+
+    legend {
+      color: $btn-danger-bg;
+    }
+  }
+
+  img, audio, video, marquee {
+    max-width: 100%;
+    margin: {
+      top: $spacer-xs;
+      bottom: $spacer-xs;
+    }
+    vertical-align: text-bottom;
+  }
+
+  // 表情图片
+  .smile {
+    margin-bottom: 0;
+  }
+
+  // 楼层编辑标志
+  .floor_edit_mark {
+    font-size: $font-size-sm;
+    color: $text-muted;
+    padding-top: $spacer-sm;
+    text-align: left !important;
+  }
+
+  // 附件
+  .attach {
+    margin-bottom: $spacer-xs;
+    color: $text-muted;
+    text-align: left !important;
+  }
+}

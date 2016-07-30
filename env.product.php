@@ -7,8 +7,6 @@ return [
     'static_file_timestamp' => '',
     // 网站统计脚本
     'stat_script' => '',
-    // 登录页面提示信息
-    'login_page_msg' => '',
     // 是否使用CDN传输部分静态资源文件（如jquery.js、bootstrap.js），默认值：true
     //'static_file_cdn' => false,
     // 是否关闭网站，默认值：false

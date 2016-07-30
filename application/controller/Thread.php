@@ -6,7 +6,7 @@ use app\lib\Proxy;
 use app\responser;
 
 /**
- * 版块控制器
+ * 版块页面控制器
  * @package app\controller
  */
 class Thread extends Base

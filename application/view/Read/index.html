@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  <meta name="keywords" content="{$keywords}"/>
+  <meta name="description" content="{$description}"/>
+  {include file="Public/head" /}
+  <script>
+    pageInfo.fid = {$fid};
+    pageInfo.tid = {$tid};
+    pageInfo.currentPageNum = {$currentPageNum};
+    pageInfo.maxPageNum = {$maxPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="readPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    {notempty name="parentForumName"}
+    <li class="breadcrumb-item">
+      <a href="{:url('Thread/index?fid=' . $parentFid)}">{$parentForumName}</a>
+    </li>
+    {/notempty}
+    <li class="breadcrumb-item active">
+      <a href="{:url('Thread/index?fid=' . $fid . ($fpage > 1 ? '&page=' . $fpage : ''))}">{$forumName}</a>
+    </li>
+  </ol>
+
+  <!-- 主题标题 -->
+  <h4>{$threadTitle}</h4>
+
+  <!-- 主题信息 -->
+  <section class="small text-muted m-b-1 pull-sm-left">
+    <span title="点击数" aria-label="点击数">
+      <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> {$hitNum}
+    </span>&nbsp;
+    <span title="回复数" aria-label="回复数">
+      <i class="fa fa-comment-o" aria-hidden="true"></i> {$replyNum}
+    </span>&nbsp;
+    <span title="发表时间" aria-label="发表时间">
+      <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$publishTime}</time>
+    </span>&nbsp;
+    <a href="/kf_tidfavor.php?action=favor&tid={$tid}">
+      <i class="fa fa-bookmark" aria-hidden="true"></i> 收藏
+    </a>&nbsp;
+  </section>
+
+  <!-- 功能区 -->
+  <section class="text-xs-right">
+    <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
+      <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
+    </a>
+    <a class="btn btn-primary" href="/post.php?action=reply&fid={$fid}&tid={$tid}">
+      <i class="fa fa-pencil" aria-hidden="true"></i> 回帖
+    </a>
+  </section>
+  <hr class="m-b-0">
+
+  <!-- 分页导航 -->
+  <nav class="text-xs-center">
+    <ul class="pagination">
+      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      <li class="page-item active">
+        <a class="page-link" href="#">{$currentPageNum} <span class="sr-only">(当前页)</span></a>
+      </li>
+      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $maxPageNum)}">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+          <span class="sr-only">第{$maxPageNum}页</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- 楼层内容 -->
+  {volist name="floorList" id="vo"}
+  <a name="{$vo.pid}"></a>
+  <article class="read-floor" style="border-color: {$vo.smColor};">
+    <!-- 楼层顶部 -->
+    <header class="media">
+      {notempty name="vo.avatar"}
+      <div class="media-left">
+        <img class="avatar img-rounded" src="/{$vo.avatar}" alt="头像">
+      </div>
+      {/notempty}
+      <div class="media-body">
+        <div class="clearfix">
+          <div class="media-heading pull-xs-left">
+            <a class="font-size-sm text-muted floor-num" href="{:url('Read/index?tid=' . $tid . '&spid=' . $vo['pid'])}" role="button">
+              {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
+            </a>&nbsp;
+            <a class="h5" href="{:url('Profile/show?uid=' . $vo['uid'])}" style="color: {$vo.smColor};">
+              {$vo.userName}
+            </a>
+          </div>
+          <div class="pull-xs-right">
+            <a class="btn btn-outline-primary btn-sm"
+               href="/post.php?action=quote&fid={$fid}&tid={$tid}&pid={$vo.pid}&article={$vo.floorNum}">
+              引用
+            </a>
+            {eq name="vo.uid" value="$uid"}
+            <a class="btn btn-outline-primary btn-sm"
+               href="/post.php?action=modify&fid={$fid}&tid={$tid}&pid={$vo.pid}&article={$vo.floorNum}">
+              编辑
+            </a>
+            {/eq}
+          </div>
+        </div>
+        <div class="small text-muted">
+          <span class="text-info" title="神秘等级" aria-label="神秘等级">
+            <i class="fa fa-star-o" aria-hidden="true"></i> {$vo.smLevel}级
+          </span>&nbsp;
+          <span title="发表时间" aria-label="发表时间">
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$vo.publishTime}</time>
+          </span>&nbsp;
+          <a href="{:url('Read/index?tid=' . $tid . '&uid=' . $vo['uid'])}" title="只看该会员的发言">只看TA</a>&nbsp;
+        </div>
+      </div>
+    </header>
+
+    <!-- 楼层内容 -->
+    <div class="read-content">
+      {$vo.content}
+    </div>
+
+    <!-- 楼层底部 -->
+    <footer>
+      <div class="floor-sign col-xs-9 p-x-0 small" title="{$vo.sign}">
+        {notempty name="vo.sign"}
+        <i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}
+        {/notempty}
+      </div>
+      <div class="col-xs-3 p-x-0 text-xs-right">
+        <a class="btn btn-outline-primary btn-sm fast-reply-btn" data-floor="{$vo.floorNum}" data-username="{$vo.userName}" href="#"
+           role="button">
+          快速回复
+        </a>
+      </div>
+    </footer>
+  </article>
+  {/volist}
+  <a id="a"></a>
+
+  <!-- 分页导航 -->
+  <nav class="text-xs-center">
+    <ul class="pagination m-t-0">
+      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      <li class="page-item active">
+        <a class="page-link" href="#">{$currentPageNum} <span class="sr-only">(当前页)</span></a>
+      </li>
+      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $maxPageNum)}">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+          <span class="sr-only">第{$maxPageNum}页</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <hr class="m-t-0">
+
+  <!-- 回复区域 -->
+  <section>
+    <h5><i class="fa fa-commenting-o" aria-hidden="true"></i> 回复帖子</h5>
+    <form id="articleForm" action="{:url('Post/reply')}" method="post" enctype="multipart/form-data">
+      <input name="atc_title" type="hidden" value="none">
+      <input name="atc_usesign" type="hidden" value="1">
+      <input name="atc_convert" type="hidden" value="1">
+      <input name="atc_autourl" type="hidden" value="1">
+      <input name="step" type="hidden" value="2">
+      <input name="action" type="hidden" value="reply">
+      <input name="fid" type="hidden" value="{$fid}">
+      <input name="tid" type="hidden" value="{$tid}">
+      <input name="verify" type="hidden" value="{$replyVerify}">
+
+      <div class="form-group">
+        <label class="col-xs-8 p-x-0">
+          <span class="sr-only">关键词</span>
+          <input class="form-control" id="articleGjc" name="diy_guanjianci" type="text" placeholder="关键词"
+                 title="最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英语逗号,隔开，不要包含英文单引号、双引号。如果关键词是别人的ID名，系统就会@提示此人查看本帖子。">
+        </label>
+        <div class="col-xs-4 p-x-0 text-xs-right dropup">
+          <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+            表情
+          </button>
+          <div class="dropdown-menu dropdown-menu-right smile-panel" aria-labelledby="smileDropdownBtn">
+            <img data-id="57" src="/{$imgPath}/post/smile/em/em48.gif" alt="表情">
+            <img data-id="44" src="/{$imgPath}/post/smile/em/em35.gif" alt="表情">
+            <img data-id="43" src="/{$imgPath}/post/smile/em/em34.gif" alt="表情">
+            <img data-id="42" src="/{$imgPath}/post/smile/em/em33.gif" alt="表情">
+            <img data-id="41" src="/{$imgPath}/post/smile/em/em32.gif" alt="表情">
+            <img data-id="40" src="/{$imgPath}/post/smile/em/em31.gif" alt="表情">
+            <img data-id="39" src="/{$imgPath}/post/smile/em/em30.gif" alt="表情">
+            <img data-id="38" src="/{$imgPath}/post/smile/em/em29.gif" alt="表情">
+            <img data-id="37" src="/{$imgPath}/post/smile/em/em28.gif" alt="表情">
+            <img data-id="36" src="/{$imgPath}/post/smile/em/em27.gif" alt="表情">
+            <img data-id="35" src="/{$imgPath}/post/smile/em/em26.gif" alt="表情">
+            <img data-id="45" src="/{$imgPath}/post/smile/em/em36.gif" alt="表情">
+            <img data-id="46" src="/{$imgPath}/post/smile/em/em37.gif" alt="表情">
+            <img data-id="56" src="/{$imgPath}/post/smile/em/em47.gif" alt="表情">
+            <img data-id="55" src="/{$imgPath}/post/smile/em/em46.gif" alt="表情">
+            <img data-id="54" src="/{$imgPath}/post/smile/em/em45.gif" alt="表情">
+            <img data-id="53" src="/{$imgPath}/post/smile/em/em44.gif" alt="表情">
+            <img data-id="52" src="/{$imgPath}/post/smile/em/em43.gif" alt="表情">
+            <img data-id="51" src="/{$imgPath}/post/smile/em/em42.gif" alt="表情">
+            <img data-id="50" src="/{$imgPath}/post/smile/em/em41.gif" alt="表情">
+            <img data-id="49" src="/{$imgPath}/post/smile/em/em40.gif" alt="表情">
+            <img data-id="48" src="/{$imgPath}/post/smile/em/em39.gif" alt="表情">
+            <img data-id="47" src="/{$imgPath}/post/smile/em/em38.gif" alt="表情">
+            <img data-id="34" src="/{$imgPath}/post/smile/em/em25.gif" alt="表情">
+            <img data-id="33" src="/{$imgPath}/post/smile/em/em24.gif" alt="表情">
+            <img data-id="20" src="/{$imgPath}/post/smile/em/em11.gif" alt="表情">
+            <img data-id="19" src="/{$imgPath}/post/smile/em/em10.gif" alt="表情">
+            <img data-id="18" src="/{$imgPath}/post/smile/em/em09.gif" alt="表情">
+            <img data-id="17" src="/{$imgPath}/post/smile/em/em08.gif" alt="表情">
+            <img data-id="10" src="/{$imgPath}/post/smile/em/em01.gif" alt="表情">
+            <img data-id="11" src="/{$imgPath}/post/smile/em/em02.gif" alt="表情">
+            <img data-id="12" src="/{$imgPath}/post/smile/em/em03.gif" alt="表情">
+            <img data-id="13" src="/{$imgPath}/post/smile/em/em04.gif" alt="表情">
+            <img data-id="14" src="/{$imgPath}/post/smile/em/em05.gif" alt="表情">
+            <img data-id="15" src="/{$imgPath}/post/smile/em/em06.gif" alt="表情">
+            <img data-id="21" src="/{$imgPath}/post/smile/em/em12.gif" alt="表情">
+            <img data-id="22" src="/{$imgPath}/post/smile/em/em13.gif" alt="表情">
+            <img data-id="32" src="/{$imgPath}/post/smile/em/em23.gif" alt="表情">
+            <img data-id="31" src="/{$imgPath}/post/smile/em/em22.gif" alt="表情">
+            <img data-id="30" src="/{$imgPath}/post/smile/em/em21.gif" alt="表情">
+            <img data-id="29" src="/{$imgPath}/post/smile/em/em20.gif" alt="表情">
+            <img data-id="28" src="/{$imgPath}/post/smile/em/em19.gif" alt="表情">
+            <img data-id="27" src="/{$imgPath}/post/smile/em/em18.gif" alt="表情">
+            <img data-id="26" src="/{$imgPath}/post/smile/em/em17.gif" alt="表情">
+            <img data-id="25" src="/{$imgPath}/post/smile/em/em16.gif" alt="表情">
+            <img data-id="24" src="/{$imgPath}/post/smile/em/em15.gif" alt="表情">
+            <img data-id="23" src="/{$imgPath}/post/smile/em/em14.gif" alt="表情">
+            <img data-id="16" src="/{$imgPath}/post/smile/em/em07.gif" alt="表情">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="articleContent"><span class="sr-only">回复内容</span></label>
+        <textarea class="form-control" id="articleContent" name="atc_content" rows="5" placeholder="回帖请遵守版规"></textarea>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-send" aria-hidden="true"></i>
+          提交
+        </button>
+      </div>
+    </form>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

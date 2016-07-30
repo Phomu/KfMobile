@@ -6,7 +6,7 @@ use app\lib\Proxy;
 use app\responser;
 
 /**
- * 关键词控制器
+ * 关键词页面控制器
  * @package app\controller
  */
 class GuanJianCi extends Base

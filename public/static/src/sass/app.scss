@@ -50,6 +50,13 @@ main {
   line-height: 2.2;
 }
 
+/*// 面包屑导航
+.breadcrumb-item.active {
+  a:link {
+    color: $breadcrumb-active-color;
+  }
+}*/
+
 // 分页链接
 .page-link {
   &:hover, &:focus {
@@ -181,8 +188,24 @@ main {
           left: 0;
           right: 0;
         }
+        color: $text-muted;
         line-height: 2.2;
       }
     }
   }
 }
+
+// 表情面板
+.smile-panel {
+  width: 19rem;
+  height: 13.4rem;
+  overflow-y: auto;
+  opacity: .95;
+
+  img {
+    margin: .214rem; // ~3px
+    cursor: pointer;
+  }
+}
+
+@import "read";

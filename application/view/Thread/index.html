@@ -9,7 +9,7 @@
   <meta name="description" content="{$description}"/>
   {include file="Public/head" /}
   <script>
-    pageInfo.fid = {$forumId};
+    pageInfo.fid = {$fid};
     pageInfo.currentPageNum = {$currentPageNum};
     pageInfo.maxPageNum = {$maxPageNum};
   </script>
@@ -23,12 +23,12 @@
 <body id="threadPage">
 {include file="Public/header" /}
 <main class="container p-t-2 m-b-0">
-  <!-- 页面导航结构 -->
+  <!-- 面包屑导航 -->
   <ol class="breadcrumb m-b-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     {notempty name="parentForumName"}
     <li class="breadcrumb-item">
-      <a href="{:url('Thread/index?fid=' . $parentForumId)}">{$parentForumName}</a>
+      <a href="{:url('Thread/index?fid=' . $parentFid)}">{$parentForumName}</a>
     </li>
     {/notempty}
     <li class="breadcrumb-item active">{$forumName}</li>
@@ -40,7 +40,7 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="subBoardDropdownBtn">
         {volist name="subForumList" id="vo"}
-        <a class="dropdown-item" href="{:url('Thread/index?fid=' . $vo['forumId'])}">{$vo.forumName}</a>
+        <a class="dropdown-item" href="{:url('Thread/index?fid=' . $vo['fid'])}">{$vo.forumName}</a>
         {/volist}
       </div>
     </li>
@@ -57,7 +57,7 @@
             分类
           </button>
           <div class="dropdown-menu" aria-labelledby="threadTypeDropdownBtn">
-            <a class="dropdown-item" href="{:url('Thread/index?fid=' . $forumId)}">全部</a>
+            <a class="dropdown-item" href="{:url('Thread/index?fid=' . $fid)}">全部</a>
             {volist name="threadTypeList" id="vo"}
             <a class="dropdown-item" href="{:url('Thread/index', $threadTypeParam . '&type=' . $vo['typeId'])}"
                style="color: {$vo.typeColor}">
@@ -88,8 +88,8 @@
           <i class="fa fa-pencil" aria-hidden="true"></i> 发表主题
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="threadSortByDropdownBtn">
-          <a class="dropdown-item" href="/post.php?fid={$forumId}">发表主题</a>
-          <a class="dropdown-item" href="/post.php?fid={$forumId}&special=1">发表投票</a>
+          <a class="dropdown-item" href="/post.php?fid={$fid}">发表主题</a>
+          <a class="dropdown-item" href="/post.php?fid={$fid}&special=1">发表投票</a>
         </div>
       </div>
     </div>
@@ -144,7 +144,8 @@
           {notempty name="$vo.typeName"}
           <small style="color: {$vo.typeColor}">[{$vo.typeName}]</small>
           {/notempty}
-          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['threadId'])}" title="{$vo.threadName}" style="{$vo.threadNameStyle}">
+          <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'] . ($currentPageNum > 1 ? '&fpage=' . $currentPageNum : ''))}"
+             title="{$vo.threadName}" style="{$vo.threadNameStyle}">
             {$vo.threadName}
           </a>
         </div>
@@ -154,10 +155,10 @@
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
             </a>
-            <time class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}" title="发表时间：{$vo.publishTime}" aria-label="发表时间">
+            <span class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}" title="发表时间：{$vo.publishTime}" aria-label="发表时间">
               <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
-              {$vo.publishTime}
-            </time>
+              <time>{$vo.publishTime}</time>
+            </span>
           </small>
           <small class="col-xs-4 text-xs-center">
             <span title="回帖数" aria-label="回帖数">
@@ -169,14 +170,14 @@
             </span>
           </small>
           <small class="col-xs-4 text-xs-right">
-            <a href="{:url('Read/index?tid=' . $vo['threadId'] . '&page=e#a')}" title="最后回复人" aria-label="最后回复人">
+            <a href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}" title="最后回复人" aria-label="最后回复人">
               <i class="fa fa-reply" aria-hidden="true"></i>
               {$vo.lastReplier}
             </a>
-            <time title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
+            <span title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
               <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
-              {$vo.lastReplyTime}
-            </time>
+              <time>{$vo.lastReplyTime}</time>
+            </span>
           </small>
         </footer>
       </li>
