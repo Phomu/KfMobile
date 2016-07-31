@@ -9,8 +9,16 @@
   // 楼层顶部
   header {
     .avatar {
-      max-width: 40px;
-      max-height: 57px;
+      max-width: 3.424rem; // ~48px
+      max-height: 4.891rem; // ~68px
+    }
+
+    .floor-num {
+      margin-right: $spacer-xs;
+    }
+
+    .floor-info {
+      padding-top: $spacer-xs;
     }
   }
 
@@ -116,6 +124,10 @@
 
     legend {
       color: $btn-danger-bg;
+    }
+
+    li {
+      list-style-type: none;
     }
   }
 

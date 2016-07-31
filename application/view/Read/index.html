@@ -107,7 +107,7 @@
           <div class="media-heading pull-xs-left">
             <a class="font-size-sm text-muted floor-num" href="{:url('Read/index?tid=' . $tid . '&spid=' . $vo['pid'])}" role="button">
               {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
-            </a>&nbsp;
+            </a>
             <a class="h5" href="{:url('Profile/show?uid=' . $vo['uid'])}" style="color: {$vo.smColor};">
               {$vo.userName}
             </a>
@@ -125,7 +125,7 @@
             {/eq}
           </div>
         </div>
-        <div class="small text-muted">
+        <div class="small text-muted floor-info">
           <span class="text-info" title="神秘等级" aria-label="神秘等级">
             <i class="fa fa-star-o" aria-hidden="true"></i> {$vo.smLevel}级
           </span>&nbsp;

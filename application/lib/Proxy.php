@@ -35,7 +35,9 @@ class Proxy
     public static function request($url, $postData = null)
     {
         $url = config('proxy_base_url') . mb_convert_encoding($url, config('remote_site_encoding'), config('site_encoding'));
-        $header[] = 'Cookie: ' . serialize_cookies(input('cookie.', []), config('kf_cookie_prefix'));
+        $cookies = input('cookie.', []);
+        unset($cookies[config('kf_cookie_prefix') . 'ipfrom']);
+        $header[] = 'Cookie: ' . serialize_cookies($cookies, config('kf_cookie_prefix'));
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);

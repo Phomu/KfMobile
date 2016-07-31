@@ -7046,8 +7046,12 @@ main {
     display: table;
     clear: both; }
   .read-floor header .avatar {
-    max-width: 40px;
-    max-height: 57px; }
+    max-width: 3.424rem;
+    max-height: 4.891rem; }
+  .read-floor header .floor-num {
+    margin-right: 0.3571rem; }
+  .read-floor header .floor-info {
+    padding-top: 0.3571rem; }
   .read-floor footer .floor-sign {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -7107,6 +7111,8 @@ main {
     border-color: #d9534f; }
     .read-content .fieldset-alert legend {
       color: #d9534f; }
+    .read-content .fieldset-alert li {
+      list-style-type: none; }
   .read-content img, .read-content audio, .read-content video, .read-content marquee {
     max-width: 100%;
     margin-top: 0.3571rem;

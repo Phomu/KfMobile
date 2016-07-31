@@ -500,10 +500,10 @@ var tuiThread = function () {
                 var matches = /<span.+?\+\d+!<\/span>\s*(\d+)/i.exec(msg);
                 if (matches) {
                     var $num = $this.find('span:first');
-                    $num.append('<span class="text-info">+1</span>');
+                    $num.text('+1');
                     window.setTimeout(function () {
                         $num.text(matches[1]);
-                    }, 1000);
+                    }, 1500);
                 }
                 else if (/已推过/.test(msg)) {
                     alert('已推过');
