@@ -160,3 +160,26 @@
     text-align: left !important;
   }
 }
+
+// 投票组
+.vote-group {
+  max-height: 370px;
+  overflow-y: auto;
+
+  // 投票项
+  .list-group-item {
+    padding: $spacer-sm;
+
+    .form-check {
+      margin-bottom: $spacer-xs;
+
+      .form-check-label {
+        padding-left: 0;
+      }
+    }
+
+    .progress {
+      margin-bottom: 0;
+    }
+  }
+}

@@ -53,7 +53,9 @@ class Proxy
             curl_setopt($ch, CURLOPT_POST, true);
             if (is_array($postData)) {
                 foreach ($postData as &$value) {
-                    $value = mb_convert_encoding($value, config('remote_site_encoding'), config('site_encoding'));
+                    if (is_string($value)) {
+                        $value = mb_convert_encoding($value, config('remote_site_encoding'), config('site_encoding'));
+                    }
                 }
                 $postData = http_build_query($postData);
             } else {
@@ -127,7 +129,7 @@ class Proxy
      */
     public static function post($url, $data)
     {
-        trace('POST请求：' . $url . '，请求数据：' . http_build_query($data));
+        if (config('app_debug')) trace('POST请求：' . $url . '，请求数据：' . http_build_query($data));
         return self::request($url, $data);
     }
 

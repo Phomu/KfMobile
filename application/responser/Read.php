@@ -43,7 +43,7 @@ class Read extends Responser
         $pqThreadInfo = pq('td[colspan="2"]:contains("收藏本帖")')->eq(0);
         $tid = intval(pq('input[name="tid"]')->val());
         $fid = intval(pq('input[name="fid"]')->val());
-        $threadTitle = trim_strip(pq('table tr:first-child > td[colspan="2"]')->eq(0)->text());
+        $threadTitle = trim_strip(pq('table:not(.thread1) > tr:first-child > td[colspan="2"]')->eq(0)->text());
         $pqForumNav = $pqThreadInfo->find('a[href^="thread.php?fid="]');
         $forumName = trim_strip($pqForumNav->eq($pqForumNav->length - 1)->text());
         if ($pqForumNav->length >= 2) {
@@ -83,6 +83,60 @@ class Read extends Responser
         // 回复验证字段
         $replyVerify = pq('input[name="verify"]')->val();
 
+        // 投票区域
+        $voteTitle = '';
+        $voteStatus = 'open';
+        $voteTotalCount = 0;
+        $voteList = [];
+        $votedInfo = '';
+        $voteLimitNum = 0;
+        $pqVoteForm = pq('form[name="vote"]');
+        if ($pqVoteForm->length > 0) {
+            $pqSubmit = $pqVoteForm->find('input[type="submit"]');
+            if (preg_match('/限选个数：(\d+)/', $pqSubmit->parent()->text(), $matches)) {
+                $voteLimitNum = intval($matches[1]);
+            }
+            if (!$pqSubmit->length) {
+                if ($pqVoteForm->find('b > a[href*="action=modify"]')->length > 0) $voteStatus = 'voted';
+                else $voteStatus = 'close';
+            }
+            if ($pqVoteForm->find('input[name="voteaction"][value="modify"]')->length > 0) $voteStatus = 'modify';
+            $pqVoteArea = $pqVoteForm->find('.thread1');
+            $voteTitle = trim_strip($pqVoteArea->find('tr:first-child > td:first-child')->text());
+            $votedInfo = trim($pqVoteArea->find('tr:last-child > td')->html());
+            $pqVoteItem = $pqVoteArea->children('tr');
+            foreach ($pqVoteItem->slice(1, $pqVoteArea->length - 2) as $item) {
+                $pqItem = pq($item);
+                $itemType = '';
+                $itemValue = '';
+                $itemName = '';
+                $itemVoteCount = 0;
+
+                $pqItemName = $pqItem->find('td:first-child');
+                $pqInput = $pqItemName->find('input');
+                if ($pqInput->length > 0) {
+                    $itemType = $pqInput->attr('type');
+                    $itemValue = $pqInput->val();
+                }
+                $itemName = trim_strip($pqItemName->find('b')->text());
+
+                if (preg_match('/(\d+|\*)/', $pqItem->find('td:nth-child(2)')->text(), $matches)) {
+                    if ($matches[1] === '*') $itemVoteCount = -1;
+                    else {
+                        $itemVoteCount = intval($matches[1]);
+                        $voteTotalCount += $itemVoteCount;
+                    }
+                }
+
+                $voteList[] = [
+                    'itemType' => $itemType,
+                    'itemValue' => $itemValue,
+                    'itemName' => $itemName,
+                    'itemVoteCount' => $itemVoteCount,
+                ];
+            }
+        }
+
         $data = [
             'tid' => $tid,
             'threadTitle' => $threadTitle,
@@ -101,6 +155,12 @@ class Read extends Responser
             'pageParam' => $pageParam,
             'floorList' => $floorList,
             'replyVerify' => $replyVerify,
+            'voteTitle' => $voteTitle,
+            'voteStatus' => $voteStatus,
+            'voteTotalCount' => $voteTotalCount,
+            'voteList' => $voteList,
+            'votedInfo' => $votedInfo,
+            'voteLimitNum' => $voteLimitNum,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
@@ -201,6 +261,7 @@ class Read extends Responser
         // 删除头像节点
         $pqFloor->find('.readidms, .readidm')->remove();
 
+        //dump($pqFloor->html());
         // 替换楼层内容
         $pqFloor->html($this->replaceFloorContent($pqFloor->html()));
 
@@ -269,9 +330,38 @@ class Read extends Responser
      */
     protected function replaceFloorContent($html)
     {
-        $html = preg_replace('/<strike>([^<]+)<\/strike>/i', '<s>$1</s>', $html);
-        $html = preg_replace('/<font size="(\d+)">([^<]+)<\/font>/i', '<span style="font-size: $1;">$2</span>', $html);
-        $html = preg_replace('/<font color="([#\w]+)">([^<]+)<\/font>/i', '<span style="color: $1;">$2</span>', $html);
+        $html = preg_replace('/<strike>(.+?)<\/strike>/i', '<s>$1</s>', $html);
+        $html = preg_replace_callback('/<font size="(\d+)">(.+?)<\/font>/i',
+            function ($matches) {
+                $fontSize = 14;
+                switch (intval($matches[1])) {
+                    case 1:
+                        $fontSize = 10;
+                        break;
+                    case 2:
+                        $fontSize = 13;
+                        break;
+                    case 3:
+                        $fontSize = 16;
+                        break;
+                    case 4:
+                        $fontSize = 18;
+                        break;
+                    case 5:
+                        $fontSize = 24;
+                        break;
+                    case 6:
+                        $fontSize = 32;
+                        break;
+                    case 7:
+                        $fontSize = 48;
+                        break;
+                }
+                return sprintf('<span style="font-size: %dpx;">%s</span>', $fontSize, $matches[2]);
+            },
+            $html
+        );
+        $html = preg_replace('/<font color="([#\w]+)">(.+?)<\/font>/i', '<span style="color: $1;">$2</span>', $html);
         $html = preg_replace('/<img src="(\d+\/)/i', '<img class="smile" alt="表情" src="/$1', $html);
         $html = preg_replace('/border="0" onclick="[^"]+" onload="[^"]+"/i', 'class="img" alt="图片"', $html);
         $html = preg_replace_callback(
@@ -282,12 +372,12 @@ class Read extends Responser
             $html
         );
         $html = preg_replace(
-            '/\[audio\]([^\[]+)\[\/audio\]/',
+            '/\[audio\]([^\[]+)\[\/audio\](?!<\/fieldset>)/',
             '<audio src="$1" controls="controls" preload="none">[你的浏览器不支持audio标签]</audio>',
             $html
         );
         $html = preg_replace(
-            '/\[video\]([^\[]+)\[\/video\]/',
+            '/\[video\]([^\[]+)\[\/video\](?!<\/fieldset>)/',
             '<video src="$1" controls="controls" preload="none">[你的浏览器不支持video标签]</video>',
             $html
         );

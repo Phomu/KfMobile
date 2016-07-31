@@ -7129,3 +7129,15 @@ main {
     margin-bottom: 0.3571rem;
     color: #818a91;
     text-align: left !important; }
+
+.vote-group {
+  max-height: 370px;
+  overflow-y: auto; }
+  .vote-group .list-group-item {
+    padding: 0.5714rem; }
+    .vote-group .list-group-item .form-check {
+      margin-bottom: 0.3571rem; }
+      .vote-group .list-group-item .form-check .form-check-label {
+        padding-left: 0; }
+    .vote-group .list-group-item .progress {
+      margin-bottom: 0; }

@@ -90,3 +90,24 @@ function trim_strip($str)
 {
     return htmlspecialchars(trim($str));
 }
+
+/**
+ * 通过指定数字获取指定颜色名称
+ * @param int $num
+ * @return string 颜色名称
+ */
+function get_color_from_number($num)
+{
+    switch ($num % 5) {
+        case 1:
+            return 'success';
+        case 2:
+            return 'info';
+        case 3:
+            return 'warning';
+        case 4:
+            return 'danger';
+        default:
+            return 'primary';
+    }
+}

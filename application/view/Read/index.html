@@ -37,6 +37,61 @@
     </li>
   </ol>
 
+  {notempty name="voteList"}
+  <!-- 投票区域 -->
+  <section>
+    <form name="vote" action="{:url('Job/vote')}" method="post">
+      {eq name="voteStatus" value="modify"}<input name="voteaction" type="hidden" value="modify">{/eq}
+      <input name="tid" type="hidden" value="{$tid}">
+      <h6 class="m-b-1">{$voteTitle}</h6>
+      <ul class="list-group m-b-1 vote-group">
+        {volist name="voteList" id="vo"}
+        <li class="list-group-item">
+          <div class="form-check">
+            <label class="form-check-label">
+              {notempty name="vo.itemType"}
+              <input name="voteid[]" type="{$vo.itemType}" value="{$vo.itemValue}">
+              {/notempty}
+              <b>{$vo.itemName}</b>
+            </label>
+          </div>
+          {eq name="vo.itemVoteCount" value="-1"}
+          <div class="small text-muted">* 票</div>
+          {else /}
+          <progress class="progress progress-striped progress-{:get_color_from_number($i-1)}" value="{$vo.itemVoteCount}"
+                    max="{$voteTotalCount}">{$vo.itemVoteCount}票
+          </progress>
+          <div class="small text-{:get_color_from_number($i-1)}">
+            {$vo.itemVoteCount} 票 ({:number_format($vo.itemVoteCount / ($voteTotalCount > 0 ? $voteTotalCount : 1) * 100 , 2)}%)
+          </div>
+          {/eq}
+        </li>
+        {/volist}
+      </ul>
+      <footer class="form-group">
+        <div class="small text-muted m-b-1">
+          {notempty name="voteTotalCount"}合计<b>{$voteTotalCount}</b>票{/notempty}
+          {$votedInfo}
+        </div>
+        {switch name="voteStatus"}
+        {case value="open|modify"}
+        <button class="btn btn-primary" type="submit">
+          <i class="fa fa-check" aria-hidden="true"></i> 投票
+        </button>
+        {notempty name="voteLimitNum"}<span class="text-danger">&nbsp;(限选个数：{$voteLimitNum})</span>{/notempty}
+        {/case}
+        {case value="voted"}
+        <a class="btn btn-warning btn-sm" href="{:url('Read/index?fid=' . $fid . '&tid=' . $tid . '&action=modify')}">
+          <i class="fa fa-pencil" aria-hidden="true"></i> 修改投票
+        </a>
+        {/case}
+        {/switch}
+      </footer>
+    </form>
+  </section>
+  <hr>
+  {/notempty}
+
   <!-- 主题标题 -->
   <h4>{$threadTitle}</h4>
 
