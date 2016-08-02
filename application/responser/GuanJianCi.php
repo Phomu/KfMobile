@@ -2,7 +2,7 @@
 namespace app\responser;
 
 /**
- * 关键词响应类
+ * 关键词页面响应类
  * @package app\responser
  */
 class GuanJianCi extends Responser
@@ -10,7 +10,7 @@ class GuanJianCi extends Responser
     /**
      * 获取关键词页面的页面数据
      * @param array $extraData 额外参数
-     * @return array 版块页面的页面数据
+     * @return array 页面数据
      */
     public function index($extraData = [])
     {

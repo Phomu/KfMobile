@@ -6908,6 +6908,9 @@ a.text-danger:focus, a.text-danger:hover {
   text-overflow: ellipsis;
   white-space: nowrap; }
 
+.text-default {
+  color: #373a3c; }
+
 body {
   padding-top: 3.375rem; }
 

@@ -33,8 +33,9 @@ return [
     // 关闭网站的提示消息
     'site_close_msg' => '网站维护中……',
     // 登录页面提示信息
-    'login_page_msg' => '<a href="http://bbs.2dkf.com/read.php?tid=564787" target="_blank">KfMobile项目</a>为喵拉布丁所开发的适用于<b>移动浏览器</b>的KF反向代理服务。' .
-        '<br>本站(miaola.info)是由喵拉布丁所搭建的<b>非官方</b>的反向代理服务网站，如对本站的隐私安全方面抱有疑问，请勿继续访问。',
+    'login_page_msg' => '<a class="alert-link" href="http://bbs.2dkf.com/read.php?tid=564787" target="_blank">KfMobile项目</a>为喵拉布丁所开发
+的适用于<b>移动浏览器</b>的KF反向代理服务（尚在开发中）。<br>本站(miaola.info)是由喵拉布丁所搭建的<b>非官方</b>的反向代理服务网站，如对本站的隐私安全方面抱
+有疑问，请勿继续访问。',
     // 网站统计脚本
     'stat_script' => '',
 

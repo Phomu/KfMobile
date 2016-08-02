@@ -5,14 +5,17 @@ use think\Request;
 use app\lib\Proxy;
 use app\responser;
 
+/**
+ * 搜索页面控制器
+ * @package app\controller
+ */
 class Search extends Base
 {
     public function index(Request $request)
     {
-        $param = $request->param();
-        foreach ($param as &$value) {
-            $value = mb_convert_encoding($value, config('remote_site_encoding'), config('site_encoding'));
-        }
-        $this->redirect('/search.php?' . http_build_query($param));
+        $response = Proxy::post('search.php', $request->param());
+        $search = new responser\Search($response);
+        $this->assign($search->index());
+        return $this->fetch('Search/index');
     }
 }

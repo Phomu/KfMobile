@@ -10,7 +10,7 @@ class Thread extends Responser
     /**
      * 获取版块页面的页面数据
      * @param array $extraData 额外参数
-     * @return array 版块页面的页面数据
+     * @return array 页面数据
      */
     public function index($extraData = [])
     {
@@ -127,7 +127,7 @@ class Thread extends Responser
 
         // 主题列表
         $threadList = [];
-        foreach (pq('.thread1 tr') as $item) {
+        foreach (pq('.thread1 > tr:gt(2)') as $item) {
             $pqItem = pq($item);
             if (!$pqItem->find('td:nth-child(2) > .threadtit1')->length) continue;
 

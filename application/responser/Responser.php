@@ -89,15 +89,15 @@ class Responser
      */
     protected function getCommonData(\phpQueryObject $doc)
     {
-        $title = pq('title', $doc)->text();
-        $keywords = pq('meta[name="keywords"]', $doc)->attr('content');
-        $description = pq('meta[name="description"]', $doc)->attr('content');
+        $title = trim_strip(pq('title', $doc)->text());
+        $keywords = trim_strip(pq('meta[name="keywords"]', $doc)->attr('content'));
+        $description = trim_strip(pq('meta[name="description"]', $doc)->attr('content'));
 
         $pqUser = pq('.topright > a[href^="profile.php?action=show&uid="]', $doc);
         $uid = 0;
         $matches = [];
         if (preg_match('/&uid=(\d+)/i', $pqUser->attr('href'), $matches)) $uid = intval($matches[1]);
-        $userName = $pqUser->text();
+        $userName = trim_strip($pqUser->text());
         if (!$userName) {
             success('请登录', 'login/index');
         }

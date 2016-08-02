@@ -260,7 +260,7 @@ var handleSearchDialog = function () {
     var $searchDialog = $('#searchDialog');
 
     $searchDialog.on('shown.bs.modal', function () {
-        $('#searchKeyword').focus();
+        $('#searchKeyword').select().focus();
     }).find('form').submit(function () {
         var $this = $(this);
         var $searchKeyword = $this.find('#searchKeyword');
@@ -391,7 +391,7 @@ var handlePageNav = function (action) {
     $(document).on('click', '.page-item.active > .page-link', function (e) {
         e.preventDefault();
         var num = parseInt(window.prompt('要跳转到第几页？（共' + pageInfo.maxPageNum + '页）', pageInfo.currentPageNum));
-        if (num) {
+        if (num && num > 0) {
             location.href = makeUrl(action, 'page=' + num, true);
         }
     });
@@ -576,6 +576,8 @@ $(function () {
         alertPostArticle();
         copyCode();
         addSmileCode();
+    } else if (pageId === 'searchPage') {
+        handlePageNav('search/index');
     } else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
     }

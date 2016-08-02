@@ -10,7 +10,7 @@ class Read extends Responser
     /**
      * 获取主题页面的页面数据
      * @param array $extraData 额外参数
-     * @return array 版块页面的页面数据
+     * @return array 页面数据
      */
     public function index($extraData = [])
     {
@@ -292,9 +292,8 @@ class Read extends Responser
                 }
                 $pqBuyBtn->replaceWith(
                     sprintf(
-                        '<button class="btn btn-warning btn-sm buy-thread-btn" data-pid="%s" data-price="%d" type="button">' .
-                        '  <i class="fa fa-shopping-cart" aria-hidden="true"></i> 购买' .
-                        '</button>',
+                        '<button class="btn btn-warning btn-sm buy-thread-btn" data-pid="%s" data-price="%d" type="button">
+<i class="fa fa-shopping-cart" aria-hidden="true"></i> 购买</button>',
                         $pid,
                         $price
                     )
@@ -331,7 +330,7 @@ class Read extends Responser
     protected function replaceFloorContent($html)
     {
         $html = preg_replace('/<strike>(.+?)<\/strike>/i', '<s>$1</s>', $html);
-        $html = preg_replace_callback('/<font size="(\d+)">(.+?)<\/font>/i',
+        $html = preg_replace_callback('/<font size="(\d+)">/i',
             function ($matches) {
                 $fontSize = 14;
                 switch (intval($matches[1])) {
@@ -357,11 +356,12 @@ class Read extends Responser
                         $fontSize = 48;
                         break;
                 }
-                return sprintf('<span style="font-size: %dpx;">%s</span>', $fontSize, $matches[2]);
+                return sprintf('<span style="font-size: %dpx;">', $fontSize);
             },
             $html
         );
-        $html = preg_replace('/<font color="([#\w]+)">(.+?)<\/font>/i', '<span style="color: $1;">$2</span>', $html);
+        $html = preg_replace('/<font color="([#\w]+)">/i', '<span style="color: $1;">', $html);
+        $html = preg_replace('/<\/font>/i', '</span>', $html);
         $html = preg_replace('/<img src="(\d+\/)/i', '<img class="smile" alt="表情" src="/$1', $html);
         $html = preg_replace('/border="0" onclick="[^"]+" onload="[^"]+"/i', 'class="img" alt="图片"', $html);
         $html = preg_replace_callback(

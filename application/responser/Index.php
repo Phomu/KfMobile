@@ -10,7 +10,7 @@ class Index extends Responser
     /**
      * 获取首页的页面数据
      * @param array $extraData 额外参数
-     * @return array 首页的页面数据
+     * @return array 页面数据
      */
     public function index($extraData = [])
     {

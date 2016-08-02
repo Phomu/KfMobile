@@ -61,6 +61,7 @@ function convert_url($url)
         if ($path === 'login.php') return url('Login/index');
         elseif ($path === 'thread.php') return url('Thread/index', $params) . $anchor;
         elseif ($path === 'read.php') return url('Read/index', $params) . $anchor;
+        elseif ($path === 'search.php') return url('Search/index', $params);
         elseif ($path === 'guanjianci.php') return url('GuanJianCi/index', $params);
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;

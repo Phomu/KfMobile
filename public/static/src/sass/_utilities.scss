@@ -7,3 +7,7 @@
 .text-overflow {
   @include text-overflow();
 }
+
+.text-default {
+  color: $body-color;
+}
