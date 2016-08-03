@@ -458,7 +458,14 @@ var addSmileCode = function () {
         var code = '[s:' + $(this).data('id') + ']';
         addCode(textArea, code, '');
         textArea.blur();
-    }).parent().on('hide.bs.dropdown', function (e) {
+    }).parent().on('shown.bs.dropdown', function () {
+        $('.smile-panel img').each(function () {
+            var $this = $(this);
+            if (!$this.attr('src')) {
+                $this.attr('src', $this.data('src'));
+            }
+        });
+    }).on('hide.bs.dropdown', function (e) {
         var $relatedTarget = $(e.relatedTarget);
         if (!$relatedTarget.data('open')) $relatedTarget.removeData('open');
         else return e.preventDefault();
