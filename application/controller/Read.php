@@ -11,6 +11,11 @@ use app\responser;
  */
 class Read extends Base
 {
+    /**
+     * 展示主题页面
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         $fpage = input('fpage/d', 0);

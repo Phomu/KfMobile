@@ -11,6 +11,11 @@ use app\responser;
  */
 class GuanJianCi extends Base
 {
+    /**
+     * 展示关键词页面
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         $response = Proxy::get('guanjianci.php', $request->param());

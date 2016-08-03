@@ -11,6 +11,11 @@ use app\responser;
  */
 class Search extends Base
 {
+    /**
+     * 展示搜索页面
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         $response = Proxy::post('search.php', $request->param());

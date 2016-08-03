@@ -5,20 +5,22 @@ use think\Request;
 use app\lib\Proxy;
 use app\responser;
 
+/**
+ * 身份页面控制器
+ * @package app\controller
+ */
 class Profile extends Base
 {
+    /**
+     * 展示详细信息页面
+     * @param Request $request
+     * @return mixed
+     */
     public function show(Request $request)
     {
-        $uid = $request->param('uid', '');
-        $userName = $request->param('username', '');
-        if (!empty($userName)) $userName = mb_convert_encoding($userName, config('remote_site_encoding'), config('site_encoding'));
-        $param = '';
-        if (!empty($uid)) {
-            $param .= '&uid=' . $uid;
-        }
-        if (!empty($userName)) {
-            $param .= '&username=' . $userName;
-        }
-        $this->redirect('/profile.php?action=show' . $param);
+        $response = Proxy::get('profile.php?action=show', $request->param());
+        $profile = new responser\Profile($response);
+        $this->assign($profile->show());
+        return $this->fetch('Profile/show');
     }
 }

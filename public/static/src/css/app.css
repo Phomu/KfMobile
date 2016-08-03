@@ -6911,6 +6911,9 @@ a.text-danger:focus, a.text-danger:hover {
 .text-default {
   color: #373a3c; }
 
+.list-group-sm .list-group-item {
+  padding: 0.5714rem; }
+
 body {
   padding-top: 3.375rem; }
 
@@ -7136,11 +7139,15 @@ main {
 .vote-group {
   max-height: 370px;
   overflow-y: auto; }
-  .vote-group .list-group-item {
-    padding: 0.5714rem; }
-    .vote-group .list-group-item .form-check {
-      margin-bottom: 0.3571rem; }
-      .vote-group .list-group-item .form-check .form-check-label {
-        padding-left: 0; }
-    .vote-group .list-group-item .progress {
-      margin-bottom: 0; }
+  .vote-group .list-group-item .form-check {
+    margin-bottom: 0.3571rem; }
+    .vote-group .list-group-item .form-check .form-check-label {
+      padding-left: 0; }
+  .vote-group .list-group-item .progress {
+    margin-bottom: 0; }
+
+.user-avatar {
+  display: block;
+  margin: 0 auto 1rem;
+  max-width: 140px;
+  max-height: 200px; }

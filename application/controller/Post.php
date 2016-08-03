@@ -11,6 +11,10 @@ use app\responser;
  */
 class Post extends Base
 {
+    /**
+     * 回复帖子
+     * @param Request $request
+     */
     public function reply(Request $request)
     {
         if (!$request->isPost()) return error('非法请求');

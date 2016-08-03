@@ -4,10 +4,19 @@
 @include font-size-make(sm, $font-size-sm);
 @include font-size-make(xs, $font-size-xs);
 
+// 文字溢出
 .text-overflow {
   @include text-overflow();
 }
 
+// 默认文字颜色
 .text-default {
   color: $body-color;
+}
+
+// 列表组（小）
+.list-group-sm {
+  .list-group-item {
+    padding: $spacer-sm;
+  }
 }
