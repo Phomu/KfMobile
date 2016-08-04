@@ -17,7 +17,7 @@ return [
     // 静态资源目录的路径
     'static_path' => 'static/dist/',
     // 是否使用CDN传输部分静态资源文件（如jquery.js、bootstrap.js）
-    'static_file_cdn' => true,
+    'static_file_cdn' => false,
     // 静态资源文件时间戳
     'static_file_timestamp' => '',
     // KF cookie的前缀
@@ -221,7 +221,7 @@ return [
         // SESSION_ID的提交变量,解决flash上传跨域
         'var_session_id' => '',
         // SESSION 前缀
-        'prefix' => 'think',
+        'prefix' => 'kf',
         // 驱动方式 支持redis memcache memcached
         'type' => '',
         // 是否自动开启 SESSION

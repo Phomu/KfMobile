@@ -97,26 +97,45 @@
   <!-- 分页导航 -->
   <nav class="text-xs-center">
     <ul class="pagination">
-      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
         <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=1')}">首页</a>
       </li>
-      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+      <li class="page-item">
         <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
       </li>
+      {/eq}
       <li class="page-item active">
         <a class="page-link" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>
-      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$totalPageNum}页">
+          <span aria-hidden="true">..{$totalPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
         <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
       </li>
-      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
-        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $maxPageNum)}">
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$totalPageNum}页">
           <span aria-hidden="true">..{$totalPageNum}页</span>
-          <span class="sr-only">第{$totalPageNum}页</span>
         </a>
       </li>
+      {/eq}
     </ul>
   </nav>
 
@@ -188,26 +207,45 @@
   <!-- 分页导航 -->
   <nav class="text-xs-center">
     <ul class="pagination">
-      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
         <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=1')}">首页</a>
       </li>
-      <li class="page-item {eq name='currentPageNum' value='1'}disabled{/eq}">
+      <li class="page-item">
         <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
       </li>
+      {/eq}
       <li class="page-item active">
         <a class="page-link" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>
-      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$totalPageNum}页">
+          <span aria-hidden="true">..{$totalPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
         <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
       </li>
-      <li class="page-item {eq name='currentPageNum' value='$maxPageNum'}disabled{/eq}">
-        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $maxPageNum)}">
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$totalPageNum}页">
           <span aria-hidden="true">..{$totalPageNum}页</span>
-          <span class="sr-only">第{$totalPageNum}页</span>
         </a>
       </li>
+      {/eq}
     </ul>
   </nav>
 </main>
