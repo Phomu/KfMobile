@@ -166,6 +166,7 @@
 
   <!-- 楼层内容 -->
   {volist name="floorList" id="vo"}
+  {if condition="$i === count($floorList)"}<a id="a"></a>{/if}
   <a name="{$vo.pid}"></a>
   <article class="read-floor" style="border-color: {$vo.smColor};">
     <!-- 楼层顶部 -->
@@ -234,7 +235,6 @@
     </footer>
   </article>
   {/volist}
-  <a id="a"></a>
 
   <!-- 分页导航 -->
   <nav class="text-xs-center">
