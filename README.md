@@ -64,7 +64,7 @@ Nginx虚拟主机配置参考：
     
         location / {
             if (!-e $request_filename) {
-                rewrite ^/index.php/(.*)$ /$1 redirect;
+                rewrite ^/index.php/(.*)$ /index.php?s=$1 last;
                 rewrite ^/(.*)$ /index.php?s=$1 last;
                 break;
             }
