@@ -559,6 +559,15 @@ var copyCode = function () {
 };
 
 /**
+ * 检查捐款按钮状态
+ */
+var checkDonationBtnStatus = function () {
+    if ($('form[name="rvrc1"] .input-group-addon:contains("已捐款")').length > 0) {
+        $('form[name="rvrc1"]').find('input, button').prop('disabled', true);
+    }
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -588,6 +597,8 @@ $(function () {
         handlePageNav('search/index');
     } else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
+    } else if (pageId === 'growUpPage') {
+        checkDonationBtnStatus();
     }
 
     //$('[data-toggle="tooltip"]').tooltip();

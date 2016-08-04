@@ -63,6 +63,7 @@ function convert_url($url)
         elseif ($path === 'read.php') return url('Read/index', $params) . $anchor;
         elseif ($path === 'search.php') return url('Search/index', $params);
         elseif ($path === 'guanjianci.php') return url('GuanJianCi/index', $params);
+        elseif ($path === 'kf_growup.php') return url('GrowUp/index');
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {

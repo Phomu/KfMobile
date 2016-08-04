@@ -208,5 +208,36 @@ main {
   }
 }
 
+
+/* 各页面样式 */
 @import "read";
-@import "user";
+
+// 用户头像（个人信息页面）
+.user-avatar {
+  display: block;
+  margin: 0 auto $spacer;
+  max-width: 140px;
+  max-height: 200px;
+}
+
+// 等级经验进度条
+#expProgress {
+  height: 1.428rem; // ~20px
+}
+
+// ID颜色选择项目
+.id-color-item {
+  height: 3.571rem; // ~50px
+  padding: 0;
+  color: #fff;
+  line-height: 3.571rem; // ~50px
+  text-align: center;
+
+  a {
+    color: #fff;
+  }
+
+  span {
+    font-size: $font-size-sm;
+  }
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="growUpPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">等级经验</li>
+  </ol>
+
+  <!-- 等级经验 -->
+  <section>
+    <p class="text-danger text-xs-center">{$expInfo}</p>
+    {if condition="$expPercent >= 90"} {assign name="expColor" value="danger" /}
+    {elseif condition="$expPercent >= 60"} {assign name="expColor" value="warning" /}
+    {elseif condition="$expPercent >= 30"} {assign name="expColor" value="success" /}
+    {else /} {assign name="expColor" value="info" /}
+    {/if}
+    <div class="text-{$expColor}">
+      <span class="pull-xs-right">还需{$expRemain}成长经验值</span>
+      <span>已完成 {$expPercent}%</span>
+    </div>
+    <progress class="progress progress-striped progress-{$expColor}" id="expProgress" value="{$expPercent}" max="100"></progress>
+  </section>
+
+  <!-- 捐款 -->
+  <h5><i class="fa fa-signal" aria-hidden="true"></i> 捐款</h5>
+  <section class="card">
+    <div class="card-block p-a-1">
+      <p class="font-size-sm text-muted">
+        捐款是通过KFB换取成长经验值的一个方式<br>
+        每天仅限一次，每次最高5000KFB，最低1KFB<br>
+        如果有成长加速，每天捐1KFB即可获得加速的奖励<br>
+        输入捐款数额（最小1、最大5000，小数点将被舍去）
+      </p>
+      <form name="rvrc1" action="{:url('GrowUp/donation')}" method="post">
+        <div class="input-group">
+          {eq name="hasDonation" value="true"}
+          <span class="input-group-addon font-size-sm">今天已捐款</span>
+          {/eq}
+          <input class="form-control" name="kfb" type="number" min="1" max="5000" placeholder="捐款数额" required>
+          <div class="input-group-btn">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-yen" aria-hidden="true"></i> 捐款
+            </button>
+          </div>
+        </div>
+        <div class="text-danger font-size-sm">优惠期：每次捐款赠送50%成长经验</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 任务 -->
+  <h5><i class="fa fa-signal" aria-hidden="true"></i> 任务</h5>
+  <ul class="list-group list-group-sm m-b-1">
+    {volist name="jobList" id="vo"}
+    <li class="list-group-item">
+      <div>{$vo.name}</div>
+      <div class="font-size-sm text-muted">{$vo.exp}</div>
+    </li>
+    {/volist}
+  </ul>
+
+  <!-- 成长加速 -->
+  <h5><i class="fa fa-signal" aria-hidden="true"></i> 成长加速</h5>
+  <ul class="list-group list-group-sm m-b-1">
+    <li class="list-group-item">
+      <div>VIP加速</div>
+      <div class="font-size-sm text-muted">每天捐款附送100经验值</div>
+    </li>
+    <li class="list-group-item">
+      <div>神秘等级加速</div>
+      <div class="font-size-sm text-muted">每天捐款附加神秘等级等值的经验值</div>
+    </li>
+  </ul>
+
+  <!-- 自定义ID颜色 -->
+  <h5><i class="fa fa-signal" aria-hidden="true"></i> 自定义ID颜色</h5>
+  <section class="card">
+    <div class="card-block p-a-0">
+      <div class="font-size-sm text-muted p-a-1">你选择定义自己发帖时，自己的ID和发言框颜色，神秘等级越高，可选颜色越多。</div>
+      {volist name="colorList" id="vo"}
+      <div class="col-xs-6 col-sm-4 col-md-3 id-color-item" style="background-color: {$vo.color}">
+        {eq name="vo.id" value="0"}
+        <span>需{$vo.level}神秘等级</span>
+        {else /}
+        <a href="{:url('GrowUp/changeColor', 'safeid=' . $safeId . '&color=' . $vo['id'])}">选择该颜色</a>
+        {/eq}
+      </div>
+      {/volist}
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

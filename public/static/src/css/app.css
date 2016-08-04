@@ -7040,6 +7040,7 @@ main {
     margin: .214rem;
     cursor: pointer; }
 
+/* 各页面样式 */
 .read-floor {
   margin-left: -15px;
   margin-right: -15px;
@@ -7151,3 +7152,17 @@ main {
   margin: 0 auto 1rem;
   max-width: 140px;
   max-height: 200px; }
+
+#expProgress {
+  height: 1.428rem; }
+
+.id-color-item {
+  height: 3.571rem;
+  padding: 0;
+  color: #fff;
+  line-height: 3.571rem;
+  text-align: center; }
+  .id-color-item a {
+    color: #fff; }
+  .id-color-item span {
+    font-size: 0.875rem; }

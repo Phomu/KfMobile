@@ -57,8 +57,7 @@
           <div class="small text-muted">* 票</div>
           {else /}
           <progress class="progress progress-striped progress-{:get_color_from_number($i-1)}" value="{$vo.itemVoteCount}"
-                    max="{$voteTotalCount}">{$vo.itemVoteCount}票
-          </progress>
+                    max="{$voteTotalCount}"></progress>
           <div class="small text-{:get_color_from_number($i-1)}">
             {$vo.itemVoteCount} 票 ({:number_format($vo.itemVoteCount / ($voteTotalCount > 0 ? $voteTotalCount : 1) * 100 , 2)}%)
           </div>
