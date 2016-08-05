@@ -602,6 +602,8 @@ $(function () {
         highlightUnReadAtTipsMsg();
     } else if (pageId === 'growUpPage') {
         checkDonationBtnStatus();
+    } else if (pageId === 'myReplyPage') {
+        handlePageNav('personal/reply');
     }
 
     //$('[data-toggle="tooltip"]').tooltip();

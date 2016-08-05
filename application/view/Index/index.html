@@ -173,7 +173,7 @@
     </h4>
 
     <!-- 最新发表 List -->
-    <ul class="list-group" id="newPublishPanel" role="list">
+    <ul class="list-group" id="newPublishPanel">
       {volist name="newPublishList" id="vo"}
       <li class="list-group-item thread-link-group">
         <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'])}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>

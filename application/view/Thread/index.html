@@ -141,7 +141,7 @@
 
   <!-- 主题列表 -->
   <section class="row">
-    <ul class="list-group thread-list-group" id="thread" role="list">
+    <ul class="list-group thread-list-group">
       {volist name="threadList" id="vo"}
       <li class="list-group-item thread-list-item">
         <div class="thread-link-item">
@@ -170,7 +170,7 @@
         </div>
         <footer class="thread-item-footer">
           <small class="col-xs-4">
-            <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="发帖人" aria-label="发帖人">
+            <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
             </a>
@@ -189,7 +189,7 @@
             </span>
           </small>
           <small class="col-xs-4 text-xs-right">
-            <a href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}" title="最后回复人" aria-label="最后回复人">
+            <a href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}" title="最后回复者" aria-label="最后回复者">
               <i class="fa fa-reply" aria-hidden="true"></i>
               {$vo.lastReplier}
             </a>
