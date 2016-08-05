@@ -6955,6 +6955,8 @@ main {
   background-color: #202020; }
   .main-footer .version {
     color: #ec971f; }
+  .main-footer a {
+    color: #108ffd; }
 
 #backToTop {
   position: fixed;
@@ -7068,7 +7070,8 @@ main {
 
 .read-content {
   padding-top: 1rem;
-  padding-bottom: 1rem; }
+  padding-bottom: 1rem;
+  word-break: break-all; }
   .read-content .blockquote {
     margin-top: 0.5714rem;
     margin-bottom: 0.5714rem;
@@ -7099,7 +7102,6 @@ main {
     margin-top: 0.5714rem;
     margin-bottom: 0.5714rem;
     padding: 0.5714rem;
-    font-size: 0.875rem;
     text-align: left !important;
     border: 1px solid #ccc;
     border-radius: 0.25rem; }
@@ -7115,6 +7117,7 @@ main {
         margin-right: 0.5714rem; }
   .read-content .fieldset-alert {
     margin-bottom: 1rem;
+    font-size: 0.875rem;
     border-color: #d9534f; }
     .read-content .fieldset-alert legend {
       color: #d9534f; }

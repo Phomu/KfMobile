@@ -9,6 +9,8 @@ return [
     'static_file_timestamp' => '',
     // 网站统计脚本
     'stat_script' => '',
+    // 电脑版的url
+    'pc_version_base_url' => 'https://kf.miaola.info/',
     // 是否关闭网站，默认值：false
     //'site_close' => true,
 ];

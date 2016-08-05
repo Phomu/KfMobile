@@ -119,6 +119,8 @@ class Responser
             $imgPath = $matches[1];
         }
 
+        $pcVersionUrl = str_replace(config('proxy_base_url'), config('pc_version_base_url'), $this->response['remoteUrl']);
+
         $request = request();
         return [
             'title' => $title,
@@ -134,7 +136,7 @@ class Responser
             'baseFile' => $request->baseFile(),
             'urlType' => config('url_common_param') ? 2 : 1,
             'urlParam' => http_build_query($request->param()),
-            'remoteUrl' => $this->response['remoteUrl'],
+            'pcVersionUrl' => $pcVersionUrl,
         ];
     }
 

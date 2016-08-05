@@ -39,6 +39,7 @@
     top: $spacer;
     bottom: $spacer;
   }
+  word-break: break-all;
 
   // 引用框
   .blockquote {
@@ -93,7 +94,6 @@
       bottom: $spacer-sm;
     }
     padding: $spacer-sm;
-    font-size: $font-size-sm;
     text-align: left !important;
     border: 1px solid $btn-secondary-border;
     border-radius: $border-radius;
@@ -120,6 +120,7 @@
   // 提示区域
   .fieldset-alert {
     margin-bottom: $spacer;
+    font-size: $font-size-sm;
     border-color: $btn-danger-border;
 
     legend {

@@ -5,7 +5,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 应用版本号
-    'app_version' => '0.6 alpha',
+    'app_version' => '0.7 alpha',
     // 反向代理目标域名的url
     'proxy_base_url' => 'http://www.9moe.com/',
     // 反向代理在尝试连接时的超时时间（秒)
@@ -14,6 +14,8 @@ return [
     'proxy_timeout' => 25,
     // 网站名称
     'site_name' => '绯月Galgame',
+    // 电脑版的url
+    'pc_version_base_url' => 'https://kf.miaola.info/',
     // 静态资源目录的路径
     'static_path' => 'static/dist/',
     // 是否使用CDN传输部分静态资源文件（如jquery.js、bootstrap.js）

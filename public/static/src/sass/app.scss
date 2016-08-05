@@ -87,6 +87,10 @@ main {
   .version {
     color: #ec971f;
   }
+
+  a {
+    color: lighten($link-color, 10%);
+  }
 }
 
 // 回到顶部按钮
@@ -207,7 +211,6 @@ main {
     cursor: pointer;
   }
 }
-
 
 /* 各页面样式 */
 @import "read";
