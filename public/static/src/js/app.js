@@ -376,10 +376,13 @@ var handleIndexThreadPanel = function () {
         var $target = $(e.target);
         readConfig();
         var panelName = $target.attr('href');
-        var typeName = 'activeNewReplyPanel';
-        if (panelName.indexOf('TopRecommendPanel') > 0) typeName = 'activeTopRecommendPanel';
-        config[typeName] = $target.attr('href');
-        writeConfig();
+        var typeName = '';
+        if (panelName.indexOf('NewReplyPanel') > 0) typeName = 'activeNewReplyPanel';
+        else if (panelName.indexOf('TopRecommendPanel') > 0) typeName = 'activeTopRecommendPanel';
+        if (typeName) {
+            config[typeName] = $target.attr('href');
+            writeConfig();
+        }
     });
 };
 
