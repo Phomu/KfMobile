@@ -4,9 +4,9 @@
       Powered by <a href="https://github.com/miaolapd/KfMobile" target="_blank">KfMobile</a>
       <b class="version">v{:config('app_version')}</b> &copy; 2016 喵拉布丁
     </div>
-    <div>
-      移动版&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{$pcVersionUrl}" target="_blank">电脑版</a>
-    </div>
+    {notempty name="pcVersionUrl"}
+    <div>移动版&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{$pcVersionUrl}" target="_blank">电脑版</a></div>
+    {/notempty}
   </div>
 </footer>
 
