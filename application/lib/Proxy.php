@@ -129,7 +129,9 @@ class Proxy
      */
     public static function post($url, $data)
     {
-        if (config('app_debug')) trace('POST请求：' . $url . '，请求数据：' . http_build_query($data));
+        if (config('app_debug') && !preg_match('/login\.php|profile\.php\?action=modify/', $url)) {
+            trace('POST请求：' . $url . '，请求数据：' . http_build_query($data));
+        }
         return self::request($url, $data);
     }
 

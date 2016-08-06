@@ -1,7 +1,7 @@
 <?php
 namespace app\responser;
 
-use think\Exception;
+use think\Cookie;
 
 /**
  * 响应类
@@ -74,10 +74,10 @@ class Responser
     {
         foreach ($cookies as $key => $value) {
             if (strpos($value, 'deleted') === 0) {
-                cookie($key, null);
+                Cookie::delete($key, '');
             } else {
                 if ($key === config('kf_cookie_prefix') . 'winduser') continue;
-                cookie($key, $value, ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);
+                Cookie::set($key, $value, ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);
             }
         }
     }
