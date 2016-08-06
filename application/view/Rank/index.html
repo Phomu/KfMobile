@@ -24,7 +24,11 @@
 
   <!-- 我的神秘系数排名 -->
   <div class="alert alert-danger text-xs-center" role="alert">
+    {empty name="myRank"}
+    我的神秘系数目前不在 <b>10000</b> 位以内
+    {else /}
     我的神秘系数当前位于第 <b>{$myRank}</b> 位
+    {/empty}
   </div>
 
   <!-- 分类导航 -->

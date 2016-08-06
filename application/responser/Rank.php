@@ -30,7 +30,7 @@ class Rank extends Responser
 
         // 我的神秘系数排名
         $myRank = '';
-        if (preg_match('/第\s*(.+?)\s*位/', pq('.kf_no11:first > tr > td > div > span')->text(), $matches)) {
+        if (preg_match('/第\s*(\d+)\s*位/', pq('.kf_no11:first > tr > td > div > span')->text(), $matches)) {
             $myRank = trim_strip($matches[1]);
         }
 
