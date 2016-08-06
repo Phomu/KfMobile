@@ -7169,3 +7169,14 @@ main {
     color: #fff; }
   .id-color-item span {
     font-size: 0.875rem; }
+
+#rankList {
+  white-space: nowrap; }
+  #rankList th, #rankList td {
+    padding-left: 0.5714rem;
+    padding-right: 0.5714rem;
+    text-align: center; }
+  #rankList thead th {
+    padding: 1rem; }
+  #rankList tbody th, #rankList tbody td {
+    font-size: 0.875rem; }

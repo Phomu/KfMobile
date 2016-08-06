@@ -244,3 +244,28 @@ main {
     font-size: $font-size-sm;
   }
 }
+
+// 论坛排行列表
+#rankList {
+  white-space: nowrap;
+
+  th, td {
+    padding: {
+      left: $spacer-sm;
+      right: $spacer-sm;
+    }
+    text-align: center;
+  }
+
+  thead {
+    th {
+      padding: $spacer;
+    }
+  }
+
+  tbody {
+    th, td {
+      font-size: $font-size-sm;
+    }
+  }
+}

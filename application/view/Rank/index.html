@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="rankPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">论坛排行</li>
+  </ol>
+
+  <!-- 我的神秘系数排名 -->
+  <div class="alert alert-danger text-xs-center" role="alert">
+    我的神秘系数当前位于第 <b>{$myRank}</b> 位
+  </div>
+
+  <!-- 分类导航 -->
+  <nav class="nav nav-pills nav-stacked m-b-1">
+    <a class="nav-link {eq name='type' value='sm'}active{/eq}" href="{:url('Rank/index?no1=sm')}">神秘系数排名</a>
+    <a class="nav-link {eq name='type' value='cz'}active{/eq}" href="{:url('Rank/index?no1=cz')}">成长经验排名</a>
+    <a class="nav-link {eq name='type' value='gz'}active{/eq}" href="{:url('Rank/index?no1=gz')}">被关注数排名</a>
+    <a class="nav-link {eq name='type' value='ft'}active{/eq}" href="{:url('Rank/index?no1=ft')}">本月发帖排名</a>
+    <a class="nav-link {eq name='type' value='gx'}active{/eq}" href="{:url('Rank/index?no1=gx')}">贡献属性排名</a>
+  </nav>
+
+  <!-- 排行列表 -->
+  <section class="row">
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-hover" id="rankList">
+        <thead>
+        <tr>
+          <th>名次</th>
+          <th>用户</th>
+          <th>神秘系数</th>
+          <th>成长经验</th>
+          <th>被关注数</th>
+          <th>本月发帖</th>
+          <th>贡献属性</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="rankList" id="vo"}
+        <tr class="{eq name='vo.userName' value='$userName'}table-warning{/eq}">
+          <th scope="row">{$vo.no}</th>
+          <td><a href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank">{$vo.userName}</a></td>
+          <td>{$vo.smLevel}</td>
+          <td>{$vo.exp}</td>
+          <td>{$vo.followNum}</td>
+          <td>{$vo.postNum}</td>
+          <td>{$vo.contribution}</td>
+        </tr>
+        {/volist}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

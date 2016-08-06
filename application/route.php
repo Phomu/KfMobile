@@ -9,4 +9,5 @@ return [
     'user/uid/:uid' => ['Profile/show', [], ['uid' => '\d+']],
     'user/username/:username' => 'Profile/show',
     'growup$' => 'GrowUp/index',
+    'rank' => 'Rank/index',
 ];
