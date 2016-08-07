@@ -26,12 +26,12 @@ use think\exception\ClassNotFoundException;
  */
 class Log
 {
-    const LOG    = 'log';
-    const ERROR  = 'error';
-    const INFO   = 'info';
-    const SQL    = 'sql';
+    const LOG = 'log';
+    const ERROR = 'error';
+    const INFO = 'info';
+    const SQL = 'sql';
     const NOTICE = 'notice';
-    const ALERT  = 'alert';
+    const ALERT = 'alert';
 
     // 日志信息
     protected static $log = [];
@@ -51,8 +51,8 @@ class Log
      */
     public static function init($config = [])
     {
-        $type         = isset($config['type']) ? $config['type'] : 'File';
-        $class        = false !== strpos($type, '\\') ? $type : '\\think\\log\\driver\\' . ucwords($type);
+        $type = isset($config['type']) ? $config['type'] : 'File';
+        $class = false !== strpos($type, '\\') ? $type : '\\think\\log\\driver\\' . ucwords($type);
         self::$config = $config;
         unset($config['type']);
         if (class_exists($class)) {
@@ -76,7 +76,7 @@ class Log
 
     /**
      * 记录调试信息
-     * @param mixed  $msg  调试信息
+     * @param mixed $msg 调试信息
      * @param string $type 信息类型
      * @return void
      */
@@ -96,7 +96,7 @@ class Log
 
     /**
      * 当前日志记录的授权key
-     * @param string  $key  授权key
+     * @param string $key 授权key
      * @return void
      */
     public static function key($key)
@@ -106,7 +106,7 @@ class Log
 
     /**
      * 检查日志写入权限
-     * @param array  $config  当前日志配置参数
+     * @param array $config 当前日志配置参数
      * @return bool
      */
     public static function check($config)
@@ -136,6 +136,17 @@ class Log
             if (empty(self::$config['level'])) {
                 // 获取全部日志
                 $log = self::$log;
+
+                // 排除phpQuery的部分错误日志
+                if (!empty($log) && isset($log['error'])) {
+                    $errors = [];
+                    foreach ($log['error'] as $error) {
+                        if (!strpos($error, 'DOMDocument::loadHTML()')) {
+                            $errors[] = $error;
+                        }
+                    }
+                    $log['error'] = $errors;
+                }
             } else {
                 // 记录允许级别
                 $log = [];
@@ -158,9 +169,9 @@ class Log
 
     /**
      * 实时写入日志信息 并支持行为
-     * @param mixed  $msg  调试信息
+     * @param mixed $msg 调试信息
      * @param string $type 信息类型
-     * @param bool   $force 是否强制写入
+     * @param bool $force 是否强制写入
      * @return bool
      */
     public static function write($msg, $type = 'log', $force = false)
