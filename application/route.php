@@ -10,4 +10,5 @@ return [
     'user/username/:username' => 'Profile/show',
     'growup$' => 'GrowUp/index',
     'rank' => 'Rank/index',
+    'share' => 'Share/index',
 ];
