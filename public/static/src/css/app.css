@@ -7071,12 +7071,13 @@ main {
 .read-content {
   padding-top: 1rem;
   padding-bottom: 1rem;
+  font-size: 1.1rem;
   word-break: break-all; }
   .read-content .blockquote {
     margin-top: 0.5714rem;
     margin-bottom: 0.5714rem;
     padding: 0.5714rem;
-    font-size: 1rem;
+    font-size: inherit;
     text-align: left !important;
     background-color: #f7f7f9;
     border-left-width: .3rem;
@@ -7088,16 +7089,16 @@ main {
     margin-top: 1rem;
     margin-bottom: 1rem;
     text-align: left !important;
-    background-color: #f7f7f9; }
+    background-color: #f7f7f9;
+    font-size: 0.875rem; }
     .read-content .code-area a {
-      line-height: 2.5;
-      font-size: 0.875rem; }
+      line-height: 2.5; }
     .read-content .code-area pre {
       padding-bottom: 0.5714rem;
-      font-size: 0.875rem; }
+      font-size: inherit; }
     .read-content .code-area .code-textarea {
       height: 340px;
-      font-size: 0.875rem; }
+      font-size: inherit; }
   .read-content fieldset {
     margin-top: 0.5714rem;
     margin-bottom: 0.5714rem;

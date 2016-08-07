@@ -39,6 +39,7 @@
     top: $spacer;
     bottom: $spacer;
   }
+  font-size: 1.1rem; // ~15.4px
   word-break: break-all;
 
   // 引用框
@@ -48,7 +49,7 @@
       bottom: $spacer-sm;
     }
     padding: $spacer-sm;
-    font-size: 1rem;
+    font-size: inherit;
     text-align: left !important;
     background-color: #f7f7f9;
     border-left: {
@@ -70,20 +71,20 @@
     }
     text-align: left !important;
     background-color: #f7f7f9;
+    font-size: $font-size-sm;
 
     a {
       line-height: 2.5;
-      font-size: $font-size-sm;
     }
 
     pre {
       padding-bottom: $spacer-sm;
-      font-size: $font-size-sm;
+      font-size: inherit;
     }
 
-    .code-textarea{
+    .code-textarea {
       height: 340px;
-      font-size: $font-size-sm;
+      font-size: inherit;
     }
   }
 
