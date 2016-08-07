@@ -58,7 +58,7 @@ return [
     // 注册的根命名空间
     'root_namespace' => [],
     // 扩展配置文件
-    'extra_config_list' => ['route'],
+    'extra_config_list' => [],
     // 扩展函数文件
     'extra_file_list' => [THINK_PATH . 'helper' . EXT],
     // 默认输出类型
@@ -115,8 +115,6 @@ return [
     'url_html_suffix' => '',
     // URL普通方式参数 用于自动生成
     'url_common_param' => false,
-    //url禁止访问的后缀
-    'url_deny_suffix' => 'ico|png|gif|jpg|jpeg|bmp',
     // URL参数方式 0 按名称成对解析 1 按顺序解析
     'url_param_type' => 0,
     // 是否开启路由
@@ -159,7 +157,7 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str' => [
-        '__PUBLIC__' => PUBLIC_PATH
+        '__PUBLIC__' => PUBLIC_PATH,
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl' => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

@@ -5,35 +5,6 @@ namespace traits\model;
 trait SoftDelete
 {
     /**
-     * 分析查询表达式
-     * @access public
-     * @param mixed         $data 主键列表或者查询条件（闭包）
-     * @param string        $with 关联预查询
-     * @param bool          $cache 是否缓存
-     * @return Query
-     */
-    protected static function parseQuery(&$data, $with, $cache)
-    {
-        $result = self::with($with)->cache($cache);
-        if (is_array($data) && key($data) !== 0) {
-            $result = $result->where($data);
-            $data   = null;
-        } elseif ($data instanceof \Closure) {
-            call_user_func_array($data, [ & $result]);
-            $data = null;
-        } elseif ($data instanceof Query) {
-            $result = $data->with($with)->cache($cache);
-            $data   = null;
-        }
-
-        if (static::$deleteTime) {
-            // 默认不查询软删除数据
-            $result->where(static::$deleteTime, 0);
-        }
-        return $result;
-    }
-
-    /**
      * 查询软删除数据
      * @access public
      * @return \think\db\Query
@@ -82,6 +53,35 @@ trait SoftDelete
     }
 
     /**
+     * 删除记录
+     * @access public
+     * @param mixed $data 主键列表 支持闭包查询条件
+     * @param bool  $force 是否强制删除
+     * @return integer 成功删除的记录数
+     */
+    public static function destroy($data, $force = false)
+    {
+        $model = new static();
+        $query = $model->db();
+        if (is_array($data) && key($data) !== 0) {
+            $query->where($data);
+            $data = null;
+        } elseif ($data instanceof \Closure) {
+            call_user_func_array($data, [ & $query]);
+            $data = null;
+        }
+        $resultSet = $query->select($data);
+        $count     = 0;
+        if ($resultSet) {
+            foreach ($resultSet as $data) {
+                $result = $data->delete($force);
+                $count += $result;
+            }
+        }
+        return $count;
+    }
+
+    /**
      * 恢复被软删除的记录
      * @access public
      * @return integer
@@ -96,29 +96,16 @@ trait SoftDelete
         return false;
     }
 
-    public function __call($method, $args)
+    /**
+     * 查询默认不包含软删除数据
+     * @access protected
+     * @return void
+     */
+    protected static function base($query)
     {
-        if (method_exists($this, 'scope' . $method)) {
-            // 动态调用命名范围
-            $method = 'scope' . $method;
-            array_unshift($args, $this->db());
-            call_user_func_array([$this, $method], $args);
-            return $this;
-        } else {
-            $query = $this->db();
+        if (static::$deleteTime) {
             $query->where(static::$deleteTime, 0);
-            return call_user_func_array([$this->db(), $method], $args);
         }
     }
 
-    public static function __callStatic($method, $params)
-    {
-        $model = get_called_class();
-        if (!isset(self::$links[$model])) {
-            self::$links[$model] = (new static())->db();
-        }
-        $query = self::$links[$model];
-        $query->where(static::$deleteTime, 0);
-        return call_user_func_array([$query, $method], $params);
-    }
 }
