@@ -269,3 +269,23 @@ main {
     }
   }
 }
+
+// 游戏搜索列表
+.game-search-list {
+  .media {
+    padding: $spacer-sm;
+    border: 1px solid $list-group-border-color;
+    border-radius: $list-group-border-radius;
+    background-color: #fff;
+    &:hover {
+      background-color: $list-group-hover-bg;
+    }
+
+    .media-left {
+      img {
+        max-width: 5rem; // ~70px
+        max-height: 7.2rem; // ~100.8px
+      }
+    }
+  }
+}

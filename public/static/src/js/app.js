@@ -571,6 +571,14 @@ var checkDonationBtnStatus = function () {
 };
 
 /**
+ * 处理游戏搜索区域
+ */
+var handleGameIntroSearchArea = function () {
+    $('#gameSearchKeyword').val(pageInfo.keyword);
+    $('#gameSearchType').val(pageInfo.searchType);
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -604,6 +612,9 @@ $(function () {
         checkDonationBtnStatus();
     } else if (pageId === 'myReplyPage') {
         handlePageNav('personal/reply');
+    } else if (pageId === 'gameIntroSearchPage') {
+        handlePageNav('game_intro/search');
+        handleGameIntroSearchArea();
     }
 
     //$('[data-toggle="tooltip"]').tooltip();

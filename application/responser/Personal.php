@@ -33,7 +33,7 @@ class Personal extends Responser
         $currentPageNum = 1;
         $totalPageNum = 1;
         $maxPageNum = 1;
-        $pageParam = [];
+        $pageParam = '';
         $pqPages = pq('.pages:first');
         if (preg_match('/-\s*(\d+)\s*-/', $pqPages->find('li > a[href="javascript:;"]')->text(), $matches)) {
             $currentPageNum = intval($matches[1]);

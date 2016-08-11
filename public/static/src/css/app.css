@@ -7181,3 +7181,14 @@ main {
     padding: 1rem; }
   #rankList tbody th, #rankList tbody td {
     font-size: 0.875rem; }
+
+.game-search-list .media {
+  padding: 0.5714rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  background-color: #fff; }
+  .game-search-list .media:hover {
+    background-color: #f5f5f5; }
+  .game-search-list .media .media-left img {
+    max-width: 5rem;
+    max-height: 7.2rem; }
