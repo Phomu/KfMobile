@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="gameIntroIndexPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">游戏介绍</li>
+  </ol>
+
+  <!-- 游戏介绍搜索 -->
+  <section>
+    <form name="so" action="/g_intro_s.php">
+      <div class="input-group m-b-1">
+        <input class="form-control" name="s" type="search" placeholder="关键字" aria-label="关键字">
+        <div class="input-group-btn">
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            搜索
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <select class="custom-select btn-block" name="l" aria-label="搜索类别">
+          <option value="game" selected>游戏(介绍/讨论/攻略等)</option>
+          <option value="inc">会社(公司/同人社团等)</option>
+          <option value="cv">人名(原画/剧本/声优等)</option>
+        </select>
+      </div>
+    </form>
+  </section>
+
+  <!-- 新作游戏关注排行 -->
+  <section class="row m-b-2">
+    <!-- 新作游戏关注排行 Tab -->
+    <ul class="nav nav-tabs m-b-1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#moonGameAttentionRankPanel" role="tab"
+           aria-controls="moonGameAttentionRankPanel">本月新作关注排行</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#nextMoonGameAttentionRankPanel" role="tab"
+           aria-controls="nextMoonGameAttentionRankPanel">下月新作关注排行</a>
+      </li>
+    </ul>
+
+    <!-- 新作游戏关注排行 Panel -->
+    <div class="tab-content">
+      <div class="tab-pane list-group list-group-sm active" id="moonGameAttentionRankPanel" role="tabpanel">
+        {volist name="moonGameAttentionRankList" id="vo"}
+        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        {/volist}
+        <a class="list-group-item font-weight-bold" href="/g_intro_moon.php">更多本月新作&raquo;</a>
+      </div>
+
+      <div class="tab-pane list-group list-group-sm" id="nextMoonGameAttentionRankPanel" role="tabpanel">
+        {volist name="nextMoonGameAttentionRankList" id="vo"}
+        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        {/volist}
+      </div>
+    </div>
+  </section>
+
+  <!-- 最新添加游戏介绍及所有游戏关注排行 -->
+  <section class="row m-b-2">
+    <!-- 最新添加游戏介绍及所有游戏关注排行 Tab -->
+    <ul class="nav nav-tabs m-b-1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#latestGameIntroPanel" role="tab"
+           aria-controls="latestGameIntroPanel">最新添加游戏介绍</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#allGameAttentionRankPanel" role="tab" aria-controls="allGameAttentionRankPanel">所有游戏关注排行</a>
+      </li>
+    </ul>
+
+    <!-- 最新游戏介绍及所有游戏关注排行 Panel -->
+    <div class="tab-content">
+      <div class="tab-pane list-group list-group-sm active" id="latestGameIntroPanel" role="tabpanel">
+        {volist name="latestGameIntroList" id="vo"}
+        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        {/volist}
+      </div>
+
+      <div class="tab-pane list-group list-group-sm" id="allGameAttentionRankPanel" role="tabpanel">
+        {volist name="allGameAttentionRankList" id="vo"}
+        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        {/volist}
+      </div>
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

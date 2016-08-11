@@ -49,6 +49,7 @@
   <section class="row">
     <div class="col-xs-7">
       <div class="btn-group" role="group" aria-label="主题分类">
+        {notempty name="threadTypeList"}
         <div class="btn-group" role="group">
           <button class="btn btn-secondary dropdown-toggle" id="threadTypeDropdownBtn" data-toggle="dropdown" type="button"
                   aria-haspopup="true" aria-expanded="false">
@@ -64,6 +65,7 @@
             {/volist}
           </div>
         </div>
+        {/notempty}
 
         <div class="btn-group" role="group" aria-label="主题排列类型">
           <button class="btn btn-secondary dropdown-toggle" id="threadSortByDropdownBtn" data-toggle="dropdown" type="button"
