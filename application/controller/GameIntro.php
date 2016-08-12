@@ -38,4 +38,20 @@ class GameIntro extends Base
         $this->assign($gameIntro->search());
         return $this->fetch('GameIntro/search');
     }
+
+    /**
+     * 展示本月新作页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function moon(Request $request)
+    {
+        $param = [];
+        $param['g_moon_y'] = input('year/d', '');
+        $param['g_moon_m'] = input('month/d', '');
+        $response = Proxy::get('g_intro_moon.php', $param);
+        $gameIntro = new responser\GameIntro($response);
+        $this->assign($gameIntro->moon());
+        return $this->fetch('GameIntro/moon');
+    }
 }

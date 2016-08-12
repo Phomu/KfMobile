@@ -289,3 +289,12 @@ main {
     }
   }
 }
+
+// 游戏图片轮播（本月新作页面）
+#moonGameImagesCarousel {
+  .carousel-item {
+    img {
+      height: 14.5rem; // ~203px
+    }
+  }
+}

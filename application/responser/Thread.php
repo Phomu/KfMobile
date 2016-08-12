@@ -184,10 +184,10 @@ class Thread extends Responser
             }
             $author = trim_strip($pqAuthor->text());
             $pqThreadInfoContents = $pqThreadInfoCell->contents();
-            if (preg_match('/(\d+(:|-)\d+)/i', $pqThreadInfoContents->eq(1), $matches)) {
+            if (preg_match('/(\d+(:|-)\d+)/i', $pqThreadInfoContents->eq(1)->text(), $matches)) {
                 $publishTime = $matches[1];
             }
-            if (preg_match('/(\S+)\s*\|\s*(\d+(:|-)\d+)/i', trim($pqThreadInfoContents->eq($pqThreadInfoContents->length - 1)), $matches)) {
+            if (preg_match('/(\S+)\s*\|\s*(\d+(:|-)\d+)/i', trim($pqThreadInfoContents->eq($pqThreadInfoContents->length - 1)->text()), $matches)) {
                 $lastReplier = $matches[1];
                 $lastReplyTime = $matches[2];
             }

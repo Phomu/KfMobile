@@ -29,14 +29,14 @@ class GameIntro extends Responser
         $matches = [];
 
         // 游戏介绍链接列表
-        $moonGameAttentionRankList = [];
-        $nextMoonGameAttentionRankList = [];
+        $currentMonthGameAttentionRankList = [];
+        $nextMonthGameAttentionRankList = [];
         $latestGameIntroList = [];
         $allGameAttentionRankList = [];
         foreach (pq('#intro_index_field1:lt(4)') as $i => $area) {
             $pqArea = pq($area);
-            if ($i === 0) $list = &$moonGameAttentionRankList;
-            elseif ($i === 1) $list = &$nextMoonGameAttentionRankList;
+            if ($i === 0) $list = &$currentMonthGameAttentionRankList;
+            elseif ($i === 1) $list = &$nextMonthGameAttentionRankList;
             elseif ($i === 2) $list = &$latestGameIntroList;
             else $list = &$allGameAttentionRankList;
 
@@ -53,8 +53,8 @@ class GameIntro extends Responser
         }
 
         $data = [
-            'moonGameAttentionRankList' => $moonGameAttentionRankList,
-            'nextMoonGameAttentionRankList' => $nextMoonGameAttentionRankList,
+            'currentMonthGameAttentionRankList' => $currentMonthGameAttentionRankList,
+            'nextMonthGameAttentionRankList' => $nextMonthGameAttentionRankList,
             'latestGameIntroList' => $latestGameIntroList,
             'allGameAttentionRankList' => $allGameAttentionRankList,
         ];
@@ -167,6 +167,95 @@ class GameIntro extends Responser
             'maxPageNum' => $maxPageNum,
             'pageParam' => $pageParam,
             'gameList' => $gameList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取本月新作页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function moon($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 年份、月份列表
+        $yearList = [];
+        $monthList = [];
+        foreach (pq('.pages') as $i => $items) {
+            $pqItems = pq($items);
+            if ($i === 0) $list = &$yearList;
+            else $list = &$monthList;
+
+            foreach ($pqItems->find('li') as $item) {
+                $pqItem = pq($item);
+                $year = 0;
+                $month = 0;
+                if (preg_match('/g_moon_y=(\d+)&g_moon_m=(\d+)/i', $pqItem->find('a')->attr('href'), $matches)) {
+                    $year = intval($matches[1]);
+                    $month = intval($matches[2]);
+                }
+                $name = trim_strip($pqItem->text());
+                $list[] = ['year' => $year, 'month' => $month, 'name' => $name];
+            }
+        }
+
+        // 该月标题
+        $pqMoonTitle = pq('div[style="font-size:18px;font-weight:bold;"]:contains("发售的游戏列表（按日期时间排列）")');
+        $moonTitle = trim_strip($pqMoonTitle->text());
+        $moonTitle = str_replace('（按日期时间排列）', '', $moonTitle);
+
+        // 该月游戏图片
+        $gameImgList = [];
+        foreach (pq('img[src$="title_s.jpg"]') as $item) {
+            $pqItem = pq($item);
+            $pqParent = $pqItem->parent();
+            $id = 0;
+            $img = '';
+            $gameName = '';
+            $img = $pqItem->attr('src');
+            if (preg_match('/id=(\d+)/i', $pqParent->attr('href'), $matches)) {
+                $id = intval($matches[1]);
+            }
+            $pqContents = $pqParent->contents();
+            $gameName = trim_strip($pqContents->eq($pqContents->length - 1)->text());
+            $gameImgList[] = ['id' => $id, 'img' => $img, 'name' => $gameName];
+        }
+
+        // 该月游戏列表
+        $moonGameList = [];
+        foreach (explode('<br><br>', $pqMoonTitle->next('div')->html()) as $html) {
+            if (preg_match('/\[\s*([\d\-]+)\s*\]\s*<a href="g_intro\.php\?id=(\d+)" target="_blank">([^<>]+)<\/a>\s*(.+)/i', trim($html), $matches)) {
+                $id = intval($matches[2]);
+                $gameName = trim($matches[3]);
+                $sellTime = $matches[1];
+                $property = trim($matches[4]);
+                $moonGameList[] = ['id' => $id, 'name' => $gameName, 'sellTime' => $sellTime, 'property' => $property];
+            }
+        }
+
+        $data = [
+            'yearList' => array_reverse($yearList),
+            'monthList' => array_reverse($monthList),
+            'gameImgList' => $gameImgList,
+            'moonTitle' => $moonTitle,
+            'moonGameList' => $moonGameList,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');

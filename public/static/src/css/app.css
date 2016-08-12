@@ -7192,3 +7192,6 @@ main {
   .game-search-list .media .media-left img {
     max-width: 5rem;
     max-height: 7.2rem; }
+
+#moonGameImagesCarousel .carousel-item img {
+  height: 14.5rem; }
