@@ -94,12 +94,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "5fb2c67f60e0ddd6fd8a672394d84bd8df630c45"
+            "reference": "699f268232fdcadc9b71be3d3e8215d21d502b6c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/framework/5fb2c67f60e0ddd6fd8a672394d84bd8df630c45.zip",
-            "reference": "5fb2c67f60e0ddd6fd8a672394d84bd8df630c45",
+            "url": "https://packagist.phpcomposer.com/files/top-think/framework/699f268232fdcadc9b71be3d3e8215d21d502b6c.zip",
+            "reference": "699f268232fdcadc9b71be3d3e8215d21d502b6c",
             "shasum": ""
         },
         "require": {
@@ -115,7 +115,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2016-08-07 04:46:11",
+        "time": "2016-08-12 09:36:55",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",

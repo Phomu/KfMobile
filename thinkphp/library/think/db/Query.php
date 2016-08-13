@@ -728,11 +728,11 @@ class Query
         }
         if (true === $field) {
             // 获取全部字段
-            $fields = isset($this->options['allow_field']) ? $this->options['allow_field'] : $this->getTableInfo($tableName, 'fields');
+            $fields = isset($this->options['allow_field']) ? $this->options['allow_field'] : $this->getTableInfo($tableName ?: (isset($this->options['table']) ? $this->options['table'] : ''), 'fields');
             $field  = $fields ?: ['*'];
         } elseif ($except) {
             // 字段排除
-            $fields = isset($this->options['allow_field']) ? $this->options['allow_field'] : $this->getTableInfo($tableName, 'fields');
+            $fields = isset($this->options['allow_field']) ? $this->options['allow_field'] : $this->getTableInfo($tableName ?: (isset($this->options['table']) ? $this->options['table'] : ''), 'fields');
             $field  = $fields ? array_diff($fields, $field) : $field;
         }
         if ($tableName) {
@@ -749,7 +749,7 @@ class Query
         if (isset($this->options['field'])) {
             $field = array_merge($this->options['field'], $field);
         }
-        $this->options['field'] = $field;
+        $this->options['field'] = array_unique($field);
         return $this;
     }
 
@@ -1415,8 +1415,10 @@ class Query
     {
         $types = $this->getFieldsType($options);
         $bind  = [];
-        foreach ($types as $key => $type) {
-            $bind[$key] = $this->getFieldBindType($type);
+        if ($types) {
+            foreach ($types as $key => $type) {
+                $bind[$key] = $this->getFieldBindType($type);
+            }
         }
         return $bind;
     }
@@ -2031,7 +2033,7 @@ class Query
     public function chunk($count, $callback, $column = null)
     {
         $options   = $this->getOptions();
-        $column    = $column ?: ($options['pk'] ?: $this->getPk());
+        $column    = $column ?: $this->getPk();
         $bind      = $this->bind;
         $resultSet = $this->limit($count)->order($column, 'asc')->select();
 

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace think\console\command\optimize;
 
-use think\console\command\Command;
+use think\console\Command;
 use think\console\Input;
 use think\console\Output;
 
@@ -37,7 +37,7 @@ class Route extends Command
         foreach ($files as $file) {
             if (is_file(CONF_PATH . $file . CONF_EXT)) {
                 $config = include CONF_PATH . $file . CONF_EXT;
-                if ($config) {
+                if (is_array($config)) {
                     \think\Route::import($config);
                 }
             }
