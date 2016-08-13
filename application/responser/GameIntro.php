@@ -128,7 +128,7 @@ class GameIntro extends Responser
             $id = 0;
             $gameName = '';
             $aliasName = '';
-            $inc = '';
+            $company = '';
             $sellTime = '';
             $gameType = '';
             $property = '';
@@ -140,7 +140,7 @@ class GameIntro extends Responser
             $gameName = trim_strip($pqLink->text());
             if (preg_match('/别名：(.*?)<br><br>会社：(.*?)发售时间:(.+?)<br><br>类型：(.*?)属性：(.*)/', $pqLinkCell->html(), $matches)) {
                 $aliasName = trim($matches[1]);
-                $inc = trim($matches[2]);
+                $company = trim($matches[2]);
                 $sellTime = trim($matches[3]);
                 $gameType = trim($matches[4]);
                 $property = trim($matches[5]);
@@ -151,7 +151,7 @@ class GameIntro extends Responser
                 'id' => $id,
                 'gameName' => $gameName,
                 'aliasName' => $aliasName,
-                'inc' => $inc,
+                'company' => $company,
                 'sellTime' => $sellTime,
                 'type' => $gameType,
                 'property' => $property,
@@ -256,6 +256,106 @@ class GameIntro extends Responser
             'gameImgList' => $gameImgList,
             'moonTitle' => $moonTitle,
             'moonGameList' => $moonGameList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取游戏介绍页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function game($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        $pqArea = pq('.intro1');
+
+        // 游戏ID及名称
+        $gameId = 0;
+        $gameName = '';
+        if (preg_match('/id=(\d+)/i', pq('a[href*="tui=1"]')->attr('href'), $matches)) {
+            $gameId = intval($matches[1]);
+        }
+        $gameName = $pqArea->find('> tr:first-child > td')->text();
+        $gameName = trim_strip(str_replace(' - 游戏介绍', '', $gameName));
+
+        // 游戏基本信息
+        $pqInfoArea = $pqArea->find('> tr:nth-child(2)');
+        $pqCoverCell = $pqInfoArea->find('> td:first-child');
+        $largeCover = $pqCoverCell->find('a')->attr('href');
+        $smallCover = $pqCoverCell->find('a > img')->attr('src');
+        $tuiNum = trim_strip($pqCoverCell->find('span:first')->text());
+        $gameInfo = common_replace_html_tag($pqInfoArea->find('> td:nth-child(2)')->html());
+        $gameInfo = str_ireplace('别名：<br>', '别名：无<br>', $gameInfo);
+        $gameInfo = str_ireplace('<span style="color: #0066ff;">资料来源', '<span class="text-danger">资料来源', $gameInfo);
+        $gameInfo = str_ireplace('</a>.<br>', '</a><br>', $gameInfo);
+        $gameInfo = str_ireplace('</a>.<a', '</a>&nbsp;&nbsp;<a', $gameInfo);
+        $gameInfo = preg_replace_callback(
+            '/初版正式发售日：(\d+)-(\d+)-(\d+)/',
+            function ($matches) {
+                return sprintf(
+                    '初版正式发售日：<a href="%s">%d-%d-%d</a>',
+                    url('GameIntro/moon', 'year=' . $matches[1] . '&month=' . $matches[2]),
+                    $matches[1],
+                    $matches[2],
+                    $matches[3]
+                );
+            },
+            $gameInfo
+        );
+
+        // 游戏额外信息
+        $pqExtraInfoCell = $pqArea->find('> tr:nth-child(3) > td');
+        $gameImgList = [];
+        foreach ($pqExtraInfoCell->find('div:first > a') as $item) {
+            $pqItem = pq($item);
+            $largeImg = $pqItem->attr('href');
+            $smallImg = $pqItem->find('img')->attr('src');
+            $gameImgList[] = ['largeImg' => $largeImg, 'smallImg' => $smallImg];
+        }
+        $pqExtraInfoCell->find('div:first')->remove();
+        $gameExtraInfo = common_replace_html_tag($pqExtraInfoCell->html());
+        $gameExtraInfo = preg_replace('/^[\s\n]*(<br>)+|(<br>)+[\s\n]*$/i', '', $gameExtraInfo);
+        $gameExtraInfo = preg_replace('/(<br>){4,}/i', '<br><br>', $gameExtraInfo);
+
+        // 人物列表
+        $characterList = [];
+        foreach ($pqArea->find('> tr:gt(2):not(:empty)') as $item) {
+            $pqItem = pq($item);
+            $img = $pqItem->find('td:first-child > img')->attr('src');
+            $intro = common_replace_html_tag($pqItem->find('td:nth-child(2)')->html());
+            $intro = preg_replace('/^[\s\n]*(<br>)+|(<br>)+[\s\n]*$/i', '', $intro);
+            $intro = str_ireplace('　CV：', '<br>CV：', $intro);
+            $intro = preg_replace('/　　|　 /', '<br>', $intro);
+            $characterList[] = ['img' => $img, 'intro' => $intro];
+        }
+
+        $data = [
+            'gameId' => $gameId,
+            'gameName' => $gameName,
+            'largeCover' => $largeCover,
+            'smallCover' => $smallCover,
+            'tuiNum' => $tuiNum,
+            'gameInfo' => $gameInfo,
+            'gameImgList' => $gameImgList,
+            'gameExtraInfo' => $gameExtraInfo,
+            'characterList' => $characterList,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');

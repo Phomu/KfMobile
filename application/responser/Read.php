@@ -329,48 +329,9 @@ class Read extends Responser
      */
     protected function replaceFloorContent($html)
     {
-        $html = preg_replace('/<strike>(.+?)<\/strike>/i', '<s>$1</s>', $html);
-        $html = preg_replace_callback('/<font size="(\d+)">/i',
-            function ($matches) {
-                $fontSize = 14;
-                switch (intval($matches[1])) {
-                    case 1:
-                        $fontSize = 10;
-                        break;
-                    case 2:
-                        $fontSize = 13;
-                        break;
-                    case 3:
-                        $fontSize = 16;
-                        break;
-                    case 4:
-                        $fontSize = 18;
-                        break;
-                    case 5:
-                        $fontSize = 24;
-                        break;
-                    case 6:
-                        $fontSize = 32;
-                        break;
-                    case 7:
-                        $fontSize = 48;
-                        break;
-                }
-                return sprintf('<span style="font-size: %dpx;">', $fontSize);
-            },
-            $html
-        );
-        $html = preg_replace('/<font color="([#\w]+)">/i', '<span style="color: $1;">', $html);
-        $html = preg_replace('/<\/font>/i', '</span>', $html);
+        $html = common_replace_html_tag($html);
         $html = preg_replace('/<img src="(\d+\/)/i', '<img class="smile" alt="表情" src="/$1', $html);
         $html = preg_replace('/border="0" onclick="[^"]+" onload="[^"]+"/i', 'class="img" alt="图片"', $html);
-        $html = preg_replace_callback(
-            '/href="([^"]+)"/i',
-            function ($matches) {
-                return 'href="' . convert_url(convert_to_current_domain_url($matches[1])) . '"';
-            },
-            $html
-        );
         $html = preg_replace(
             '/\[audio\]([^\[]+)\[\/audio\](?!<\/fieldset>)/',
             '<audio src="$1" controls="controls" preload="none">[你的浏览器不支持audio标签]</audio>',

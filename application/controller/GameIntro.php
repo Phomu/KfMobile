@@ -54,4 +54,17 @@ class GameIntro extends Base
         $this->assign($gameIntro->moon());
         return $this->fetch('GameIntro/moon');
     }
+
+    /**
+     * 展示游戏介绍页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function game(Request $request)
+    {
+        $response = Proxy::get('g_intro.php', $request->param());
+        $gameIntro = new responser\GameIntro($response);
+        $this->assign($gameIntro->game());
+        return $this->fetch('GameIntro/game');
+    }
 }

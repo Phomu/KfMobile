@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  <script>
+    pageInfo.gameId = {$gameId};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="gameIntroPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">游戏介绍</li>
+  </ol>
+
+  {include file="GameIntro/searchArea" /}
+
+  <!-- 游戏标题 -->
+  <h5 class="text-xs-center m-b-1">
+    《{$gameName}》
+  </h5>
+
+  <!-- 游戏封面 -->
+  <div class="text-xs-center m-b-1">
+    <div class="m-b-1">
+      <a href="{$largeCover}">
+        <img class="img-thumbnail game-cover" src="{$smallCover}" alt="游戏封面">
+      </a>
+    </div>
+    <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
+      <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
+    </a>
+  </div>
+
+  <!-- 游戏基本信息 -->
+  <div class="card m-b-1">
+    <div class="card-block">
+      <p class="card-text">{$gameInfo}</p>
+    </div>
+  </div>
+
+  {notempty name="gameImgList"}
+  <!-- 游戏图片 -->
+  <div class="row carousel carousel-sm slide m-b-1" id="gameImagesCarousel" data-ride="carousel">
+    <ol class="carousel-indicators">
+      {volist name="gameImgList" id="vo"}
+      <li class="{eq name='i' value='1'}active{/eq}" data-target="#gameImagesCarousel" data-slide-to="{$i-1}"></li>
+      {/volist}
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      {volist name="gameImgList" id="vo"}
+      <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{$vo.largeImg}">
+        <img class="m-x-auto" src="{$vo.smallImg}" alt="游戏图片">
+      </a>
+      {/volist}
+    </div>
+    <a class="left carousel-control" data-slide="prev" href="#gameImagesCarousel" role="button">
+      <span class="icon-prev" aria-hidden="true"></span>
+      <span class="sr-only">上一幅</span>
+    </a>
+    <a class="right carousel-control" data-slide="next" href="#gameImagesCarousel" role="button">
+      <span class="icon-next" aria-hidden="true"></span>
+      <span class="sr-only">下一幅</span>
+    </a>
+  </div>
+  {/notempty}
+
+  {notempty name="gameExtraInfo"}
+  <!-- 游戏额外信息 -->
+  <div class="card m-b-1">
+    <div class="card-block">
+      <p class="card-text">{$gameExtraInfo}</p>
+    </div>
+  </div>
+  {/notempty}
+
+  {notempty name="characterList"}
+  <!-- 人物列表 -->
+  {volist name="characterList" id="vo"}
+  <div class="card text-xs-center">
+    <img class="card-img-top img-rounded character-img" src="{$vo.img}" alt="人物图片">
+    <div class="card-block text-xs-left">
+      <p class="card-text">{$vo.intro}</p>
+    </div>
+  </div>
+  {/volist}
+  {/notempty}
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

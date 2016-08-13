@@ -81,17 +81,17 @@
     {volist name="gameList" id="vo"}
     <li class="media">
       <div class="media-left">
-        <a href="/g_intro.php?id={$vo.id}">
+        <a href="{:url('GameIntro/game?id=' . $vo['id'])}">
           <img class="media-object img-rounded" src="{$vo.img}" alt="游戏图片">
         </a>
       </div>
       <div class="media-body">
         <h6 class="media-heading">
-          <a href="/g_intro.php?id={$vo.id}">{$vo.gameName}</a>
+          <a href="{:url('GameIntro/game?id=' . $vo['id'])}">{$vo.gameName}</a>
         </h6>
         <p class="font-size-sm m-b-0">
           别名：{$vo.aliasName|default="无"}<br>
-          会社：{$vo.inc}<br>
+          会社：{$vo.company}<br>
           发售时间：<time>{$vo.sellTime}</time><br>
           类型：{$vo.type}<br>
           属性：{$vo.property}

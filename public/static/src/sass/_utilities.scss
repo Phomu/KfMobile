@@ -14,9 +14,26 @@
   color: $body-color;
 }
 
-// 列表组（小）
+// 列表组（紧凑）
 .list-group-sm {
   .list-group-item {
     padding: $spacer-sm;
+  }
+}
+
+// 图片轮播（紧凑）
+.carousel-sm {
+  .carousel-caption {
+    bottom: 0;
+    padding-bottom: 10px;
+  }
+  .carousel-indicators {
+    bottom: 0;
+    margin-bottom: 0;
+  }
+  .carousel-item {
+    img {
+      height: 14.5rem; // ~203px
+    }
   }
 }

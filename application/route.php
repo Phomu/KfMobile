@@ -11,4 +11,5 @@ return [
     'growup$' => 'GrowUp/index',
     'rank' => 'Rank/index',
     'share' => 'Share/index',
+    'game/:id' => ['GameIntro/game', [], ['id' => '\d+']],
 ];

@@ -76,8 +76,13 @@ class Responser
             if (strpos($value, 'deleted') === 0) {
                 Cookie::delete($key, '');
             } else {
-                if ($key === config('kf_cookie_prefix') . 'winduser') continue;
-                Cookie::set($key, $value, ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);
+                if ($key === config('kf_cookie_prefix') . 'winduser') {
+                    continue;
+                } elseif (strpos($key, 'g_intro_tui_') === 0) {
+                    Cookie::set($key, $value, ['prefix' => '', 'expire' => 60 * 60 * 48, 'httponly' => '']);
+                } else {
+                    Cookie::set($key, $value, ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);
+                }
             }
         }
     }

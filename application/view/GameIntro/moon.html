@@ -65,7 +65,7 @@
 
   {notempty name="gameImgList"}
   <!-- 该月游戏图片 -->
-  <div class="row carousel slide m-b-1" id="moonGameImagesCarousel" data-ride="carousel">
+  <div class="row carousel carousel-sm slide m-b-1" id="moonGameImagesCarousel" data-ride="carousel">
     <ol class="carousel-indicators">
       {volist name="gameImgList" id="vo"}
       <li class="{eq name='i' value='1'}active{/eq}" data-target="#moonGameImagesCarousel" data-slide-to="{$i-1}"></li>
@@ -73,7 +73,7 @@
     </ol>
     <div class="carousel-inner" role="listbox">
       {volist name="gameImgList" id="vo"}
-      <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="/g_intro.php?id={$vo.id}">
+      <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{:url('GameIntro/game?id=' . $vo['id'])}">
         <img class="m-x-auto" src="{$vo.img}" alt="游戏图片">
         <div class="carousel-caption">
           <p>{$vo.name}</p>
@@ -99,7 +99,7 @@
       {volist name="moonGameList" id="vo"}
       <li class="list-group-item thread-list-item">
         <div class="thread-link-item">
-          <a class="thread-link" href="/g_intro.php?id={$vo.id}">
+          <a class="thread-link" href="{:url('GameIntro/game?id=' . $vo['id'])}">
             {$vo.name}
           </a>
         </div>

@@ -14,11 +14,12 @@ var config = {};
  * @param {string} [prefix] Cookie名称前缀，留空则表示使用{@link pageInfo.cookiePrefix}前缀
  */
 var setCookie = function (name, value, date, prefix) {
-    document.cookie = '{0}{1}={2}{3};path=/;'
-        .replace('{0}', typeof prefix === 'undefined' || prefix === null ? pageInfo.cookiePrefix : prefix)
-        .replace('{1}', name)
-        .replace('{2}', encodeURI(value))
-        .replace('{3}', !date ? '' : ';expires=' + date.toUTCString());
+    document.cookie =
+        '{0}{1}={2}{3};path=/;'
+            .replace('{0}', typeof prefix === 'undefined' || prefix === null ? pageInfo.cookiePrefix : prefix)
+            .replace('{1}', name)
+            .replace('{2}', encodeURI(value))
+            .replace('{3}', !date ? '' : ';expires=' + date.toUTCString());
 };
 
 /**
@@ -28,9 +29,10 @@ var setCookie = function (name, value, date, prefix) {
  * @returns {?string} Cookie值
  */
 var getCookie = function (name, prefix) {
-    var regex = new RegExp('(^| ){0}{1}=([^;]*)(;|$)'
-        .replace('{0}', typeof prefix === 'undefined' || prefix === null ? pageInfo.cookiePrefix : prefix)
-        .replace('{1}', name)
+    var regex = new RegExp(
+        '(^| ){0}{1}=([^;]*)(;|$)'
+            .replace('{0}', typeof prefix === 'undefined' || prefix === null ? pageInfo.cookiePrefix : prefix)
+            .replace('{1}', name)
     );
     var matches = document.cookie.match(regex);
     if (!matches) return null;
@@ -439,7 +441,6 @@ var handleBuyThreadBtn = function () {
         var pid = $this.data('pid');
         var price = $this.data('price');
         if (price > 5 && !window.confirm('此贴售价{0}KFB，是否购买？'.replace('{0}', price))) return;
-        //location.href = '/job.php?action=buytopic&tid={0}&pid={1}&verify={2}'
         location.href = makeUrl(
             'job/buytopic',
             'tid={0}&pid={1}&verify={2}'
@@ -514,7 +515,7 @@ var tuiThread = function () {
                     $num.text('+1');
                     window.setTimeout(function () {
                         $num.text(matches[1]);
-                    }, 1500);
+                    }, 1000);
                 }
                 else if (/已推过/.test(msg)) {
                     alert('已推过');
@@ -579,6 +580,40 @@ var handleGameIntroSearchArea = function () {
 };
 
 /**
+ * 推游戏
+ */
+var tuiGame = function () {
+    $('.tui-btn').click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        if ($this.data('wait')) return;
+        if (getCookie('g_intro_tui_' + pageInfo.gameId, '')) {
+            alert('你在48小时内已经推过');
+            return;
+        }
+        $this.data('wait', true);
+        $.ajax({
+            type: 'GET',
+            url: makeUrl('game_intro/game', 'id=' + pageInfo.gameId + '&tui=1'),
+            success: function () {
+                var $num = $this.find('span:first');
+                var num = parseInt($num.text());
+                $num.text('+1');
+                window.setTimeout(function () {
+                    $num.text(++num);
+                }, 1000);
+            },
+            error: function () {
+                alert('操作失败');
+            },
+            complete: function () {
+                $this.removeData('wait');
+            }
+        });
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -615,6 +650,8 @@ $(function () {
     } else if (pageId === 'gameIntroSearchPage') {
         handlePageNav('game_intro/search');
         handleGameIntroSearchArea();
+    } else if (pageId === 'gameIntroPage') {
+        tuiGame();
     }
 
     //$('[data-toggle="tooltip"]').tooltip();

@@ -19,7 +19,7 @@
   <!-- 面包屑导航 -->
   <ol class="breadcrumb m-b-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
-    <li class="breadcrumb-item active">游戏介绍</li>
+    <li class="breadcrumb-item active">游戏介绍首页</li>
   </ol>
 
   {include file="GameIntro/searchArea" /}
@@ -43,7 +43,7 @@
       <div class="tab-pane list-group list-group-sm active" id="currentMonthGameAttentionRankPanel" role="tabpanel">
         {notempty name="currentMonthGameAttentionRankList"}
         {volist name="currentMonthGameAttentionRankList" id="vo"}
-        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.title}</a>
         {/volist}
         {else /}
         <span class="list-group-item text-muted">暂无数据</span>
@@ -54,7 +54,7 @@
       <div class="tab-pane list-group list-group-sm" id="nextMonthGameAttentionRankPanel" role="tabpanel">
         {notempty name="nextMonthGameAttentionRankList"}
         {volist name="nextMonthGameAttentionRankList" id="vo"}
-        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.title}</a>
         {/volist}
         {else /}
         <span class="list-group-item text-muted">暂无数据</span>
@@ -80,13 +80,13 @@
     <div class="tab-content">
       <div class="tab-pane list-group list-group-sm active" id="latestGameIntroPanel" role="tabpanel">
         {volist name="latestGameIntroList" id="vo"}
-        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.title}</a>
         {/volist}
       </div>
 
       <div class="tab-pane list-group list-group-sm" id="allGameAttentionRankPanel" role="tabpanel">
         {volist name="allGameAttentionRankList" id="vo"}
-        <a class="list-group-item" href="/g_intro.php?id={$vo.id}" target="_blank">{$i}. {$vo.title}</a>
+        <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.title}</a>
         {/volist}
       </div>
     </div>
