@@ -182,7 +182,7 @@
             <a class="font-size-sm text-muted floor-num" href="{:url('Read/index?tid=' . $tid . '&spid=' . $vo['pid'])}" role="button">
               {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
             </a>
-            <a class="h5" href="{:url('Profile/show?uid=' . $vo['uid'])}" style="color: {$vo.smColor};">
+            <a class="floor-user" href="{:url('Profile/show?uid=' . $vo['uid'])}" style="color: {$vo.smColor};">
               {$vo.userName}
             </a>
             {eq name="vo.smLevel" value="*"}

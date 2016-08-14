@@ -78,7 +78,7 @@ class Search extends Responser
             $pqThreadInfoCell = $pqItem->find('td:last-child');
             $authorUid = '';
             $author = '';
-            $publishTime = '';
+            $lastReplyTime = '';
             $pqAuthor = $pqThreadInfoCell->find('a');
             if (preg_match('/uid=(\d+)/i', $pqAuthor->attr('href'), $matches)) {
                 $authorUid = intval($matches[1]);
@@ -86,7 +86,7 @@ class Search extends Responser
             $author = trim_strip($pqAuthor->text());
             $pqThreadInfoContents = $pqThreadInfoCell->contents();
             if (preg_match('/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i', $pqThreadInfoContents->eq($pqThreadInfoContents->length - 1), $matches)) {
-                $publishTime = $matches[0];
+                $lastReplyTime = $matches[0];
             }
 
             $threadList[] = [
@@ -95,7 +95,7 @@ class Search extends Responser
                 'threadForum' => $threadForum,
                 'authorUid' => $authorUid,
                 'author' => $author,
-                'publishTime' => $publishTime,
+                'lastReplyTime' => $lastReplyTime,
             ];
         }
 

@@ -4209,9 +4209,6 @@ button.close {
   .carousel-indicators {
     bottom: 20px; } }
 
-.bg-inverse {
-  background-color: #373a3c; }
-
 .bg-faded {
   background-color: #f7f7f9; }
 
@@ -4249,6 +4246,13 @@ a.bg-warning:focus, a.bg-warning:hover {
 
 a.bg-danger:focus, a.bg-danger:hover {
   background-color: #c9302c !important; }
+
+.bg-inverse {
+  color: #fff !important;
+  background-color: #373a3c !important; }
+
+a.bg-inverse:focus, a.bg-inverse:hover {
+  background-color: #1f2021 !important; }
 
 .clearfix::after {
   content: "";
@@ -7070,8 +7074,8 @@ main {
     max-height: 4.891rem; }
   .read-floor header .floor-num {
     margin-right: 0.3571rem; }
-  .read-floor header .floor-info {
-    padding-top: 0.3571rem; }
+  .read-floor header .floor-user {
+    font-size: 1.143rem; }
   .read-floor footer .floor-sign {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -7205,7 +7209,7 @@ main {
     max-height: 7.2rem; }
 
 #gameImagesCarousel .carousel-item img {
-  height: 7rem; }
+  height: 7.5rem; }
 
 .game-cover, .character-img {
   max-width: 100%;

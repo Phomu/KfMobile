@@ -452,6 +452,17 @@ var handleBuyThreadBtn = function () {
 };
 
 /**
+ * 处理楼层内的图片
+ */
+var handleFloorImage = function () {
+    $(document).on('click', '.img', function () {
+        var $this = $(this);
+        if ($this.parent().is('a') || this.naturalWidth <= $this.closest('.read-floor').width()) return;
+        location.href = $this.attr('src');
+    });
+};
+
+/**
  * 插入表情代码
  */
 var addSmileCode = function () {
@@ -636,6 +647,7 @@ $(function () {
         showFloorLink();
         handleFastReplyBtn();
         handleBuyThreadBtn();
+        handleFloorImage();
         alertPostArticle();
         copyCode();
         addSmileCode();
