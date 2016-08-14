@@ -19,7 +19,8 @@
     "require": {
         "php": ">=5.6.0",
         "topthink/framework": "*",
-        "jaeger/phpquery-single": "0.9.7"
+        "jaeger/phpquery-single": "0.9.7",
+        "topthink/think-image": "^1.0"
     },
     "extra": {
         "think-path": "thinkphp"
