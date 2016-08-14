@@ -62,7 +62,7 @@
     <div class="carousel-inner" role="listbox">
       {volist name="gameImgList" id="vo"}
       <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{$vo.largeImg}">
-        <img class="m-x-auto" src="{$vo.smallImg}" alt="游戏图片">
+        <img class="m-x-auto" src="{:url('GameIntro/thumb?path=' . $vo['thumbImg'])}" alt="游戏图片">
       </a>
       {/volist}
     </div>

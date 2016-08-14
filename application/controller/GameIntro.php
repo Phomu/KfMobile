@@ -67,4 +67,46 @@ class GameIntro extends Base
         $this->assign($gameIntro->game());
         return $this->fetch('GameIntro/game');
     }
+
+    /**
+     * 展示游戏介绍缩略图
+     * @param string $path 游戏介绍图片路径
+     * @return mixed
+     */
+    public function thumb($path = '')
+    {
+        if (empty($path) || strpos($path, 'g_ys') !== 0) error('非法请求');
+        $path = str_replace('-', '/', $path) . (!empty($this->request->ext()) ? '.' . $this->request->ext() : '');
+        trace('远端图片路径：' . $path);
+        $thumbName = '';
+        $thumbExt = '';
+        $matches = [];
+        if (preg_match('/g_ys\d+\/(.+)(\.\w+)$/', $path, $matches)) {
+            $thumbName = md5($matches[1]);
+            $thumbExt = $matches[2];
+        }
+        trace('缩略图名称：' . $thumbName . $thumbExt);
+        if (empty($thumbExt) || !in_array($thumbExt, ['.jpg', '.jpeg', '.gif', '.png'])) error('非法请求');
+
+        $thumbPath = config('thumb_cache_path') . $thumbName . $thumbExt;
+        if (!file_exists($thumbPath)) {
+            make_thumb($path, $thumbName . $thumbExt);
+        }
+
+        $type = '';
+        switch ($thumbExt) {
+            case 'png':
+                $type = 'image/png';
+                break;
+            case 'gif':
+                $type = 'image/gif';
+                break;
+            default:
+                $type = 'image/jpeg';
+        }
+        header('Content-Type: ' . $type);
+        header('Expires: ' . gmdate("D, d M Y H:i:s", time() + 60 * 60 * 24 * 7) . ' GMT');
+        echo file_get_contents($thumbPath);
+        exit(0);
+    }
 }

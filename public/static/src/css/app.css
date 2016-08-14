@@ -6924,7 +6924,7 @@ a.text-danger:focus, a.text-danger:hover {
 
 .carousel-sm .carousel-indicators {
   bottom: 0;
-  margin-bottom: 0; }
+  margin-bottom: 5px; }
 
 .carousel-sm .carousel-item img {
   height: 14.5rem; }
@@ -7207,9 +7207,6 @@ main {
   .game-search-list .media .media-left img {
     max-width: 5rem;
     max-height: 7.2rem; }
-
-#gameImagesCarousel .carousel-item img {
-  height: 7.5rem; }
 
 .game-cover, .character-img {
   max-width: 100%;

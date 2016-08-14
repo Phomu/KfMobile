@@ -40,6 +40,14 @@ return [
         '如对本站的隐私安全方面抱有疑问，请勿继续访问。',
     // 网站统计脚本
     'stat_script' => '',
+    // 游戏介绍图片域名的url
+    'game_intro_base_url' => 'http://www.9gal.com/',
+    // 缩略图缓存目录
+    'thumb_cache_path' => RUNTIME_PATH . 'thumb/',
+    // 缩略图最大宽度
+    'thumb_max_width' => 360,
+    // 缩略图最大高度
+    'thumb_max_height' => 203,
 
     // +----------------------------------------------------------------------
     // | 应用设置

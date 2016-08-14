@@ -165,3 +165,38 @@ function common_replace_html_tag($html)
     );
     return $html;
 }
+
+/**
+ * 生成游戏介绍图片的缩略图
+ * @param string $path 图片路径
+ * @param string $thumbPath 缩略图路径
+ * @throws \Exception
+ */
+function make_thumb($path, $thumbPath)
+{
+    try {
+        $content = file_get_contents(config('game_intro_base_url') . $path);
+        $md5Path = md5($path);
+        $fp = fopen(TEMP_PATH . $md5Path, 'w+');
+        fwrite($fp, $content);
+        fclose($fp);
+
+        $image = \think\Image::open(TEMP_PATH . $md5Path);
+        $thumbDir = config('thumb_cache_path');
+        if (!file_exists($thumbDir) && !mkdir($thumbDir, 0755, true)) {
+            exception('创建缩略图缓存目录失败');
+        }
+        $maxWidth = config('thumb_max_width');
+        $maxHeight = config('thumb_max_height');
+        if ($image->width() <= $maxWidth && $image->height() <= $maxHeight) {
+            $image->save($thumbDir . $thumbPath, null, 90);
+        } else {
+            $image->thumb($maxWidth, $maxHeight)->save($thumbDir . $thumbPath, null, 90);
+        }
+        trace('保存缩略图至：' . $thumbDir . $thumbPath);
+        unlink(TEMP_PATH . $md5Path);
+    } catch (\Exception $ex) {
+        if (config('app_debug')) throw $ex;
+        else error('获取图片失败');
+    }
+}
