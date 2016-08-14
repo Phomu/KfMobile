@@ -69,6 +69,8 @@ class Proxy
         $errorMsg = curl_error($ch);
         curl_close($ch);
         debug('end');
+        trace('客户端IP：' . input('server.REMOTE_ADDR', '未知'));
+        trace('客户端UA：' . input('server.HTTP_USER_AGENT', '无'));
         trace('获取远端页面用时：' . debug('begin', 'end') . 's');
 
         if (empty($result)) return ['code' => $code === 200 ? 502 : $code, 'errorMsg' => $errorMsg];
