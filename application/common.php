@@ -127,38 +127,6 @@ function get_color_from_number($num)
 function common_replace_html_tag($html)
 {
     $html = preg_replace('/<strike>(.+?)<\/strike>/i', '<s>$1</s>', $html);
-    $html = preg_replace_callback('/<font size="(\d+)">/i',
-        function ($matches) {
-            $fontSize = 14;
-            switch (intval($matches[1])) {
-                case 1:
-                    $fontSize = 10;
-                    break;
-                case 2:
-                    $fontSize = 13;
-                    break;
-                case 3:
-                    $fontSize = 16;
-                    break;
-                case 4:
-                    $fontSize = 18;
-                    break;
-                case 5:
-                    $fontSize = 24;
-                    break;
-                case 6:
-                    $fontSize = 32;
-                    break;
-                case 7:
-                    $fontSize = 48;
-                    break;
-            }
-            return sprintf('<span style="font-size: %dpx;">', $fontSize);
-        },
-        $html
-    );
-    $html = preg_replace('/<font color="([#\w]+)">/i', '<span style="color: $1;">', $html);
-    $html = preg_replace('/<\/font>/i', '</span>', $html);
     $html = preg_replace_callback(
         '/href="([^"]+)"/i',
         function ($matches) {

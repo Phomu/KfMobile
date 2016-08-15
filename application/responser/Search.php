@@ -68,8 +68,6 @@ class Search extends Responser
                 $tid = intval($matches[1]);
             }
             $threadTitle = trim($pqThreadLink->html());
-            $threadTitle = preg_replace('/<font color="([^"]+)">/i', '<span style="color: $1">', $threadTitle);
-            $threadTitle = preg_replace('/<\/font>/i', '</span>', $threadTitle);
 
             // 主题所属版块
             $threadForum = trim_strip($pqItem->find('td:nth-child(2)')->text());

@@ -66,8 +66,6 @@ class Personal extends Responser
                 $pid = intval($matches[2]);
             }
             $threadTitle = trim($pqThreadLink->html());
-            $threadTitle = preg_replace('/<font color="([^"]+)">/i', '<span style="color: $1">', $threadTitle);
-            $threadTitle = preg_replace('/<\/font>/i', '</span>', $threadTitle);
 
             $pqForumLink = $pqItem->find('> td:nth-child(3) > a');
             if (preg_match('/fid=(\d+)/i', $pqForumLink->attr('href'), $matches)) {
