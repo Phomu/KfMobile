@@ -295,7 +295,7 @@ class GameIntro extends Responser
         $gameName = $pqArea->find('> tr:first-child > td')->text();
         $gameName = trim_strip(str_replace(' - 游戏介绍', '', $gameName));
 
-        // 游戏基本信息
+        // 基本信息
         $pqInfoArea = $pqArea->find('> tr:nth-child(2)');
         $pqCoverCell = $pqInfoArea->find('> td:first-child');
         $largeCover = $pqCoverCell->find('a')->attr('href');
@@ -320,7 +320,7 @@ class GameIntro extends Responser
             $gameInfo
         );
 
-        // 游戏额外信息
+        // 额外信息
         $pqExtraInfoCell = $pqArea->find('> tr:nth-child(3) > td');
         $gameImgList = [];
         foreach ($pqExtraInfoCell->find('div:first > a') as $item) {
@@ -395,7 +395,7 @@ class GameIntro extends Responser
         $companyName = pq('#div940_2 > #divtitle1')->text();
         $companyName = trim_strip(str_replace(' - 会社介绍', '', $companyName));
 
-        // 公司基本信息
+        // 基本信息
         $pqInfoArea = pq('#div740_2:first > div:nth-child(2)');
         $companyCover = $pqInfoArea->find('> div:last-child > img')->attr('src');
         $companyInfo = common_replace_html_tag($pqInfoArea->find('> div:first-child')->html());
@@ -405,10 +405,10 @@ class GameIntro extends Responser
         // 公司介绍
         $companyIntro = pq('#div740_2:eq(1) > div:last-child')->html();
 
-        // 公司主要人员
+        // 主要人员
         $companyStaff = pq('#div740_2:eq(2) > div:last-child')->html();
 
-        // 公司相关信息
+        // 相关信息
         $companyExtraInfo = pq('#div740_2:eq(3) > div:last-child')->html();
 
         // 该公司受关注作品排行
@@ -433,6 +433,81 @@ class GameIntro extends Responser
             'companyIntro' => $companyIntro,
             'companyStaff' => $companyStaff,
             'companyExtraInfo' => $companyExtraInfo,
+            'gameAttentionRankList' => $gameAttentionRankList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取游戏类型介绍页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function type($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 游戏类型ID及名称
+        $typeId = 0;
+        $typeName = '';
+        if (preg_match('/id=(\d+)/i', pq('a[href*="tui=1"]')->attr('href'), $matches)) {
+            $typeId = intval($matches[1]);
+        }
+        $typeName = pq('#div940_2 > div:first > font')->text();
+
+        // 基本信息
+        $pqInfoArea = pq('#div740_2:first > div:nth-child(2)');
+        $typeCover = $pqInfoArea->find('> div:last-child > img')->attr('src');
+        $typeInfo = common_replace_html_tag($pqInfoArea->find('> div:first-child')->html());
+        $typeInfo = str_ireplace('<br><br>', '<br>', $typeInfo);
+        $tuiNum = trim_strip(pq('#div200_2:eq(1) > #divtitle2 > span:first')->text());
+
+        // 类型说明
+        $typeIntro = pq('#div740_2:eq(1) > div:last-child')->html();
+
+        // 该类型游戏举例
+        $typeExample = pq('#div740_2:eq(2) > div:last-child')->html();
+
+        // 相关信息
+        $typeExtraInfo = pq('#div740_2:eq(3) > div:last-child')->html();
+
+        // 该游戏类型受关注排行
+        $gameAttentionRankList = [];;
+        foreach (pq('#div200_2:eq(2) > #divtitle2 > a') as $item) {
+            $pqItem = pq($item);
+            $id = 0;
+            $gameName = '';
+            if (preg_match('/id=(\d+)/i', $pqItem->attr('href'), $matches)) {
+                $id = intval($matches[1]);
+            }
+            $gameName = trim_strip($pqItem->text());
+            $gameAttentionRankList[] = ['id' => $id, 'name' => $gameName];
+        }
+
+        $data = [
+            'id' => $typeId,
+            'typeName' => $typeName,
+            'typeCover' => $typeCover,
+            'typeInfo' => $typeInfo,
+            'tuiNum' => $tuiNum,
+            'typeIntro' => $typeIntro,
+            'typeExample' => $typeExample,
+            'typeExtraInfo' => $typeExtraInfo,
             'gameAttentionRankList' => $gameAttentionRankList,
         ];
         debug('end');

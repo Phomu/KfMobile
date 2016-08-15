@@ -16,24 +16,24 @@
   <script src="../../public/static/src/js/app.js"></script>
   */}
 </head>
-<body id="gameIntroCompanyPage">
+<body id="gameIntroTypePage">
 {include file="Public/header" /}
 <main class="container p-t-2">
   <!-- 面包屑导航 -->
   <ol class="breadcrumb m-b-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
-    <li class="breadcrumb-item active">会社介绍</li>
+    <li class="breadcrumb-item active">游戏类型介绍</li>
   </ol>
 
   {include file="GameIntro/searchArea" /}
 
-  <!-- 会社名称 -->
-  <h5 class="text-xs-center m-b-1">{$companyName}</h5>
+  <!-- 游戏类型名称 -->
+  <h5 class="text-xs-center m-b-1">{$typeName}</h5>
 
-  <!-- 会社封面 -->
+  <!-- 游戏类型封面 -->
   <div class="text-xs-center m-b-1">
     <div class="m-b-1">
-      <img class="img-thumbnail game-intro-cover" src="{$companyCover}" alt="会社封面">
+      <img class="img-thumbnail game-intro-cover" src="{$typeCover}" alt="游戏类型封面">
     </div>
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
       <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
@@ -44,31 +44,31 @@
   <div class="card m-b-1">
     <h6 class="card-header">基本信息</h6>
     <div class="card-block">
-      <p class="card-text">{$companyInfo}</p>
+      <p class="card-text">{$typeInfo}</p>
     </div>
   </div>
 
-  <!-- 该会社受关注作品排行 -->
+  <!-- 游戏类型受关注排行 -->
   <div class="list-group list-group-sm m-b-1" role="list">
-    <h6 class="list-group-item list-group-item-header">该会社受关注作品排行</h6>
+    <h6 class="list-group-item list-group-item-header">游戏类型受关注排行</h6>
     {volist name="gameAttentionRankList" id="vo"}
     <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.name}</a>
     {/volist}
   </div>
 
-  <!-- 会社介绍 -->
+  <!-- 类型说明 -->
   <div class="card m-b-1">
-    <h6 class="card-header">会社介绍</h6>
+    <h6 class="card-header">类型说明</h6>
     <div class="card-block">
-      <p class="card-text">{$companyIntro}</p>
+      <p class="card-text">{$typeIntro}</p>
     </div>
   </div>
 
-  <!-- 主要人员 -->
+  <!-- 该类型游戏举例 -->
   <div class="card m-b-1">
-    <h6 class="card-header">主要人员</h6>
+    <h6 class="card-header">该类型游戏举例</h6>
     <div class="card-block">
-      <p class="card-text">{$companyStaff}</p>
+      <p class="card-text">{$typeExample}</p>
     </div>
   </div>
 
@@ -76,7 +76,7 @@
   <div class="card">
     <h6 class="card-header">相关信息</h6>
     <div class="card-block">
-      <p class="card-text">{$companyExtraInfo}</p>
+      <p class="card-text">{$typeExtraInfo}</p>
     </div>
   </div>
 </main>

@@ -122,4 +122,17 @@ class GameIntro extends Base
         $this->assign($gameIntro->company());
         return $this->fetch('GameIntro/company');
     }
+
+    /**
+     * 展示游戏类型介绍页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function type(Request $request)
+    {
+        $response = Proxy::get('g_intro_adv.php', $request->param());
+        $gameIntro = new responser\GameIntro($response);
+        $this->assign($gameIntro->type());
+        return $this->fetch('GameIntro/type');
+    }
 }

@@ -676,6 +676,8 @@ $(function () {
         tuiGameIntro('game');
     } else if (pageId === 'gameIntroCompanyPage') {
         tuiGameIntro('company');
+    } else if (pageId === 'gameIntroTypePage') {
+        tuiGameIntro('type');
     }
 
     //$('[data-toggle="tooltip"]').tooltip();
