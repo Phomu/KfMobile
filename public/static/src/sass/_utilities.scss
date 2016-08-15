@@ -21,6 +21,12 @@
   }
 }
 
+// 列表组项头部
+.list-group-item.list-group-item-header {
+  @extend .card-header;
+  padding: $card-spacer-y $card-spacer-x;
+}
+
 // 图片轮播（紧凑）
 .carousel-sm {
   .carousel-caption {
