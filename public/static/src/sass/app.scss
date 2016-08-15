@@ -290,17 +290,8 @@ main {
   }
 }
 
-// 游戏图片轮播（游戏介绍页面）
-#gameImagesCarousel {
-  .carousel-item {
-    img {
-      //height: 7.5rem; // ~105px
-    }
-  }
-}
-
-// 游戏封面 & 人物图片
-.game-cover, .character-img {
+// 游戏介绍封面 & 人物图片
+.game-intro-cover, .character-img {
   max-width: 100%;
   max-height: 14.5rem; // ~203px
 }

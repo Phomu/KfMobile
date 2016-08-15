@@ -349,7 +349,7 @@ class GameIntro extends Responser
         }
 
         $data = [
-            'gameId' => $gameId,
+            'id' => $gameId,
             'gameName' => $gameName,
             'largeCover' => $largeCover,
             'smallCover' => $smallCover,
@@ -358,6 +358,82 @@ class GameIntro extends Responser
             'gameImgList' => $gameImgList,
             'gameExtraInfo' => $gameExtraInfo,
             'characterList' => $characterList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取游戏公司介绍页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function company($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 公司ID及名称
+        $companyId = 0;
+        $companyName = '';
+        if (preg_match('/id=(\d+)/i', pq('a[href*="tui=1"]')->attr('href'), $matches)) {
+            $companyId = intval($matches[1]);
+        }
+        $companyName = pq('#div940_2 > #divtitle1')->text();
+        $companyName = trim_strip(str_replace(' - 会社介绍', '', $companyName));
+
+        // 公司基本信息
+        $pqInfoArea = pq('#div740_2:first > div:nth-child(2)');
+        $companyCover = $pqInfoArea->find('> div:last-child > img')->attr('src');
+        $companyInfo = common_replace_html_tag($pqInfoArea->find('> div:first-child')->html());
+        $companyInfo = str_ireplace('<br><br>', '<br>', $companyInfo);
+        $tuiNum = trim_strip(pq('#div200_2:eq(1) > #divtitle2 > span:first')->text());
+
+        // 公司介绍
+        $companyIntro = pq('#div740_2:eq(1) > div:last-child')->html();
+
+        // 公司主要人员
+        $companyStaff = pq('#div740_2:eq(2) > div:last-child')->html();
+
+        // 公司相关信息
+        $companyExtraInfo = pq('#div740_2:eq(3) > div:last-child')->html();
+
+        // 该公司受关注作品排行
+        $gameAttentionRankList = [];;
+        foreach (pq('#div200_2:eq(2) > #divtitle2 > a') as $item) {
+            $pqItem = pq($item);
+            $id = 0;
+            $gameName = '';
+            if (preg_match('/id=(\d+)/i', $pqItem->attr('href'), $matches)) {
+                $id = intval($matches[1]);
+            }
+            $gameName = trim_strip($pqItem->text());
+            $gameAttentionRankList[] = ['id' => $id, 'name' => $gameName];
+        }
+
+        $data = [
+            'id' => $companyId,
+            'companyName' => $companyName,
+            'companyCover' => $companyCover,
+            'companyInfo' => $companyInfo,
+            'tuiNum' => $tuiNum,
+            'companyIntro' => $companyIntro,
+            'companyStaff' => $companyStaff,
+            'companyExtraInfo' => $companyExtraInfo,
+            'gameAttentionRankList' => $gameAttentionRankList,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');

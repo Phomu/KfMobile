@@ -33,6 +33,7 @@ class Responser
     {
         $code = $this->response['code'];
         if ($code === 301 || $code === 302) {
+            trace('跳转url：' . $this->response['location']);
             controller('Msg')->redirectUrl($this->response['location']);
         } elseif ($code !== 200) {
             error(
@@ -78,7 +79,7 @@ class Responser
             } else {
                 if ($key === config('kf_cookie_prefix') . 'winduser') {
                     continue;
-                } elseif (strpos($key, 'g_intro_tui_') === 0) {
+                } elseif (strpos($key, 'g_intro_') === 0) {
                     Cookie::set($key, $value, ['prefix' => '', 'expire' => 60 * 60 * 48, 'httponly' => '']);
                 } else {
                     Cookie::set($key, $value, ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);

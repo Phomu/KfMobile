@@ -591,21 +591,30 @@ var handleGameIntroSearchArea = function () {
 };
 
 /**
- * 推游戏
+ * 推游戏介绍
+ * @param {string} type 页面类型
  */
-var tuiGame = function () {
+var tuiGameIntro = function (type) {
+    var cookieName = '';
+    if (type === 'company') cookieName = 'g_intro_inc_tui_';
+    else if (type === 'type') cookieName = 'g_intro_adv_tui_';
+    else if (type === 'property') cookieName = 'g_intro_moe_tui_';
+    else cookieName = 'g_intro_tui_';
+    cookieName += pageInfo.id;
+    var url = makeUrl('game_intro/' + type, 'id=' + pageInfo.id + '&tui=1');
+
     $('.tui-btn').click(function (e) {
         e.preventDefault();
         var $this = $(this);
         if ($this.data('wait')) return;
-        if (getCookie('g_intro_tui_' + pageInfo.gameId, '')) {
+        if (getCookie(cookieName, '')) {
             alert('你在48小时内已经推过');
             return;
         }
         $this.data('wait', true);
         $.ajax({
             type: 'GET',
-            url: makeUrl('game_intro/game', 'id=' + pageInfo.gameId + '&tui=1'),
+            url: url,
             success: function () {
                 var $num = $this.find('span:first');
                 var num = parseInt($num.text());
@@ -619,7 +628,8 @@ var tuiGame = function () {
             },
             complete: function () {
                 $this.removeData('wait');
-            }
+            },
+            dataType: 'html'
         });
     });
 };
@@ -663,7 +673,9 @@ $(function () {
         handlePageNav('game_intro/search');
         handleGameIntroSearchArea();
     } else if (pageId === 'gameIntroPage') {
-        tuiGame();
+        tuiGameIntro('game');
+    } else if (pageId === 'gameIntroCompanyPage') {
+        tuiGameIntro('company');
     }
 
     //$('[data-toggle="tooltip"]').tooltip();

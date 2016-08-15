@@ -7,7 +7,7 @@
   <title>{$title}</title>
   {include file="Public/head" /}
   <script>
-    pageInfo.gameId = {$gameId};
+    pageInfo.id = {$id};
   </script>
   {/* 编辑器提示用
   <link rel="stylesheet" href="../../public/static/src/css/app.css">
@@ -28,15 +28,13 @@
   {include file="GameIntro/searchArea" /}
 
   <!-- 游戏标题 -->
-  <h5 class="text-xs-center m-b-1">
-    《{$gameName}》
-  </h5>
+  <h5 class="text-xs-center m-b-1">《{$gameName}》</h5>
 
   <!-- 游戏封面 -->
   <div class="text-xs-center m-b-1">
     <div class="m-b-1">
       <a href="{$largeCover}">
-        <img class="img-thumbnail game-cover" src="{$smallCover}" alt="游戏封面">
+        <img class="img-thumbnail game-intro-cover" src="{$smallCover}" alt="游戏封面">
       </a>
     </div>
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
@@ -89,8 +87,8 @@
   {notempty name="characterList"}
   <!-- 人物列表 -->
   {volist name="characterList" id="vo"}
-  <div class="card text-xs-center">
-    <img class="card-img-top img-rounded character-img" src="{$vo.img}" alt="人物图片">
+  <div class="card text-xs-center p-t-1">
+    <img class="img-rounded character-img" src="{$vo.img}" alt="人物图片">
     <div class="card-block text-xs-left">
       <p class="card-text">{$vo.intro}</p>
     </div>

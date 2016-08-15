@@ -109,4 +109,17 @@ class GameIntro extends Base
         echo file_get_contents($thumbPath);
         exit(0);
     }
+
+    /**
+     * 展示游戏公司介绍页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function company(Request $request)
+    {
+        $response = Proxy::get('g_intro_inc.php', $request->param());
+        $gameIntro = new responser\GameIntro($response);
+        $this->assign($gameIntro->company());
+        return $this->fetch('GameIntro/company');
+    }
 }

@@ -66,6 +66,9 @@ function convert_url($url)
         elseif ($path === 'kf_growup.php') return url('GrowUp/index');
         elseif ($path === 'g_intro_index.php') return url('GameIntro/index');
         elseif ($path === 'g_intro.php') return url('GameIntro/game', $params);
+        elseif ($path === 'g_intro_inc.php') return url('GameIntro/company', $params);
+        elseif ($path === 'g_intro_adv.php') return url('GameIntro/type', $params);
+        elseif ($path === 'g_intro_moe.php') return url('GameIntro/property', $params);
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {
