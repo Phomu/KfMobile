@@ -678,6 +678,8 @@ $(function () {
         tuiGameIntro('company');
     } else if (pageId === 'gameIntroTypePage') {
         tuiGameIntro('type');
+    } else if (pageId === 'gameIntroPropertyPage') {
+        tuiGameIntro('property');
     }
 
     //$('[data-toggle="tooltip"]').tooltip();
