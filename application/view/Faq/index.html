@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="faqPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">帮助</li>
+  </ol>
+
+  <!-- 问题导航 -->
+  <nav class="nav nav-pills nav-stacked m-b-1">
+    {volist name="questionList" id="vo"}
+    <a class="nav-link {eq name='vo.id' value='$id'}active{else /}{eq name='vo.id' value='101'}text-danger{/eq}{/eq}"
+       href="{:url('Faq/index?id=' . $vo['id'])}">{$vo.title}</a>
+    {/volist}
+  </nav>
+
+  <!-- 当前问题 -->
+  <div class="card">
+    <h5 class="card-header">{$questionTitle}</h5>
+    <div class="card-block">
+      <p class="card-text">{$questionContent}</p>
+    </div>
+  </div>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

@@ -6951,17 +6951,13 @@ main {
 .dropdown-menu {
   line-height: 2.2; }
 
-/*// 面包屑导航
-.breadcrumb-item.active {
-  a:link {
-    color: $breadcrumb-active-color;
-  }
-}*/
 .page-link:hover, .page-link:focus {
   text-decoration: none; }
 
-.page-item.active .page-link:hover {
-  cursor: pointer; }
+.page-item.active .page-link {
+  min-width: 40px; }
+  .page-item.active .page-link:hover {
+    cursor: pointer; }
 
 #mainMenu {
   overflow-y: auto; }
@@ -7090,7 +7086,7 @@ main {
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1.1rem;
-  word-break: break-all; }
+  overflow-x: auto; }
   .read-content .blockquote {
     margin-top: 0.5714rem;
     margin-bottom: 0.5714rem;
@@ -7214,3 +7210,6 @@ main {
 .game-intro-cover, .character-img {
   max-width: 100%;
   max-height: 14.5rem; }
+
+#faqPage .card .card-text {
+  overflow-x: auto; }

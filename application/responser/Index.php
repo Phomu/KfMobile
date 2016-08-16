@@ -97,6 +97,7 @@ class Index extends Responser
             'resourceTopRecommendList' => $resourceTopRecommendList,
             'otherTopRecommendList' => $otherTopRecommendList,
             'newPublishList' => $newPublishList,
+            'pcVersionUrl' => $commonData['pcVersionUrl'] . '?nomible=1',
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');

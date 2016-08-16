@@ -12,4 +12,5 @@ return [
     'rank' => 'Rank/index',
     'share' => 'Share/index',
     'game/:id' => ['GameIntro/game', [], ['id' => '\d+']],
+    'faq/:id' => ['Faq/index', [], ['id' => '\d+']],
 ];

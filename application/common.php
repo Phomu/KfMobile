@@ -69,6 +69,7 @@ function convert_url($url)
         elseif ($path === 'g_intro_inc.php') return url('GameIntro/company', $params);
         elseif ($path === 'g_intro_adv.php') return url('GameIntro/type', $params);
         elseif ($path === 'g_intro_moe.php') return url('GameIntro/property', $params);
+        elseif ($path === 'faq.php') return url('Faq/index', $params);
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {
