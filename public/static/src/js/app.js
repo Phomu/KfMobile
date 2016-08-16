@@ -235,7 +235,7 @@ var writeConfig = function () {
  */
 var handleMainMenu = function () {
     $('#mainMenuTogglerBtn').click(function () {
-        $('#mainMenu').css('max-height', document.documentElement.clientHeight - 50 + 'px');
+        $('#mainMenu').css('max-height', document.documentElement.clientHeight - 49 + 'px');
     });
 };
 

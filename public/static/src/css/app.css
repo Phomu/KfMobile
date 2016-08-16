@@ -6962,6 +6962,11 @@ main {
 #mainMenu {
   overflow-y: auto; }
 
+#userMenuDropdownBtn {
+  max-width: 12.857rem;
+  white-space: nowrap;
+  overflow: hidden; }
+
 .main-footer {
   font-size: 0.875rem;
   color: #959595;

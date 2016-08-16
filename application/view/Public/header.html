@@ -21,7 +21,7 @@
             <a class="nav-link dropdown-toggle active" id="userMenuDropdownBtn" data-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
               {$userName}
-              {eq name="hasNewMsg" value="true"} <span class="tag tag-danger">New</span>{/eq}
+              {eq name="hasNewMsg" value="true"}&nbsp;<span class="tag tag-danger">New</span>{/eq}
             </a>
             <div class="dropdown-menu" aria-labelledby="userMenuDropdownBtn">
               <a class="dropdown-item" href="{:url('Profile/show?uid=' . $uid)}">
@@ -56,10 +56,17 @@
           </div>
         </li>
         <!-- 版块列表按钮 -->
-        <li class="nav-item pull-xs-right">
+        <li class="pull-xs-right">
           <button class="navbar-toggler" data-toggle="modal" data-target="#forumListDialog" type="button" title="版块列表">
             <i class="fa fa-th-large" aria-hidden="true"></i>
             <span class="sr-only">版块列表</span>
+          </button>
+        </li>
+        <!-- 搜索按钮 -->
+        <li class="pull-xs-right">
+          <button class="navbar-toggler" data-toggle="modal" data-target="#searchDialog" type="button" title="搜索">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <span class="sr-only">搜索</span>
           </button>
         </li>
       </ul>
@@ -68,11 +75,6 @@
     <!-- 主菜单 -->
     <div class="container collapse p-a-0 bg-faded" id="mainMenu">
       <ul class="nav nav-pills nav-stacked p-t-1">
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="modal" data-target="#searchDialog" href="#" role="button">
-            <i class="fa fa-search" aria-hidden="true"></i> 搜索
-          </a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="/hack.php?H_name=bank">
             <i class="fa fa-yen" aria-hidden="true"></i> 银行

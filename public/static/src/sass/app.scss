@@ -73,6 +73,13 @@ main {
   overflow-y: auto;
 }
 
+// 用户菜单下拉按钮
+#userMenuDropdownBtn {
+  max-width: 12.857rem; // ~180px
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 // 主页脚
 .main-footer {
   font-size: $font-size-sm;
