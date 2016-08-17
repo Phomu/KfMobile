@@ -635,6 +635,20 @@ var tuiGameIntro = function (type) {
 };
 
 /**
+ * 随机选择神秘盒子
+ */
+var randomSelectSmBox = function () {
+    $('#smBoxRandom').click(function () {
+        var $boxes = $('#smBoxPanel .table a');
+        var number = Math.floor(Math.random() * $boxes.length);
+        $(this).html('你选择了<b>No. ' + number + '</b>').off('click');
+        window.setTimeout(function () {
+            location.href = $boxes.eq(number).attr('href');
+        }, 500);
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -680,6 +694,8 @@ $(function () {
         tuiGameIntro('type');
     } else if (pageId === 'gameIntroPropertyPage') {
         tuiGameIntro('property');
+    } else if (pageId === 'smBoxPage') {
+        randomSelectSmBox();
     }
 
     //$('[data-toggle="tooltip"]').tooltip({'container': 'body'});

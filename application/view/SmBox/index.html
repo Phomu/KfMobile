@@ -50,6 +50,7 @@
     <div class="tab-content">
       <!-- 神秘盒子 -->
       <div class="tab-pane active" id="smBoxPanel" role="tabpanel">
+        <button class="btn btn-outline-danger btn-block m-b-1" id="smBoxRandom" type="button">随机选择</button>
         <table class="table table-sm text-xs-center">
           <tbody>
           {volist name="smBoxList" id="box" mod="5"}
@@ -59,8 +60,6 @@
             <td>
               {notempty name="box"}
               <a class="btn btn-outline-danger" href="{:url('SmBox/index', 'box=' . $box . '&safeid=' . $safeId)}">{$box}</a>
-              {else /}
-              &nbsp;
               {/notempty}
             </td>
             {eq name="mod" value="4"}
