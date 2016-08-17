@@ -21,7 +21,19 @@ class Read extends Base
         $fpage = input('fpage/d', 0);
         $response = Proxy::get('read.php', $request->param());
         $read = new responser\Read($response);
-        $this->assign(array_merge($read->index(), ['fpage' => $fpage]));
+        $this->assign($read->index(['fpage' => $fpage]));
         return $this->fetch('Read/index');
+    }
+
+    /**
+     * 屏蔽回帖
+     * @param Request $request
+     * @return mixed
+     */
+    public function blockFloor(Request $request)
+    {
+        $response = Proxy::get('kf_fw_0ladmin.php', $request->param());
+        new responser\Responser($response);
+        return error('屏蔽回帖失败');
     }
 }

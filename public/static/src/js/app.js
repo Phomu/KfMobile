@@ -210,8 +210,7 @@ var decodeHtmlSpecialChar = function (str) {
  * 读取设置
  */
 var readConfig = function () {
-    var options = null;
-    options = localStorage['configName'];
+    var options = localStorage['configName'];
     if (!options) return;
     try {
         options = JSON.parse(options);
@@ -428,6 +427,15 @@ var handleFastReplyBtn = function () {
         replyContent.selectionStart = replyContent.value.length;
         replyContent.selectionEnd = replyContent.value.length;
         replyContent.focus();
+    });
+};
+
+/**
+ * 处理屏蔽回帖按钮
+ */
+var handleBlockFloorBtn = function () {
+    $(document).on('click', '.block-floor', function () {
+        if (!window.confirm('确认要屏蔽该回帖？本操作不可恢复！\n（屏蔽后该回帖将对大家不可见）')) return false;
     });
 };
 
@@ -670,6 +678,7 @@ $(function () {
         tuiThread();
         showFloorLink();
         handleFastReplyBtn();
+        handleBlockFloorBtn();
         handleBuyThreadBtn();
         handleFloorImage();
         alertPostArticle();

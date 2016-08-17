@@ -75,6 +75,7 @@ class Read extends Responser
         $pageParam = http_build_query($request->except('page'));
 
         // 楼层
+        $canBlockFloor = pq('a[href^="kf_fw_0ladmin.php"]')->length > 0;
         $floorList = [];
         foreach (pq('.readtext') as $floor) {
             $floorList[] = $this->floor(pq($floor));
@@ -144,6 +145,7 @@ class Read extends Responser
             'forumName' => $forumName,
             'parentFid' => $parentFid,
             'parentForumName' => $parentForumName,
+            'fpage' => $extraData['fpage'],
             'hitNum' => $hitNum,
             'replyNum' => $replyNum,
             'publishTime' => $publishTime,
@@ -153,6 +155,7 @@ class Read extends Responser
             'nextPageNum' => $currentPageNum < $maxPageNum ? $currentPageNum + 1 : $maxPageNum,
             'maxPageNum' => $maxPageNum,
             'pageParam' => $pageParam,
+            'canBlockFloor' => $canBlockFloor,
             'floorList' => $floorList,
             'replyVerify' => $replyVerify,
             'voteTitle' => $voteTitle,

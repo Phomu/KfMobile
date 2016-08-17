@@ -222,12 +222,21 @@
 
     <!-- 楼层底部 -->
     <footer>
-      <div class="floor-sign col-xs-9 p-x-0 small" title="{$vo.sign}">
+      {if condition="$canBlockFloor AND $vo['pid'] !== 'tpc'"}
+      {assign name="hasBlockFloor" value="true" /}
+      {/if}
+      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} p-x-0 small" title="{$vo.sign}">
         {notempty name="vo.sign"}
         <i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}
         {/notempty}
       </div>
-      <div class="col-xs-3 p-x-0 text-xs-right">
+      <div class="{empty name='hasBlockFloor'}col-xs-3{else /}col-xs-6{/empty} p-x-0 text-xs-right">
+        {notempty name="hasBlockFloor"}
+        <a class="btn btn-outline-danger btn-sm block-floor"
+           href="{:url('Read/blockFloor', ['safeid'=>$safeId, 'tid'=>$tid, 'pid'=>$vo['pid']])}" role="button">
+          屏蔽此回帖
+        </a>
+        {/notempty}
         <a class="btn btn-outline-primary btn-sm fast-reply-btn" data-floor="{$vo.floorNum}" data-username="{$vo.userName}" href="#"
            role="button">
           快速回复
