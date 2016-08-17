@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>{$title}</title>
+  <title>我的回复 - {$Think.config.site_name}</title>
   {include file="Public/head" /}
   <script>
     pageInfo.currentPageNum = {$currentPageNum};
@@ -84,10 +84,10 @@
         <footer class="thread-item-footer">
           <small>
             {notempty name="vo.threadForum"}
-            <a href="{:url('Thread/index', 'fid=' . $vo['fid'])}" title="所属版块" aria-label="所属版块">
+            <span class="text-default" title="所属版块" aria-label="所属版块">
               <i class="fa fa-th-large" aria-hidden="true"></i>
               {$vo.threadForum}
-            </a>&nbsp;
+            </span>&nbsp;
             {/notempty}
             <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
               <i class="fa fa-user" aria-hidden="true"></i>
