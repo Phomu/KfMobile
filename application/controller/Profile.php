@@ -12,7 +12,7 @@ use app\responser;
 class Profile extends Base
 {
     /**
-     * 展示详细信息页面
+     * 展示个人详细信息页面
      * @param Request $request
      * @return mixed
      */

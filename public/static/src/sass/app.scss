@@ -308,3 +308,16 @@ main {
     }
   }
 }
+
+// 神秘盒子
+#smBoxPanel {
+  .table {
+    td {
+      border-top: none;
+
+      a {
+        min-width: 3.857rem; // ~54px
+      }
+    }
+  }
+}

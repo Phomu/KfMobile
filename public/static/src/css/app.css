@@ -7218,3 +7218,8 @@ main {
 
 #faqPage .card .card-text {
   overflow-x: auto; }
+
+#smBoxPanel .table td {
+  border-top: none; }
+  #smBoxPanel .table td a {
+    min-width: 3.857rem; }

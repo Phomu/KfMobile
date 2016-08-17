@@ -59,7 +59,7 @@ function convert_url($url)
             $anchor = $matches[2];
         }
         if ($path === 'login.php') return url('Login/index');
-        elseif ($path === 'thread.php') return url('Thread/index', $params) . $anchor;
+        elseif ($path === 'thread.php') return url('Thread/index', $params);
         elseif ($path === 'read.php') return url('Read/index', $params) . $anchor;
         elseif ($path === 'search.php') return url('Search/index', $params);
         elseif ($path === 'guanjianci.php') return url('GuanJianCi/index', $params);
@@ -70,6 +70,7 @@ function convert_url($url)
         elseif ($path === 'g_intro_adv.php') return url('GameIntro/type', $params);
         elseif ($path === 'g_intro_moe.php') return url('GameIntro/property', $params);
         elseif ($path === 'faq.php') return url('Faq/index', $params);
+        elseif ($path === 'kf_smbox.php') return url('SmBox/index', $params);
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {

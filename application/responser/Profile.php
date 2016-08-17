@@ -8,7 +8,7 @@ namespace app\responser;
 class Profile extends Responser
 {
     /**
-     * 获取详细信息页面的页面数据
+     * 获取个人详细信息页面的页面数据
      * @param array $extraData 额外参数
      * @return array 页面数据
      */

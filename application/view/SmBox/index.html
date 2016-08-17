@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="smBoxPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">神秘盒子</li>
+  </ol>
+
+  <!-- 提示 -->
+  <div class="alert alert-info font-size-sm" role="alert">
+    <p>
+      以下数字中有一个是特等奖，空的表示已经被抽过未中的，红色表示可以抽奖的。<br>
+      每5个小时有一次免费抽奖机会，请点击你觉得正确的数字。<br>
+      如果中奖则获取[<b>2000KFB</b>]，并且所有数字盒子重置，开始新一轮抽奖。<br>
+      如果未中，也会获得一个随机数的额外奖励，基础随机数由神秘等级决定。<br>
+    </p>
+    <p class="text-danger m-b-0">
+      注意：抽取神秘盒子将延长争夺奖励的领取时间，请二选其一，尽量不要同时进行。
+    </p>
+  </div>
+
+  <!-- 功能区域 -->
+  <section>
+    <!-- Tab -->
+    <ul class="nav nav-tabs m-b-1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#smBoxPanel" role="tab" aria-controls="smBoxPanel">神秘盒子</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#winnerListPanel" role="tab" aria-controls="winnerListPanel">中奖名单</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- 神秘盒子 -->
+      <div class="tab-pane active" id="smBoxPanel" role="tabpanel">
+        <table class="table table-sm text-xs-center">
+          <tbody>
+          {volist name="smBoxList" id="box" mod="5"}
+          {eq name="mod" value="0"}
+          <tr>
+            {/eq}
+            <td>
+              {notempty name="box"}
+              <a class="btn btn-outline-danger" href="{:url('SmBox/index', 'box=' . $box . '&safeid=' . $safeId)}">{$box}</a>
+              {else /}
+              &nbsp;
+              {/notempty}
+            </td>
+            {eq name="mod" value="4"}
+          </tr>
+          {/eq}
+          {/volist}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 中奖名单 -->
+      <div class="tab-pane row" id="winnerListPanel" role="tabpanel">
+        <div class="alert alert-success text-xs-center" role="alert">
+          中奖者将获得<b>2000KFB</b>的奖励
+        </div>
+        <table class="table table-sm table-striped table-hover text-xs-center">
+          <thead>
+          <tr>
+            <th class="text-xs-center">中奖时间</th>
+            <th class="text-xs-center">用户名</th>
+            <th class="text-xs-center">中奖数字</th>
+          </tr>
+          </thead>
+          <tbody class="font-size-sm">
+          {volist name="winnerList" id="vo"}
+          <tr class="{eq name='vo.winner' value='$userName'}table-warning{/eq}">
+            <td>{$vo.winningTime}</td>
+            <td><a href="{:url('Profile/show', 'username=' . $vo['winner'])}" target="_blank">{$vo.winner}</a></td>
+            <td><b class="text-danger">{$vo.number}</b></td>
+          </tr>
+          {/volist}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>
