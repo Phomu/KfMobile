@@ -183,17 +183,19 @@
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
             </a>
-            <span class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}" title="发表时间：{$vo.publishTime}" aria-label="发表时间">
-              <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
-              <time>{$vo.publishTime}</time>
+            <span class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}"
+                  data-toggle="{if condition='(strlen($vo.author) > 15) OR (mb_strlen($vo.author) > 9)'}tooltip{/if}"
+                  title="发表时间：{$vo.publishTime}" aria-label="发表时间">
+            <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
+            <time>{$vo.publishTime}</time>
             </span>
           </small>
           <small class="col-xs-4 text-xs-center">
-            <span title="回帖数" aria-label="回帖数">
+            <span data-toggle="{gt name='vo.replyNum' value='100000'}tooltip{/gt}" title="回帖数：{$vo.replyNum}" aria-label="回帖数">
               <i class="fa fa-comment-o" aria-hidden="true"></i> {$vo.replyNum}
             </span>
             |
-            <span title="点击数" aria-label="点击数">
+            <span data-toggle="{gt name='vo.hitNum' value='100000'}tooltip{/gt}" title="点击数：{$vo.hitNum}" aria-label="点击数">
               <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> {$vo.hitNum}
             </span>
           </small>
@@ -202,7 +204,8 @@
               <i class="fa fa-reply" aria-hidden="true"></i>
               {$vo.lastReplier}
             </a>
-            <span title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
+            <span data-toggle="{if condition='(strlen($vo.lastReplier) > 15) OR (mb_strlen($vo.lastReplier) > 9)'}tooltip{/if}"
+                  data-placement="left" title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
               <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
               <time>{$vo.lastReplyTime}</time>
             </span>

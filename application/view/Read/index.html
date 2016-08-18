@@ -94,13 +94,13 @@
 
   <!-- 主题信息 -->
   <section class="small text-muted m-b-1 pull-sm-left">
-    <span title="点击数" aria-label="点击数">
+    <span data-toggle="tooltip" title="点击数" aria-label="点击数">
       <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> {$hitNum}
     </span>&nbsp;
-    <span title="回复数" aria-label="回复数">
+    <span data-toggle="tooltip" title="回复数" aria-label="回复数">
       <i class="fa fa-comment-o" aria-hidden="true"></i> {$replyNum}
     </span>&nbsp;
-    <span title="发表时间" aria-label="发表时间">
+    <span data-toggle="tooltip" title="发表时间" aria-label="发表时间">
       <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$publishTime}</time>
     </span>&nbsp;
     <a href="/kf_tidfavor.php?action=favor&tid={$tid}">
@@ -225,7 +225,8 @@
       {if condition="$canBlockFloor AND $vo['pid'] !== 'tpc'"}
       {assign name="hasBlockFloor" value="true" /}
       {/if}
-      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} p-x-0 small" title="{$vo.sign}">
+      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} p-x-0 small" data-toggle="tooltip"
+           title="{$vo.sign}">
         {notempty name="vo.sign"}
         <i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}
         {/notempty}

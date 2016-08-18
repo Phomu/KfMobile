@@ -95,6 +95,9 @@ class Thread extends Responser
             if (!$pqForumRule->find('form')->length) {
                 $pqForumRule->find('a')->addClass('alert-link');
                 $forumRule = common_replace_html_tag($pqForumRule->html());
+                $forumRule = str_ireplace('color="blue"', '', $forumRule);
+                $forumRule = str_ireplace('color="red"', 'class="text-danger"', $forumRule);
+                $forumRule = preg_replace('/color="#?000000"/i', 'class="text-default"', $forumRule);
             }
         }
 

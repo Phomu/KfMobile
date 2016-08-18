@@ -707,5 +707,7 @@ $(function () {
         randomSelectSmBox();
     }
 
-    //$('[data-toggle="tooltip"]').tooltip({'container': 'body'});
+    //var tooltipStartTime = new Date();
+    $('[data-toggle="tooltip"]').tooltip({'container': 'body'});
+    //console.log('tooltip初始化耗时：' + (new Date() - tooltipStartTime) + 'ms');
 });
