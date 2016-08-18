@@ -7170,6 +7170,10 @@ main {
   .vote-group .list-group-item .progress {
     margin-bottom: 0; }
 
+.forum-rule {
+  max-height: 16.786rem;
+  overflow-y: auto; }
+
 .user-avatar {
   display: block;
   margin: 0 auto 1rem;

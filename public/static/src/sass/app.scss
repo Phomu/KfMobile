@@ -219,6 +219,12 @@ main {
 /* 各页面样式 */
 @import "read";
 
+// 版块规则
+.forum-rule {
+  max-height: 16.786rem; // ~235px
+  overflow-y: auto;
+}
+
 // 用户头像（个人信息页面）
 .user-avatar {
   display: block;

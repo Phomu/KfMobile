@@ -87,6 +87,17 @@ class Thread extends Responser
             $subForumList[] = ['fid' => $subFid, 'forumName' => $subForumName];
         }
 
+        // 版块规则
+        $forumRule = '';
+        $pqForumTopArea = pq('.b_tit5:first')->parent('td')->parent('tr')->parent('table');
+        if ($pqForumTopArea->children('tr')->length === 3) {
+            $pqForumRule = $pqForumTopArea->find('> tr:nth-child(2) > td');
+            if (!$pqForumRule->find('form')->length) {
+                $pqForumRule->find('a')->addClass('alert-link');
+                $forumRule = common_replace_html_tag($pqForumRule->html());
+            }
+        }
+
         // 主题分类
         $threadTypeList = [];
         $pqThreadTypeList = pq('.pages:eq(1) > li > a[href*="&type="]');
@@ -222,6 +233,7 @@ class Thread extends Responser
             'parentFid' => $parentFid,
             'parentForumName' => $parentForumName,
             'subForumList' => $subForumList,
+            'forumRule' => $forumRule,
             'threadTypeList' => $threadTypeList,
             'threadTypeParam' => http_build_query($request->except(['page', 'type'])),
             'threadSortByParam' => http_build_query($request->except(['page', 'orderway'])),

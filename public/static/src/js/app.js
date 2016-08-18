@@ -652,7 +652,7 @@ var randomSelectSmBox = function () {
         $(this).html('你选择了<b>No. ' + number + '</b>').off('click');
         window.setTimeout(function () {
             location.href = $boxes.eq(number).attr('href');
-        }, 500);
+        }, 1000);
     });
 };
 
