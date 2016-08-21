@@ -4,7 +4,7 @@ var pageId = $('body').attr('id');
 // 配置名称
 var configName = 'kf_config';
 // 配置
-var config = {};
+var Config = {};
 
 /**
  * 设置Cookie
@@ -219,14 +219,14 @@ var readConfig = function () {
         return;
     }
     if (!options || $.type(options) !== 'object' || $.isEmptyObject(options)) return;
-    config = options;
+    Config = options;
 };
 
 /**
  * 写入设置
  */
 var writeConfig = function () {
-    localStorage['configName'] = JSON.stringify(config);
+    localStorage['configName'] = JSON.stringify(Config);
 };
 
 /**
@@ -366,11 +366,11 @@ var highlightUnReadAtTipsMsg = function () {
  * 处理首页主题链接面板
  */
 var handleIndexThreadPanel = function () {
-    if (config['activeNewReplyPanel']) {
-        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', config['activeNewReplyPanel'])).tab('show');
+    if (Config['activeNewReplyPanel']) {
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config['activeNewReplyPanel'])).tab('show');
     }
-    if (config['activeTopRecommendPanel']) {
-        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', config['activeTopRecommendPanel'])).tab('show');
+    if (Config['activeTopRecommendPanel']) {
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config['activeTopRecommendPanel'])).tab('show');
     }
 
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
@@ -381,7 +381,7 @@ var handleIndexThreadPanel = function () {
         if (panelName.indexOf('NewReplyPanel') > 0) typeName = 'activeNewReplyPanel';
         else if (panelName.indexOf('TopRecommendPanel') > 0) typeName = 'activeTopRecommendPanel';
         if (typeName) {
-            config[typeName] = $target.attr('href');
+            Config[typeName] = $target.attr('href');
             writeConfig();
         }
     });
@@ -435,7 +435,7 @@ var handleFastReplyBtn = function () {
  */
 var handleBlockFloorBtn = function () {
     $(document).on('click', '.block-floor', function () {
-        if (!window.confirm('确认要屏蔽该回帖？本操作不可恢复！\n（屏蔽后该回帖将对大家不可见）')) return false;
+        if (!window.confirm('确认要屏蔽该回帖？本操作不可恢复！（屏蔽后该回帖将对大家不可见）')) return false;
     });
 };
 
@@ -501,9 +501,9 @@ var addSmileCode = function () {
 };
 
 /**
- * 发帖提醒
+ * 处理发帖表单
  */
-var alertPostArticle = function () {
+var handlePostForm = function () {
     $('#articleForm').submit(function () {
         var minLen = 12;
         var $textArea = $('#articleContent');
@@ -511,7 +511,44 @@ var alertPostArticle = function () {
             alert('文章内容少于 ' + minLen + ' 个字节');
             return false;
         }
+    }).keydown(function (e) {
+        if (e.keyCode === 13 && e.ctrlKey) {
+            $(this).submit();
+        }
     });
+};
+
+/**
+ * 快速跳转到指定楼层
+ */
+var fastGotoFloor = function () {
+    $('.fast-goto-floor').click(function (e) {
+        e.preventDefault();
+        if (!Config['perPageFloorNum']) {
+            var floorNum = parseInt(window.prompt('你的论坛设置里“文章列表每页个数”为多少（10、20、30）？', 10));
+            if (floorNum && $.inArray(floorNum, [10, 20, 30]) !== -1) {
+                Config['perPageFloorNum'] = floorNum;
+                writeConfig();
+            }
+            else return;
+        }
+        var floor = parseInt(window.prompt('你要跳转到哪一层楼？'));
+        if (!floor || floor <= 0) return;
+        location.href = makeUrl(
+            'read/index',
+            'tid={0}&page={1}&floor={2}'
+                .replace('{0}', pageInfo.tid)
+                .replace('{1}', Math.floor(floor / Config['perPageFloorNum']) + 1)
+                .replace('{2}', floor)
+        );
+    });
+
+    if (pageInfo.floor && pageInfo.floor > 0) {
+        var hashName = $('a[data-floor="' + pageInfo.floor + '"]').closest('article').prev('a').attr('name');
+        if (hashName) {
+            location.hash = '#' + hashName;
+        }
+    }
 };
 
 /**
@@ -674,6 +711,7 @@ $(function () {
     else if (pageId === 'threadPage') {
         handlePageNav('thread/index');
     } else if (pageId === 'readPage') {
+        fastGotoFloor();
         handlePageNav('read/index');
         tuiThread();
         showFloorLink();
@@ -681,7 +719,7 @@ $(function () {
         handleBlockFloorBtn();
         handleBuyThreadBtn();
         handleFloorImage();
-        alertPostArticle();
+        handlePostForm();
         copyCode();
         addSmileCode();
     } else if (pageId === 'searchPage') {

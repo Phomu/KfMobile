@@ -19,9 +19,10 @@ class Read extends Base
     public function index(Request $request)
     {
         $fpage = input('fpage/d', 0);
+        $floor = input('floor/d', 0);
         $response = Proxy::get('read.php', $request->param());
         $read = new responser\Read($response);
-        $this->assign($read->index(['fpage' => $fpage]));
+        $this->assign($read->index(['fpage' => $fpage, 'floor' => $floor]));
         return $this->fetch('Read/index');
     }
 

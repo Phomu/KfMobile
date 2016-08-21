@@ -9,6 +9,7 @@
   <script>
     pageInfo.fid = {$fid};
     pageInfo.tid = {$tid};
+    pageInfo.floor = {$floor};
     pageInfo.currentPageNum = {$currentPageNum};
     pageInfo.maxPageNum = {$maxPageNum};
   </script>
@@ -105,6 +106,9 @@
     </span>&nbsp;
     <a href="/kf_tidfavor.php?action=favor&tid={$tid}">
       <i class="fa fa-bookmark" aria-hidden="true"></i> 收藏
+    </a>&nbsp;
+    <a class="fast-goto-floor" href="#" title="快速直达指定楼层">
+      <i class="fa fa-facebook-f" aria-hidden="true"></i> 电梯
     </a>&nbsp;
   </section>
 
