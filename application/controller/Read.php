@@ -33,7 +33,7 @@ class Read extends Base
      */
     public function blockFloor(Request $request)
     {
-        $response = Proxy::get('kf_fw_0ladmin.php', $request->param());
+        $response = Proxy::get('kf_fw_0ladmin.php', $request->param(), ['referer' => input('server.HTTP_REFERER', '')]);
         new responser\Responser($response);
         return error('屏蔽回帖失败');
     }

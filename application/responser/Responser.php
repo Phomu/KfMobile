@@ -104,6 +104,7 @@ class Responser
         $matches = [];
         if (preg_match('/&uid=(\d+)/i', $pqUser->attr('href'), $matches)) $uid = intval($matches[1]);
         $userName = trim_strip($pqUser->text());
+        $userTitle = trim_strip($pqUser->attr('title'));
         if (!$userName) {
             success('请登录', 'login/index');
         }
@@ -134,6 +135,7 @@ class Responser
             'description' => $description,
             'uid' => $uid,
             'userName' => $userName,
+            'userTitle' => $userTitle,
             'hasNewMsg' => $hasNewMsg,
             'verify' => $verify,
             'safeId' => $safeId,

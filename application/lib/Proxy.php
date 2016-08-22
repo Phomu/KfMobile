@@ -30,19 +30,25 @@ class Proxy
      * 发出请求
      * @param string $url 请求的URL
      * @param string|array|null $postData post数据
+     * @param array $extraData 额外数据
      * @return array 响应信息
      */
-    public static function request($url, $postData = null)
+    public static function request($url, $postData = null, $extraData = [])
     {
         $url = config('proxy_base_url') . mb_convert_encoding($url, config('remote_site_encoding'), config('site_encoding'));
         $cookies = input('cookie.', []);
         unset($cookies[config('kf_cookie_prefix') . 'ipfrom']);
-        $header[] = 'Cookie: ' . serialize_cookies($cookies, config('kf_cookie_prefix'));
+        $clientIp = input('server.REMOTE_ADDR', '');
+        $headers = [
+            'Cookie: ' . serialize_cookies($cookies, config('kf_cookie_prefix')),
+            'X-Real-IP: ' . $clientIp,
+            'X-Forwarded-For: ' . $clientIp
+        ];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_USERAGENT, input('server.HTTP_USER_AGENT', ''));
-        curl_setopt($ch, CURLOPT_REFERER, config('proxy_base_url'));
+        curl_setopt($ch, CURLOPT_REFERER, !empty($extraData['referer']) ? $extraData['referer'] : config('proxy_base_url'));
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, config('proxy_connection_timeout'));
         curl_setopt($ch, CURLOPT_TIMEOUT, config('proxy_timeout'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -69,7 +75,7 @@ class Proxy
         $errorMsg = curl_error($ch);
         curl_close($ch);
         debug('end');
-        trace('客户端IP：' . input('server.REMOTE_ADDR', '未知'));
+        trace('客户端IP：' . $clientIp);
         trace('客户端UA：' . input('server.HTTP_USER_AGENT', '无'));
         trace('获取远端页面用时：' . debug('begin', 'end') . 's');
 
@@ -106,9 +112,10 @@ class Proxy
      * 发出GET请求
      * @param string $url 请求的URL
      * @param string|array $data GET请求数据
+     * @param array $extraData 额外数据
      * @return array 响应信息
      */
-    public static function get($url, $data = null)
+    public static function get($url, $data = null, $extraData = [])
     {
         if (!is_null($data)) {
             if (is_array($data)) {
@@ -120,21 +127,22 @@ class Proxy
             if ($data) $url .= (strpos($url, '?') === false ? '?' : '&') . $data;
         }
         trace('GET请求：' . $url);
-        return self::request($url);
+        return self::request($url, null, $extraData);
     }
 
     /**
      * 发出POST请求
      * @param string $url 请求的URL
      * @param string|array $data POST请求数据
+     * @param array $extraData 额外数据
      * @return array 响应信息
      */
-    public static function post($url, $data)
+    public static function post($url, $data, $extraData = [])
     {
         if (config('app_debug') && !preg_match('/login\.php|profile\.php\?action=modify/', $url)) {
             trace('POST请求：' . $url . '，请求数据：' . http_build_query($data));
         }
-        return self::request($url, $data);
+        return self::request($url, $data, $extraData);
     }
 
     public static function upload()
