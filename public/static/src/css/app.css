@@ -3516,11 +3516,6 @@ base::-moz-progress-bar,
   .progress-danger .progress-bar {
     background-color: #d9534f; } }
 
-.media {
-  margin-top: 15px; }
-  .media:first-child {
-    margin-top: 0; }
-
 .media,
 .media-body {
   overflow: hidden; }
