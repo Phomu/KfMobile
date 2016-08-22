@@ -88,55 +88,6 @@
         ]
     },
     {
-        "name": "topthink/framework",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/framework.git",
-            "reference": "699f268232fdcadc9b71be3d3e8215d21d502b6c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/framework/699f268232fdcadc9b71be3d3e8215d21d502b6c.zip",
-            "reference": "699f268232fdcadc9b71be3d3e8215d21d502b6c",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0",
-            "topthink/think-installer": "~1.0"
-        },
-        "require-dev": {
-            "johnkary/phpunit-speedtrap": "^1.0",
-            "mikey179/vfsstream": "~1.6",
-            "phpdocumentor/reflection-docblock": "^2.0",
-            "phploc/phploc": "2.*",
-            "phpunit/phpunit": "4.8.*",
-            "sebastian/phpcpd": "2.*",
-            "squizlabs/php_codesniffer": "2.*"
-        },
-        "time": "2016-08-12 09:36:55",
-        "type": "think-framework",
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "liu21st",
-                "email": "liu21st@gmail.com"
-            }
-        ],
-        "description": "the new thinkphp framework",
-        "homepage": "http://thinkphp.cn/",
-        "keywords": [
-            "framework",
-            "orm",
-            "thinkphp"
-        ]
-    },
-    {
         "name": "topthink/think-image",
         "version": "v1.0.6",
         "version_normalized": "1.0.6.0",
@@ -177,5 +128,54 @@
             }
         ],
         "description": "The ThinkPHP5 Image Package"
+    },
+    {
+        "name": "topthink/framework",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/framework.git",
+            "reference": "8b328b77e0a8eea06f504497e789fd86a0070de9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://packagist.phpcomposer.com/files/top-think/framework/8b328b77e0a8eea06f504497e789fd86a0070de9.zip",
+            "reference": "8b328b77e0a8eea06f504497e789fd86a0070de9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "topthink/think-installer": "~1.0"
+        },
+        "require-dev": {
+            "johnkary/phpunit-speedtrap": "^1.0",
+            "mikey179/vfsstream": "~1.6",
+            "phpdocumentor/reflection-docblock": "^2.0",
+            "phploc/phploc": "2.*",
+            "phpunit/phpunit": "4.8.*",
+            "sebastian/phpcpd": "2.*",
+            "squizlabs/php_codesniffer": "2.*"
+        },
+        "time": "2016-08-22 10:15:06",
+        "type": "think-framework",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "liu21st",
+                "email": "liu21st@gmail.com"
+            }
+        ],
+        "description": "the new thinkphp framework",
+        "homepage": "http://thinkphp.cn/",
+        "keywords": [
+            "framework",
+            "orm",
+            "thinkphp"
+        ]
     }
 ]
