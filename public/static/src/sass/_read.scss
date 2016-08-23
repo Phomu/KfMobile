@@ -116,6 +116,10 @@
         }
       }
     }
+
+    .custom-select {
+      font-size: .714rem; // ~10px
+    }
   }
 
   // 提示区域
@@ -130,6 +134,13 @@
 
     li {
       list-style-type: none;
+    }
+  }
+
+  // 我的其他帖子列表
+  .my-other-thread-list {
+    a:before {
+      content: "● ";
     }
   }
 
@@ -158,6 +169,7 @@
   // 附件
   .attach {
     margin-bottom: $spacer-xs;
+    font-size: $font-size-sm;
     color: $text-muted;
     text-align: left !important;
   }

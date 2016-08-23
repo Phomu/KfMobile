@@ -7130,6 +7130,8 @@ main {
         width: 5rem;
         margin-left: 0.5714rem;
         margin-right: 0.5714rem; }
+    .read-content fieldset .custom-select {
+      font-size: .714rem; }
   .read-content .fieldset-alert {
     margin-bottom: 1rem;
     font-size: 0.875rem;
@@ -7138,6 +7140,8 @@ main {
       color: #d9534f; }
     .read-content .fieldset-alert li {
       list-style-type: none; }
+  .read-content .my-other-thread-list a:before {
+    content: "● "; }
   .read-content img, .read-content audio, .read-content video, .read-content marquee {
     max-width: 100%;
     margin-top: 0.3571rem;
@@ -7152,6 +7156,7 @@ main {
     text-align: left !important; }
   .read-content .attach {
     margin-bottom: 0.3571rem;
+    font-size: 0.875rem;
     color: #818a91;
     text-align: left !important; }
 

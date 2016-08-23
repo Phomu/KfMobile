@@ -94,7 +94,7 @@
   <h4>{$threadTitle}</h4>
 
   <!-- 主题信息 -->
-  <section class="small text-muted m-b-1 pull-sm-left">
+  <section class="small text-muted m-b-1 pull-md-left">
     <span data-toggle="tooltip" title="点击数" aria-label="点击数">
       <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> {$hitNum}
     </span>&nbsp;
@@ -107,9 +107,6 @@
     <a href="/kf_tidfavor.php?action=favor&tid={$tid}">
       <i class="fa fa-bookmark" aria-hidden="true"></i> 收藏
     </a>&nbsp;
-    <a class="fast-goto-floor" href="#" title="快速直达指定楼层">
-      <i class="fa fa-facebook-f" aria-hidden="true"></i> 电梯
-    </a>&nbsp;
   </section>
 
   <!-- 功能区 -->
@@ -117,8 +114,11 @@
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
       <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
     </a>
+    <a class="btn btn-info fast-goto-floor" href="#" title="快速直达指定楼层" role="button">
+      <i class="fa fa-facebook-f" aria-hidden="true"></i> 电梯
+    </a>
     <a class="btn btn-primary" href="/post.php?action=reply&fid={$fid}&tid={$tid}">
-      <i class="fa fa-pencil" aria-hidden="true"></i> 回帖
+      <i class="fa fa-comment" aria-hidden="true"></i> 回帖
     </a>
   </section>
   <hr class="m-b-0">
@@ -229,10 +229,9 @@
       {if condition="$canBlockFloor AND $vo['pid'] !== 'tpc'"}
       {assign name="hasBlockFloor" value="true" /}
       {/if}
-      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} p-x-0 small" data-toggle="tooltip"
-           title="{$vo.sign}">
+      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} p-x-0 small">
         {notempty name="vo.sign"}
-        <i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}
+        <span data-toggle="tooltip" title="{$vo.sign}"><i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}</span>
         {/notempty}
       </div>
       <div class="{empty name='hasBlockFloor'}col-xs-3{else /}col-xs-6{/empty} p-x-0 text-xs-right">
