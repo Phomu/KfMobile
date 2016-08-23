@@ -155,18 +155,17 @@ function make_thumb($path, $thumbPath)
         fclose($fp);
 
         $image = \think\Image::open(TEMP_PATH . $md5Path);
-        $thumbDir = config('thumb_cache_path');
-        if (!file_exists($thumbDir) && !mkdir($thumbDir, 0755, true)) {
+        if (!file_exists(CACHE_PATH) && !mkdir(CACHE_PATH, 0755, true)) {
             exception('创建缩略图缓存目录失败');
         }
         $maxWidth = config('thumb_max_width');
         $maxHeight = config('thumb_max_height');
         if ($image->width() <= $maxWidth && $image->height() <= $maxHeight) {
-            $image->save($thumbDir . $thumbPath, null, 90);
+            $image->save(CACHE_PATH . $thumbPath, null, 90);
         } else {
-            $image->thumb($maxWidth, $maxHeight)->save($thumbDir . $thumbPath, null, 90);
+            $image->thumb($maxWidth, $maxHeight)->save(CACHE_PATH . $thumbPath, null, 90);
         }
-        trace('保存缩略图至：' . $thumbDir . $thumbPath);
+        trace('保存缩略图至：' . CACHE_PATH . $thumbPath);
         unlink(TEMP_PATH . $md5Path);
     } catch (\Exception $ex) {
         if (config('app_debug')) throw $ex;

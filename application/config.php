@@ -42,8 +42,6 @@ return [
     'stat_script' => '',
     // 游戏介绍图片域名的url
     'game_intro_base_url' => 'http://www.9gal.com/',
-    // 缩略图缓存目录
-    'thumb_cache_path' => RUNTIME_PATH . 'thumb/',
     // 缩略图最大宽度
     'thumb_max_width' => 360,
     // 缩略图最大高度

@@ -88,7 +88,7 @@ class GameIntro extends Base
         trace('缩略图名称：' . $thumbName . $thumbExt);
         if (empty($thumbExt) || !in_array($thumbExt, ['.jpg', '.jpeg', '.gif', '.png'])) error('非法请求');
 
-        $thumbPath = config('thumb_cache_path') . $thumbName . $thumbExt;
+        $thumbPath = CACHE_PATH . $thumbName . $thumbExt;
         if (!file_exists($thumbPath)) {
             make_thumb($path, $thumbName . $thumbExt);
         }
