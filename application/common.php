@@ -73,6 +73,7 @@ function convert_url($url)
         elseif ($path === 'kf_smbox.php') return url('SmBox/index', $params);
         elseif ($path === 'profile.php') {
             if (strpos($params, 'action=favor') !== false) return url('Profile/favor');
+            elseif (strpos($params, 'action=friend') !== false) return url('Profile/friend');
         }
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
@@ -173,5 +174,22 @@ function make_thumb($path, $thumbPath)
     } catch (\Exception $ex) {
         if (config('app_debug')) throw $ex;
         else error('获取图片失败');
+    }
+}
+
+/**
+ * 将数组中的字符串转换为指定编码
+ * @param array $arr 数组
+ * @param string $toEncoding 目标编码
+ * @param string $fromEncoding 源编码
+ */
+function convert_array_encoding(&$arr, $toEncoding, $fromEncoding)
+{
+    foreach ($arr as &$value) {
+        if (is_string($value)) {
+            $value = mb_convert_encoding($value, $toEncoding, $fromEncoding);
+        } elseif (is_array($value)) {
+            convert_array_encoding($value, $toEncoding, $fromEncoding);
+        }
     }
 }

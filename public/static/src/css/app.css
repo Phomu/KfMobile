@@ -7227,3 +7227,6 @@ main {
   border-top: none; }
   #smBoxPanel .table td a {
     min-width: 3.857rem; }
+
+#friendList .form-group {
+  margin-bottom: 0.5rem; }

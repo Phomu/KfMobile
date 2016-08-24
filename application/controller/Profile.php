@@ -39,4 +39,19 @@ class Profile extends Base
         $this->assign($profile->favor(['type' => $type]));
         return $this->fetch('Profile/favor');
     }
+
+    /**
+     * 展示好友列表页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function friend(Request $request)
+    {
+        $func = 'get';
+        if ($request->isPost()) $func = 'post';
+        $response = Proxy::$func('profile.php?action=friend', $request->param());
+        $profile = new responser\Profile($response);
+        $this->assign($profile->friend());
+        return $this->fetch('Profile/friend');
+    }
 }

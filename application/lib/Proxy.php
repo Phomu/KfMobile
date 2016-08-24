@@ -35,7 +35,9 @@ class Proxy
      */
     public static function request($url, $postData = null, $extraData = [])
     {
-        $url = config('proxy_base_url') . mb_convert_encoding($url, config('remote_site_encoding'), config('site_encoding'));
+        $remoteEncoding = config('remote_site_encoding');
+        $siteEncoding = config('site_encoding');
+        $url = config('proxy_base_url') . mb_convert_encoding($url, $remoteEncoding, $siteEncoding);
         $cookies = input('cookie.', []);
         unset($cookies[config('kf_cookie_prefix') . 'ipfrom']);
         $clientIp = input('server.REMOTE_ADDR', '');
@@ -58,14 +60,10 @@ class Proxy
         if (!is_null($postData)) {
             curl_setopt($ch, CURLOPT_POST, true);
             if (is_array($postData)) {
-                foreach ($postData as &$value) {
-                    if (is_string($value)) {
-                        $value = mb_convert_encoding($value, config('remote_site_encoding'), config('site_encoding'));
-                    }
-                }
+                convert_array_encoding($postData, $remoteEncoding, $siteEncoding);
                 $postData = http_build_query($postData);
             } else {
-                $postData = mb_convert_encoding($postData, config('remote_site_encoding'), config('site_encoding'));
+                $postData = mb_convert_encoding($postData, $remoteEncoding, $siteEncoding);
             }
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
@@ -82,7 +80,7 @@ class Proxy
         if (empty($result)) return ['code' => $code === 200 ? 502 : $code, 'errorMsg' => $errorMsg];
         list($header, $document) = explode("\r\n\r\n", $result, 2);
         if ($code === 200) {
-            $document = mb_convert_encoding($document, config('site_encoding'), config('remote_site_encoding'));
+            $document = mb_convert_encoding($document, $siteEncoding, $remoteEncoding);
             $document = str_ireplace(
                 '<meta http-equiv="Content-Type" content="text/html; charset=gbk"',
                 '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"',

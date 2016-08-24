@@ -761,6 +761,21 @@ var bindFavorPageBtnsClick = function () {
 };
 
 /**
+ * 绑定好友列表页面按钮点击事件
+ */
+var bindFriendPageBtnsClick = function () {
+    $('#friendActionBtns').on('click', 'button[type="button"]', function () {
+        var action = $(this).data('action');
+        if (action === 'selectAll') {
+            selectAll($('input[name="selid[]"]'));
+        }
+        else if (action === 'selectReverse') {
+            selectReverse($('input[name="selid[]"]'));
+        }
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -812,6 +827,8 @@ $(function () {
         randomSelectSmBox();
     } else if (pageId === 'favorPage') {
         bindFavorPageBtnsClick();
+    } else if (pageId === 'friendPage') {
+        bindFriendPageBtnsClick();
     }
 
     //var tooltipStartTime = new Date();

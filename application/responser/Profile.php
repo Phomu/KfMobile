@@ -157,4 +157,56 @@ class Profile extends Responser
         if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
     }
+
+    /**
+     * 获取好友列表页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function friend($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 好友列表
+        $friendList = [];
+        foreach (pq('.f_one:not(:last)') as $item) {
+            $pqItem = pq($item);
+            $isOnline = trim($pqItem->find('> td:nth-child(2) > b')->text()) === '在线';
+            $pqFriendLink = $pqItem->find('> td:nth-child(3) > a');
+            $friendUid = 0;
+            $friendName = trim_strip($pqFriendLink->text());
+            if (preg_match('/uid=(\d+)/i', $pqFriendLink->attr('href'), $matches)) {
+                $friendUid = intval($matches[1]);
+            }
+            $description = $pqItem->find('> td:nth-child(4) > input')->val();
+            $addTime = trim_strip($pqItem->find('> td:nth-child(5)')->text());
+            $friendList[] = [
+                'isOnline' => $isOnline,
+                'uid' => $friendUid,
+                'name' => $friendName,
+                'description' => $description,
+                'addTime' => $addTime,
+            ];
+        }
+
+        $data = [
+            'friendList' => $friendList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
 }
