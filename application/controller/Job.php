@@ -32,4 +32,15 @@ class Job extends Base
         new responser\Responser($response);
         return error('投票失败');
     }
+
+    /**
+     * 添加收藏
+     * @param Request $request
+     */
+    public function addFavor(Request $request)
+    {
+        $response = Proxy::get('kf_tidfavor.php?action=favor', $request->param());
+        new responser\Responser($response);
+        return error('添加收藏失败');
+    }
 }

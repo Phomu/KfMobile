@@ -207,6 +207,25 @@ var decodeHtmlSpecialChar = function (str) {
 };
 
 /**
+ * 全选
+ * @param {jQuery} $nodes 想要全选的节点的jQuery对象
+ */
+var selectAll = function ($nodes) {
+    $nodes.prop('checked', true);
+};
+
+/**
+ * 反选
+ * @param {jQuery} $nodes 想要反选的节点的jQuery对象
+ */
+var selectReverse = function ($nodes) {
+    $nodes.each(function () {
+        var $this = $(this);
+        $this.prop('checked', !$this.prop('checked'));
+    });
+};
+
+/**
  * 读取设置
  */
 var readConfig = function () {
@@ -694,6 +713,54 @@ var randomSelectSmBox = function () {
 };
 
 /**
+ * 绑定收藏夹页面按钮点击事件
+ */
+var bindFavorPageBtnsClick = function () {
+    var $form = $('form[name="favorForm"]');
+
+    $(document).on('click', '.remove-catalog', function () {
+        return window.confirm('是否删除该目录？');
+    });
+
+    $('#addCatalog').click(function (e) {
+        e.preventDefault();
+        var type = $.trim(window.prompt('请输入收藏夹目录名称：'));
+        if (!type) return;
+        $form.find('input[name="job"]').val('addtype');
+        $form.find('input[name="type"]').val(type);
+        $form.submit();
+    });
+
+    $('#favorActionBtns').on('click', 'button', function () {
+        var action = $(this).data('action');
+        if (action === 'selectAll') {
+            selectAll($('input[name="delid[]"]'));
+        }
+        else if (action === 'selectReverse') {
+            selectReverse($('input[name="delid[]"]'));
+        }
+        else if (action === 'delete') {
+            var $checked = $('input[name="delid[]"]:checked');
+            if ($checked.length > 0 && window.confirm('是否删除这{0}项？'.replace('{0}', $checked.length))) {
+                $form.find('input[name="job"]').val('clear');
+                $form.submit();
+            }
+        }
+    });
+
+    $('#convertCatalogDropdownMenu').on('click', 'a', function (e) {
+        e.preventDefault();
+        var type = $(this).data('type');
+        var $checked = $('input[name="delid[]"]:checked');
+        if ($checked.length > 0 && window.confirm('是否将这{0}项转换到指定目录？'.replace('{0}', $checked.length))) {
+            $form.find('input[name="job"]').val('change');
+            $form.find('input[name="type"]').val(type);
+            $form.submit();
+        }
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -743,6 +810,8 @@ $(function () {
         tuiGameIntro('property');
     } else if (pageId === 'smBoxPage') {
         randomSelectSmBox();
+    } else if (pageId === 'favorPage') {
+        bindFavorPageBtnsClick();
     }
 
     //var tooltipStartTime = new Date();

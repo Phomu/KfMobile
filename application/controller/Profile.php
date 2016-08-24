@@ -23,4 +23,20 @@ class Profile extends Base
         $this->assign($profile->show());
         return $this->fetch('Profile/show');
     }
+
+    /**
+     * 展示收藏夹页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function favor(Request $request)
+    {
+        $type = input('type/d', -1);
+        $func = 'get';
+        if ($request->isPost()) $func = 'post';
+        $response = Proxy::$func('profile.php?action=favor', $request->param());
+        $profile = new responser\Profile($response);
+        $this->assign($profile->favor(['type' => $type]));
+        return $this->fetch('Profile/favor');
+    }
 }

@@ -73,4 +73,88 @@ class Profile extends Responser
         if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
     }
+
+    /**
+     * 获取收藏夹页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function favor($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 收藏夹目录列表
+        $catalogList = [];
+        foreach (pq('#cate_tid > tr:gt(1) a:not([href*="job=deltype"])') as $item) {
+            $pqItem = pq($item);
+            $id = 0;
+            $catalogName = '';
+            if (preg_match('/type=(\d+)/i', $pqItem->attr('href'), $matches)) {
+                $id = intval($matches[1]);
+            }
+            $catalogName = trim_strip($pqItem->text());
+            $catalogList[] = ['id' => $id, 'name' => $catalogName];
+        }
+
+        // 帖子列表
+        $threadList = [];
+        foreach (pq('form[name="form"]:last > table > tr:gt(0)') as $item) {
+            $pqItem = pq($item);
+            $tid = 0;
+            $threadTitle = '';
+            $fid = 0;
+            $threadForum = '';
+            $authorUid = 0;
+            $author = '';
+
+            $pqThreadLink = $pqItem->find('> td:first-child > a');
+            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
+                $tid = intval($matches[1]);
+            }
+            $threadTitle = trim($pqThreadLink->html());
+
+            $pqForumLink = $pqItem->find('> td:nth-child(2) > a');
+            if (preg_match('/fid=(\d+)/i', $pqForumLink->attr('href'), $matches)) {
+                $fid = intval($matches[1]);
+            }
+            $threadForum = trim_strip($pqForumLink->text());
+
+            $pqAuthorLink = $pqItem->find('> td:nth-child(3) > a');
+            if (preg_match('/uid=(\d+)/i', $pqAuthorLink->attr('href'), $matches)) {
+                $authorUid = intval($matches[1]);
+            }
+            $author = trim_strip($pqAuthorLink->text());
+
+            $threadList[] = [
+                'tid' => $tid,
+                'threadTitle' => $threadTitle,
+                'fid' => $fid,
+                'threadForum' => $threadForum,
+                'authorUid' => $authorUid,
+                'author' => $author,
+            ];
+        }
+
+        $data = [
+            'type' => $extraData['type'],
+            'catalogList' => $catalogList,
+            'threadList' => $threadList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
 }

@@ -104,7 +104,7 @@
     <span data-toggle="tooltip" title="发表时间" aria-label="发表时间">
       <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$publishTime}</time>
     </span>&nbsp;
-    <a href="/kf_tidfavor.php?action=favor&tid={$tid}">
+    <a href="{:url('Job/addFavor?tid=' . $tid)}">
       <i class="fa fa-bookmark" aria-hidden="true"></i> 收藏
     </a>&nbsp;
   </section>

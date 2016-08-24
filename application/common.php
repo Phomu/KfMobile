@@ -71,6 +71,9 @@ function convert_url($url)
         elseif ($path === 'g_intro_moe.php') return url('GameIntro/property', $params);
         elseif ($path === 'faq.php') return url('Faq/index', $params);
         elseif ($path === 'kf_smbox.php') return url('SmBox/index', $params);
+        elseif ($path === 'profile.php') {
+            if (strpos($params, 'action=favor') !== false) return url('Profile/favor');
+        }
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {

@@ -313,6 +313,8 @@ class Read extends Responser
                     '<div class="code-area"><a class="copy-code" href="#" role="button">复制代码</a>' .
                     '<pre class="pre-scrollable">' . $codeHtml . '</pre></div>'
                 );
+            } elseif ($pqNode->find('legend:contains("提示")')->length > 0) {
+                $pqNode->addClass('font-size-sm');
             }
         }
 
