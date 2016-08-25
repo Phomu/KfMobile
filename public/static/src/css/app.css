@@ -7089,7 +7089,7 @@ main {
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1.1rem;
-  overflow-x: auto; }
+  word-break: break-all; }
   .read-content .blockquote {
     margin-top: 0.5714rem;
     margin-bottom: 0.5714rem;
@@ -7224,7 +7224,7 @@ main {
   max-height: 14.5rem; }
 
 #faqPage .card .card-text {
-  overflow-x: auto; }
+  word-break: break-all; }
 
 #smBoxPanel .table td {
   border-top: none; }

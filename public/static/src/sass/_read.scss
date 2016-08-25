@@ -40,7 +40,7 @@
     bottom: $spacer;
   }
   font-size: 1.1rem; // ~15.4px
-  overflow-x: auto;
+  word-break: break-all;
 
   // 引用框
   .blockquote {
