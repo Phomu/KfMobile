@@ -61,6 +61,7 @@ class GrowUp extends Responser
             );
             $jobList[] = ['name' => $jobName, 'exp' => $jobExp];
         }
+        $isVip = $pqOtherArea->find('> td:nth-child(2) > div > div:eq(1) > div:first > div:eq(1) > span:contains("Yes")')->length > 0;
         $hasDonation = strpos($pqOtherArea->find('form[name="rvrc1"]')->html(), '今天已经捐款') > 0;
 
         // 自定义ID颜色
@@ -86,6 +87,7 @@ class GrowUp extends Responser
             'expPercent' => $expPercent,
             'expRemain' => $expRemain,
             'jobList' => $jobList,
+            'isVip' => $isVip,
             'hasDonation' => $hasDonation,
             'colorList' => $colorList,
         ];

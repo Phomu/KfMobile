@@ -20,8 +20,11 @@ class Thread extends Base
     {
         $response = Proxy::get('thread.php', $request->param());
         $thread = new responser\Thread($response);
-        $extraData = [];
-        $extraData['jpn'] = input('fid/d', 0) === 98;
+        $extraData = [
+            'jpn' => input('fid/d', 0) === 98,
+            'type' => input('type/d', 0),
+            'orderway' => input('orderway', ''),
+        ];
         $this->assign($thread->index($extraData));
         return $this->fetch($extraData['jpn'] ? 'Thread/jpn' : 'Thread/index');
     }

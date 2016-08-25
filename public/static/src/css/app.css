@@ -6946,6 +6946,9 @@ main {
 .dropdown-menu {
   line-height: 2.2; }
 
+.dropdown-item.active {
+  color: #fff !important; }
+
 .page-link:hover, .page-link:focus {
   text-decoration: none; }
 

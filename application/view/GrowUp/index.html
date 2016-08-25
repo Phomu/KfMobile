@@ -79,7 +79,14 @@
   <ul class="list-group list-group-sm m-b-1">
     <li class="list-group-item list-group-item-header h5">成长加速</li>
     <li class="list-group-item">
-      <div>VIP加速</div>
+      <div>
+        VIP加速
+        {eq name="isVip" value="true"}
+        <span class="tag tag-success">Yes</span>
+        {else /}
+        <span class="tag tag-default">No</span>
+        {/eq}
+      </div>
       <div class="font-size-sm text-muted">每天捐款附送50经验值</div>
     </li>
     <li class="list-group-item">

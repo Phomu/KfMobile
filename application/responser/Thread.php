@@ -30,7 +30,7 @@ class Thread extends Responser
         $request = request();
 
         // 日本语版
-        if (!empty($extraData) && $extraData['jpn']) {
+        if ($extraData['jpn']) {
             $fid = 98;
             $forumName = '苍雪日本語版';
             $subForumList = [];
@@ -236,6 +236,8 @@ class Thread extends Responser
             'parentFid' => $parentFid,
             'parentForumName' => $parentForumName,
             'subForumList' => $subForumList,
+            'type' => $extraData['type'],
+            'orderway' => $extraData['orderway'],
             'forumRule' => $forumRule,
             'threadTypeList' => $threadTypeList,
             'threadTypeParam' => http_build_query($request->except(['page', 'type'])),

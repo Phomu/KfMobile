@@ -50,6 +50,11 @@ main {
   line-height: 2.2;
 }
 
+// 下拉菜单项（激活）
+.dropdown-item.active {
+  color: #fff !important;
+}
+
 // 分页链接
 .page-link {
   &:hover, &:focus {

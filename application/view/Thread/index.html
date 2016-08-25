@@ -63,10 +63,10 @@
             分类
           </button>
           <div class="dropdown-menu" aria-labelledby="threadTypeDropdownBtn">
-            <a class="dropdown-item" href="{:url('Thread/index?fid=' . $fid)}">全部</a>
+            <a class="dropdown-item  {eq name='type' value='0'}active{/eq}" href="{:url('Thread/index?fid=' . $fid)}">全部</a>
             {volist name="threadTypeList" id="vo"}
-            <a class="dropdown-item" href="{:url('Thread/index', $threadTypeParam . '&type=' . $vo['typeId'])}"
-               style="color: {$vo.typeColor}">
+            <a class="dropdown-item  {eq name='type' value='$vo.typeId'}active{/eq}"
+               href="{:url('Thread/index', $threadTypeParam . '&type=' . $vo['typeId'])}" style="color: {$vo.typeColor}">
               {$vo.typeName}
             </a>
             {/volist}
@@ -80,8 +80,14 @@
             排列
           </button>
           <div class="dropdown-menu" aria-labelledby="threadSortByDropdownBtn">
-            <a class="dropdown-item" href="{:url('Thread/index', $threadSortByParam . '&orderway=postdate')}">按发表时间排列</a>
-            <a class="dropdown-item" href="{:url('Thread/index', $threadSortByParam . '&orderway=lastpost')}">按回复时间排列</a>
+            <a class="dropdown-item {eq name='orderway' value='postdate'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=postdate')}">按发表时间排列</a>
+            <a class="dropdown-item {eq name='orderway' value='lastpost'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=lastpost')}">按回复时间排列</a>
+            <a class="dropdown-item {eq name='orderway' value='hits'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=hits')}">按点击数排列</a>
+            <a class="dropdown-item {eq name='orderway' value='replies'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=replies')}">按回复数排列</a>
           </div>
         </div>
       </div>
