@@ -479,6 +479,26 @@ var handleBuyThreadBtn = function () {
 };
 
 /**
+ * 复制购买人名单
+ */
+var copyBuyThreadList = function () {
+    $(document).on('change', '.buy-thread-list', function () {
+        var $this = $(this);
+        if ($this.val() !== 'copyList' || $this.children().length <= 3) return;
+        var list = $this.find('option:gt(2)').map(function () {
+            return $(this).text();
+        }).get().join('\n');
+        $('#buyThreadListContent').val(list);
+        $('#buyThreadListDialog').modal('show');
+        $this.get(0).selectedIndex = 0;
+    });
+
+    $('#buyThreadListDialog').on('shown.bs.modal', function () {
+        $('#buyThreadListContent').select().focus();
+    });
+};
+
+/**
  * 处理楼层内的图片
  */
 var handleFloorImage = function () {
@@ -800,6 +820,7 @@ $(function () {
         handleFastReplyBtn();
         handleBlockFloorBtn();
         handleBuyThreadBtn();
+        copyBuyThreadList();
         handleFloorImage();
         handlePostForm();
         copyCode();

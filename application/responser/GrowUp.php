@@ -47,7 +47,7 @@ class GrowUp extends Responser
         // 任务、捐款
         $pqOtherArea = $pqArea->find('> div:nth-child(3) > table > tr');
         $jobList = [];
-        foreach ($pqOtherArea->find('> td:first > div:first > div') as $job) {
+        foreach ($pqOtherArea->find('> td:first > div:first > div:not(:last)') as $job) {
             $pqJob = pq($job);
             $jobName = $pqJob->find('> div:last')->html();
             $jobExp = trim_strip($pqJob->find('> div:first')->text());
