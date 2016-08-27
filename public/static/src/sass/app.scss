@@ -339,3 +339,18 @@ main {
     margin-bottom: $spacer/2;
   }
 }
+
+// 账户设置页面
+#modifyPage {
+  // 头像
+  #avatar {
+    margin-bottom: $spacer-sm;
+    max-width: 140px;
+    max-height: 200px;
+  }
+
+  // 上传头像浏览按钮
+  #browseAvatar {
+    margin-bottom: $spacer-sm;
+  }
+}

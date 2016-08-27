@@ -238,6 +238,7 @@ class Read extends Responser
             $smLevel = str_replace('级神秘', '', trim_strip($pqUser->contents()->eq($pqUserContents->length - 1)->text()));
         }
         if (strpos($avatar, 'none.gif') > 0) $avatar = '';
+        elseif (strpos($avatar, 'http') !== 0) $avatar = '/' . $avatar;
 
         $content = $this->getFloorContent($pqFloor->find('tr:first > td'));
 

@@ -72,8 +72,14 @@ function convert_url($url)
         elseif ($path === 'faq.php') return url('Faq/index', $params);
         elseif ($path === 'kf_smbox.php') return url('SmBox/index', $params);
         elseif ($path === 'profile.php') {
-            if (strpos($params, 'action=favor') !== false) return url('Profile/favor');
-            elseif (strpos($params, 'action=friend') !== false) return url('Profile/friend');
+            if (strpos($params, 'action=favor') !== false)
+                return url('Profile/favor', str_replace('action=favor', '', $params));
+            elseif (strpos($params, 'action=friend') !== false)
+                return url('Profile/friend', str_replace('action=friend', '', $params));
+            elseif (strpos($params, 'action=modify') !== false)
+                return url('Profile/modify', str_replace('action=modify', '', $params));
+            elseif (strpos($params, 'action=show') !== false)
+                return url('Profile/show', str_replace('action=show', '', $params));
         }
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;

@@ -40,6 +40,7 @@ class Profile extends Responser
         $pqAvatarCell = $pqSecondLine->find('td:first-child');
         $profileAvatar = $pqAvatarCell->find('div > img.pic')->attr('src');
         if (strpos($profileAvatar, 'none.gif')) $profileAvatar = '';
+        elseif (strpos($profileAvatar, 'http') !== 0) $profileAvatar = '/' . $profileAvatar;
         if (preg_match('/authorid=(\d+)/i', $pqAvatarCell->find('a[href^="search.php?authorid="]'), $matches)) {
             $profileUid = intval($matches[1]);
         }
@@ -204,6 +205,56 @@ class Profile extends Responser
         $data = [
             'friendList' => $friendList,
         ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取账号设置页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function modify($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 设置字段
+        $data = [];
+        foreach (pq('input[type="text"], input[type="radio"]:checked, select, input[type="hidden"]') as $item) {
+            $pqItem = pq($item);
+            $name = $pqItem->attr('name');
+            if (empty($name)) continue;
+            $data[$name] = trim_strip($pqItem->val());
+        }
+        if (!(empty($data['proyear']) || empty($data['promonth']) || empty($data['proday']))) {
+            $data['birthday'] = $data['proyear'] . '-' . str_pad($data['promonth'], 2, '0', STR_PAD_LEFT) . '-' .
+                str_pad($data['proday'], 2, '0', STR_PAD_LEFT);
+        }
+
+        // 头像
+        $data['avatar'] = pq('img[name="useravatars"]')->attr('src');
+        if (strpos($data['avatar'], 'http') !== 0) $data['avatar'] = '/' . $data['avatar'];
+        $data['avatarWidth'] = trim_strip(pq('input[name="uploadurl[1]"]')->val());
+        $data['avatarHeight'] = trim_strip(pq('input[name="uploadurl[2]"]')->val());
+        if (preg_match('/整形优惠券(\d+)x20/', pq('span:contains("整形优惠券")')->html(), $matches)) {
+            $data['couponNum'] = intval($matches[1]);
+            if ($data['couponNum'] > 3) $data['couponNum'] = 3;
+        }
+
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
         if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));

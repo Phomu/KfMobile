@@ -386,10 +386,10 @@ var highlightUnReadAtTipsMsg = function () {
  */
 var handleIndexThreadPanel = function () {
     if (Config['activeNewReplyPanel']) {
-        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config['activeNewReplyPanel'])).tab('show');
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config.activeNewReplyPanel)).tab('show');
     }
     if (Config['activeTopRecommendPanel']) {
-        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config['activeTopRecommendPanel'])).tab('show');
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config.activeTopRecommendPanel)).tab('show');
     }
 
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
@@ -563,10 +563,12 @@ var handlePostForm = function () {
 var fastGotoFloor = function () {
     $('.fast-goto-floor').click(function (e) {
         e.preventDefault();
-        if (!Config['perPageFloorNum']) {
-            var floorNum = parseInt(window.prompt('你的论坛设置里“文章列表每页个数”为多少（10、20、30）？', 10));
+        if (!Config.perPageFloorNum) {
+            var floorNum = parseInt(
+                window.prompt('你的论坛设置里“文章列表每页个数”为多少（10、20、30）？\n注：如修改了论坛中的此项设置，请访问账号设置页面即可自动同步本地设置', 10)
+            );
             if (floorNum && $.inArray(floorNum, [10, 20, 30]) !== -1) {
-                Config['perPageFloorNum'] = floorNum;
+                Config.perPageFloorNum = floorNum;
                 writeConfig();
             }
             else return;
@@ -577,7 +579,7 @@ var fastGotoFloor = function () {
             'read/index',
             'tid={0}&page={1}&floor={2}'
                 .replace('{0}', pageInfo.tid)
-                .replace('{1}', Math.floor(floor / Config['perPageFloorNum']) + 1)
+                .replace('{1}', Math.floor(floor / Config.perPageFloorNum) + 1)
                 .replace('{2}', floor)
         );
     });
@@ -796,6 +798,80 @@ var bindFriendPageBtnsClick = function () {
 };
 
 /**
+ * 在账号设置页面里为生日字段赋值
+ */
+var assignBirthdayFiled = function () {
+    $('#birthday').change(function () {
+        var value = $.trim($(this).val());
+        var matches = /(\d{4})-(\d{1,2})-(\d{1,2})/.exec(value);
+        var year = '', month = '', day = '';
+        if (matches) {
+            year = parseInt(matches[1]);
+            month = parseInt(matches[2]);
+            day = parseInt(matches[3]);
+        }
+        $('input[name="proyear"]').val(year);
+        $('input[name="promonth"]').val(month);
+        $('input[name="proday"]').val(day);
+    });
+};
+
+/**
+ * 上传头像
+ */
+var uploadAvatar = function () {
+    $('#uploadAvatar').click(function (e) {
+        e.preventDefault();
+        var $browseAvatar = $('#browseAvatar');
+        if (!$browseAvatar.val()) {
+            alert('请选择要上传的图片');
+            return;
+        }
+        var formData = new FormData();
+        formData.append('facetype', '3');
+        formData.append('step', '2');
+        formData.append('upload', $browseAvatar.get(0).files[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/profile.php?action=ajaxface',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (html) {
+                console.log(html);
+            },
+            error: function () {
+                alert('上传失败');
+            }
+        });
+    });
+};
+
+/**
+ * 同步主题每页楼层数量的设置
+ */
+var syncPerPageFloorNum = function () {
+    /**
+     * 同步设置
+     */
+    var syncConfig = function () {
+        var perPageFloorNum = parseInt($('select[name="p_num"]').val());
+        if (perPageFloorNum === 0) perPageFloorNum = 10;
+        if (!isNaN(perPageFloorNum) && perPageFloorNum !== Config.perPageFloorNum) {
+            Config.perPageFloorNum = perPageFloorNum;
+            writeConfig();
+        }
+    };
+
+    syncConfig();
+    $('#creator').submit(function () {
+        readConfig();
+        syncConfig();
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -850,6 +926,10 @@ $(function () {
         bindFavorPageBtnsClick();
     } else if (pageId === 'friendPage') {
         bindFriendPageBtnsClick();
+    } else if (pageId === 'modifyPage') {
+        syncPerPageFloorNum();
+        assignBirthdayFiled();
+        //uploadAvatar();
     }
 
     //var tooltipStartTime = new Date();

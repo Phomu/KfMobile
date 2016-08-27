@@ -7233,3 +7233,11 @@ main {
 
 #friendList .form-group {
   margin-bottom: 0.5rem; }
+
+#modifyPage #avatar {
+  margin-bottom: 0.5714rem;
+  max-width: 140px;
+  max-height: 200px; }
+
+#modifyPage #browseAvatar {
+  margin-bottom: 0.5714rem; }

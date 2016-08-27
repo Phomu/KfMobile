@@ -54,4 +54,19 @@ class Profile extends Base
         $this->assign($profile->friend());
         return $this->fetch('Profile/friend');
     }
+
+    /**
+     * 展示账号设置页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function modify(Request $request)
+    {
+        $func = 'get';
+        if ($request->isPost()) $func = 'post';
+        $response = Proxy::$func('profile.php?action=modify', $request->param());
+        $profile = new responser\Profile($response);
+        $this->assign($profile->modify());
+        return $this->fetch('Profile/modify');
+    }
 }
