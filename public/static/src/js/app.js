@@ -3,8 +3,17 @@
 var pageId = $('body').attr('id');
 // 配置名称
 var configName = 'kf_config';
-// 配置
+/**
+ * 配置类
+ */
 var Config = {};
+/**
+ * 配置常量类
+ */
+var Const = {
+    // 存储多重引用数据的LocalStorage名称
+    multiQuoteStorageName: 'kf_multi_quote'
+};
 
 /**
  * 设置Cookie
@@ -437,9 +446,9 @@ var showFloorLink = function () {
 var handleFastReplyBtn = function () {
     $(document).on('click', '.fast-reply-btn', function (e) {
         e.preventDefault();
-        var $this = $(this);
-        var floor = $this.data('floor');
-        var userName = $this.data('username');
+        var $article = $(this).closest('article');
+        var floor = $article.data('floor');
+        var userName = $article.data('username');
         $('#articleGjc').val(userName);
         var replyContent = $('#articleContent').get(0);
         replyContent.value = '[quote]回 {0}楼({1}) 的帖子[/quote]\n'.replace('{0}', floor).replace('{1}', userName);
@@ -656,6 +665,118 @@ var copyCode = function () {
             $('<textarea class="form-control code-textarea" style="height: ' + height + 'px" wrap="off">' + html + '</textarea>')
                 .insertAfter($this).select().focus();
         }
+    });
+};
+
+/**
+ * 获取当前页面选中的多重引用数据
+ * @returns {{}[]} 多重引用数据列表
+ */
+var getCheckedMultiQuoteData = function () {
+    var quoteList = [];
+    $('.multi-quote-check:checked').each(function () {
+        var $article = $(this).closest('article');
+        quoteList.push({floor: $article.data('floor'), pid: $article.data('pid'), userName: $article.data('username')});
+    });
+    return quoteList;
+};
+
+/**
+ * 绑定多重引用复选框点击事件
+ */
+var bindMultiQuoteCheckClick = function () {
+    $(document).on('click', '.multi-quote-check', function () {
+        var data = localStorage[Const.multiQuoteStorageName];
+        if (data) {
+            try {
+                data = JSON.parse(data);
+                if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) data = null;
+            }
+            catch (ex) {
+                data = null;
+            }
+        }
+        else {
+            data = null;
+        }
+        var quoteList = getCheckedMultiQuoteData();
+        if (!data) {
+            localStorage.removeItem(Const.multiQuoteStorageName);
+            data = {tid: pageInfo.tid, quoteList: {}};
+        }
+        if (quoteList.length > 0) data.quoteList[pageInfo.currentPageNum] = quoteList;
+        else delete data.quoteList[pageInfo.currentPageNum];
+        localStorage[Const.multiQuoteStorageName] = JSON.stringify(data);
+    });
+
+    $('.multi-reply-btn').click(function (e) {
+        e.preventDefault();
+        handleMultiQuote(1);
+    });
+};
+
+/**
+ * 处理多重回复和多重引用
+ * @param {number} type 处理类型，1：多重回复；2：多重引用
+ */
+var handleMultiQuote = function (type) {
+    var data = localStorage[Const.multiQuoteStorageName];
+    if (!data) return;
+    try {
+        data = JSON.parse(data);
+    }
+    catch (ex) {
+        return;
+    }
+    if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) return;
+    if (!pageInfo.tid || typeof data.tid === 'undefined' || data.tid !== pageInfo.tid || $.type(data.quoteList) !== 'object') return;
+    if (type === 2 && !pageInfo.fid) return;
+    var list = [];
+    for (var i in data.quoteList) {
+        if ($.type(data.quoteList[i]) !== 'array') continue;
+        for (var j in data.quoteList[i]) {
+            list.push(data.quoteList[i][j]);
+        }
+    }
+    if (!list.length) {
+        localStorage.removeItem(Const.multiQuoteStorageName);
+        return;
+    }
+
+    var keywords = [];
+    var content = '';
+    if (type === 2) {
+        // 显示多重引用等待消息
+    }
+    $.each(list, function (index, quote) {
+        if (typeof quote.floor === 'undefined' || typeof quote.pid === 'undefined') return;
+        if ($.inArray(quote.userName, keywords) === -1) keywords.push(quote.userName);
+        if (type === 2) {
+            // 处理多重引用
+        }
+        else {
+            content += '[quote]回 {0}楼({1}) 的帖子[/quote]\n'.replace('{0}', quote.floor).replace('{1}', quote.userName);
+        }
+    });
+    $('input[name="diy_guanjianci"]').val(keywords.join(','));
+    $('#articleForm').submit(function () {
+        localStorage.removeItem(Const.multiQuoteStorageName);
+    });
+    if (type === 1) $('#articleContent').val(content).focus();
+};
+
+/**
+ * 处理清除多重引用数据按钮
+ * @param {number} type 处理类型，1：多重回复；2：多重引用
+ */
+var handleClearMultiQuoteDataBtn = function (type) {
+    $('.clear-multi-quote-data-btn').click(function (e) {
+        e.preventDefault();
+        localStorage.removeItem(Const.multiQuoteStorageName);
+        $('input[name="diy_guanjianci"]').val('');
+        if (type === 2) $('#textarea').val('');
+        else $('#articleContent').val('');
+        alert('多重引用数据已被清除');
     });
 };
 
@@ -900,6 +1021,8 @@ $(function () {
         handleFloorImage();
         handlePostForm();
         copyCode();
+        bindMultiQuoteCheckClick();
+        handleClearMultiQuoteDataBtn(1);
         addSmileCode();
     } else if (pageId === 'searchPage') {
         handlePageNav('search/index');

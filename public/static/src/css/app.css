@@ -7078,6 +7078,8 @@ main {
     margin-right: 0.3571rem; }
   .read-floor header .floor-user {
     font-size: 1.143rem; }
+  .read-floor header .multi-quote-check {
+    vertical-align: text-bottom; }
   .read-floor footer .floor-sign {
     overflow: hidden;
     text-overflow: ellipsis;
