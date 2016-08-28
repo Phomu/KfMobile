@@ -81,6 +81,10 @@ function convert_url($url)
             elseif (strpos($params, 'action=show') !== false)
                 return url('Profile/show', str_replace('action=show', '', $params));
         }
+        elseif ($path === 'hack.php') {
+            if (strpos($params, 'H_name=bank') !== false)
+                return url('Bank/index', str_replace('H_name=bank', '', $params));
+        }
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {

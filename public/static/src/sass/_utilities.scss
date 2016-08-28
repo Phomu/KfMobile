@@ -43,3 +43,18 @@
     }
   }
 }
+
+// 表格（居中）
+.table-center {
+  thead {
+    th {
+      text-align: center;
+    }
+  }
+
+  tbody {
+    th, td {
+      text-align: center;
+    }
+  }
+}

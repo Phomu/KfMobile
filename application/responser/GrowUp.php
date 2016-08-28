@@ -47,9 +47,12 @@ class GrowUp extends Responser
         // 任务、捐款
         $pqOtherArea = $pqArea->find('> div:nth-child(3) > table > tr');
         $jobList = [];
-        foreach ($pqOtherArea->find('> td:first > div:first > div:not(:last)') as $job) {
+        foreach ($pqOtherArea->find('> td:first > div:first > div') as $job) {
             $pqJob = pq($job);
             $jobName = $pqJob->find('> div:last')->html();
+            if ($pqJob->is('div:last')) {
+                $jobName = str_replace('帖子被奖励KFB', '帖子被奖励KFB(被协管评分)', $jobName);
+            }
             $jobExp = trim_strip($pqJob->find('> div:first')->text());
             $jobExp = preg_replace_callback(
                 '/\((未获得|已获得)\)/',

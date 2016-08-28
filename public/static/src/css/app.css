@@ -6927,6 +6927,12 @@ a.text-danger:focus, a.text-danger:hover {
 .carousel-sm .carousel-item img {
   height: 14.5rem; }
 
+.table-center thead th {
+  text-align: center; }
+
+.table-center tbody th, .table-center tbody td {
+  text-align: center; }
+
 body {
   padding-top: 3.375rem; }
 
@@ -7207,12 +7213,9 @@ main {
   white-space: nowrap; }
   #rankList th, #rankList td {
     padding-left: 0.5714rem;
-    padding-right: 0.5714rem;
-    text-align: center; }
+    padding-right: 0.5714rem; }
   #rankList thead th {
     padding: 1rem; }
-  #rankList tbody th, #rankList tbody td {
-    font-size: 0.875rem; }
 
 .game-search-list .media {
   padding: 0.5714rem;

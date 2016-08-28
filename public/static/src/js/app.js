@@ -994,6 +994,23 @@ var syncPerPageFloorNum = function () {
 };
 
 /**
+ * 转账提醒
+ */
+var alertTransferKfb = function () {
+    $('#transferKfbForm').submit(function () {
+        var $this = $(this);
+        var transferKfb = parseInt($this.find('input[name="to_money"]').val());
+        var fixedDeposit = parseInt($('#fixedDeposit').text());
+        var currentDeposit = parseInt($('#currentDeposit').text());
+        if (transferKfb > 0 && fixedDeposit > 0 && transferKfb > currentDeposit) {
+            if (!window.confirm('你的活期存款不足，转账金额将从定期存款里扣除，是否继续？')) {
+                return false;
+            }
+        }
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -1054,6 +1071,8 @@ $(function () {
         syncPerPageFloorNum();
         assignBirthdayFiled();
         //uploadAvatar();
+    } else if (pageId === 'bankPage') {
+        alertTransferKfb();
     }
 
     //var tooltipStartTime = new Date();

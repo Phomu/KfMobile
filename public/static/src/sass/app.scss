@@ -269,18 +269,11 @@ main {
       left: $spacer-sm;
       right: $spacer-sm;
     }
-    text-align: center;
   }
 
   thead {
     th {
       padding: $spacer;
-    }
-  }
-
-  tbody {
-    th, td {
-      font-size: $font-size-sm;
     }
   }
 }

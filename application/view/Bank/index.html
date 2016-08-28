@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>银行 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="bankPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">银行</li>
+  </ol>
+
+  <!-- 功能区 -->
+  <section class="m-b-1">
+    <!-- 功能区 Tab -->
+    <ul class="nav nav-tabs m-b-1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#saveOrDrawKfbPanel" role="tab" aria-controls="saveOrDrawKfbPanel">存/取KFB</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#transferKfbPanel" role="tab" aria-controls="transferKfbPanel">转账KFB</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- 存/取KFB -->
+      <div class="tab-pane card active" id="saveOrDrawKfbPanel" role="tabpanel">
+        <h5 class="card-header">存/取KFB</h5>
+        <div class="card-block p-a-1">
+          <p>
+            当前所持：<b id="cash">{$cash}</b> KFB<br>
+            活期存款：<b id="currentDeposit">{$currentDeposit}</b> KFB<br>
+            定期存款：<b id="fixedDeposit">{$fixedDeposit}</b> KFB<br>
+            <small class="text-muted">(存款3个月，期间不存取定期，才可以获得利息)</small>
+            <br>
+            当前利息：<b class="{notempty name='interest'}text-danger{/notempty}">{$interest}</b> KFB
+            {if condition="!empty($expectedInterest) AND empty($interest)"}
+            <span class="text-success">(预期利息：<b>{$expectedInterest}</b> KFB)</span>
+            {/if}
+            <br>
+            <small class="text-muted">(当可获利息不为0的时候，取出定期将获得该数额的KFB利息)</small>
+            <br>
+            定期日利率：<b>{$interestRate}%</b>
+            <small class="text-muted">(不推荐定期存款)</small>
+          </p>
+          <hr>
+
+          <form action="{:url('Bank/service')}" method="post" autocomplete="off">
+            <input name="action" type="hidden" value="save">
+            <div class="form-group">
+              <label class="form-check-inline">
+                <input class="form-check-input" name="btype" type="radio" value="1" checked> 活期
+              </label>
+              <label class="form-check-inline">
+                <input class="form-check-input" name="btype" type="radio" value="2"> 定期
+              </label>
+            </div>
+            <div class="input-group">
+              <input class="form-control" name="savemoney" type="number" min="1" placeholder="存款金额" aria-label="存款金额" required>
+              <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">存款</button>
+              </div>
+            </div>
+          </form>
+          <hr>
+
+          <form action="{:url('Bank/service')}" method="post" autocomplete="off">
+            <input name="action" type="hidden" value="draw">
+            <div class="form-group">
+              <label class="form-check-inline">
+                <input class="form-check-input" name="btype" type="radio" value="1" checked> 活期
+              </label>
+              <label class="form-check-inline">
+                <input class="form-check-input" name="btype" type="radio" value="2"> 定期
+              </label>
+            </div>
+            <div class="input-group">
+              <input class="form-control" name="drawmoney" type="number" min="1" placeholder="取款金额" aria-label="取款金额" required>
+              <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">取款</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- 转账KFB -->
+      <div class="tab-pane card" id="transferKfbPanel" role="tabpanel">
+        <h5 class="card-header">转账KFB</h5>
+        <div class="card-block p-a-1">
+          <p>
+            <span class="text-danger">可转账额度：<b>{$transferLimit}</b></span><br>
+            <small class="text-muted">转账将消耗与KFB等量的额度，额度可通过发帖(每个主题帖200额度/回复帖10额度)和被评分(评分数x120%额度)获得</small>
+            <br>
+            <span>手续费：<b>{$fee}%</b></span><br>
+            <a href="{:url('Bank/log')}">查看日志</a>
+          </p>
+          <hr>
+
+          <form id="transferKfbForm" action="{:url('Bank/service')}" method="post" autocomplete="off">
+            <input name="action" type="hidden" value="virement">
+            <div class="form-group">
+              <label for="pwuser">对方用户名</label>
+              <input class="form-control" id="pwuser" name="pwuser" type="text" placeholder="对方用户名" required>
+            </div>
+            <div class="form-group">
+              <label for="to_money">转帐金额</label>
+              <input class="form-control" id="to_money" name="to_money" type="number" min="20" placeholder="转帐金额"
+                     aria-describedby="to_moneyHelp" required>
+              <small id="to_moneyHelp" class="form-text text-muted">转账从活期里扣除，活期为零则从定期里扣除，最低转帐金额<b>20</b>KFB</small>
+            </div>
+            <div class="form-group">
+              <label for="memo">转帐附言（可留空）</label>
+              <textarea class="form-control" id="memo" name="memo" rows="3" placeholder="转帐附言"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">转账</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 存款排行 -->
+  <section>
+    <!-- 存款排行 Tab -->
+    <ul class="nav nav-tabs m-b-1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#currentDepositRankListPanel" role="tab"
+           aria-controls="currentDepositRankListPanel">活期存款排行</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#fixedDepositRankListPanel" role="tab"
+           aria-controls="fixedDepositRankListPanel">定期存款排行</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- 活期存款排行 -->
+      <div class="tab-pane row active" id="currentDepositRankListPanel" role="tabpanel">
+        <table class="table table-sm table-striped table-hover table-center">
+          <thead>
+          <tr>
+            <th>序号</th>
+            <th>用户名</th>
+            <th>存款金额</th>
+            <th>存款时间</th>
+          </tr>
+          </thead>
+          <tbody class="font-size-sm">
+          {volist name="currentDepositRankList" id="vo"}
+          <tr class="{eq name='vo.userName' value='$userName'}table-warning{/eq}">
+            <th>{$vo.no}</th>
+            <td><a href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank">{$vo.userName}</a></td>
+            <td>{$vo.kfb|number_format}</td>
+            <td>{$vo.depositTime}</td>
+          </tr>
+          {/volist}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 定期存款排行 -->
+      <div class="tab-pane row" id="fixedDepositRankListPanel" role="tabpanel">
+        <table class="table table-sm table-striped table-hover table-center">
+          <thead>
+          <tr>
+            <th>序号</th>
+            <th>用户名</th>
+            <th>存款金额</th>
+            <th>存款时间</th>
+          </tr>
+          </thead>
+          <tbody class="font-size-sm">
+          {volist name="fixedDepositRankList" id="vo"}
+          <tr>
+            <th>{$vo.no}</th>
+            <td>{$vo.userName}</td>
+            <td>{$vo.kfb|number_format}</td>
+            <td>{$vo.depositTime}</td>
+          </tr>
+          {/volist}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

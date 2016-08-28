@@ -43,7 +43,7 @@
   <!-- 排行列表 -->
   <section class="row">
     <div class="table-responsive">
-      <table class="table table-sm table-striped table-hover" id="rankList">
+      <table class="table table-sm table-striped table-hover table-center" id="rankList">
         <thead>
         <tr>
           <th>名次</th>
@@ -55,7 +55,7 @@
           <th>贡献属性</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="font-size-sm">
         {volist name="rankList" id="vo"}
         <tr class="{eq name='vo.userName' value='$userName'}table-warning{/eq}">
           <th scope="row">{$vo.no}</th>

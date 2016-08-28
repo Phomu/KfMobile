@@ -1,0 +1,38 @@
+<?php
+namespace app\controller;
+
+use think\Request;
+use app\lib\Proxy;
+use app\responser;
+
+/**
+ * 银行页面控制器
+ * @package app\controller
+ */
+class Bank extends Base
+{
+    /**
+     * 展示银行页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function index(Request $request)
+    {
+        $response = Proxy::get('hack.php?H_name=bank', $request->param());
+        $bank = new responser\Bank($response);
+        $this->assign($bank->index());
+        return $this->fetch('Bank/index');
+    }
+
+    /**
+     * 银行服务
+     * @param Request $request
+     */
+    public function service(Request $request)
+    {
+        if (!$request->isPost()) return error('非法请求');
+        $response = Proxy::post('hack.php?H_name=bank', $request->param());
+        new responser\Responser($response);
+        return error('操作失败');
+    }
+}
