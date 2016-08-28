@@ -691,6 +691,7 @@ var bindMultiQuoteCheckClick = function () {
             try {
                 data = JSON.parse(data);
                 if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) data = null;
+                else if (typeof data.tid === 'undefined' || data.tid !== pageInfo.tid || $.type(data.quoteList) !== 'object') data = null;
             }
             catch (ex) {
                 data = null;

@@ -25,6 +25,11 @@
     .multi-quote-check {
       vertical-align: text-bottom;
     }
+    @-moz-document url-prefix() {
+      .multi-quote-check {
+        vertical-align: text-top;
+      }
+    }
   }
 
   // 楼层底部

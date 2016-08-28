@@ -7080,6 +7080,10 @@ main {
     font-size: 1.143rem; }
   .read-floor header .multi-quote-check {
     vertical-align: text-bottom; }
+
+@-moz-document url-prefix() {
+  .read-floor header .multi-quote-check {
+    vertical-align: text-top; } }
   .read-floor footer .floor-sign {
     overflow: hidden;
     text-overflow: ellipsis;
