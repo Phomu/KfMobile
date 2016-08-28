@@ -594,7 +594,7 @@ var fastGotoFloor = function () {
     });
 
     if (pageInfo.floor && pageInfo.floor > 0) {
-        var hashName = $('a[data-floor="' + pageInfo.floor + '"]').closest('article').prev('a').attr('name');
+        var hashName = $('article[data-floor="' + pageInfo.floor + '"]').prev('a').attr('name');
         if (hashName) {
             location.hash = '#' + hashName;
         }
