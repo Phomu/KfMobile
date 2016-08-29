@@ -22,6 +22,29 @@
     <li class="breadcrumb-item active">银行</li>
   </ol>
 
+  <!-- 存款信息 -->
+  <div class="alert alert-info" role="alert">
+    <h5 class="alert-heading">存款信息</h5>
+    <p class="m-b-0">
+      当前所持：<b id="cash">{$cash}</b> KFB<br>
+      活期存款：<b id="currentDeposit">{$currentDeposit}</b> KFB<br>
+      定期存款：<b id="fixedDeposit">{$fixedDeposit}</b> KFB<br>
+      <small class="text-muted">(存款3个月，期间不存取定期，才可以获得利息)</small>
+      <br>
+      当前利息：<b class="{notempty name='interest'}text-danger{/notempty}">{$interest}</b> KFB
+      {if condition="!empty($expectedInterest) AND empty($interest)"}
+      <span class="text-success">(预期利息：<b>{$expectedInterest}</b> KFB)</span>
+      {/if}
+      <br>
+      <small class="text-muted">(在当前利息不为0的时候，取出定期将获得该数额的KFB利息)</small>
+      <br>
+      定期日利率：<b>{$interestRate}%</b>
+      <small class="text-muted">(不推荐定期存款)</small>
+      <br>
+      <a class="alert-link" href="{:url('Bank/log')}">查看银行操作日志</a>
+    </p>
+  </div>
+
   <!-- 功能区 -->
   <section class="m-b-1">
     <!-- 功能区 Tab -->
@@ -37,26 +60,8 @@
     <div class="tab-content">
       <!-- 存/取KFB -->
       <div class="tab-pane card active" id="saveOrDrawKfbPanel" role="tabpanel">
-        <h5 class="card-header">存/取KFB</h5>
+        <h5 class="card-header m-b-0">存/取KFB</h5>
         <div class="card-block p-a-1">
-          <p>
-            当前所持：<b id="cash">{$cash}</b> KFB<br>
-            活期存款：<b id="currentDeposit">{$currentDeposit}</b> KFB<br>
-            定期存款：<b id="fixedDeposit">{$fixedDeposit}</b> KFB<br>
-            <small class="text-muted">(存款3个月，期间不存取定期，才可以获得利息)</small>
-            <br>
-            当前利息：<b class="{notempty name='interest'}text-danger{/notempty}">{$interest}</b> KFB
-            {if condition="!empty($expectedInterest) AND empty($interest)"}
-            <span class="text-success">(预期利息：<b>{$expectedInterest}</b> KFB)</span>
-            {/if}
-            <br>
-            <small class="text-muted">(当可获利息不为0的时候，取出定期将获得该数额的KFB利息)</small>
-            <br>
-            定期日利率：<b>{$interestRate}%</b>
-            <small class="text-muted">(不推荐定期存款)</small>
-          </p>
-          <hr>
-
           <form action="{:url('Bank/service')}" method="post" autocomplete="off">
             <input name="action" type="hidden" value="save">
             <div class="form-group">
@@ -98,14 +103,13 @@
 
       <!-- 转账KFB -->
       <div class="tab-pane card" id="transferKfbPanel" role="tabpanel">
-        <h5 class="card-header">转账KFB</h5>
+        <h5 class="card-header m-b-0">转账KFB</h5>
         <div class="card-block p-a-1">
           <p>
             <span class="text-danger">可转账额度：<b>{$transferLimit}</b></span><br>
             <small class="text-muted">转账将消耗与KFB等量的额度，额度可通过发帖(每个主题帖200额度/回复帖10额度)和被评分(评分数x120%额度)获得</small>
             <br>
-            <span>手续费：<b>{$fee}%</b></span><br>
-            <a href="{:url('Bank/log')}">查看日志</a>
+            <span>手续费：<b>{$fee}%</b></span>
           </p>
           <hr>
 
