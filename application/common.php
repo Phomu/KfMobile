@@ -80,8 +80,7 @@ function convert_url($url)
                 return url('Profile/modify', str_replace('action=modify', '', $params));
             elseif (strpos($params, 'action=show') !== false)
                 return url('Profile/show', str_replace('action=show', '', $params));
-        }
-        elseif ($path === 'hack.php') {
+        } elseif ($path === 'hack.php') {
             if (strpos($params, 'H_name=bank') !== false)
                 return url('Bank/index', str_replace('H_name=bank', '', $params));
         }

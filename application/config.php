@@ -5,7 +5,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 应用版本号
-    'app_version' => '1.0 beta',
+    'app_version' => '1.1 beta',
     // 反向代理目标域名的url
     'proxy_base_url' => 'http://www.9moe.com/',
     // 反向代理在尝试连接时的超时时间（秒)
@@ -120,7 +120,7 @@ return [
     // pathinfo分隔符
     'pathinfo_depr' => '/',
     // URL伪静态后缀
-    'url_html_suffix' => '',
+    'url_html_suffix' => false,
     // URL普通方式参数 用于自动生成
     'url_common_param' => false,
     // URL参数方式 0 按名称成对解析 1 按顺序解析

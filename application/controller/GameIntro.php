@@ -76,7 +76,7 @@ class GameIntro extends Base
     public function thumb($path = '')
     {
         if (empty($path) || strpos($path, 'g_ys') !== 0) error('非法请求');
-        $path = str_replace('-', '/', $path) . (!empty($this->request->ext()) ? '.' . $this->request->ext() : '');
+        $path = str_replace('-', '/', $path);
         trace('远端图片路径：' . $path);
         $thumbName = '';
         $thumbExt = '';

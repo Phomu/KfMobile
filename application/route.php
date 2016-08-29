@@ -14,8 +14,6 @@ return [
     // 个人详细信息页面
     'user/uid/:uid' => ['Profile/show', [], ['uid' => '\d+']],
     'user/username/:username' => 'Profile/show',
-    // 等级经验页面
-    'growup$' => 'GrowUp/index',
     // 论坛排行页面
     'rank' => 'Rank/index',
     // 最新共享页面
