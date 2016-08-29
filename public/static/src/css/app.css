@@ -7209,13 +7209,22 @@ main {
   .id-color-item span {
     font-size: 0.875rem; }
 
-#rankList {
+#rankList, #bankLogList {
   white-space: nowrap; }
-  #rankList th, #rankList td {
+  #rankList th, #rankList td, #bankLogList th, #bankLogList td {
     padding-left: 0.5714rem;
     padding-right: 0.5714rem; }
-  #rankList thead th {
+  #rankList thead th, #bankLogList thead th {
     padding: 1rem; }
+
+#bankLogList tbody th, #bankLogList tbody td {
+  vertical-align: middle; }
+
+#bankLogList .description {
+  width: 32rem;
+  text-align: left;
+  white-space: normal;
+  word-break: break-all; }
 
 .game-search-list .media {
   padding: 0.5714rem;

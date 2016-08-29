@@ -31,7 +31,6 @@ class Personal extends Responser
 
         // 分页导航
         $currentPageNum = 1;
-        $totalPageNum = 1;
         $maxPageNum = 1;
         $pageParam = '';
         $pqPages = pq('.pages:first');
@@ -39,9 +38,6 @@ class Personal extends Responser
             $currentPageNum = intval($matches[1]);
         }
         $pqEndPage = $pqPages->find('li:last-child > a');
-        if (preg_match('/…(\d+)页/', $pqEndPage->text(), $matches)) {
-            $totalPageNum = intval($matches[1]);
-        }
         if (preg_match('/(?<!\w)page=(\d+)/', $pqEndPage->attr('href'), $matches)) {
             $maxPageNum = intval($matches[1]);
         }

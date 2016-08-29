@@ -35,4 +35,18 @@ class Bank extends Base
         new responser\Responser($response);
         return error('操作失败');
     }
+
+    /**
+     * 展示银行日志页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function log(Request $request)
+    {
+        $to = empty(input('to', '')) ? 0 : 1;
+        $response = Proxy::get('hack.php?H_name=bank&action=log', $request->param());
+        $bank = new responser\Bank($response);
+        $this->assign($bank->log(['to' => $to]));
+        return $this->fetch('Bank/log');
+    }
 }

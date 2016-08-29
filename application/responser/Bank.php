@@ -105,4 +105,80 @@ class Bank extends Responser
         if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
     }
+
+    /**
+     * 获取银行日志页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function log($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+        $request = request();
+
+        // 分页导航
+        $currentPageNum = 1;
+        $maxPageNum = 1;
+        $pageParam = '';
+        $pqPages = pq('.pages:first');
+        if (preg_match('/-\s*(\d+)\s*-/', $pqPages->find('li > a[href="javascript:;"]')->text(), $matches)) {
+            $currentPageNum = intval($matches[1]);
+        }
+        $pqEndPage = $pqPages->find('li:last-child > a');
+        if (preg_match('/(?<!\w)page=(\d+)/', $pqEndPage->attr('href'), $matches)) {
+            $maxPageNum = intval($matches[1]);
+        }
+        $pageParam = http_build_query($request->except('page'));
+
+        // 操作记录列表
+        $logList = [];
+        foreach (pq('.bank1 > tr:gt(1):not(:last)') as $item) {
+            $pqItem = pq($item);
+            $no = trim_strip($pqItem->find('td:first-child')->text());
+            $type = trim_strip($pqItem->find('td:nth-child(2)')->text());
+            $description = $pqItem->find('td:nth-child(3) > div')->html();
+            $description = preg_replace_callback(
+                '/<b>(.+?)<\/b>/i',
+                function ($matches) {
+                    return sprintf('<a href="%s" target="_blank">%s</a>', url('Profile/show', 'username=' . $matches[1]), $matches[1]);
+                },
+                $description
+            );
+            $actionTime = trim_strip($pqItem->find('td:nth-child(4)')->text());
+            $ip = trim_strip($pqItem->find('td:nth-child(5)')->text());
+            $logList[] = [
+                'no' => $no,
+                'type' => $type,
+                'description' => $description,
+                'actionTime' => $actionTime,
+                'ip' => $ip,
+            ];
+        }
+
+        $data = [
+            'to' => $extraData['to'],
+            'currentPageNum' => $currentPageNum,
+            'prevPageNum' => $currentPageNum > 1 ? $currentPageNum - 1 : 1,
+            'nextPageNum' => $currentPageNum < $maxPageNum ? $currentPageNum + 1 : $maxPageNum,
+            'maxPageNum' => $maxPageNum,
+            'pageParam' => $pageParam,
+            'logList' => $logList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
 }

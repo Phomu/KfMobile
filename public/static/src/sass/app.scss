@@ -260,8 +260,8 @@ main {
   }
 }
 
-// 论坛排行列表
-#rankList {
+// 论坛排行列表，银行日志列表
+#rankList, #bankLogList {
   white-space: nowrap;
 
   th, td {
@@ -275,6 +275,23 @@ main {
     th {
       padding: $spacer;
     }
+  }
+}
+
+// 银行日志列表
+#bankLogList {
+  tbody {
+    th, td {
+      vertical-align: middle;
+    }
+  }
+
+  // 描述字段
+  .description {
+    width: 32rem; // ~448px
+    text-align: left;
+    white-space: normal;
+    word-break: break-all;
   }
 }
 
