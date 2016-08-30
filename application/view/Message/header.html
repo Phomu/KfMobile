@@ -1,0 +1,25 @@
+<!-- 分类导航 -->
+<ul class="nav nav-pills m-b-1">
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='receivebox'}active{/eq}" href="{:url('Message/index?action=receivebox')}">收件箱</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='sendbox'}active{/eq}" href="{:url('Message/index?action=sendbox')}">发件箱</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='scout'}active{/eq}" href="{:url('Message/index?action=scout')}">消息跟踪</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='write'}active{/eq}" href="{:url('Message/write')}">写新消息</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='banned'}active{/eq}" href="{:url('Message/banned')}">屏蔽列表</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-danger" href="{:url('Message/job', 'action=clear&ckcode=' . $clearMsgBoxVerifyCode)}" role="button"
+       onclick="return window.confirm('是否删除收件箱和发件箱内所有消息？');">清空</a>
+  </li>
+</ul>
+
+<!-- 信箱状态 -->
+<div class="alert alert-info text-xs-center m-b-0" role="alert">{$msgBoxInfo}</div>

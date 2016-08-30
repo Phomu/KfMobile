@@ -996,7 +996,7 @@ var syncPerPageFloorNum = function () {
 /**
  * 转账提醒
  */
-var alertTransferKfb = function () {
+var transferKfbAlert = function () {
     $('#transferKfbForm').submit(function () {
         var $this = $(this);
         var transferKfb = parseInt($this.find('input[name="to_money"]').val());
@@ -1005,6 +1005,51 @@ var alertTransferKfb = function () {
         if (transferKfb > 0 && fixedDeposit > 0 && transferKfb > currentDeposit) {
             if (!window.confirm('你的活期存款不足，转账金额将从定期存款里扣除，是否继续？')) {
                 return false;
+            }
+        }
+    });
+};
+
+/**
+ * 绑定短消息页面操作按钮点击事件
+ */
+var bindMessageActionBtnsClick = function () {
+    $('#messageActionBtns').on('click', 'button', function () {
+        var $form = $('#messageListForm');
+        var action = $(this).data('action');
+        if (action === 'selectAll') {
+            selectAll($('input[name="delid[]"]'));
+        }
+        else if (action === 'selectReverse') {
+            selectReverse($('input[name="delid[]"]'));
+        }
+        else if (action === 'selectCustom') {
+            var title = $.trim(
+                window.prompt('请填写所要选择的包含指定字符串的短消息标题（可用|符号分隔多个标题）', '收到了他人转账的KFB|银行汇款通知|您的文章被评分|您的文章被删除')
+            );
+            if (!title) return;
+            $('input[name="delid[]"]').prop('checked', false);
+            $('a.thread-link').each(function () {
+                var $this = $(this);
+                $.each(title.split('|'), function (index, key) {
+                    if ($this.text().toLowerCase().indexOf(key.toLowerCase()) > -1) {
+                        $this.parent().find('input[name="delid[]"]').prop('checked', true);
+                    }
+                });
+            });
+        }
+        else if (action === 'download') {
+            var $checked = $('input[name="delid[]"]:checked');
+            if ($checked.length > 0 && window.confirm('是否下载这{0}项？'.replace('{0}', $checked.length))) {
+                $form.attr('action', '/message.php').find('input[name="action"]').val('down');
+                $form.submit();
+            }
+        }
+        else if (action === 'delete') {
+            var $checked = $('input[name="delid[]"]:checked');
+            if ($checked.length > 0 && window.confirm('是否删除这{0}项？'.replace('{0}', $checked.length))) {
+                $form.attr('action', makeUrl('message/job')).find('input[name="action"]').val('del');
+                $form.submit();
             }
         }
     });
@@ -1072,7 +1117,12 @@ $(function () {
         assignBirthdayFiled();
         //uploadAvatar();
     } else if (pageId === 'bankPage') {
-        alertTransferKfb();
+        transferKfbAlert();
+    } else if (pageId === 'bankLogPage') {
+        handlePageNav('bank/log');
+    } else if (pageId === 'messagePage') {
+        handlePageNav('message/index');
+        bindMessageActionBtnsClick();
     }
 
     //var tooltipStartTime = new Date();

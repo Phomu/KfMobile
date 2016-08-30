@@ -83,6 +83,16 @@ function convert_url($url)
         } elseif ($path === 'hack.php') {
             if (strpos($params, 'H_name=bank') !== false)
                 return url('Bank/index', str_replace('H_name=bank', '', $params));
+        } elseif ($path === 'message.php') {
+            if (preg_match('/action=(\w+)/i', $params, $matches)) {
+                if (in_array($matches[1], ['receivebox', 'sendbox', 'scout']))
+                    return url('Message/index', $params);
+                elseif ($matches[1] === 'write')
+                    return url('Message/write', str_replace('action=' . $matches[1], '', $params));
+                elseif ($matches[1] === 'banned')
+                    return url('Message/banned', str_replace('action=' . $matches[1], '', $params));
+                else return url('Message/job', $params);
+            }
         }
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;

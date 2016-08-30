@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>短消息 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+    pageInfo.currentPageNum = {$currentPageNum};
+    pageInfo.maxPageNum = {$maxPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="messagePage">
+{include file="Public/header" /}
+<main class="container p-t-2 m-b-0">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">短消息</li>
+  </ol>
+
+  {include file="Message/header" /}
+
+  <!-- 分页导航 -->
+  <nav class="text-xs-center">
+    <ul class="pagination">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+  <form id="messageListForm" action="{:url('Message/job')}" method="post">
+    {notempty name="messageList"}
+    <!-- 短消息列表 -->
+    <section class="row m-b-1">
+      <ul class="list-group thread-list-group">
+        {volist name="messageList" id="vo"}
+        <li class="list-group-item thread-list-item">
+          <div class="thread-link-item">
+            {eq name="vo.canSelect" value="true"}
+            <label class="form-check-inline">
+              <input class="form-check-input" name="delid[]" type="checkbox" value="{$vo.mid}" aria-label="选择短消息">
+            </label>
+            {/eq}
+            <span class="font-size-sm text-muted">{$vo.no}.</span>
+            {eq name="vo.unRead" value="true"}
+            <span class="tag tag-danger">未读</span>
+            {/eq}
+            <a href="{:url('Message/read?mid=' . $vo['mid'])}" class="thread-link">{$vo.msgTitle}</a>
+          </div>
+          <footer class="thread-item-footer">
+            <small>
+              {eq name="action" value="receivebox"}
+              <a class="{empty name='vo.sendUid'}text-default{/empty}" href="{:url('Profile/show?uid=' . $vo['sendUid'])}" title="发件人"
+                 aria-label="发件人">
+                <i class="fa fa-user" aria-hidden="true"></i> {$vo.sendUserName}
+              </a>&nbsp;
+              {else /}
+              <a class="{eq name='vo.receiveUid' value='219822'}text-default{/eq}" href="{:url('Profile/show?uid=' . $vo['receiveUid'])}"
+                 title="收件人" aria-label="收件人">
+                <i class="fa fa-user" aria-hidden="true"></i> {$vo.receiveUserName}
+              </a>&nbsp;
+              {/eq}
+              <span title="发送时间" aria-label="发送时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.sendTime}</time>
+            </span>&nbsp;
+              {eq name="vo.canEdit" value="true"}
+              <a href="{:url('Message/write?edmid=' . $vo['mid'])}">
+                <i class="fa fa-pencil" aria-hidden="true"></i> 编辑
+              </a>&nbsp;
+              {/eq}
+            </small>
+          </footer>
+        </li>
+        {/volist}
+      </ul>
+    </section>
+    {else /}
+    <div class="alert alert-danger text-xs-center" role="alert">暂无短消息</div>
+    {/notempty}
+
+    <!-- 功能区 -->
+    <section id="messageActionBtns">
+      <input name="towhere" type="hidden" value="{$action}">
+      <input name="action" type="hidden" value="">
+      <button class="btn btn-secondary" data-action="selectAll" type="button">全选</button>
+      <button class="btn btn-secondary" data-action="selectReverse" type="button">反选</button>
+      <button class="btn btn-secondary" data-action="selectCustom" type="button">自定义</button>
+      <button class="btn btn-primary" data-action="download" type="button">下载</button>
+      <button class="btn btn-danger" data-action="delete" type="button">删除</button>
+    </section>
+  </form>
+
+  <!-- 分页导航 -->
+  <nav class="text-xs-center">
+    <ul class="pagination">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Message/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

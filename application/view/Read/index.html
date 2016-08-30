@@ -96,7 +96,8 @@
   <!-- 主题信息 -->
   <section class="small text-muted m-b-1 pull-md-left">
     <span data-toggle="tooltip" title="点击数" aria-label="点击数">
-      <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> {$hitNum|number_format}
+      <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
+      {eq name="hitNum|is_numeric" value="true"}{$hitNum|number_format}{else /}{$hitNum}{/eq}
     </span>&nbsp;
     <span data-toggle="tooltip" title="回复数" aria-label="回复数">
       <i class="fa fa-comment-o" aria-hidden="true"></i> {$replyNum|number_format}
