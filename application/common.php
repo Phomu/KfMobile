@@ -58,6 +58,7 @@ function convert_url($url)
             $params = $matches[1];
             $anchor = $matches[2];
         }
+
         if ($path === 'login.php') return url('Login/index');
         elseif ($path === 'thread.php') return url('Thread/index', $params);
         elseif ($path === 'read.php') return url('Read/index', $params) . $anchor;
@@ -87,13 +88,19 @@ function convert_url($url)
             if (preg_match('/action=(\w+)/i', $params, $matches)) {
                 if (in_array($matches[1], ['receivebox', 'sendbox', 'scout']))
                     return url('Message/index', $params);
+                elseif (in_array($matches[1], ['read', 'readsnd', 'readscout']))
+                    return url('Message/read', $params);
                 elseif ($matches[1] === 'write')
                     return url('Message/write', str_replace('action=' . $matches[1], '', $params));
                 elseif ($matches[1] === 'banned')
                     return url('Message/banned', str_replace('action=' . $matches[1], '', $params));
                 else return url('Message/job', $params);
             }
+            else {
+                return url('Message/index', $params);
+            }
         }
+
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
     } elseif (preg_match('/^(https?:|\/)/', $url)) {
@@ -145,11 +152,11 @@ function get_color_from_number($num)
 }
 
 /**
- * 通用HTML内容标签替换
+ * 替换通用HTML内容
  * @param string $html HTML内容
- * @return string 颜色名称
+ * @return string 替换后的内容
  */
-function common_replace_html_tag($html)
+function replace_common_html_content($html)
 {
     $html = preg_replace('/<strike>(.+?)<\/strike>/i', '<s>$1</s>', $html);
     $html = preg_replace_callback(
@@ -157,6 +164,28 @@ function common_replace_html_tag($html)
         function ($matches) {
             return 'href="' . convert_url(convert_to_current_domain_url($matches[1])) . '"';
         },
+        $html
+    );
+    return $html;
+}
+
+/**
+ * 替换楼层内容
+ * @param string $html 楼层内容的HTML代码
+ * @return string 替换后的楼层内容
+ */
+function replace_floor_content($html)
+{
+    $html = preg_replace('/<img src="(\d+\/)/i', '<img class="smile" alt="表情" src="/$1', $html);
+    $html = preg_replace('/border="0" onclick="[^"]+" onload="[^"]+"/i', 'class="img" alt="图片"', $html);
+    $html = preg_replace(
+        '/\[audio\]([^\[]+)\[\/audio\](?!<\/fieldset>)/',
+        '<audio src="$1" controls="controls" preload="none">[你的浏览器不支持audio标签]</audio>',
+        $html
+    );
+    $html = preg_replace(
+        '/\[video\]([^\[]+)\[\/video\](?!<\/fieldset>)/',
+        '<video src="$1" controls="controls" preload="none">[你的浏览器不支持video标签]</video>',
         $html
     );
     return $html;

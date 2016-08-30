@@ -54,4 +54,21 @@ class Message extends Base
         $this->assign($message->banned(['action' => 'banned']));
         return $this->fetch('Message/banned');
     }
+
+    /**
+     * 展示查看信息页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function read(Request $request)
+    {
+        $action = input('action', 'read');
+        if (!in_array($action, ['read', 'readsnd', 'readscout'])) $action = 'read';
+        $param = $request->param();
+        $param['action'] = $action;
+        $response = Proxy::get('message.php', $param);
+        $message = new responser\Message($response);
+        $this->assign($message->read(['action' => $action]));
+        return $this->fetch('Message/read');
+    }
 }

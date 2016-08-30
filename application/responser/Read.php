@@ -266,9 +266,8 @@ class Read extends Responser
         // 删除头像节点
         $pqFloor->find('.readidms, .readidm')->remove();
 
-        //dump($pqFloor->html());
         // 替换楼层内容
-        $pqFloor->html($this->replaceFloorContent($pqFloor->html()));
+        $pqFloor->html(replace_floor_content(replace_common_html_content($pqFloor->html())));
 
         // 处理fieldset节点
         foreach ($pqFloor->find('fieldset') as $node) {
@@ -333,28 +332,5 @@ class Read extends Responser
         $pqFloor->find('table')->addClass('table table-bordered table-sm')->removeAttr('style');
 
         return $pqFloor->html();
-    }
-
-    /**
-     * 替换楼层内容
-     * @param string $html 楼层内容的HTML代码
-     * @return string 替换后的楼层内容
-     */
-    protected function replaceFloorContent($html)
-    {
-        $html = common_replace_html_tag($html);
-        $html = preg_replace('/<img src="(\d+\/)/i', '<img class="smile" alt="表情" src="/$1', $html);
-        $html = preg_replace('/border="0" onclick="[^"]+" onload="[^"]+"/i', 'class="img" alt="图片"', $html);
-        $html = preg_replace(
-            '/\[audio\]([^\[]+)\[\/audio\](?!<\/fieldset>)/',
-            '<audio src="$1" controls="controls" preload="none">[你的浏览器不支持audio标签]</audio>',
-            $html
-        );
-        $html = preg_replace(
-            '/\[video\]([^\[]+)\[\/video\](?!<\/fieldset>)/',
-            '<video src="$1" controls="controls" preload="none">[你的浏览器不支持video标签]</video>',
-            $html
-        );
-        return $html;
     }
 }

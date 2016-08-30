@@ -301,7 +301,7 @@ class GameIntro extends Responser
         $largeCover = $pqCoverCell->find('a')->attr('href');
         $smallCover = $pqCoverCell->find('a > img')->attr('src');
         $tuiNum = trim_strip($pqCoverCell->find('span:first')->text());
-        $gameInfo = common_replace_html_tag($pqInfoArea->find('> td:nth-child(2)')->html());
+        $gameInfo = replace_common_html_content($pqInfoArea->find('> td:nth-child(2)')->html());
         $gameInfo = str_ireplace('别名：<br>', '别名：无<br>', $gameInfo);
         $gameInfo = str_ireplace('<font color="#0066ff">资料来源', '<font class="text-danger">资料来源', $gameInfo);
         $gameInfo = str_ireplace('</a>.<br>', '</a><br>', $gameInfo);
@@ -332,7 +332,7 @@ class GameIntro extends Responser
             $gameImgList[] = ['largeImg' => $largeImg, 'thumbImg' => $thumbImg, 'smallImg' => $smallImg];
         }
         $pqExtraInfoCell->find('div:first')->remove();
-        $gameExtraInfo = common_replace_html_tag($pqExtraInfoCell->html());
+        $gameExtraInfo = replace_common_html_content($pqExtraInfoCell->html());
         $gameExtraInfo = preg_replace('/^[\s\n]*(<br>)+|(<br>)+[\s\n]*$/i', '', $gameExtraInfo);
         $gameExtraInfo = preg_replace('/(<br>){4,}/i', '<br><br>', $gameExtraInfo);
 
@@ -341,7 +341,7 @@ class GameIntro extends Responser
         foreach ($pqArea->find('> tr:gt(2):not(:empty)') as $item) {
             $pqItem = pq($item);
             $img = $pqItem->find('td:first-child > img')->attr('src');
-            $intro = common_replace_html_tag($pqItem->find('td:nth-child(2)')->html());
+            $intro = replace_common_html_content($pqItem->find('td:nth-child(2)')->html());
             $intro = preg_replace('/^[\s\n]*(<br>)+|(<br>)+[\s\n]*$/i', '', $intro);
             $intro = str_ireplace('　CV：', '<br>CV：', $intro);
             $intro = preg_replace('/　　|　 /', '<br>', $intro);
@@ -398,7 +398,7 @@ class GameIntro extends Responser
         // 基本信息
         $pqInfoArea = pq('#div740_2:first > div:nth-child(2)');
         $companyCover = $pqInfoArea->find('> div:last-child > img')->attr('src');
-        $companyInfo = common_replace_html_tag($pqInfoArea->find('> div:first-child')->html());
+        $companyInfo = replace_common_html_content($pqInfoArea->find('> div:first-child')->html());
         $companyInfo = str_ireplace('<br><br>', '<br>', $companyInfo);
         $companyInfo = str_ireplace('<font color="#0066ff">资料来源', '<font class="text-danger">资料来源', $companyInfo);
         $tuiNum = trim_strip(pq('#div200_2:eq(1) > #divtitle2 > span:first')->text());
@@ -474,7 +474,7 @@ class GameIntro extends Responser
         // 基本信息
         $pqInfoArea = pq('#div740_2:first > div:nth-child(2)');
         $typeCover = $pqInfoArea->find('> div:last-child > img')->attr('src');
-        $typeInfo = common_replace_html_tag($pqInfoArea->find('> div:first-child')->html());
+        $typeInfo = replace_common_html_content($pqInfoArea->find('> div:first-child')->html());
         $typeInfo = preg_replace('/^[\s\n]*(<br>)+|(<br>)+[\s\n]*$/i', '', $typeInfo);
         $typeInfo = str_ireplace('<br><br>', '<br>', $typeInfo);
         $typeInfo = str_ireplace('<font color="#0066ff">资料来源', '<font class="text-danger">资料来源', $typeInfo);
@@ -551,7 +551,7 @@ class GameIntro extends Responser
         // 基本信息
         $pqInfoArea = pq('#div740_2:first > div:nth-child(2)');
         $propertyCover = $pqInfoArea->find('> div:last-child > img')->attr('src');
-        $propertyInfo = common_replace_html_tag($pqInfoArea->find('> div:first-child')->html());
+        $propertyInfo = replace_common_html_content($pqInfoArea->find('> div:first-child')->html());
         $propertyInfo = str_ireplace('<br><br>', '<br>', $propertyInfo);
         $propertyInfo = str_ireplace('<font color="#0066ff">资料来源', '<font class="text-danger">资料来源', $propertyInfo);
         $tuiNum = trim_strip(pq('#div200_2:eq(1) > #divtitle2 > span:first')->text());

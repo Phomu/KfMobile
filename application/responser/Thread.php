@@ -94,7 +94,7 @@ class Thread extends Responser
             $pqForumRule = $pqForumTopArea->find('> tr:nth-child(2) > td');
             if (!$pqForumRule->find('form')->length) {
                 $pqForumRule->find('a')->addClass('alert-link');
-                $forumRule = common_replace_html_tag($pqForumRule->html());
+                $forumRule = replace_common_html_content($pqForumRule->html());
                 $forumRule = str_ireplace('color="blue"', '', $forumRule);
                 $forumRule = str_ireplace('color="red"', 'class="text-danger"', $forumRule);
                 $forumRule = preg_replace('/color="#?000000"/i', 'class="text-default"', $forumRule);
