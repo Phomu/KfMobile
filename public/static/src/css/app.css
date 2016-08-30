@@ -7259,3 +7259,13 @@ main {
 
 #modifyPage #browseAvatar {
   margin-bottom: 0.5714rem; }
+
+.msg-box .card-block {
+  padding: 0.5714rem; }
+
+.msg-box .msg-header p {
+  margin-bottom: 0.5rem; }
+
+.msg-box .msg-content {
+  padding: 0;
+  font-size: 1rem; }

@@ -513,7 +513,7 @@ var copyBuyThreadList = function () {
 var handleFloorImage = function () {
     $(document).on('click', '.img', function () {
         var $this = $(this);
-        if ($this.parent().is('a') || this.naturalWidth <= $this.closest('.read-floor').width()) return;
+        if ($this.parent().is('a') || this.naturalWidth <= $this.closest('.read-content').width()) return;
         location.href = $this.attr('src');
     });
 };
@@ -1056,6 +1056,18 @@ var bindMessageActionBtnsClick = function () {
 };
 
 /**
+ * 清空信箱提醒
+ */
+var clearMsgBoxAlert = function () {
+    $('#clearMsgBox').click(function (e) {
+        e.preventDefault();
+        if (window.confirm('是否删除收件箱和发件箱内所有消息？')) {
+            location.href = $(this).data('url');
+        }
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -1123,6 +1135,13 @@ $(function () {
     } else if (pageId === 'messagePage') {
         handlePageNav('message/index');
         bindMessageActionBtnsClick();
+    } else if (pageId === 'readMessagePage') {
+        handleFloorImage();
+        copyCode();
+    }
+
+    if (pageId.toLowerCase().indexOf('message') > -1) {
+        clearMsgBoxAlert();
     }
 
     //var tooltipStartTime = new Date();

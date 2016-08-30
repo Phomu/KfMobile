@@ -155,6 +155,93 @@ class Message extends Responser
     }
 
     /**
+     * 获取查看信息页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function read($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $this->getHeaderData(), $extraData);
+        $matches = [];
+
+        // 短消息信息
+        $pqArea = pq('.thread2');
+        $mid = 0;
+        $toWhere = '';
+        if (preg_match('/towhere=(\w+)&delids=(\d+)/i', $pqArea->find('a[href*="delids="]')->attr('href'), $matches)) {
+            $toWhere = $matches[1];
+            $mid = intval($matches[2]);
+        }
+        $toUid = 0;
+        if (preg_match('/touid=(\d+)/i', $pqArea->find('a[href*="touid="]')->attr('href'), $matches)) {
+            $toUid = intval($matches[1]);
+        }
+        $msgUserName = trim_strip($pqArea->find('tr:nth-child(2) > td:last-child')->text());
+        $msgTitle = trim_strip($pqArea->find('tr:nth-child(3) > td:last-child')->text());
+        $sendTime = trim_strip($pqArea->find('tr:nth-child(4) > td:last-child')->text());
+
+        // 短消息内容
+        $pqMsgContent = $pqArea->find('tr:nth-child(5) > td:last-child');
+        foreach ($pqMsgContent->find('fieldset') as $node) {
+            $pqNode = pq($node);
+            if ($pqNode->find('legend:contains("Quote:")')->length > 0) {
+                $pqNode->replaceWith(
+                    '<blockquote class="blockquote"><p>' . str_replace('<legend>Quote:</legend>', '', $pqNode->html()) . '</p></blockquote>'
+                );
+            } elseif ($pqNode->find('legend:contains("Copy code")')->length > 0) {
+                $pqNode->find('legend')->remove();
+                $codeHtml = $pqNode->html();
+                $pqNode->replaceWith(
+                    '<div class="code-area"><a class="copy-code" href="#" role="button">复制代码</a>' .
+                    '<pre class="pre-scrollable">' . $codeHtml . '</pre></div>'
+                );
+            }
+        }
+        $msgContent = replace_floor_content(replace_common_html_content($pqMsgContent->html()));
+        $msgContent = preg_replace('/<\/blockquote>\n?<br>(<br>)?/i', '</blockquote>', $msgContent);
+        if ($msgUserName === 'SYSTEM' && $msgTitle === '收到了他人转账的KFB') {
+            $msgContent = preg_replace_callback(
+                '/会员\[(.+?)\]通过论坛银行功能给你转帐(\d+)KFB/i',
+                function ($matches) {
+                    return sprintf(
+                        '会员[<a href="%s">%s</a>]通过论坛银行功能给你转帐 <b class="text-warning">%s</b> KFB',
+                        url('Profile/show', 'username=' . $matches[1]),
+                        $matches[1],
+                        number_format($matches[2])
+                    );
+                },
+                $msgContent
+            );
+        }
+
+        $data = [
+            'action' => $extraData['action'],
+            'mid' => $mid,
+            'toWhere' => $toWhere,
+            'toUid' => $toUid,
+            'msgUserName' => $msgUserName,
+            'msgTitle' => $msgTitle,
+            'sendTime' => $sendTime,
+            'msgContent' => $msgContent,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
      * 获取头部的页面数据
      * @return array 头部的页面数据
      */

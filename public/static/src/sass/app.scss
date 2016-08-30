@@ -364,3 +364,22 @@ main {
     margin-bottom: $spacer-sm;
   }
 }
+
+// 短消息信息框
+.msg-box {
+  .card-block {
+    padding: $spacer-sm;
+  }
+
+  // 短消息头部
+  .msg-header {
+    p {
+      margin-bottom: $spacer/2;
+    }
+  }
+  // 短消息内容
+  .msg-content {
+    padding: 0;
+    font-size: $font-size-base;
+  }
+}

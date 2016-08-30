@@ -93,7 +93,15 @@
             {eq name="vo.unRead" value="true"}
             <span class="tag tag-danger">未读</span>
             {/eq}
-            <a href="{:url('Message/read?mid=' . $vo['mid'])}" class="thread-link">{$vo.msgTitle}</a>
+            {switch name="action"}
+            {case value="sendbox"}{assign name="readAction" value="readsnd" /}{/case}
+            {case value="scout"}{assign name="readAction" value="readscout" /}{/case}
+            {default /}{assign name="readAction" value="read" /}
+            {/switch}
+            <a href="{:url('Message/read', ($readAction !== 'read' ? 'action=' . $readAction . '&' : '') . 'mid=' . $vo['mid'])}"
+               class="thread-link">
+              {$vo.msgTitle}
+            </a>
           </div>
           <footer class="thread-item-footer">
             <small>

@@ -16,7 +16,7 @@
     <a class="nav-link {eq name='action' value='banned'}active{/eq}" href="{:url('Message/banned')}">屏蔽列表</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link text-danger" href="{:url('Message/job', 'action=clear&ckcode=' . $clearMsgBoxVerifyCode)}"
-       onclick="return window.confirm('是否删除收件箱和发件箱内所有消息？');">清空</a>
+    <a class="nav-link text-danger" id="clearMsgBox" data-url="{:url('Message/job', 'action=clear&ckcode=' . $clearMsgBoxVerifyCode)}"
+       href="#">清空</a>
   </li>
 </ul>
