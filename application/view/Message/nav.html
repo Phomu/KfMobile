@@ -16,10 +16,7 @@
     <a class="nav-link {eq name='action' value='banned'}active{/eq}" href="{:url('Message/banned')}">屏蔽列表</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link text-danger" href="{:url('Message/job', 'action=clear&ckcode=' . $clearMsgBoxVerifyCode)}" role="button"
+    <a class="nav-link text-danger" href="{:url('Message/job', 'action=clear&ckcode=' . $clearMsgBoxVerifyCode)}"
        onclick="return window.confirm('是否删除收件箱和发件箱内所有消息？');">清空</a>
   </li>
 </ul>
-
-<!-- 信箱状态 -->
-<div class="alert alert-info text-xs-center m-b-0" role="alert">{$msgBoxInfo}</div>

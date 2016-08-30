@@ -41,4 +41,17 @@ class Message extends Base
         new responser\Responser($response);
         return error('操作失败');
     }
+
+    /**
+     * 展示屏蔽列表页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function banned(Request $request)
+    {
+        $response = Proxy::get('message.php?action=banned', $request->param());
+        $message = new responser\Message($response);
+        $this->assign($message->banned(['action' => 'banned']));
+        return $this->fetch('Message/banned');
+    }
 }

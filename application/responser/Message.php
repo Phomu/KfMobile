@@ -25,7 +25,7 @@ class Message extends Responser
         } catch (\Exception $ex) {
             $this->handleError($ex);
         }
-        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $commonData = array_merge($this->getCommonData($doc), $this->getHeaderData(), $extraData);
         $matches = [];
         $request = request();
 
@@ -42,12 +42,6 @@ class Message extends Responser
             $maxPageNum = intval($matches[1]);
         }
         $pageParam = http_build_query($request->except('page'));
-
-        // 清空信箱验证code
-        $clearMsgBoxVerifyCode = '';
-        if (preg_match('/message\.php\?action=clear&ckcode=(\w+)\'\);/i', $this->response['document'], $matches)) {
-            $clearMsgBoxVerifyCode = $matches[1];
-        }
 
         // 信箱状态
         $msgBoxInfo = pq('form[name="del"]')->prev('div')->prev('div')->find('> table > tr:first-child > td')->html();
@@ -117,7 +111,6 @@ class Message extends Responser
             'nextPageNum' => $currentPageNum < $maxPageNum ? $currentPageNum + 1 : $maxPageNum,
             'maxPageNum' => $maxPageNum,
             'pageParam' => $pageParam,
-            'clearMsgBoxVerifyCode' => $clearMsgBoxVerifyCode,
             'msgBoxInfo' => $msgBoxInfo,
             'messageList' => $messageList,
         ];
@@ -125,5 +118,53 @@ class Message extends Responser
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
         if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取屏蔽列表页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function banned($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $this->getHeaderData(), $extraData);
+        $matches = [];
+
+        // 屏蔽列表
+        $bannedList = trim_strip(pq('textarea[name="banidinfo"]')->val());
+
+        $data = [
+            'action' => $extraData['action'],
+            'bannedList' => $bannedList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取头部的页面数据
+     * @return array 头部的页面数据
+     */
+    protected function getHeaderData()
+    {
+        // 清空信箱验证code
+        $clearMsgBoxVerifyCode = '';
+        if (preg_match('/message\.php\?action=clear&ckcode=(\w+)\'\);/i', $this->response['document'], $matches)) {
+            $clearMsgBoxVerifyCode = $matches[1];
+        }
+        return ['clearMsgBoxVerifyCode' => $clearMsgBoxVerifyCode];
     }
 }

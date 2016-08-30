@@ -26,7 +26,10 @@
     <li class="breadcrumb-item active">短消息</li>
   </ol>
 
-  {include file="Message/header" /}
+  {include file="Message/nav" /}
+
+  <!-- 信箱状态 -->
+  <div class="alert alert-info text-xs-center m-b-0" role="alert">{$msgBoxInfo}</div>
 
   <!-- 分页导航 -->
   <nav class="text-xs-center">
