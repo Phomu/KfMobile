@@ -27,34 +27,40 @@
   {include file="Message/nav" /}
 
   <!-- 发送消息 -->
-  <hr>
-  <form action="{:url('Message/job')}" method="post">
-    <input name="action" type="hidden" value="write">
-    <input name="step" type="hidden" value="2">
-    {notempty name="editMid"}
-    <input name="edmid" type="hidden" value="{$editMid}">
-    {/notempty}
-    <div class="form-group">
-      <label for="pwuser">用户名</label>
-      <input class="form-control" id="pwuser" name="pwuser" type="text" value="{$sendUserName}" maxlength="20" placeholder="用户名" required>
+  <div class="card">
+    <h5 class="card-header m-b-0">发送消息</h5>
+    <div class="card-block p-a-1">
+      <form action="{:url('Message/job')}" method="post">
+        <input name="action" type="hidden" value="write">
+        <input name="step" type="hidden" value="2">
+        {notempty name="editMid"}
+        <input name="edmid" type="hidden" value="{$editMid}">
+        {/notempty}
+        <div class="form-group">
+          <label for="pwuser">用户名</label>
+          <input class="form-control" id="pwuser" name="pwuser" type="text" value="{$sendUserName}" maxlength="20" placeholder="用户名"
+                 required>
+        </div>
+        <div class="form-group">
+          <label for="msg_title">标题</label>
+          <input class="form-control" id="msg_title" name="msg_title" type="text" value="{$msgTitle}" maxlength="75" placeholder="标题"
+                 required>
+        </div>
+        <div class="form-group">
+          <label for="msgContent">内容</label>
+          <textarea class="form-control" id="msgContent" name="atc_content" rows="8" required>{$msgContent}</textarea>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input name="ifsave" type="checkbox" value="Y"> 保存到发件箱中
+          </label>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-send" aria-hidden="true"></i> 发送
+        </button>
+      </form>
     </div>
-    <div class="form-group">
-      <label for="msg_title">标题</label>
-      <input class="form-control" id="msg_title" name="msg_title" type="text" value="{$msgTitle}" maxlength="75" placeholder="标题" required>
-    </div>
-    <div class="form-group">
-      <label for="msgContent">内容</label>
-      <textarea class="form-control" id="msgContent" name="atc_content" rows="8" required>{$msgContent}</textarea>
-    </div>
-    <div class="checkbox">
-      <label>
-        <input name="ifsave" type="checkbox" value="Y"> 保存到发件箱中
-      </label>
-    </div>
-    <button class="btn btn-primary btn-block" type="submit">
-      <i class="fa fa-send" aria-hidden="true"></i> 发送
-    </button>
-  </form>
+  </div>
 </main>
 {include file="Public/footer" /}
 </body>
