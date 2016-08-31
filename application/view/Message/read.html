@@ -21,13 +21,20 @@
   <ol class="breadcrumb m-b-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item"><a href="{:url('Message/index')}">短消息</a></li>
+    <li class="breadcrumb-item active">
+      {switch name="action"}
+      {case value="readsnd"}<a href="{:url('Message/index?action=sendbox')}">发件箱</a>{/case}
+      {case value="readscout"}<a href="{:url('Message/index?action=scout')}">消息跟踪</a>{/case}
+      {default /}<a href="{:url('Message/index?action=receivebox')}">收件箱</a>
+      {/switch}
+    </li>
   </ol>
 
   {include file="Message/nav" /}
 
-  <!-- 查看信息 -->
+  <!-- 查看消息 -->
   <div class="card msg-box">
-    <h5 class="card-header m-b-0">查看信息</h5>
+    <h5 class="card-header m-b-0">查看消息</h5>
     <div class="card-block">
       <div class="msg-header">
         <p>

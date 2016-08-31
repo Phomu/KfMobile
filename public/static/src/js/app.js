@@ -235,6 +235,18 @@ var selectReverse = function ($nodes) {
 };
 
 /**
+ * 绑定快速提交的按键事件
+ * @param {jQuery} $node 想要绑定的节点的jQuery对象
+ */
+var bindFastSubmitKeydown = function ($node) {
+    $node.keydown(function (e) {
+        if (e.keyCode === 13 && e.ctrlKey) {
+            $(this).closest('form').submit();
+        }
+    });
+};
+
+/**
  * 读取设置
  */
 var readConfig = function () {
@@ -334,15 +346,6 @@ var handleSearchDialog = function () {
     if (pageId === 'threadPage' || pageId === 'readPage') {
         $current.prop('disabled', false).data('enabled', true).click();
     }
-};
-
-/**
- * 处理登出按钮
- */
-var handleLogoutButton = function () {
-    $(document).on('click', '#dropdownItemLogout', function () {
-        if (!window.confirm('是否登出账号？')) return false;
-    });
 };
 
 /**
@@ -558,10 +561,6 @@ var handlePostForm = function () {
         if (getStrLen($.trim($textArea.val())) < minLen) {
             alert('文章内容少于 ' + minLen + ' 个字节');
             return false;
-        }
-    }).keydown(function (e) {
-        if (e.keyCode === 13 && e.ctrlKey) {
-            $(this).submit();
         }
     });
 };
@@ -1056,18 +1055,6 @@ var bindMessageActionBtnsClick = function () {
 };
 
 /**
- * 清空信箱提醒
- */
-var clearMsgBoxAlert = function () {
-    $('#clearMsgBox').click(function (e) {
-        e.preventDefault();
-        if (window.confirm('是否删除收件箱和发件箱内所有消息？')) {
-            location.href = $(this).data('url');
-        }
-    });
-};
-
-/**
  * 初始化
  */
 $(function () {
@@ -1077,7 +1064,6 @@ $(function () {
     handleMainMenu();
     handleBackToTop();
     handleSearchDialog();
-    handleLogoutButton();
     if (pageId === 'indexPage') {
         handleAtTipsBtn();
         handleIndexThreadPanel();
@@ -1095,6 +1081,7 @@ $(function () {
         copyBuyThreadList();
         handleFloorImage();
         handlePostForm();
+        bindFastSubmitKeydown($('#articleContent'));
         copyCode();
         bindMultiQuoteCheckClick();
         handleClearMultiQuoteDataBtn(1);
@@ -1138,10 +1125,10 @@ $(function () {
     } else if (pageId === 'readMessagePage') {
         handleFloorImage();
         copyCode();
-    }
-
-    if (pageId.toLowerCase().indexOf('message') > -1) {
-        clearMsgBoxAlert();
+    } else if (pageId === 'writeMessagePage') {
+        bindFastSubmitKeydown($('#msgContent'));
+    } else if (pageId === 'messageBannedPage') {
+        bindFastSubmitKeydown($('#banidinfo'));
     }
 
     //var tooltipStartTime = new Date();

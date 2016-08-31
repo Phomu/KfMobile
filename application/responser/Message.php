@@ -155,7 +155,7 @@ class Message extends Responser
     }
 
     /**
-     * 获取查看信息页面的页面数据
+     * 获取查看消息页面的页面数据
      * @param array $extraData 额外参数
      * @return array 页面数据
      */
@@ -234,6 +234,48 @@ class Message extends Responser
             'msgTitle' => $msgTitle,
             'sendTime' => $sendTime,
             'msgContent' => $msgContent,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取发送消息页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function write($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $this->getHeaderData(), $extraData);
+        $matches = [];
+
+        $paArea = pq('.thread2');
+        $sendUserName = trim_strip($paArea->find('input[name="pwuser"]')->val());
+        $msgTitle = trim_strip($paArea->find('input[name="msg_title"]')->val());
+        $msgContent = ltrim(htmlspecialchars($paArea->find('#atc_content')->val()));
+        $msgContent = preg_replace('/\n\n$/', "\n", $msgContent);
+        $editMid = intval(pq('input[name="edmid"]')->val());
+        if (is_nan($editMid)) $editMid = 0;
+
+        $data = [
+            'action' => $extraData['action'],
+            'sendUserName' => $sendUserName,
+            'msgTitle' => $msgTitle,
+            'msgContent' => $msgContent,
+            'editMid' => $editMid,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');

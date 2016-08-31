@@ -56,7 +56,7 @@ class Message extends Base
     }
 
     /**
-     * 展示查看信息页面
+     * 展示查看消息页面
      * @param Request $request
      * @return mixed
      */
@@ -70,5 +70,18 @@ class Message extends Base
         $message = new responser\Message($response);
         $this->assign($message->read(['action' => $action]));
         return $this->fetch('Message/read');
+    }
+
+    /**
+     * 展示发送消息页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function write(Request $request)
+    {
+        $response = Proxy::get('message.php?action=write', $request->param());
+        $message = new responser\Message($response);
+        $this->assign($message->write(['action' => 'write']));
+        return $this->fetch('Message/write');
     }
 }
