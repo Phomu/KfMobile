@@ -9,13 +9,7 @@ $spacer-sm: .5714rem; // ~8px
 // 超小间隔
 $spacer-xs: .3571rem; // ~5px
 
-// 使用本地的字体文件
-//$fa-font-path: '../fonts/font-awesome';
-// 使用CDN上的字体文件
-$fa-font-path: 'https://cdn.bootcss.com/font-awesome/4.6.3/fonts';
-
 @import "bootstrap/bootstrap";
-@import "font-awesome/font-awesome";
 @import "mixins";
 @import "utilities";
 
