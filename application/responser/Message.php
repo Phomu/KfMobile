@@ -105,7 +105,6 @@ class Message extends Responser
         }
 
         $data = [
-            'action' => $extraData['action'],
             'currentPageNum' => $currentPageNum,
             'prevPageNum' => $currentPageNum > 1 ? $currentPageNum - 1 : 1,
             'nextPageNum' => $currentPageNum < $maxPageNum ? $currentPageNum + 1 : $maxPageNum,
@@ -145,7 +144,6 @@ class Message extends Responser
         $bannedList = trim_strip(pq('textarea[name="banidinfo"]')->val());
 
         $data = [
-            'action' => $extraData['action'],
             'bannedList' => $bannedList,
         ];
         debug('end');
@@ -228,7 +226,6 @@ class Message extends Responser
         }
 
         $data = [
-            'action' => $extraData['action'],
             'mid' => $mid,
             'toWhere' => $toWhere,
             'toUid' => $toUid,
@@ -274,7 +271,6 @@ class Message extends Responser
         if (is_nan($editMid)) $editMid = 0;
 
         $data = [
-            'action' => $extraData['action'],
             'sendUserName' => $sendUserName,
             'msgTitle' => $msgTitle,
             'msgContent' => $msgContent,

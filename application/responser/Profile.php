@@ -149,7 +149,6 @@ class Profile extends Responser
         }
 
         $data = [
-            'type' => $extraData['type'],
             'catalogList' => $catalogList,
             'threadList' => $threadList,
         ];

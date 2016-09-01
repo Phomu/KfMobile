@@ -61,7 +61,6 @@ class Share extends Responser
         }
 
         $data = [
-            'type' => $extraData['type'],
             'shareList' => $shareList,
         ];
         debug('end');

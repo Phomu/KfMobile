@@ -236,8 +236,6 @@ class Thread extends Responser
             'parentFid' => $parentFid,
             'parentForumName' => $parentForumName,
             'subForumList' => $subForumList,
-            'type' => $extraData['type'],
-            'orderway' => $extraData['orderway'],
             'forumRule' => $forumRule,
             'threadTypeList' => $threadTypeList,
             'threadTypeParam' => http_build_query($request->except(['page', 'type'])),

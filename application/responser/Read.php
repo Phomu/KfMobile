@@ -145,8 +145,6 @@ class Read extends Responser
             'forumName' => $forumName,
             'parentFid' => $parentFid,
             'parentForumName' => $parentForumName,
-            'fpage' => $extraData['fpage'],
-            'floor' => $extraData['floor'],
             'hitNum' => $hitNum,
             'replyNum' => $replyNum,
             'publishTime' => $publishTime,

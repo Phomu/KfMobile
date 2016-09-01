@@ -168,7 +168,6 @@ class Bank extends Responser
         }
 
         $data = [
-            'to' => $extraData['to'],
             'currentPageNum' => $currentPageNum,
             'prevPageNum' => $currentPageNum > 1 ? $currentPageNum - 1 : 1,
             'nextPageNum' => $currentPageNum < $maxPageNum ? $currentPageNum + 1 : $maxPageNum,

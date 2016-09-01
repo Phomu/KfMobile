@@ -58,7 +58,6 @@ class Rank extends Responser
 
         $data = [
             'myRank' => $myRank,
-            'type' => $extraData['type'],
             'rankList' => $rankList,
         ];
         debug('end');
