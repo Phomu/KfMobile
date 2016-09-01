@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>待检查的评分记录 - 自助评分 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="selfRateWaitCheckPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助评分</a></li>
+    <li class="breadcrumb-item active">待检查的评分记录</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  {notempty name="threadList"}
+  <!-- 主题列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          {eq name="vo.isNew" value="true"}
+          <span class="tag tag-danger">新补</span>
+          {/eq}
+          {eq name="vo.isSelfBuy" value="true"}
+          <span class="tag tag-success">自购</span>
+          {/eq}
+          <a href="{:url('Read/index', 'tid=' . $vo['tid'])}" class="thread-link" target="_blank">
+            {$vo.threadTitle}
+          </a>
+        </div>
+        <footer class="thread-item-footer">
+          <small>
+            <span title="剩余时间" aria-label="剩余时间">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              {$vo.remainingTime}
+            </span>&nbsp;
+            {switch name="vo.sizeStatus"}
+            {case value="-1"}{assign name="sizeColor" value="warning" /}{/case}
+            {case value="1"}{assign name="sizeColor" value="danger" /}{/case}
+            {default /}{assign name="sizeColor" value="default" /}
+            {/switch}
+            <span class="text-{$sizeColor}" data-toggle="{notempty name='vo.sizeStatus'}tooltip{/notempty}" title="{$vo.sizeTips}"
+                  aria-label="{$vo.sizeTips}">
+              <i class="fa fa-file-o" aria-hidden="true"></i>
+              认定[{$vo.rateSize|number_format}]MB
+            </span>&nbsp;
+            <a class="text-danger" href="{:url('SelfRate/check', 'safeid=' . $safeId . '&id=' . $vo['id'])}">
+              <i class="fa fa-check-square" aria-hidden="true"></i> 检查详细/纠错
+            </a>&nbsp;
+          </small>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-xs-center" role="alert">暂无待检查的评分记录</div>
+  {/notempty}
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

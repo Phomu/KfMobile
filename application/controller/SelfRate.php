@@ -23,4 +23,17 @@ class SelfRate extends Base
         $this->assign($selfRate->latest(['action' => $request->action()]));
         return $this->fetch('SelfRate/latest');
     }
+
+    /**
+     * 展示待检查的评分记录页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function waitCheck(Request $request)
+    {
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=2', $request->param());
+        $selfRate = new responser\SelfRate($response);
+        $this->assign($selfRate->waitCheck(['action' => $request->action()]));
+        return $this->fetch('SelfRate/waitCheck');
+    }
 }

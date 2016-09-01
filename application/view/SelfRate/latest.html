@@ -30,7 +30,7 @@
   {include file="SelfRate/header" /}
 
   <!-- 获取评分奖励 -->
-  <form class="m-t-1" action="{:url('SelfRate/rating')}" method="get">
+  <form action="{:url('SelfRate/rating')}" method="get">
     <input name="safeid" type="hidden" value="{$safeId}">
     <div class="input-group">
       <input class="form-control" data-toggle="tooltip" name="ptid" type="number" title="地址栏中“read/”后面的第一串纯数字" maxlength="20"
@@ -96,7 +96,7 @@
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.publishTime}</time>
             </span>&nbsp;
-            <a href="{:url('SelfRate/rating', 'safeid=' . $safeId . '&ptid=' . $vo['tid'])}">
+            <a class="text-success" href="{:url('SelfRate/rating', 'safeid=' . $safeId . '&ptid=' . $vo['tid'])}">
               <i class="fa fa-star-o" aria-hidden="true"></i> 获取评分奖励
             </a>&nbsp;
           </small>
