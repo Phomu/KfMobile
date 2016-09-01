@@ -58,7 +58,7 @@
       <div class="read-content msg-content" aria-label="短消息内容">{$msgContent}</div>
       <hr>
       {eq name="action" value="read"}
-      <a class="btn btn-primary" href="{:url('Message/write?remid=' . $mid)}">
+      <a class="btn btn-primary {eq name='isTransfer' value='true'}disabled{/eq}" href="{:url('Message/write?remid=' . $mid)}">
         <i class="fa fa-reply" aria-hidden="true"></i> 回复
       </a>
       <a class="btn btn-success" href="{:url('Message/job', 'action=unread&mid=' . $mid)}">

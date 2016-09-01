@@ -210,7 +210,9 @@ class Message extends Responser
         }
         $msgContent = replace_floor_content(replace_common_html_content($pqMsgContent->html()));
         $msgContent = preg_replace('/<\/blockquote>\n?<br>(<br>)?/i', '</blockquote>', $msgContent);
+        $isTransfer = false;
         if ($msgUserName === 'SYSTEM' && $msgTitle === '收到了他人转账的KFB') {
+            $isTransfer = true;
             $msgContent = preg_replace_callback(
                 '/会员\[(.+?)\]通过论坛银行功能给你转帐(\d+)KFB/i',
                 function ($matches) {
@@ -234,6 +236,7 @@ class Message extends Responser
             'msgTitle' => $msgTitle,
             'sendTime' => $sendTime,
             'msgContent' => $msgContent,
+            'isTransfer' => $isTransfer,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
