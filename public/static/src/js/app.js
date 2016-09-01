@@ -425,8 +425,10 @@ var handleIndexThreadPanel = function () {
 var handlePageNav = function (action) {
     $(document).on('click', '.page-item.active > .page-link', function (e) {
         e.preventDefault();
-        if (pageInfo.maxPageNum <= 1) return;
-        var num = parseInt(window.prompt('要跳转到第几页？（共' + pageInfo.maxPageNum + '页）', pageInfo.currentPageNum));
+        if (pageInfo.maxPageNum && pageInfo.maxPageNum <= 1) return;
+        var num = parseInt(
+            window.prompt('要跳转到第几页？' + (pageInfo.maxPageNum ? '（共' + pageInfo.maxPageNum + '页）' : ''), pageInfo.currentPageNum)
+        );
         if (num && num > 0) {
             location.href = makeUrl(action, 'page=' + num, true);
         }
@@ -1129,6 +1131,8 @@ $(function () {
         bindFastSubmitKeydown($('#msgContent'));
     } else if (pageId === 'messageBannedPage') {
         bindFastSubmitKeydown($('#banidinfo'));
+    } else if (pageId === 'selfRateLatestPage') {
+        handlePageNav('self_rate/latest');
     }
 
     //var tooltipStartTime = new Date();

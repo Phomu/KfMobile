@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>最近发布的分享帖 - 自助评分 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+    pageInfo.currentPageNum = {$currentPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="selfRateLatestPage">
+{include file="Public/header" /}
+<main class="container p-t-2 m-b-0">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助评分</a></li>
+    <li class="breadcrumb-item active">最近发布的分享帖</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <!-- 获取评分奖励 -->
+  <form class="m-t-1" action="{:url('SelfRate/rating')}" method="get">
+    <input name="safeid" type="hidden" value="{$safeId}">
+    <div class="input-group">
+      <input class="form-control" data-toggle="tooltip" name="ptid" type="number" title="地址栏中“read/”后面的第一串纯数字" maxlength="20"
+             min="1" placeholder="帖子序号" aria-label="帖子序号" required>
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">提交</button>
+      </span>
+    </div>
+  </form>
+
+  <!-- 分页导航 -->
+  <nav class="text-xs-center">
+    <ul class="pagination">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/latest', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/latest', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/latest', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item disabled" aria-hidden="true">
+        <span class="page-link">&hellip;</span>
+      </li>
+    </ul>
+  </nav>
+
+  {notempty name="threadList"}
+  <!-- 主题列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          {switch name="vo.status"}
+          {case value="正在被评分"}{assign name="statusColor" value="info" /}{assign name="statusName" value="正" /}{/case}
+          {case value="有评分记录"}{assign name="statusColor" value="success" /}{assign name="statusName" value="有" /}{/case}
+          {default /}{assign name="statusColor" value="danger" /}{assign name="statusName" value="未" /}
+          {/switch}
+          <span class="tag tag-{$statusColor}" title="{$vo.status}" aria-label="{$vo.status}">{$statusName}</span>
+          <a href="{:url('Read/index', 'tid=' . $vo['tid'])}" class="thread-link" target="_blank">
+            {$vo.threadTitle}
+          </a>
+        </div>
+        <footer class="thread-item-footer">
+          <small>
+            <span title="发表时间" aria-label="发表时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.publishTime}</time>
+            </span>&nbsp;
+            <a href="{:url('SelfRate/rating', 'safeid=' . $safeId . '&ptid=' . $vo['tid'])}">
+              <i class="fa fa-star-o" aria-hidden="true"></i> 获取评分奖励
+            </a>&nbsp;
+          </small>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-xs-center" role="alert">暂无主题</div>
+  {/notempty}
+
+  <!-- 分页导航 -->
+  <nav class="text-xs-center">
+    <ul class="pagination">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/latest', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/latest', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/latest', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item disabled" aria-hidden="true">
+        <span class="page-link">&hellip;</span>
+      </li>
+    </ul>
+  </nav>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

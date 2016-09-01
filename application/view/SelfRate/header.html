@@ -1,0 +1,26 @@
+<!-- 分类导航 -->
+<ul class="nav nav-pills m-b-1">
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='latest'}active{/eq}" href="{:url('SelfRate/latest')}">最近发布的分享帖</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='waitCheck'}active{/eq}" href="{:url('SelfRate/waitCheck')}">待检查的评分记录</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='my'}active{/eq}" href="{:url('SelfRate/my')}">关于我的评分记录</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {eq name='action' value='complete'}active{/eq}" href="{:url('SelfRate/complete')}">已完成的评分记录</a>
+  </li>
+</ul>
+
+<!-- 基本说明 -->
+<div class="alert alert-info m-b-0" role="alert">
+  <h6 class="alert-heading font-weight-bold">基本说明</h6>
+  <p class="font-size-sm m-b-0">
+    1. 测试阶段，暂时只支持部分版块，只支持测试人员操作。<br>
+    2. 2015年1月1日起至今所有未评分的贴子都可以评分。<br>
+    3. 各种问题待修复，详见相关贴子。<br>
+    4. 在选择一个贴子后，15分钟内只有你可以对该贴子进行评分。
+  </p>
+</div>
