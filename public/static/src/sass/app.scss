@@ -181,6 +181,12 @@ main {
       }
     }
 
+    // 主题链接项（不限制高度）
+    .thread-link-item-full {
+      max-height: none;
+      overflow: visible;
+    }
+
     // 主题列表项底部
     .thread-item-footer {
       @include clearfix;

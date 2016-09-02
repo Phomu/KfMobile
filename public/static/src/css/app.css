@@ -4849,6 +4849,9 @@ main {
     overflow: hidden; }
     .thread-list-group .thread-list-item .thread-link-item .thread-link {
       text-decoration: none; }
+  .thread-list-group .thread-list-item .thread-link-item-full {
+    max-height: none;
+    overflow: visible; }
   .thread-list-group .thread-list-item .thread-item-footer {
     padding-left: 0.5714rem;
     padding-right: 0.5714rem; }
