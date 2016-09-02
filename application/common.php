@@ -95,20 +95,32 @@ function convert_url($url)
                 elseif ($matches[1] === 'banned')
                     return url('Message/banned', str_replace('action=' . $matches[1], '', $params));
                 else return url('Message/job', $params);
-            }
-            else {
+            } else {
                 return url('Message/index', $params);
             }
         } elseif ($path === 'kf_fw_1wkfb.php') {
             if (preg_match('/ping=(\d+)/i', $params, $matches)) {
+                $params = str_replace('ping=' . $matches[1], '', $params);
                 switch (intval($matches[1])) {
-                    case 2: return url('SelfRate/waitCheck', $params);
-                    case 3: return url('SelfRate/my', $params);
-                    case 4: return url('SelfRate/complete', $params);
-                    default: return url('SelfRate/latest', $params);
+                    case 2:
+                        return url('SelfRate/waitCheck', $params);
+                    case 3:
+                        return url('SelfRate/my', $params);
+                    case 4:
+                        return url('SelfRate/complete', $params);
+                    default:
+                        return url('SelfRate/latest', $params);
                 }
-            }
-            else {
+            } elseif (preg_match('/do=(\d+)/i', $params, $matches)) {
+                $params = str_replace('do=' . $matches[1], '', $params);
+                switch (intval($matches[1])) {
+                    case 2:
+                    case 3:
+                        return url('SelfRate/check', $params);
+                    default:
+                        return url('SelfRate/rating', $params);
+                }
+            } else {
                 return url('SelfRate/latest', $params);
             }
         }

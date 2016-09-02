@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>自助评分检查 - 自助评分 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="selfRateCheckPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助评分</a></li>
+    <li class="breadcrumb-item active">自助评分检查</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <!-- 自助评分奖励 -->
+  <div class="card">
+    <h5 class="card-header m-b-0">自助评分检查</h5>
+    <div class="card-block p-a-1">
+      <form action="{:url('SelfRate/rating')}" method="get">
+        <input name="do" type="hidden" value="3">
+        <input name="safeid" type="hidden" value="{$safeId}">
+        <input name="pfid" type="hidden" value="{$id}">
+        <div class="form-group">
+          帖子：<a href="{:url('Read/index?tid=' . $tid)}" target="_blank">{$threadTitle}</a>
+        </div>
+        <div class="form-group">
+          评分会员：<a href="{:url('Profile/show', 'username=' . $rateUserName)}" target="_blank">{$rateUserName}</a>
+        </div>
+        <div class="form-group">
+          <div>评分体积：<b>{$rateSize|number_format}</b> MB</div>
+          <small class="form-text text-danger">注：按贴子中资源实际大小计算，误差小于3%不认定为错评</small>
+        </div>
+        <div class="form-group">
+          <div>
+            首发/补档/多盘：{eq name="isNew" value="true"}<span class="text-success">是</span>{else /}<span class="text-muted">否</span>{/eq}
+          </div>
+          <small class="form-text text-danger">注：贴子所在版块第一次出现才算首发，2年内无该资源帖出现才算补档</small>
+        </div>
+        <div class="form-group">
+          <div>
+            是否自购：{eq name="isSelfBuy" value="true"}<span class="text-success">是</span>{else /}<span class="text-muted">否</span>{/eq}
+          </div>
+          <small class="form-text text-danger">注：贴子内附带自购商品照片才算自购资源</small>
+        </div>
+        <div class="form-group">
+          <div>
+            是否伪原创：{eq name="isFake" value="true"}<span class="text-danger">是</span>{else /}<span class="text-muted">否</span>{/eq}
+          </div>
+          <small class="form-text text-danger">注：贴子内附带自购商品照片才算自购资源</small>
+        </div>
+        <div class="form-group">
+          <div>
+            评分附言：<br>
+            {notempty name="rateMsg"}{$rateMsg}{else /}无{/notempty}
+          </div>
+          <small class="form-text text-danger">注：请根据评分附言结合以上数据，确认该评分是否有误</small>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label for="pohno">是否对以上评分异议</label>
+          <select class="form-control custom-select" id="pohno" name="pohno" aria-describedby="pohnoHelp">
+            <option value="1" selected>无评分错误</option>
+            <option class="text-danger" value="2">我有异议！</option>
+          </select>
+          <small class="form-text text-muted" id="pohnoHelp">注：这里选择异议，并在下方填写理由，该评分将进入人工审核</small>
+        </div>
+        <div class="form-group">
+          <label for="ptext">附言</label>
+          <textarea class="form-control" id="ptext" name="ptext" rows="3" aria-describedby="ptextHelp"></textarea>
+          <small class="form-text text-muted" id="ptextHelp">
+            选择异议则本项必填，请简单描述异议原因，人工审核确认后，本评分将被删除，对应贴子将重新处于等待评分状态（40汉字以内）
+          </small>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-check" aria-hidden="true"></i> 提交
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

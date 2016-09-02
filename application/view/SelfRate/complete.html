@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>已完成的评分记录 - 自助评分 - {$Think.config.site_name}</title>
   {include file="Public/head" /}
+  <script>
+    pageInfo.currentPageNum = {$currentPageNum};
+  </script>
   {/* 编辑器提示用
   <link rel="stylesheet" href="../../public/static/src/css/app.css">
   <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
@@ -16,7 +19,7 @@
 </head>
 <body id="selfRateCompletePage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container p-t-2 m-b-0">
   <!-- 面包屑导航 -->
   <ol class="breadcrumb m-b-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>

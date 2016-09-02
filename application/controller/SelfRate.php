@@ -20,7 +20,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=1', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->latest(['action' => $request->action()]));
+        $this->assign($selfRate->latest(['action' => $request->action(), 'showRateIntro' => true]));
         return $this->fetch('SelfRate/latest');
     }
 
@@ -33,7 +33,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=2', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->waitCheck(['action' => $request->action()]));
+        $this->assign($selfRate->waitCheck(['action' => $request->action(), 'showRateIntro' => true]));
         return $this->fetch('SelfRate/waitCheck');
     }
 
@@ -46,7 +46,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=3', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->my(['action' => $request->action()]));
+        $this->assign($selfRate->my(['action' => $request->action(), 'showRateIntro' => true]));
         return $this->fetch('SelfRate/my');
     }
 
@@ -59,7 +59,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=4', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->complete(['action' => $request->action()]));
+        $this->assign($selfRate->complete(['action' => $request->action(), 'showRateIntro' => true]));
         return $this->fetch('SelfRate/complete');
     }
 
@@ -74,5 +74,20 @@ class SelfRate extends Base
         $selfRate = new responser\SelfRate($response);
         $this->assign($selfRate->rating(['action' => $request->action()]));
         return $this->fetch('SelfRate/rating');
+    }
+
+    /**
+     * 展示自助评分检查页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function check(Request $request)
+    {
+        $do = input('do/d', 2);
+        $do = intval($do) === 3 ? 3 : 2;
+        $response = Proxy::get('kf_fw_1wkfb.php?do=' . $do, $request->param());
+        $selfRate = new responser\SelfRate($response);
+        $this->assign($selfRate->check(['action' => $request->action()]));
+        return $this->fetch('SelfRate/check');
     }
 }

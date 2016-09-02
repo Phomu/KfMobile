@@ -326,6 +326,65 @@ class SelfRate extends Responser
     }
 
     /**
+     * 获取自助评分检查页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function check($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 自助评分奖励信息
+        $pqArea = pq('.adp1');
+        $id = intval($pqArea->find('input[name="pfid"]')->val());
+        $pqThreadLink = $pqArea->find('tr:eq(3) > td:last-child > a');
+        $tid = 0;
+        if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
+            $tid = intval($matches[1]);
+        }
+        $threadTitle = trim_strip($pqThreadLink->text());
+        $rateUserName = trim_strip($pqArea->find('tr:eq(4) > td:last-child')->text());
+        $rateSize = 0;
+        if (preg_match('/(\d+)\s*MB/i', $pqArea->find('tr:eq(5) > td:last-child')->html(), $matches)) {
+            $rateSize = intval($matches[1]);
+        }
+        $isNew = strpos(trim($pqArea->find('tr:eq(6) > td:last-child')->html()), '是') === 0;
+        $isSelfBuy = strpos(trim($pqArea->find('tr:eq(7) > td:last-child')->html()), '是') === 0;
+        $isFake = strpos(trim($pqArea->find('tr:eq(8) > td:last-child')->html()), '是') === 0;
+        $rateMsg = trim($pqArea->find('tr:eq(9) > td:last-child')->html());
+        $rateMsg = trim(preg_replace('/<span style="color:#ff0000;">.+?<\/span>/i', '', $rateMsg));
+        if ($rateMsg === '0') $rateMsg = '';
+
+        $data = [
+            'id' => $id,
+            'tid' => $tid,
+            'threadTitle' => $threadTitle,
+            'rateUserName' => $rateUserName,
+            'rateSize' => $rateSize,
+            'isNew' => $isNew,
+            'isSelfBuy' => $isSelfBuy,
+            'isFake' => $isFake,
+            'rateMsg' => $rateMsg,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
      * 获取自助评分文件大小状态数据
      * @param string $rateSizeText 认定评分文本
      * @param string $threadTitle 帖子标题
