@@ -1133,6 +1133,8 @@ $(function () {
         bindFastSubmitKeydown($('#banidinfo'));
     } else if (pageId === 'selfRateLatestPage') {
         handlePageNav('self_rate/latest');
+    } else if (pageId === 'selfRateCompletePage') {
+        handlePageNav('self_rate/complete');
     }
 
     //var tooltipStartTime = new Date();
