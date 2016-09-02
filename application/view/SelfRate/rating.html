@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>自助评分奖励 - 自助评分 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="selfRateRatingPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助评分</a></li>
+    <li class="breadcrumb-item active">自助评分奖励</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <!-- 自助评分奖励 -->
+  <div class="card">
+    <h5 class="card-header m-b-0">自助评分奖励</h5>
+    <div class="card-block p-a-1">
+      <form action="{:url('SelfRate/rating')}" method="get">
+        <input name="safeid" type="hidden" value="{$safeId}">
+        <input name="ptid" type="hidden" value="{$tid}">
+        <div class="form-group">
+          帖子：<a href="{:url('Read/index?tid=' . $tid)}" target="_blank">{$threadTitle}</a>
+        </div>
+        <div class="form-group">
+          所在板块：{$forumName}
+        </div>
+        <div class="form-group">
+          <label for="psize">资源体积数值</label>
+          <input class="form-control" id="psize" name="psize" type="text" maxlength="20" placeholder="资源体积数值"
+                 aria-describedby="psizeHelp">
+          <small class="form-text text-muted" id="psizeHelp">注：如[1.23GB]的资源，本项填[1.23]，下一项选择[GB]</small>
+        </div>
+        <div class="form-group">
+          <label for="psizegb">资源体积单位</label>
+          <select class="form-control custom-select" id="psizegb" name="psizegb" aria-describedby="psizegbHelp">
+            <option value="1" selected>MB(较小文件)</option>
+            <option value="2">GB(较大文件)</option>
+          </select>
+          <small class="form-text text-muted" id="psizegbHelp">注：程序按照[1024MB = 1GB]计算</small>
+        </div>
+        <div class="form-group">
+          <label for="pnew">是否首发/补档/多网盘</label>
+          <select class="form-control custom-select" id="pnew" name="pnew" aria-describedby="pnewHelp">
+            <option value="1" selected>无</option>
+            <option value="2">首发/补档/多网盘</option>
+          </select>
+          <small class="form-text text-muted" id="pnewHelp">注：所在版块第一次出现 / 所在版块2年内未发布过 / 相同内容多个网盘下载</small>
+        </div>
+        <div class="form-group">
+          <label for="pgod">是否首发/补档/多网盘</label>
+          <select class="form-control custom-select" id="pgod" name="pgod" aria-describedby="pgodHelp">
+            <option value="1" selected>无</option>
+            <option value="2">自购/自扫/自镜像</option>
+          </select>
+          <small class="form-text text-muted" id="pgodHelp">注：自己购买的游戏/漫画/DVD等，不必须首发</small>
+        </div>
+        <div class="form-group">
+          <label class="text-danger" for="pbad">伪原创</label>
+          <select class="form-control custom-select" id="pbad" name="pbad" aria-describedby="pbadHelp">
+            <option value="1" selected>无</option>
+            <option class="text-danger" value="2">伪原创</option>
+          </select>
+          <small class="form-text text-muted" id="pbadHelp">注：本项选择“伪原创”则以上各项均无须填写，标准详见下方</small>
+        </div>
+        <div class="alert alert-warning font-size-sm" role="alert">
+          <h6 class="alert-heading font-weight-bold">伪原创认定范围：</h6>
+          <p class="m-b-0">
+            1. 文件名 或 下载页发布者 或 下载页备注 或 帖子提供压缩包内ID名截图，以上任意一处必须有发帖者ID名，否则为伪原创。<br>
+            2. 文件体积错误不算伪原创，按照实际大小评分即可。<br>
+            3. 直接盗链、冒充自购等恶意情况，请提交伪原创评分后，再去管理区举报，我们会封号处理。
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="ptext">附言</label>
+          <textarea class="form-control" id="ptext" name="ptext" rows="3" aria-describedby="ptextHelp"></textarea>
+          <small class="form-text text-muted" id="ptextHelp">选填，体积虚标、认定补档自购、伪原创说明等情况请在此注明（40汉字以内）</small>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-check" aria-hidden="true"></i> 提交
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

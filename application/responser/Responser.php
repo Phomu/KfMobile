@@ -119,7 +119,7 @@ class Responser
         if (preg_match('/&safeid=(\w+)/i', pq('a[href*="safeid="]:first', $doc)->attr('href'), $matches)) {
             $safeId = $matches[1];
         } else {
-            $safeId = pq('#safeid', $doc)->val();
+            $safeId = pq('input#safeid, input[name="safeid"]', $doc)->eq(0)->val();
         }
         $imgPath = '';
         if (preg_match('/var imgpath\s*=\s*\'(\d+)\';/i', $this->response['document'], $matches)) {

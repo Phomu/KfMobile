@@ -284,6 +284,48 @@ class SelfRate extends Responser
     }
 
     /**
+     * 获取自助评分奖励页面的页面数据
+     * @param array $extraData 额外参数
+     * @return array 页面数据
+     */
+    public function rating($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 自助评分奖励信息
+        $pqArea = pq('.adp1');
+        $pqThreadLink = $pqArea->find('tr:eq(3) > td:last-child > a');
+        $tid = 0;
+        if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
+            $tid = intval($matches[1]);
+        }
+        $threadTitle = trim_strip($pqThreadLink->text());
+        $forumName = trim_strip($pqArea->find('tr:eq(4) > td:last-child')->text());
+
+        $data = [
+            'tid' => $tid,
+            'threadTitle' => $threadTitle,
+            'forumName' => $forumName,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
      * 获取自助评分文件大小状态数据
      * @param string $rateSizeText 认定评分文本
      * @param string $threadTitle 帖子标题

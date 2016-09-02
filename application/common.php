@@ -99,6 +99,18 @@ function convert_url($url)
             else {
                 return url('Message/index', $params);
             }
+        } elseif ($path === 'kf_fw_1wkfb.php') {
+            if (preg_match('/ping=(\d+)/i', $params, $matches)) {
+                switch (intval($matches[1])) {
+                    case 2: return url('SelfRate/waitCheck', $params);
+                    case 3: return url('SelfRate/my', $params);
+                    case 4: return url('SelfRate/complete', $params);
+                    default: return url('SelfRate/latest', $params);
+                }
+            }
+            else {
+                return url('SelfRate/latest', $params);
+            }
         }
 
         if (strpos($url, '/') !== 0) $url = '/' . $url;
