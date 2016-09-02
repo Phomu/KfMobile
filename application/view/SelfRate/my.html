@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>关于我的评分记录 - 自助评分 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="selfRateWaitCheckPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助评分</a></li>
+    <li class="breadcrumb-item active">关于我的评分记录</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  {notempty name="threadList"}
+  <!-- 主题列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item font-size-sm">
+          {$vo.rateInfo}
+        </div>
+        <footer class="thread-item-footer">
+          <small>
+            <span title="评分时间" aria-label="评分时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.rateTime}</time>
+            </span>&nbsp;
+            <span class="text-success">+[<b>{$vo.kfb|number_format}</b>]KFB</span>&nbsp;
+            <span class="text-info">+[<b>{$vo.gongXian}</b>]贡献</span>&nbsp;
+          </small>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-xs-center" role="alert">暂无关于我的评分记录</div>
+  {/notempty}
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>
