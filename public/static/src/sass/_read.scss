@@ -61,10 +61,10 @@
     padding: $spacer-sm;
     font-size: inherit;
     text-align: left !important;
-    background-color: #f7f7f9;
+    background-color: darken($body-bg, 2%);
     border-left: {
       width: .3rem;
-      color: #e8e8e8;
+      color: darken($body-bg, 8%);
     }
 
     p {
@@ -79,8 +79,12 @@
       top: $spacer;
       bottom: $spacer;
     }
+    padding: {
+      left: $spacer-sm;
+      right: $spacer-sm;
+    }
     text-align: left !important;
-    background-color: #f7f7f9;
+    background-color: darken($body-bg, 2%);
     font-size: $font-size-sm;
 
     a {

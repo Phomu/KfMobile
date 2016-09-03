@@ -82,17 +82,12 @@ main {
 // 主页脚
 .main-footer {
   font-size: $font-size-sm;
-  color: #959595;
   text-align: center;
-  background-color: #202020;
+  background-color: darken($body-bg, 5%);
 
   // 版本号
   .version {
-    color: #ec971f;
-  }
-
-  a {
-    color: lighten($link-color, 10%);
+    color: darken($brand-warning, 10%);
   }
 }
 
