@@ -279,18 +279,28 @@ var handleMainMenu = function () {
 };
 
 /**
- * 处理回到顶部按钮
+ * 处理滚动到页顶/页底按钮
  */
-var handleBackToTop = function () {
+var handleRollToTopOrBottomBtn = function () {
     $(window).scroll(function () {
-        if ($(window).scrollTop() > 300)
-            $("#backToTop").fadeIn();
-        else
-            $("#backToTop").fadeOut();
+        var $btn = $('#rollToTopOrBottom');
+        if ($(window).scrollTop() > 640) {
+            if ($btn.data('direction') === 'top') return;
+            $btn.data('direction', 'top');
+            $btn.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            $btn.find('span').text('滚动到页顶');
+        }
+        else {
+            if ($btn.data('direction') === 'bottom') return;
+            $btn.data('direction', 'bottom');
+            $btn.find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            $btn.find('span').text('滚动到页底');
+        }
     });
 
-    $("#backToTop").click(function () {
-        $('body, html').animate({scrollTop: 0});
+    $("#rollToTopOrBottom").click(function () {
+        var scrollTop = $(this).data('direction') === 'bottom' ? $('body').height() : 0;
+        $('body, html').animate({scrollTop: scrollTop});
     });
 };
 
@@ -1064,7 +1074,7 @@ $(function () {
     readConfig();
 
     handleMainMenu();
-    handleBackToTop();
+    handleRollToTopOrBottomBtn();
     handleSearchDialog();
     if (pageId === 'indexPage') {
         handleAtTipsBtn();

@@ -96,13 +96,12 @@ main {
   }
 }
 
-// 回到顶部按钮
-#backToTop {
+// 滚动到页顶/页底按钮
+#rollToTopOrBottom {
   position: fixed;
-  right: 1rem; // ~14px
+  right: .857rem; // ~12px
   bottom: 2.286rem; // ~32px
-  display: none;
-  padding: 1rem;
+  padding: .857rem; // ~12px
   color: #fff;
   line-height: 1rem;
   background-color: #000;
