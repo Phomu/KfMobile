@@ -36,6 +36,10 @@
       <span>已完成 {$expPercent}%</span>
     </div>
     <progress class="progress progress-striped progress-{$expColor}" id="expProgress" value="{$expPercent}" max="100"></progress>
+    <div class="alert alert-info font-size-sm" role="alert">
+      <span class="text-danger">神秘等级 = 神秘系数<sup>2</sup> + 贡献值 + 发贴数/100</span><br>
+      下一级需要 (神秘系数+1)*1000 的成长经验值，成长经验值足够后会自动升级
+    </div>
   </section>
 
   <!-- 捐款 -->
