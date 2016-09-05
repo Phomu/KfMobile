@@ -47,6 +47,7 @@ class Faq extends Responser
         $pqContentCell = $pqArea->find('> td:last-child');
         $questionTitle = trim_strip($pqContentCell->find('> div:first-child')->text());
         $questionContent = replace_common_html_content($pqContentCell->find('> div:last-child')->html());
+        $questionContent = str_replace('=======================================', '======================', $questionContent);
 
         $data = [
             'questionList' => $questionList,
