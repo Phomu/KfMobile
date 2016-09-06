@@ -27,7 +27,7 @@ gulp.task('sass', function () {
         .pipe(gulp.dest('public/static/src/css/'))
         .pipe(minifycss())
         .pipe(autoprefixer({
-            browsers: 'last 2 versions'
+            browsers: ['last 2 versions', 'Android >= 4.4', 'iOS >= 7']
         }))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('public/static/dist/css/'));
