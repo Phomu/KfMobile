@@ -110,10 +110,12 @@
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.sellTime}</time>
             </span>&nbsp;
+            {notempty name="vo.property"}
             <span title="游戏属性" aria-label="游戏属性">
               <i class="fa fa-info-circle" aria-hidden="true"></i>
               {$vo.property}
             </span>
+            {/notempty}
           </small>
         </footer>
       </li>

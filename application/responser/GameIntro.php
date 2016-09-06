@@ -241,7 +241,7 @@ class GameIntro extends Responser
         // 该月游戏列表
         $moonGameList = [];
         foreach (explode('<br><br>', $pqMoonTitle->next('div')->html()) as $html) {
-            if (preg_match('/\[\s*([\d\-]+)\s*\]\s*<a href="g_intro\.php\?id=(\d+)" target="_blank">([^<>]+)<\/a>\s*(.+)/i', trim($html), $matches)) {
+            if (preg_match('/\[\s*([\d\-]+)\s*\]\s*<a href="g_intro\.php\?id=(\d+)" target="_blank">([^<>]+)<\/a>\s*(.*)/i', trim($html), $matches)) {
                 $id = intval($matches[2]);
                 $gameName = trim($matches[3]);
                 $sellTime = $matches[1];
