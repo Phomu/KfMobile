@@ -49,27 +49,116 @@
     <input name="magicid" type="hidden" value="{$magicid|default=''}">
     <input name="atc_iconid" type="hidden" value="{$atc_iconid|default=93}">
 
+    <!-- 主题分类 -->
     {notempty name="threadTypeList"}
     <div class="form-group">
-      <label for="postType">主题分类</label>
-      <select class="custom-select form-control" id="postType" name="p_type" required>
+      <label class="sr-only" for="postType">主题分类</label>
+      <select class="custom-select form-control" id="postType" name="p_type" title="主题分类" required>
         {volist name="threadTypeList" id="vo"}
         {eq name="vo.selected" value="true"}
-        <option value="{$vo.value}" selected>{$vo.name}</option>
+        {assign name="threadTypeSelected" value="selected" /}
         {else /}
-        <option value="{$vo.value}">{$vo.name}</option>
+        {assign name="threadTypeSelected" value="" /}
         {/eq}
+        <option value="{$vo.value}" {$threadTypeSelected}>{$vo.name}</option>
         {/volist}
       </select>
     </div>
     {/notempty}
 
+    <!-- 发帖标题 -->
     <div class="form-group">
-      <label for="postTitle">标题</label>
-      <input class="form-control" id="postTitle" name="atc_title" type="text" value="{$threadTitle}" maxlength="100" placeholder="标题"
-             required>
+      <label class="sr-only" for="postTitle">标题</label>
+      <input class="form-control" id="postTitle" name="atc_title" data-toggle="tooltip" type="text" value="{$threadTitle}" maxlength="100"
+             title="标题" placeholder="标题" required>
     </div>
 
+    {notempty name="vote"}
+    <!-- 投票信息 -->
+    <div class="card">
+      {eq name="action" value="modify"}
+      {assign name="voteDisabled" value="disabled" /}
+      {else /}
+      {assign name="voteDisabled" value="" /}
+      {/eq}
+      <h6 class="card-header m-b-0">投票信息</h6>
+
+      <div class="card-block p-a-1">
+        {eq name="vote.hasClose" value="true"}
+        <div class="form-check">
+          <label class="form-check-label text-danger">
+            <input class="form-check-input" name="vote_close" type="checkbox" value="1"> 结束投票
+          </label>
+        </div>
+        {/eq}
+
+        <div class="form-group row">
+          <label class="col-xs-5 form-text" for="timelimit">投票有效天数</label>
+          <div class="col-xs-7">
+            <input class="form-control" id="timelimit" name="timelimit" type="number" value="{$vote.timeLimit}" min="0"
+                   placeholder="投票有效天数" {$voteDisabled}>
+          </div>
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label">
+            {eq name="vote.isMultiple" value="true"}
+            {assign name="isMultipleChecked" value="checked" /}
+            {/eq}
+            <input class="form-check-input" name="multiplevote" type="checkbox" value="1" {$voteDisabled} {$isMultipleChecked|default="" }>
+            多选
+          </label>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-xs-5 form-text" for="mostvotes">最多选择个数</label>
+          <div class="col-xs-7">
+            <input class="form-control" id="mostvotes" name="mostvotes" type="number" value="{$vote.timeLimit}" min="0"
+                   placeholder="最多选择个数" {$voteDisabled}>
+          </div>
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label">
+            {eq name="vote.modifiable" value="true"}
+            {assign name="modifiableChecked" value="checked" /}
+            {/eq}
+            <input class="form-check-input" name="modifiable" type="checkbox" value="1" {$voteDisabled} {$modifiableChecked|default="" }>
+            是否允许修改投票结果
+          </label>
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label">
+            {eq name="vote.previewable" value="true"}
+            {assign name="previewableChecked" value="checked" /}
+            {/eq}
+            <input class="form-check-input" name="previewable" type="checkbox" value="1" {$voteDisabled} {$previewableChecked|default="" }>
+            强制投票才能查看结果
+          </label>
+        </div>
+
+        {notempty name="vote.items"}
+        <h6 class="form-group">投票选项</h6>
+        <div class="vote-group">
+          {volist name="vote.items" id="vo"}
+          <div class="form-group">
+            <input class="form-control form-control-sm" name="{$vo.name}" type="text" value="{$vo.value}" {$voteDisabled}>
+          </div>
+          {/volist}
+        </div>
+        {else /}
+        <div class="form-group">
+          <label for="voteItemContent">投票选项</label>
+          <textarea class="form-control" id="voteItemContent" name="vt_select" rows="7" aria-describedby="voteItemContentHelp"></textarea>
+          <small class="form-text text-muted" id="voteItemContentHelp">每行写一个投票选项，最多可以有<b>50</b>个选项</small>
+        </div>
+        {/notempty}
+      </div>
+    </div>
+    {/notempty}
+
+    <!-- 编辑器按钮 -->
     <div class="btn-group btn-group-sm editor-btn-group" role="group" aria-label="编辑器按钮">
       <div class="btn-group" role="group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" id="fontSizeDropdownBtn" data-toggle="dropdown" type="button"
@@ -163,6 +252,7 @@
       </button>
     </div>
 
+    <!-- 发帖内容 -->
     <div class="form-group">
       <label class="sr-only" for="postContent">内容</label>
       <textarea class="form-control" id="postContent" name="atc_content" rows="10" placeholder="发帖请遵守版规">{$threadContent}</textarea>
@@ -181,6 +271,7 @@
     </div>
 
     {neq name="action" value="modify"}
+    <!-- 关键词 -->
     <div class="form-group">
       <label for="postGjc">关键词</label>
       <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" value="{$gjc}" maxlength="75" placeholder="关键词"
@@ -193,19 +284,20 @@
     {/neq}
 
     {neq name="xinZuoStatus" value="-1"}
+    <!-- 新作资源 -->
     <div class="form-check">
       <label class="form-check-label text-danger" aria-describedby="diy_xinzuoHelp">
         {eq name="xinZuoStatus" value="1"}
-        <input class="form-check-input" name="diy_xinzuo" type="checkbox" value="1" checked>
-        {else /}
-        <input class="form-check-input" name="diy_xinzuo" type="checkbox" value="1">
+        {assign name="xinZuoStatusChecked" value="checked" /}
         {/eq}
+        <input class="form-check-input" name="diy_xinzuo" type="checkbox" value="1" {$xinZuoStatusChecked|default="" }>
         新作资源
       </label>
       <small id="diy_xinzuoHelp" class="form-text text-muted">距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效</small>
     </div>
     {/neq}
 
+    <!-- 功能选项 -->
     <div class="form-check">
       <label class="form-check-label">
         <input class="form-check-input" name="atc_autourl" type="checkbox" value="1" checked> 自动分析url
@@ -216,65 +308,76 @@
         <input class="form-check-input" name="atc_convert" type="checkbox" value="1" checked> Wind Code自动转换
       </label>
     </div>
-    <hr>
 
     {notempty name="attachList"}
-    {volist name="attachList" id="vo"}
-    <div class="form-group font-size-sm">
-      <div class="form-group">
-        <label class="form-check-inline">
-          <input class="form-check-input" name="keep[]" type="checkbox" value="{$vo.id}" aria-label="选择附件" checked>
-        </label>
-        附件：<b class="text-danger">{$vo.name}</b>
-        <small class="text-muted">({$vo.size}K)</small>
-        <!--<span>
+    <!-- 该帖包含附件 -->
+    <div class="card">
+      <h6 class="card-header m-b-0">
+        该帖包含附件
+        <small class="text-muted">（不想保留的附件去掉&check;）</small>
+      </h6>
+      <div class="card-block p-a-1">
+        {volist name="attachList" id="vo"}
+        <div class="form-group font-size-sm">
+          <div class="form-group">
+            <label class="form-check-inline">
+              <input class="form-check-input" name="keep[]" type="checkbox" value="{$vo.id}" aria-label="选择附件" checked>
+            </label>
+            附件：<b class="text-danger">{$vo.name}</b>
+            <small class="text-muted">({$vo.size}K)</small>
+            <span>
           &nbsp;<a href="#">更新</a>&nbsp;&nbsp;<a href="#">插入</a>
-        </span>-->
-      </div>
-      <div class="form-group row">
-        <label class="col-xs-2 p-r-0 form-text" for="downrvrc_{$vo.id}">神秘</label>
-        <div class="col-xs-2 p-x-0">
-          <input class="form-control form-control-sm" id="downrvrc_{$vo.id}" name="downrvrc[{$vo.id}]" type="number" value="{$vo.require}"
-                 min="0"
-                 placeholder="神秘系数">
+        </span>
+          </div>
+          <div class="form-group row">
+            <div class="col-xs-4">
+              <label class="sr-only" for="downrvrc_{$vo.id}">神秘系数</label>
+              <input class="form-control form-control-sm" id="downrvrc_{$vo.id}" name="downrvrc[{$vo.id}]" data-toggle="tooltip"
+                     type="number" value="{$vo.require}" min="0" title="神秘系数" placeholder="神秘系数">
+            </div>
+            <div class="col-xs-8">
+              <label class="sr-only" for="attdesc_{$vo.id}">描述</label>
+              <input class="form-control form-control-sm" id="attdesc_{$vo.id}" name="attdesc[{$vo.id}]" data-toggle="tooltip" type="text"
+                     value="{$vo.description}" title="描述" placeholder="描述">
+            </div>
+          </div>
         </div>
-        <label class="col-xs-2 p-l-0 form-text text-xs-right" for="attdesc_{$vo.id}">描述</label>
-        <div class="col-xs-6 p-l-0">
-          <input class="form-control form-control-sm" id="attdesc_{$vo.id}" name="attdesc[{$vo.id}]" type="text" value="{$vo.description}"
-                 placeholder="描述">
-        </div>
+        {/volist}
       </div>
     </div>
-    {/volist}
-    <hr>
     {/notempty}
 
-    <!--<h6 class="form-group">添加附件</h6>
-    <div class="form-group font-size-sm">
-      <div class="form-group row">
-        <label class="col-xs-2 p-r-0 form-text" for="atc_downrvrc1">神秘</label>
-        <div class="col-xs-2 p-x-0">
-          <input class="form-control form-control-sm" id="atc_downrvrc1" name="atc_downrvrc1" type="number" value="0" min="0"
-                 placeholder="神秘系数">
+    <!-- 添加附件 -->
+    <div class="card">
+      <h6 class="card-header m-b-0">添加附件</h6>
+      <div class="card-block p-a-1">
+        <div class="form-group font-size-sm">
+          <div class="form-group row">
+            <div class="col-xs-4">
+              <label class="sr-only" for="atc_downrvrc1">神秘系数</label>
+              <input class="form-control form-control-sm" id="atc_downrvrc1" name="atc_downrvrc1" data-toggle="tooltip" type="number"
+                     value="0" min="0" title="神秘系数" placeholder="神秘系数">
+            </div>
+            <div class="col-xs-8">
+              <label class="sr-only" for="atc_desc1">描述</label>
+              <input class="form-control form-control-sm" id="atc_desc1" name="atc_desc1" data-toggle="tooltip" type="text" title="描述"
+                     placeholder="描述">
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="form-control-file form-control-sm" id="attachment_1" name="attachment_1" type="file" aria-label="选择附件">
+          </div>
         </div>
-        <label class="col-xs-2 p-l-0 form-text text-xs-right" for="atc_desc1">描述</label>
-        <div class="col-xs-6 p-l-0">
-          <input class="form-control form-control-sm" id="atc_desc1" name="atc_desc1" type="text" value="" placeholder="描述">
+        <div class="small text-muted">
+          类型：<b>gif、jpg、png、torrent</b>，单文件限制：<b>1024</b> KB（一次限上传<b>5</b>个附件）
         </div>
-      </div>
-      <div class="form-group">
-        <input class="form-control-file form-control-sm" id="attachment_1" name="attachment_1" type="file" aria-label="选择附件">
       </div>
     </div>
-    <div class="form-group small text-muted">
-      类型：<b>gif、jpg、png、torrent</b>，单文件限制：<b>1024KB</b>（一次限上传<b>5</b>个附件）
-    </div>-->
 
     <button class="btn btn-primary btn-block" type="submit">
       <i class="fa fa-send" aria-hidden="true"></i> 提交
     </button>
   </form>
-
 </main>
 {include file="Public/footer" /}
 </body>

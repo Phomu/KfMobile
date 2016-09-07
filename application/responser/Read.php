@@ -104,6 +104,7 @@ class Read extends Responser
             if ($pqVoteForm->find('input[name="voteaction"][value="modify"]')->length > 0) $voteStatus = 'modify';
             $pqVoteArea = $pqVoteForm->find('.thread1');
             $voteTitle = trim_strip($pqVoteArea->find('tr:first-child > td:first-child')->text());
+            $voteTitle = str_replace('(本次投票已结束)', '<span class="tag tag-danger">已结束</span>', $voteTitle);
             $votedInfo = trim($pqVoteArea->find('tr:last-child > td')->html());
             $pqVoteItem = $pqVoteArea->children('tr');
             foreach ($pqVoteItem->slice(1, $pqVoteArea->length - 2) as $item) {

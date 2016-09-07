@@ -33,10 +33,13 @@ class Index extends Responser
         if (preg_match('/\d+日\d+时\d+分/', pq('a[href^="guanjianci.php?gjc="]')->text(), $matches)) {
             $atTipsTime = $matches[0];
         }
-        $kfbMsg = trim_strip(pq('a[href="kf_givemekfb.php"]')->text());
+        $kfb = 0;
+        if (preg_match('/拥有(-?\d+)KFB/i', pq('a[href="kf_givemekfb.php"]')->text(), $matches)) {
+            $kfb = intval($matches[1]);
+        }
         $smLevel = 0;
         $smRank = '';
-        if (preg_match('/神秘(\d+)级\s*\(系数排名第\s*(\d+\+?)\s*位\)/', pq('a[href="kf_growup.php"]')->text(), $matches)) {
+        if (preg_match('/神秘(-?\d+)级\s*\(系数排名第\s*(\d+\+?)\s*位\)/', pq('a[href="kf_growup.php"]')->text(), $matches)) {
             $smLevel = intval($matches[1]);
             $smRank = $matches[2];
         }
@@ -86,7 +89,7 @@ class Index extends Responser
 
         $data = [
             'atTipsTime' => $atTipsTime,
-            'kfbMsg' => $kfbMsg,
+            'kfb' => $kfb,
             'smLevel' => $smLevel,
             'smRank' => $smRank,
             'hasRatingBonus' => $hasRatingBonus,

@@ -24,12 +24,14 @@
     {else /}
     <a class="btn {eq name='Think.cookie.at_tips_time' value='$atTipsTime'}btn-outline-primary{else /}btn-outline-danger{/eq} btn-block"
        id="atTips" data-time="{$atTipsTime}" href="{:url('GuanJianCi/index?gjc=' . $userName)}" target="_blank">
-      有人@你({$atTipsTime})
+      有人@你(<time>{$atTipsTime}</time>)
     </a>
     {/empty}
-    <a class="btn btn-outline-danger btn-block" href="javascript:;" title="网站虚拟货币">{$kfbMsg}</a>
+    <a class="btn btn-outline-danger btn-block" data-kfb="{$kfb}" href="javascript:;" title="网站虚拟货币">
+      拥有<b>{$kfb|number_format}</b>KFB
+    </a>
     <a class="btn btn-outline-danger btn-block" href="{:url('GrowUp/index')}" title="用户等级和权限">
-      神秘{$smLevel}级 (系数排名第 <span class="text-primary">{$smRank}</span> 位)
+      神秘<b>{$smLevel}</b>级 (系数排名第<b class="text-primary">{$smRank}</b>位)
     </a>
     <a class="btn btn-outline-danger btn-block" href="/kf_fw_ig_index.php" title="通过简单游戏获得每日KFB奖励(推荐)">争夺奖励</a>
     <a class="btn btn-outline-danger btn-block" href="{:url('SmBox/index')}" title="通过随机抽取获得每日KFB奖励(不推荐)">神秘盒子</a>

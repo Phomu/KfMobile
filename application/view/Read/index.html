@@ -41,7 +41,9 @@
   <!-- 投票区域 -->
   <section>
     <form name="vote" action="{:url('Job/vote')}" method="post">
-      {eq name="voteStatus" value="modify"}<input name="voteaction" type="hidden" value="modify">{/eq}
+      {eq name="voteStatus" value="modify"}
+      <input name="voteaction" type="hidden" value="modify">
+      {/eq}
       <input name="tid" type="hidden" value="{$tid}">
       <h6 class="m-b-1">{$voteTitle}</h6>
       <ul class="list-group list-group-sm vote-group m-b-1">

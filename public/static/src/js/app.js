@@ -1212,7 +1212,7 @@ var checkPostForm = function () {
 
         var $postTitle = $('#postTitle');
         if ($postTitle.length > 0) {
-            var length = getStrLen($.trim($postTitle.val()));
+            var length = getStrLen($postTitle.val());
             if (!length) {
                 alert('标题不能为空');
                 $postTitle.focus();
@@ -1221,6 +1221,15 @@ var checkPostForm = function () {
             else if (length > 100) {
                 alert('标题超过最大长度 100 个字节');
                 $postTitle.focus();
+                return false;
+            }
+        }
+
+        var $voteItemContent = $('#voteItemContent');
+        if ($voteItemContent.length > 0) {
+            if (!$.trim($voteItemContent.val())) {
+                alert('投票选项不能为空');
+                $voteItemContent.focus();
                 return false;
             }
         }
