@@ -397,7 +397,7 @@ class SelfRate extends Responser
             $rateSize = intval($matches[1]);
         }
         $titleSize = 0;
-        if (preg_match_all('/\D(\d+(?:\.\d+)?)(M|G)/i', $threadTitle, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('/\D(\d+(?:\.\d+)?)\s?(M|G)/i', $threadTitle, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $sizeMatches) {
                 $size = floatval($sizeMatches[1]);
                 if (strtoupper($sizeMatches[2]) === 'G') $size *= 1024;

@@ -82,7 +82,7 @@ class Read extends Responser
         }
 
         // 回复验证字段
-        $replyVerify = pq('input[name="verify"]')->val();
+        $postVerify = pq('input[name="verify"]')->val();
 
         // 投票区域
         $voteTitle = '';
@@ -156,7 +156,7 @@ class Read extends Responser
             'pageParam' => $pageParam,
             'canBlockFloor' => $canBlockFloor,
             'floorList' => $floorList,
-            'replyVerify' => $replyVerify,
+            'postVerify' => $postVerify,
             'voteTitle' => $voteTitle,
             'voteStatus' => $voteStatus,
             'voteTotalCount' => $voteTotalCount,

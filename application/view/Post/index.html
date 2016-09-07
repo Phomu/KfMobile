@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  <script>
+    pageInfo.action = '{$action}';
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="../../public/static/src/css/app.css">
+  <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
+  <script src="../../public/static/src/js/jquery.js"></script>
+  <script src="../../public/static/src/js/bootstrap.js"></script>
+  <script src="../../public/static/src/js/app.js"></script>
+  */}
+</head>
+<body id="postPage">
+{include file="Public/header" /}
+<main class="container p-t-2">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb m-b-1">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item text-overflow"><a href="{$parentNavUrl}">{$parentNavName}</a></li>
+    <li class="breadcrumb-item active">
+      {switch name="action"}
+      {case value="reply|quote"}回复帖子{/case}
+      {case value="modify"}编辑帖子{/case}
+      {default /}发表帖子
+      {/switch}
+    </li>
+  </ol>
+
+  <!-- 发帖表单 -->
+  <form id="postForm" action="{:url('Post/post')}" method="post" enctype="multipart/form-data">
+    <input name="action" type="hidden" value="{$action|default='new'}">
+    <input name="special" type="hidden" value="{$special|default=0}">
+    <input name="step" type="hidden" value="{$step|default=2}">
+    <input name="fid" type="hidden" value="{$fid|default=0}">
+    <input name="tid" type="hidden" value="{$tid|default=0}">
+    <input name="pid" type="hidden" value="{$pid|default=''}">
+    <input name="article" type="hidden" value="{$article|default=''}">
+    <input name="verify" type="hidden" value="{$verify|default=''}">
+
+    <input name="atc_usesign" type="hidden" value="{$atc_usesign|default=1}">
+    <input name="magicname" type="hidden" value="{$magicname|default=''}">
+    <input name="magicid" type="hidden" value="{$magicid|default=''}">
+    <input name="atc_iconid" type="hidden" value="{$atc_iconid|default=93}">
+
+    {notempty name="threadTypeList"}
+    <div class="form-group">
+      <label for="postType">主题分类</label>
+      <select class="custom-select form-control" id="postType" name="p_type" required>
+        {volist name="threadTypeList" id="vo"}
+        {eq name="vo.selected" value="true"}
+        <option value="{$vo.value}" selected>{$vo.name}</option>
+        {else /}
+        <option value="{$vo.value}">{$vo.name}</option>
+        {/eq}
+        {/volist}
+      </select>
+    </div>
+    {/notempty}
+
+    <div class="form-group">
+      <label for="postTitle">标题</label>
+      <input class="form-control" id="postTitle" name="atc_title" type="text" value="{$threadTitle}" maxlength="100" placeholder="标题"
+             required>
+    </div>
+
+    <div class="btn-group btn-group-sm editor-btn-group" role="group" aria-label="编辑器按钮">
+      <div class="btn-group" role="group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" id="fontSizeDropdownBtn" data-toggle="dropdown" type="button"
+                aria-haspopup="true" aria-expanded="false">
+          字号
+        </button>
+        <div class="dropdown-menu" id="fontSizeDropdownMenu" aria-labelledby="fontSizeDropdownBtn">
+          {for start="1" end="8"}
+          <a class="dropdown-item" data-size="{$i}" href="#">
+            <font size="{$i}">{$i}</font>
+          </a>
+          {/for}
+        </div>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" id="colorDropdownBtn" data-toggle="dropdown" type="button"
+                aria-haspopup="true" aria-expanded="false">
+          颜色
+        </button>
+        <div class="dropdown-menu select-color-menu" id="colorDropdownMenu" aria-labelledby="colorDropdownBtn">
+          {include file="Public/selectColor" /}
+        </div>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" id="bgColorDropdownBtn" data-toggle="dropdown" type="button"
+                aria-haspopup="true" aria-expanded="false">
+          背景
+        </button>
+        <div class="dropdown-menu select-color-menu" id="bgColorDropdownMenu" aria-labelledby="bgColorDropdownBtn">
+          {include file="Public/selectColor" /}
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" data-action="link" data-toggle="tooltip" type="button" title="插入超链接" aria-label="插入超链接">
+        <i class="fa fa-link" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="img" data-toggle="tooltip" type="button" title="插入图片" aria-label="插入图片">
+        <i class="fa fa-picture-o" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="quote" data-toggle="tooltip" type="button" title="插入引用" aria-label="插入引用">
+        <i class="fa fa-quote-left" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="code" data-toggle="tooltip" type="button" title="插入代码" aria-label="插入代码">
+        <i class="fa fa-code" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="sell" data-toggle="tooltip" type="button" title="插入出售内容" aria-label="插入出售内容">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="hide" data-toggle="tooltip" type="button" title="插入隐藏内容" aria-label="插入隐藏内容">
+        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="bold" data-toggle="tooltip" type="button" title="粗体" aria-label="粗体">
+        <i class="fa fa-bold" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="italic" data-toggle="tooltip" type="button" title="斜体" aria-label="斜体">
+        <i class="fa fa-italic" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="underline" data-toggle="tooltip" type="button" title="下划线" aria-label="下划线">
+        <i class="fa fa-underline" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="strike" data-toggle="tooltip" type="button" title="删除线" aria-label="删除线">
+        <i class="fa fa-strikethrough" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="super" data-toggle="tooltip" type="button" title="上标" aria-label="上标">
+        <i class="fa fa-superscript" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="sub" data-toggle="tooltip" type="button" title="下标" aria-label="下标">
+        <i class="fa fa-subscript" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="horizontal" data-toggle="tooltip" type="button" title="插入水平线" aria-label="插入水平线">
+        <i class="fa fa-minus" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="align-left" data-toggle="tooltip" type="button" title="左对齐" aria-label="左对齐">
+        <i class="fa fa-align-left" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="align-center" data-toggle="tooltip" type="button" title="居中" aria-label="居中">
+        <i class="fa fa-align-center" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="align-right" data-toggle="tooltip" type="button" title="右对齐" aria-label="右对齐">
+        <i class="fa fa-align-right" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary hidden-xs-down" data-action="fly" data-toggle="tooltip" type="button" title="插入飞行文字"
+              aria-label="插入飞行文字">
+        <i class="fa fa-plane" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="audio" data-toggle="tooltip" type="button" title="插入HTML5音频" aria-label="插入HTML5音频">
+        <i class="fa fa-music" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-secondary" data-action="video" data-toggle="tooltip" type="button" title="插入HTML5视频" aria-label="插入HTML5视频">
+        <i class="fa fa-video-camera" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label class="sr-only" for="postContent">内容</label>
+      <textarea class="form-control" id="postContent" name="atc_content" rows="10" placeholder="发帖请遵守版规">{$threadContent}</textarea>
+    </div>
+
+    <div class="form-group">
+      <div class="dropup">
+        <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
+                aria-label="表情" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-smile-o" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-menu smile-panel" aria-labelledby="smileDropdownBtn">
+          {include file="Public/smile" /}
+        </div>
+      </div>
+    </div>
+
+    {neq name="action" value="modify"}
+    <div class="form-group">
+      <label for="postGjc">关键词</label>
+      <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" value="{$gjc}" maxlength="75" placeholder="关键词"
+             aria-describedby="postGjcHelp">
+      <small id="postGjcHelp" class="form-text text-muted">
+        最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英文逗号 <kbd>,</kbd> 隔开，不要包含英文单引号、双引号；<br>
+        如果关键词是别人的ID名，系统就会@提示此人查看本帖子
+      </small>
+    </div>
+    {/neq}
+
+    {neq name="xinZuoStatus" value="-1"}
+    <div class="form-check">
+      <label class="form-check-label text-danger" aria-describedby="diy_xinzuoHelp">
+        {eq name="xinZuoStatus" value="1"}
+        <input class="form-check-input" name="diy_xinzuo" type="checkbox" value="1" checked>
+        {else /}
+        <input class="form-check-input" name="diy_xinzuo" type="checkbox" value="1">
+        {/eq}
+        新作资源
+      </label>
+      <small id="diy_xinzuoHelp" class="form-text text-muted">距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效</small>
+    </div>
+    {/neq}
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" name="atc_autourl" type="checkbox" value="1" checked> 自动分析url
+      </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" name="atc_convert" type="checkbox" value="1" checked> Wind Code自动转换
+      </label>
+    </div>
+    <hr>
+
+    {notempty name="attachList"}
+    {volist name="attachList" id="vo"}
+    <div class="form-group font-size-sm">
+      <div class="form-group">
+        <label class="form-check-inline">
+          <input class="form-check-input" name="keep[]" type="checkbox" value="{$vo.id}" aria-label="选择附件" checked>
+        </label>
+        附件：<b class="text-danger">{$vo.name}</b>
+        <small class="text-muted">({$vo.size}K)</small>
+        <!--<span>
+          &nbsp;<a href="#">更新</a>&nbsp;&nbsp;<a href="#">插入</a>
+        </span>-->
+      </div>
+      <div class="form-group row">
+        <label class="col-xs-2 p-r-0 form-text" for="downrvrc_{$vo.id}">神秘</label>
+        <div class="col-xs-2 p-x-0">
+          <input class="form-control form-control-sm" id="downrvrc_{$vo.id}" name="downrvrc[{$vo.id}]" type="number" value="{$vo.require}"
+                 min="0"
+                 placeholder="神秘系数">
+        </div>
+        <label class="col-xs-2 p-l-0 form-text text-xs-right" for="attdesc_{$vo.id}">描述</label>
+        <div class="col-xs-6 p-l-0">
+          <input class="form-control form-control-sm" id="attdesc_{$vo.id}" name="attdesc[{$vo.id}]" type="text" value="{$vo.description}"
+                 placeholder="描述">
+        </div>
+      </div>
+    </div>
+    {/volist}
+    <hr>
+    {/notempty}
+
+    <!--<h6 class="form-group">添加附件</h6>
+    <div class="form-group font-size-sm">
+      <div class="form-group row">
+        <label class="col-xs-2 p-r-0 form-text" for="atc_downrvrc1">神秘</label>
+        <div class="col-xs-2 p-x-0">
+          <input class="form-control form-control-sm" id="atc_downrvrc1" name="atc_downrvrc1" type="number" value="0" min="0"
+                 placeholder="神秘系数">
+        </div>
+        <label class="col-xs-2 p-l-0 form-text text-xs-right" for="atc_desc1">描述</label>
+        <div class="col-xs-6 p-l-0">
+          <input class="form-control form-control-sm" id="atc_desc1" name="atc_desc1" type="text" value="" placeholder="描述">
+        </div>
+      </div>
+      <div class="form-group">
+        <input class="form-control-file form-control-sm" id="attachment_1" name="attachment_1" type="file" aria-label="选择附件">
+      </div>
+    </div>
+    <div class="form-group small text-muted">
+      类型：<b>gif、jpg、png、torrent</b>，单文件限制：<b>1024KB</b>（一次限上传<b>5</b>个附件）
+    </div>-->
+
+    <button class="btn btn-primary btn-block" type="submit">
+      <i class="fa fa-send" aria-hidden="true"></i> 提交
+    </button>
+  </form>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

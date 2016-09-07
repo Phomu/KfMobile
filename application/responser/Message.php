@@ -266,6 +266,7 @@ class Message extends Responser
         $sendUserName = trim_strip($paArea->find('input[name="pwuser"]')->val());
         $msgTitle = trim_strip($paArea->find('input[name="msg_title"]')->val());
         $msgContent = ltrim(htmlspecialchars($paArea->find('#atc_content')->val()));
+        $msgContent = str_replace("\xc2\xa0", " ", $msgContent);
         $msgContent = preg_replace('/\n\n$/', "\n", $msgContent);
         $editMid = intval(pq('input[name="edmid"]')->val());
         if (is_nan($editMid)) $editMid = 0;

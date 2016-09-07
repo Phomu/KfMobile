@@ -464,12 +464,12 @@ var handleFastReplyBtn = function () {
         var $article = $(this).closest('article');
         var floor = $article.data('floor');
         var userName = $article.data('username');
-        $('#articleGjc').val(userName);
-        var replyContent = $('#articleContent').get(0);
-        replyContent.value = '[quote]回 {0}楼({1}) 的帖子[/quote]\n'.replace('{0}', floor).replace('{1}', userName);
-        replyContent.selectionStart = replyContent.value.length;
-        replyContent.selectionEnd = replyContent.value.length;
-        replyContent.focus();
+        $('#postGjc').val(userName);
+        var postContent = $('#postContent').get(0);
+        postContent.value = '[quote]回 {0}楼({1}) 的帖子[/quote]\n'.replace('{0}', floor).replace('{1}', userName);
+        postContent.selectionStart = postContent.value.length;
+        postContent.selectionEnd = postContent.value.length;
+        postContent.focus();
     });
 };
 
@@ -539,7 +539,7 @@ var handleFloorImage = function () {
 var addSmileCode = function () {
     $('.smile-panel').on('click', 'img', function () {
         $('.smile-panel').addClass('open');
-        var textArea = $('#articleContent').get(0);
+        var textArea = $('#postContent').get(0);
         if (!textArea) return;
         var code = '[s:' + $(this).data('id') + ']';
         addCode(textArea, code, '');
@@ -560,20 +560,6 @@ var addSmileCode = function () {
     $('#smileDropdownBtn').click(function () {
         var $this = $(this);
         $this.data('open', !$this.data('open'));
-    });
-};
-
-/**
- * 处理发帖表单
- */
-var handlePostForm = function () {
-    $('#articleForm').submit(function () {
-        var minLen = 12;
-        var $textArea = $('#articleContent');
-        if (getStrLen($.trim($textArea.val())) < minLen) {
-            alert('文章内容少于 ' + minLen + ' 个字节');
-            return false;
-        }
     });
 };
 
@@ -771,10 +757,10 @@ var handleMultiQuote = function (type) {
         }
     });
     $('input[name="diy_guanjianci"]').val(keywords.join(','));
-    $('#articleForm').submit(function () {
+    $('#postForm').submit(function () {
         localStorage.removeItem(Const.multiQuoteStorageName);
     });
-    if (type === 1) $('#articleContent').val(content).focus();
+    if (type === 1) $('#postContent').val(content).focus();
 };
 
 /**
@@ -787,7 +773,7 @@ var handleClearMultiQuoteDataBtn = function (type) {
         localStorage.removeItem(Const.multiQuoteStorageName);
         $('input[name="diy_guanjianci"]').val('');
         if (type === 2) $('#textarea').val('');
-        else $('#articleContent').val('');
+        else $('#postContent').val('');
         alert('多重引用数据已被清除');
     });
 };
@@ -1067,6 +1053,203 @@ var bindMessageActionBtnsClick = function () {
 };
 
 /**
+ * 处理编辑器按钮
+ */
+var handleEditorBtns = function () {
+    var textArea = $('textarea[name="atc_content"]').get(0);
+
+    // 编辑器按钮
+    $(document).on('click', '.editor-btn-group button[data-action]', function () {
+        var action = $(this).data('action');
+        var value = '';
+        switch (action) {
+            case 'link':
+                value = window.prompt('请输入链接URL：', 'http://');
+                break;
+            case 'img':
+                value = window.prompt('请输入图片URL：', 'http://');
+                break;
+            case 'sell':
+                value = window.prompt('请输入出售金额：', 1);
+                break;
+            case 'hide':
+                value = window.prompt('请输入神秘等级：', 1);
+                break;
+            case 'audio':
+                value = window.prompt('请输入HTML5音频实际地址：\n（可直接输入网易云音乐或虾米的单曲地址，将自动转换为外链地址）', 'http://');
+                var matches = /^https?:\/\/music\.163\.com\/(?:#\/)?song\?id=(\d+)/i.exec(value);
+                if (matches) value = 'http://music.miaola.info/163/{0}.mp3'.replace('{0}', matches[1]);
+                matches = /^https?:\/\/www\.xiami\.com\/song\/(\d+)/i.exec(value);
+                if (matches) value = 'http://music.miaola.info/xiami/{0}.mp3'.replace('{0}', matches[1]);
+                break;
+            case 'video':
+                value = window.prompt('请输入HTML5视频实际地址：\n（可直接输入YouTube视频页面的地址，将自动转换为外链地址）', 'http://');
+                var matches = /^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([\w\-]+)/i.exec(value);
+                if (matches) value = 'http://video.miaola.info/youtube/{0}'.replace('{0}', matches[1]);
+                matches = /^https?:\/\/youtu\.be\/([\w\-]+)$/i.exec(value);
+                if (matches) value = 'http://video.miaola.info/youtube/{0}'.replace('{0}', matches[1]);
+                break;
+        }
+        if (value === null) return;
+
+        var selText = '';
+        var code = '';
+        switch (action) {
+            case 'link':
+                selText = getSelText(textArea);
+                code = '[url={0}]{1}[/url]'.replace('{0}', value).replace('{1}', selText);
+                break;
+            case 'img':
+                code = '[img]{0}[/img]'.replace('{0}', value);
+                break;
+            case 'quote':
+                selText = getSelText(textArea);
+                code = '[quote]{0}[/quote]'.replace('{0}', selText);
+                break;
+            case 'code':
+                selText = getSelText(textArea);
+                code = '[code]{0}[/code]'.replace('{0}', selText);
+                break;
+            case 'sell':
+                selText = getSelText(textArea);
+                code = '[sell={0}]{1}[/sell]'.replace('{0}', value).replace('{1}', selText);
+                break;
+            case 'hide':
+                selText = getSelText(textArea);
+                code = '[hide={0}]{1}[/hide]'.replace('{0}', value).replace('{1}', selText);
+                break;
+            case 'bold':
+                selText = getSelText(textArea);
+                code = '[b]{0}[/b]'.replace('{0}', selText);
+                break;
+            case 'italic':
+                selText = getSelText(textArea);
+                code = '[i]{0}[/i]'.replace('{0}', selText);
+                break;
+            case 'underline':
+                selText = getSelText(textArea);
+                code = '[u]{0}[/u]'.replace('{0}', selText);
+                break;
+            case 'strike':
+                selText = getSelText(textArea);
+                code = '[strike]{0}[/strike]'.replace('{0}', selText);
+                break;
+            case 'super':
+                selText = getSelText(textArea);
+                code = '[sup]{0}[/sup]'.replace('{0}', selText);
+                break;
+            case 'sub':
+                selText = getSelText(textArea);
+                code = '[sub]{0}[/sub]'.replace('{0}', selText);
+                break;
+            case 'horizontal':
+                code = '[hr]';
+                break;
+            case 'align-left':
+                selText = getSelText(textArea);
+                code = '[align=left]{0}[/align]'.replace('{0}', selText);
+                break;
+            case 'align-center':
+                selText = getSelText(textArea);
+                code = '[align=center]{0}[/align]'.replace('{0}', selText);
+                break;
+            case 'align-right':
+                selText = getSelText(textArea);
+                code = '[align=right]{0}[/align]'.replace('{0}', selText);
+                break;
+            case 'fly':
+                selText = getSelText(textArea);
+                code = '[fly]{0}[/fly]'.replace('{0}', selText);
+                break;
+            case 'audio':
+                code = '[audio]{0}[/audio]'.replace('{0}', value);
+                break;
+            case 'video':
+                code = '[video]{0}[/video]'.replace('{0}', value);
+                break;
+        }
+        if (!code) return;
+        addCode(textArea, code, selText);
+        textArea.focus();
+    });
+
+    // 字号下拉菜单
+    $('#fontSizeDropdownMenu').on('click', 'a', function (e) {
+        e.preventDefault();
+        var size = $(this).data('size');
+        var selText = getSelText(textArea);
+        var code = '[size={0}]{1}[/size]'.replace('{0}', size).replace('{1}', selText);
+        addCode(textArea, code, selText);
+        textArea.focus();
+    });
+
+    // 颜色、背景颜色下拉菜单
+    $('#colorDropdownMenu, #bgColorDropdownMenu').on('click', 'span', function () {
+        var $this = $(this);
+        var codeType = $this.parent().is('#bgColorDropdownMenu') ? 'backcolor' : 'color';
+        var color = $this.data('color');
+        var selText = getSelText(textArea);
+        var code = '[{0}={1}]{2}[/{0}]'
+            .replace(/\{0\}/g, codeType)
+            .replace('{1}', color)
+            .replace('{2}', selText);
+        addCode(textArea, code, selText);
+        textArea.focus();
+    });
+};
+
+/**
+ * 检查发帖表单
+ */
+var checkPostForm = function () {
+    $('#postForm').submit(function () {
+        var $postType = $('#postType');
+        if ($postType.length > 0 && !$postType.val()) {
+            alert('没有选择主题分类');
+            $postType.focus();
+            return false;
+        }
+
+        var $postTitle = $('#postTitle');
+        if ($postTitle.length > 0) {
+            var length = getStrLen($.trim($postTitle.val()));
+            if (!length) {
+                alert('标题不能为空');
+                $postTitle.focus();
+                return false;
+            }
+            else if (length > 100) {
+                alert('标题超过最大长度 100 个字节');
+                $postTitle.focus();
+                return false;
+            }
+        }
+
+        var $postContent = $('#postContent');
+        if ($postContent.length > 0) {
+            var length = getStrLen($.trim($postContent.val()));
+            if (length < 12) {
+                alert('文章内容少于 12 个字节');
+                $postContent.focus();
+                return false;
+            }
+            else if (length > 50000) {
+                alert('文章内容大于 50000 个字节');
+                $postContent.focus();
+                return false;
+            }
+        }
+
+        var $postGjc = $('#postGjc');
+        if ($postGjc.length > 0 && pageInfo.action === 'new' && !$.trim($postGjc.val())) {
+            alert('请在内容文本框的下方填写关键词，以方便搜索，也可以在标题中选择任意一个词填入');
+            $postGjc.focus();
+            return false;
+        }
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -1092,8 +1275,8 @@ $(function () {
         handleBuyThreadBtn();
         copyBuyThreadList();
         handleFloorImage();
-        handlePostForm();
-        bindFastSubmitKeydown($('#articleContent'));
+        checkPostForm();
+        bindFastSubmitKeydown($('#postContent'));
         copyCode();
         bindMultiQuoteCheckClick();
         handleClearMultiQuoteDataBtn(1);
@@ -1145,6 +1328,11 @@ $(function () {
         handlePageNav('self_rate/latest');
     } else if (pageId === 'selfRateCompletePage') {
         handlePageNav('self_rate/complete');
+    } else if (pageId === 'postPage') {
+        checkPostForm();
+        bindFastSubmitKeydown($('#postContent'));
+        handleEditorBtns();
+        addSmileCode();
     }
 
     //var tooltipStartTime = new Date();

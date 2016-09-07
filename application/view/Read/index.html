@@ -119,7 +119,7 @@
     <a class="btn btn-info fast-goto-floor" href="#" title="快速直达指定楼层" role="button">
       <i class="fa fa-facebook-f" aria-hidden="true"></i> 电梯
     </a>
-    <a class="btn btn-primary" href="/post.php?action=reply&fid={$fid}&tid={$tid}">
+    <a class="btn btn-primary" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid)}">
       <i class="fa fa-reply" aria-hidden="true"></i> 回帖
     </a>
   </section>
@@ -202,12 +202,12 @@
               <input class="form-check-input multi-quote-check" type="checkbox" autocomplete="off"> 引
             </label>&nbsp;
             <a class="btn btn-outline-primary btn-sm"
-               href="/post.php?action=quote&fid={$fid}&tid={$tid}&pid={$vo.pid}&article={$vo.floorNum}">
+               href="{:url('Post/index', 'action=quote&fid=' . $fid . '&tid=' . $tid . '&pid=' . $vo['pid'] . '&article=' . $vo['floorNum'])}">
               引用
             </a>
             {eq name="vo.uid" value="$uid"}
             <a class="btn btn-outline-primary btn-sm"
-               href="/post.php?action=modify&fid={$fid}&tid={$tid}&pid={$vo.pid}&article={$vo.floorNum}">
+               href="{:url('Post/index', 'action=modify&fid=' . $fid . '&tid=' . $tid . '&pid=' . $vo['pid'] . '&article=' . $vo['floorNum'])}">
               编辑
             </a>
             {/eq}
@@ -311,90 +311,45 @@
 
   <!-- 回复区域 -->
   <section>
-    <form id="articleForm" action="{:url('Post/reply')}" method="post" enctype="multipart/form-data">
+    <form id="postForm" action="{:url('Post/post')}" method="post" enctype="multipart/form-data">
+      <input name="action" type="hidden" value="reply">
+      <input name="step" type="hidden" value="2">
+      <input name="verify" type="hidden" value="{$postVerify}">
       <input name="atc_title" type="hidden" value="none">
+      <input name="fid" type="hidden" value="{$fid}">
+      <input name="tid" type="hidden" value="{$tid}">
       <input name="atc_usesign" type="hidden" value="1">
       <input name="atc_convert" type="hidden" value="1">
       <input name="atc_autourl" type="hidden" value="1">
-      <input name="step" type="hidden" value="2">
-      <input name="action" type="hidden" value="reply">
-      <input name="fid" type="hidden" value="{$fid}">
-      <input name="tid" type="hidden" value="{$tid}">
-      <input name="verify" type="hidden" value="{$replyVerify}">
 
       <div class="form-group">
-        <label class="col-xs-9 p-x-0">
-          <span class="sr-only">关键词</span>
-          <input class="form-control" id="articleGjc" name="diy_guanjianci" type="text" placeholder="关键词"
+        <div class="form-group col-xs-9 p-x-0">
+          <label class="sr-only" for="postGjc">关键词</label>
+          <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" placeholder="关键词"
                  title="最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英语逗号,隔开，不要包含英文单引号、双引号。如果关键词是别人的ID名，系统就会@提示此人查看本帖子。">
-        </label>
-        <div class="col-xs-3 p-x-0 text-xs-right dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
-                  aria-label="表情" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-smile-o" aria-hidden="true"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-right smile-panel" aria-labelledby="smileDropdownBtn">
-            <img data-id="57" data-src="/{$imgPath}/post/smile/em/em48.gif" alt="表情">
-            <img data-id="44" data-src="/{$imgPath}/post/smile/em/em35.gif" alt="表情">
-            <img data-id="43" data-src="/{$imgPath}/post/smile/em/em34.gif" alt="表情">
-            <img data-id="42" data-src="/{$imgPath}/post/smile/em/em33.gif" alt="表情">
-            <img data-id="41" data-src="/{$imgPath}/post/smile/em/em32.gif" alt="表情">
-            <img data-id="40" data-src="/{$imgPath}/post/smile/em/em31.gif" alt="表情">
-            <img data-id="39" data-src="/{$imgPath}/post/smile/em/em30.gif" alt="表情">
-            <img data-id="38" data-src="/{$imgPath}/post/smile/em/em29.gif" alt="表情">
-            <img data-id="37" data-src="/{$imgPath}/post/smile/em/em28.gif" alt="表情">
-            <img data-id="36" data-src="/{$imgPath}/post/smile/em/em27.gif" alt="表情">
-            <img data-id="35" data-src="/{$imgPath}/post/smile/em/em26.gif" alt="表情">
-            <img data-id="45" data-src="/{$imgPath}/post/smile/em/em36.gif" alt="表情">
-            <img data-id="46" data-src="/{$imgPath}/post/smile/em/em37.gif" alt="表情">
-            <img data-id="56" data-src="/{$imgPath}/post/smile/em/em47.gif" alt="表情">
-            <img data-id="55" data-src="/{$imgPath}/post/smile/em/em46.gif" alt="表情">
-            <img data-id="54" data-src="/{$imgPath}/post/smile/em/em45.gif" alt="表情">
-            <img data-id="53" data-src="/{$imgPath}/post/smile/em/em44.gif" alt="表情">
-            <img data-id="52" data-src="/{$imgPath}/post/smile/em/em43.gif" alt="表情">
-            <img data-id="51" data-src="/{$imgPath}/post/smile/em/em42.gif" alt="表情">
-            <img data-id="50" data-src="/{$imgPath}/post/smile/em/em41.gif" alt="表情">
-            <img data-id="49" data-src="/{$imgPath}/post/smile/em/em40.gif" alt="表情">
-            <img data-id="48" data-src="/{$imgPath}/post/smile/em/em39.gif" alt="表情">
-            <img data-id="47" data-src="/{$imgPath}/post/smile/em/em38.gif" alt="表情">
-            <img data-id="34" data-src="/{$imgPath}/post/smile/em/em25.gif" alt="表情">
-            <img data-id="33" data-src="/{$imgPath}/post/smile/em/em24.gif" alt="表情">
-            <img data-id="20" data-src="/{$imgPath}/post/smile/em/em11.gif" alt="表情">
-            <img data-id="19" data-src="/{$imgPath}/post/smile/em/em10.gif" alt="表情">
-            <img data-id="18" data-src="/{$imgPath}/post/smile/em/em09.gif" alt="表情">
-            <img data-id="17" data-src="/{$imgPath}/post/smile/em/em08.gif" alt="表情">
-            <img data-id="10" data-src="/{$imgPath}/post/smile/em/em01.gif" alt="表情">
-            <img data-id="11" data-src="/{$imgPath}/post/smile/em/em02.gif" alt="表情">
-            <img data-id="12" data-src="/{$imgPath}/post/smile/em/em03.gif" alt="表情">
-            <img data-id="13" data-src="/{$imgPath}/post/smile/em/em04.gif" alt="表情">
-            <img data-id="14" data-src="/{$imgPath}/post/smile/em/em05.gif" alt="表情">
-            <img data-id="15" data-src="/{$imgPath}/post/smile/em/em06.gif" alt="表情">
-            <img data-id="21" data-src="/{$imgPath}/post/smile/em/em12.gif" alt="表情">
-            <img data-id="22" data-src="/{$imgPath}/post/smile/em/em13.gif" alt="表情">
-            <img data-id="32" data-src="/{$imgPath}/post/smile/em/em23.gif" alt="表情">
-            <img data-id="31" data-src="/{$imgPath}/post/smile/em/em22.gif" alt="表情">
-            <img data-id="30" data-src="/{$imgPath}/post/smile/em/em21.gif" alt="表情">
-            <img data-id="29" data-src="/{$imgPath}/post/smile/em/em20.gif" alt="表情">
-            <img data-id="28" data-src="/{$imgPath}/post/smile/em/em19.gif" alt="表情">
-            <img data-id="27" data-src="/{$imgPath}/post/smile/em/em18.gif" alt="表情">
-            <img data-id="26" data-src="/{$imgPath}/post/smile/em/em17.gif" alt="表情">
-            <img data-id="25" data-src="/{$imgPath}/post/smile/em/em16.gif" alt="表情">
-            <img data-id="24" data-src="/{$imgPath}/post/smile/em/em15.gif" alt="表情">
-            <img data-id="23" data-src="/{$imgPath}/post/smile/em/em14.gif" alt="表情">
-            <img data-id="16" data-src="/{$imgPath}/post/smile/em/em07.gif" alt="表情">
+        </div>
+
+        <div class="form-group col-xs-3 p-x-0 text-xs-right">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
+                    aria-label="表情" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-smile-o" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right smile-panel" aria-labelledby="smileDropdownBtn">
+              {include file="Public/smile" /}
+            </div>
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="articleContent"><span class="sr-only">回复内容</span></label>
-        <textarea class="form-control" id="articleContent" name="atc_content" rows="7" placeholder="回帖请遵守版规"></textarea>
+        <label class="sr-only" for="postContent">回复内容</label>
+        <textarea class="form-control" id="postContent" name="atc_content" rows="7" placeholder="回帖请遵守版规"></textarea>
       </div>
 
       <div class="form-group">
         <button class="btn btn-primary btn-block" type="submit">
-          <i class="fa fa-send" aria-hidden="true"></i>
-          提交
+          <i class="fa fa-send" aria-hidden="true"></i> 提交
         </button>
       </div>
     </form>
