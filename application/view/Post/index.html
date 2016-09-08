@@ -378,6 +378,16 @@
       <i class="fa fa-send" aria-hidden="true"></i> 提交
     </button>
   </form>
+
+  {notempty name="latestFloorContent"}
+  <!-- 主题回顾 -->
+  <div class="card m-t-2">
+    <h6 class="card-header m-b-0">主题回顾</h6>
+    <div class="card-block read-content latest-floor-content">
+      {$latestFloorContent}
+    </div>
+  </div>
+  {/notempty}
 </main>
 {include file="Public/footer" /}
 </body>

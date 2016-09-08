@@ -4924,7 +4924,7 @@ main {
     margin-bottom: 0.5714rem;
     padding: 0.5714rem;
     text-align: left !important;
-    border: 1px solid #ccc;
+    border: 1px solid #f0ad4e;
     border-radius: 0.25rem; }
     .read-content fieldset legend {
       width: auto;
@@ -4975,6 +4975,36 @@ main {
       padding-left: 0; }
   .vote-group .list-group-item .progress {
     margin-bottom: 0; }
+
+#postPage .breadcrumb li:nth-child(2) {
+  max-width: 190px; }
+
+.editor-btn-group button {
+  margin-bottom: 5px; }
+
+#fontSizeDropdownMenu {
+  line-height: 1.3; }
+
+.select-color-menu {
+  min-width: 234px;
+  padding-left: 0.5714rem;
+  padding-right: 0.5714rem;
+  line-height: 1.6; }
+  .select-color-menu span {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08); }
+  .select-color-menu hr {
+    margin-top: 0.5714rem;
+    margin-bottom: 0.5714rem;
+    border: none; }
+
+.latest-floor-content {
+  font-size: 0.875rem; }
+  .latest-floor-content fieldset legend {
+    font-size: 80%; }
 
 .forum-rule {
   max-height: 16.786rem;
@@ -5057,28 +5087,3 @@ main {
 .msg-box .msg-content {
   padding: 0;
   font-size: 1rem; }
-
-#postPage .breadcrumb li:nth-child(2) {
-  max-width: 190px; }
-
-.editor-btn-group button {
-  margin-bottom: 5px; }
-
-#fontSizeDropdownMenu {
-  line-height: 1.3; }
-
-.select-color-menu {
-  min-width: 234px;
-  padding-left: 0.5714rem;
-  padding-right: 0.5714rem;
-  line-height: 1.6; }
-  .select-color-menu span {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08); }
-  .select-color-menu hr {
-    margin-top: 0.5714rem;
-    margin-bottom: 0.5714rem;
-    border: none; }

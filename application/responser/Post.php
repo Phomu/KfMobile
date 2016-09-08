@@ -115,7 +115,13 @@ class Post extends Responser
         }
 
         // 主题回顾
-        $latestFloorContent = trim(pq('center:contains("主题回顾")')->next('table')->find('> tr > td')->html());
+        $latestFloorContent = '';
+        $pqLatestFloorContent = pq('center:contains("主题回顾")')->next('table')->find('> tr > td');
+        if ($pqLatestFloorContent->length > 0) {
+            Read::handleFloorElements($pqLatestFloorContent);
+            $latestFloorContent = replace_floor_content(replace_common_html_content(trim($pqLatestFloorContent->html())));
+            $latestFloorContent = preg_replace('/^([^<>]+?):<br>/i', '<b>$1：</b><br>', $latestFloorContent);
+        }
 
         $data = [
             'parentNavUrl' => $parentNavUrl,

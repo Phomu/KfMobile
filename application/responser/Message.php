@@ -191,21 +191,7 @@ class Message extends Responser
 
         // 短消息内容
         $pqMsgContent = $pqArea->find('tr:nth-child(5) > td:last-child');
-        foreach ($pqMsgContent->find('fieldset') as $node) {
-            $pqNode = pq($node);
-            if ($pqNode->find('legend:contains("Quote:")')->length > 0) {
-                $pqNode->replaceWith(
-                    '<blockquote class="blockquote"><p>' . str_replace('<legend>Quote:</legend>', '', $pqNode->html()) . '</p></blockquote>'
-                );
-            } elseif ($pqNode->find('legend:contains("Copy code")')->length > 0) {
-                $pqNode->find('legend')->remove();
-                $codeHtml = $pqNode->html();
-                $pqNode->replaceWith(
-                    '<div class="code-area"><a class="copy-code" href="#" role="button">复制代码</a>' .
-                    '<pre class="pre-scrollable">' . $codeHtml . '</pre></div>'
-                );
-            }
-        }
+        Read::handleFloorElements($pqMsgContent);
         $msgContent = replace_floor_content(replace_common_html_content($pqMsgContent->html()));
         $msgContent = preg_replace('/<\/blockquote>\n?<br>(<br>)?/i', '</blockquote>', $msgContent);
         $isTransfer = false;

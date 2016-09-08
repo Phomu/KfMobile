@@ -76,7 +76,8 @@
     </div>
     <div class="form-group">
       <label for="birthday">生日</label>
-      <input class="form-control" id="birthday" type="date" value="{$birthday|default=''}" placeholder="生日">
+      <input class="form-control" id="birthday" type="date" value="{$birthday|default=''}" placeholder="生日" aria-describedby="birthdayHelp">
+      <small class="form-text text-muted" id="birthdayHelp">须选择<b>2001</b>年以前的日期</small>
       <input name="proyear" type="hidden" value="{$proyear|default=''}">
       <input name="promonth" type="hidden" value="{$promonth|default=''}">
       <input name="proday" type="hidden" value="{$proday|default=''}">
@@ -84,7 +85,7 @@
     <fieldset>
       <legend class="font-size-base">论坛头像</legend>
       <img class="d-block img-rounded" id="avatar" src="{$avatar|default=''}" alt="论坛头像">
-      <div class="alert alert-warning font-size-sm" role="alert">注：上传头像功能暂未实现，请到电脑版网页上传头像</div>
+      <div class="alert alert-warning font-size-sm" role="alert">注：上传头像功能暂未开发，请到电脑版网页上传头像</div>
       <!--<div class="form-group">
         <label class="sr-only" for="browseAvatar">头像上传</label>
         <input class="form-control-file" id="browseAvatar" name="upload" type="file">
@@ -96,7 +97,9 @@
         <label for="avatarWidth">头像宽度</label>
         <input class="form-control" name="uploadurl[1]" id="avatarWidth" type="number" value="{$avatarWidth|default=''}" maxlength="3"
                min="0" max="140" placeholder="头像宽度" aria-describedby="avatarWidthHelp">
-        <small class="form-text text-muted" id="avatarWidthHelp">必须是<b class="text-danger">140</b>之内的整数（高度和宽度必填，否则默认最大值）</small>
+        <small class="form-text text-muted" id="avatarWidthHelp">
+          必须是<b class="text-danger">140</b>之内的整数（高度和宽度必填，否则默认最大值）
+        </small>
       </div>
       <div class="form-group">
         <label for="avatarHeight">头像高度</label>

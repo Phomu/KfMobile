@@ -110,7 +110,7 @@
     }
     padding: $spacer-sm;
     text-align: left !important;
-    border: 1px solid $btn-secondary-border;
+    border: 1px solid $brand-warning;
     border-radius: $border-radius;
 
     legend {
@@ -140,7 +140,7 @@
   .fieldset-alert {
     margin-bottom: $spacer;
     font-size: $font-size-sm;
-    border-color: $btn-danger-border;
+    border-color: $brand-danger;
 
     legend {
       color: $btn-danger-bg;

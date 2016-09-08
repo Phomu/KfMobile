@@ -268,6 +268,26 @@ class Read extends Responser
         // 替换楼层内容
         $pqFloor->html(replace_floor_content(replace_common_html_content($pqFloor->html())));
 
+        $this::handleFloorElements($pqFloor);
+
+        // 处理编辑标志
+        foreach ($pqFloor->find('div[id^="alert_"]') as $node) {
+            $pqNode = pq($node);
+            $pqNode->replaceWith('<div class="floor_edit_mark">' . $pqNode->html() . '</div>');
+        }
+
+        // 处理附件节点
+        $pqFloor->find('div[id^="att_"]')->addClass('attach')->removeAttr('style');
+
+        return $pqFloor->html();
+    }
+
+    /**
+     * 处理楼层内的各元素
+     * @param \phpQueryObject $pqFloor
+     */
+    public static function handleFloorElements(&$pqFloor)
+    {
         // 处理fieldset节点
         foreach ($pqFloor->find('fieldset') as $node) {
             $pqNode = pq($node);
@@ -300,8 +320,8 @@ class Read extends Responser
                 }
                 $pqBuyBtn->replaceWith(
                     sprintf(
-                        '<button class="btn btn-warning btn-sm buy-thread-btn" data-pid="%s" data-price="%d" type="button">
-<i class="fa fa-shopping-cart" aria-hidden="true"></i> 购买</button>',
+                        '<button class="btn btn-warning btn-sm buy-thread-btn" data-pid="%s" data-price="%d" type="button">' .
+                        '<i class="fa fa-shopping-cart" aria-hidden="true"></i> 购买</button>',
                         $pid,
                         $price
                     )
@@ -319,17 +339,7 @@ class Read extends Responser
             }
         }
 
-        // 处理编辑标志
-        foreach ($pqFloor->find('div[id^="alert_"]') as $node) {
-            $pqNode = pq($node);
-            $pqNode->replaceWith('<div class="floor_edit_mark">' . $pqNode->html() . '</div>');
-        }
-
-        // 处理附件节点
-        $pqFloor->find('div[id^="att_"]')->addClass('attach')->removeAttr('style');
         // 处理表格节点
         $pqFloor->find('table')->addClass('table table-bordered table-sm')->removeAttr('style');
-
-        return $pqFloor->html();
     }
 }

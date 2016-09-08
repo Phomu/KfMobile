@@ -316,10 +316,10 @@
     <form id="postForm" action="{:url('Post/post')}" method="post" enctype="multipart/form-data">
       <input name="action" type="hidden" value="reply">
       <input name="step" type="hidden" value="2">
-      <input name="verify" type="hidden" value="{$postVerify}">
       <input name="atc_title" type="hidden" value="none">
       <input name="fid" type="hidden" value="{$fid}">
       <input name="tid" type="hidden" value="{$tid}">
+      <input name="verify" type="hidden" value="{$postVerify}">
       <input name="atc_usesign" type="hidden" value="1">
       <input name="atc_convert" type="hidden" value="1">
       <input name="atc_autourl" type="hidden" value="1">
