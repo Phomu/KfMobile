@@ -62,9 +62,32 @@ class Profile extends Base
      */
     public function modify(Request $request)
     {
-        $func = 'get';
-        if ($request->isPost()) $func = 'post';
-        $response = Proxy::$func('profile.php?action=modify', $request->param());
+        $response = null;
+        if ($request->isPost()) {
+            $uploads = [];
+            $file = $request->file('upload');
+            if (!empty($file)) {
+                if (!$file->checkExt(['jpg', 'gif', 'png'])) {
+                    error('头像文件类型不匹配');
+                }
+                $upload = [];
+                $upload['name'] = 'upload';
+                $infoList = $file->getInfo();
+                $upload['fileName'] = $infoList['name'];
+                $upload['type'] = $infoList['type'];
+                $info = $file->rule('uniqid')->move(TEMP_PATH);
+                if ($info) {
+                    $upload['path'] = TEMP_PATH . $info->getFilename();
+                    $uploads[] = $upload;
+                    unset($info);
+                } else {
+                    error('头像上传失败');
+                }
+            }
+            $response = Proxy::post('profile.php?action=modify', $request->param(), $uploads);
+        } else {
+            $response = Proxy::get('profile.php?action=modify', $request->param());
+        }
         $profile = new responser\Profile($response);
         $this->assign($profile->modify());
         return $this->fetch('Profile/modify');

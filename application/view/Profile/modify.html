@@ -84,15 +84,11 @@
     </div>
     <fieldset>
       <legend class="font-size-base">论坛头像</legend>
-      <img class="d-block img-rounded" id="avatar" src="{$avatar|default=''}" alt="论坛头像">
-      <div class="alert alert-warning font-size-sm" role="alert">注：上传头像功能暂未开发，请到电脑版网页上传头像</div>
-      <!--<div class="form-group">
-        <label class="sr-only" for="browseAvatar">头像上传</label>
-        <input class="form-control-file" id="browseAvatar" name="upload" type="file">
-        <button class="btn btn-secondary" id="uploadAvatar" type="button">
-          <i class="fa fa-upload" aria-hidden="true"></i> 上传
-        </button>
-      </div>-->
+      <img class="d-block img-rounded m-b-1" id="avatar" src="{$avatar|default=''}" width="{$avatarWidth|default=''}"
+           height="{$avatarHeight|default=''}" alt="论坛头像">
+      <label>
+        <input class="form-control-file" id="browseAvatar" name="upload" type="file" aria-label="选择头像">
+      </label>
       <div class="form-group">
         <label for="avatarWidth">头像宽度</label>
         <input class="form-control" name="uploadurl[1]" id="avatarWidth" type="number" value="{$avatarWidth|default=''}" maxlength="3"
@@ -108,6 +104,9 @@
         <small class="form-text text-muted" id="avatarHeightHelp">
           必须是<b class="text-danger">140 + 整形优惠券{$couponNum|default=0}x20</b>之内的整数
         </small>
+      </div>
+      <div class="alert alert-warning font-size-sm" role="alert">
+        本反向代理服务器为了提高性能对图片设置了缓存，更新头像后可能需等待<b>最多30分钟</b>才能看到效果
       </div>
     </fieldset>
     <div class="form-group">

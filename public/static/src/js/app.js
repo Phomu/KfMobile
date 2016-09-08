@@ -1282,7 +1282,7 @@ var handleAttachBtns = function () {
             );
             $this.data('action', 'cancel').text('取消').blur();
             if (!$(document).data('attachUpdateAlert')) {
-                alert('本反向代理服务器为了提高性能对图片设置了缓存，更新附件图片后需等待最多30分钟才能看到效果');
+                alert('本反向代理服务器为了提高性能对图片设置了缓存，更新附件图片后可能需等待最多30分钟才能看到效果');
                 $(document).data('attachUpdateAlert', true);
             }
         }
