@@ -30,7 +30,7 @@ class GrowUp extends Base
      */
     public function donation(Request $request)
     {
-        if (!$request->isPost()) return error('非法请求');
+        if (!$request->isPost()) error('非法请求');
         $response = Proxy::post('kf_growup.php?ok=1', $request->param());
         new responser\Responser($response);
         return error('捐款失败');

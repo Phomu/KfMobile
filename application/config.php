@@ -29,7 +29,7 @@ return [
     // 远端网站编码
     'remote_site_encoding' => 'gbk',
     // 成功提示信息的等待时间
-    'success_msg_wait' => 5,
+    'success_msg_wait' => 3,
     // 是否关闭网站
     'site_close' => false,
     // 关闭网站的提示消息

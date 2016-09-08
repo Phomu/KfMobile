@@ -47,7 +47,7 @@ class Login extends Controller
      */
     public function login(Request $request)
     {
-        if (!$this->request->isPost()) return error('非法请求');
+        if (!$request->isPost()) error('非法请求');
 
         $response = Proxy::post('login.php', $request->param());
         if ($response['code'] !== 200) {
@@ -59,11 +59,11 @@ class Login extends Controller
         $cookies = $response['cookies'];
         $userCookieName = config('kf_cookie_prefix') . 'winduser';
         if (isset($cookies[$userCookieName])) {
-            $expire = $request->param('cktime', 0) ? 60 * 60 * 24 * 356 : 0;
+            $expire = input('cktime', 0) ? 60 * 60 * 24 * 356 : 0;
             cookie($userCookieName, $cookies[$userCookieName], ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);
         }
 
-        new Responser($response, $request->param('jumpurl', ''));
+        new Responser($response, input('jumpurl', ''));
         return error('登录失败');
     }
 

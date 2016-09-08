@@ -46,7 +46,8 @@ class Proxy
         $headers = [
             'Cookie: ' . serialize_cookies($cookies, config('kf_cookie_prefix')),
             'X-Real-IP: ' . $clientIp,
-            'X-Forwarded-For: ' . $clientIp
+            'X-Forwarded-For: ' . $clientIp,
+            'Expect:',
         ];
 
         $ch = curl_init();

@@ -1056,7 +1056,7 @@ var bindMessageActionBtnsClick = function () {
  * 处理编辑器按钮
  */
 var handleEditorBtns = function () {
-    var textArea = $('textarea[name="atc_content"]').get(0);
+    var textArea = $('#postContent').get(0);
 
     // 编辑器按钮
     $(document).on('click', '.editor-btn-group button[data-action]', function () {
@@ -1259,6 +1259,88 @@ var checkPostForm = function () {
 };
 
 /**
+ * 处理附件按钮
+ */
+var handleAttachBtns = function () {
+    $(document).on('click', '.attach-area a[data-action]', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $area = $this.closest('.attach-area');
+        var action = $this.data('action');
+        var id = $area.data('id');
+        if (!id) return;
+        if (action === 'insert') {
+            var type = $this.data('type');
+            var textArea = $('#postContent').get(0);
+            var code = '[{0}={1}]'.replace('{0}', type === 'new' ? 'upload' : 'attachment').replace('{1}', id);
+            addCode(textArea, code, '');
+            textArea.focus();
+        }
+        else if (action === 'update') {
+            $area.find('.attach-info').prop('hidden', true).after(
+                '<label><input name="replace_{0}" type="file" aria-label="选择附件"></label>'.replace('{0}', id)
+            );
+            $this.data('action', 'cancel').text('取消').blur();
+            if (!$(document).data('attachUpdateAlert')) {
+                alert('本反向代理服务器为了提高性能对图片设置了缓存，更新附件图片后需等待最多30分钟才能看到效果');
+                $(document).data('attachUpdateAlert', true);
+            }
+        }
+        else if (action === 'cancel') {
+            $area.find('.attach-info').prop('hidden', false).next('label').remove();
+            $this.data('action', 'update').text('更新').blur();
+        }
+        else if (action === 'delete') {
+            $area.remove();
+        }
+    });
+
+    $(document).on('change', '[type="file"]', function () {
+        var $this = $(this);
+        var matches = /\.(\w+)$/.exec($this.val());
+        if (!matches || $.inArray(matches[1].toLowerCase(), ['jpg', 'gif', 'png', 'torrent']) === -1) {
+            alert('附件类型不匹配');
+            return;
+        }
+
+        var type = $this.data('type');
+        if (type === 'new') {
+            $this.removeData('type').parent().next().prop('hidden', false);
+
+            var $newAttachArea = $('#newAttachArea');
+            var totalNum = $newAttachArea.find('[type="file"]').length;
+            if (totalNum >= 5) return;
+            var $lastAttachArea = $newAttachArea.find('[type="file"]:last').closest('.attach-area');
+            var id = parseInt($lastAttachArea.data('id'));
+            if (!id) return;
+            $(
+                ('<div class="form-group row font-size-sm attach-area" data-id="{0}">' +
+                '  <div class="col-xs-12 col-form-label">' +
+                '    <label>' +
+                '      <input name="attachment_{0}" data-type="new" type="file" aria-label="选择附件">' +
+                '    </label>' +
+                '    <span hidden>' +
+                '      <a data-action="insert" data-type="new" href="#">插入</a>&nbsp;' +
+                '      <a data-action="delete" href="#">删除</a>' +
+                '    </span>' +
+                '  </div>' +
+                '  <div class="col-xs-4">' +
+                '    <label class="sr-only" for="atc_downrvrc{0}">神秘系数</label>' +
+                '    <input class="form-control form-control-sm" id="atc_downrvrc{0}" name="atc_downrvrc{0}" data-toggle="tooltip" ' +
+                'type="number" value="0" min="0" title="神秘系数" placeholder="神秘系数">' +
+                '  </div>' +
+                '  <div class="col-xs-8">' +
+                '    <label class="sr-only" for="atc_desc{0}">描述</label>' +
+                '    <input class="form-control form-control-sm" id="atc_desc{0}" name="atc_desc{0}" data-toggle="tooltip" type="text" ' +
+                'title="描述" placeholder="描述">' +
+                '  </div>' +
+                '</div>').replace(/\{0\}/g, ++id)
+            ).insertAfter($lastAttachArea).find('[data-toggle="tooltip"]').tooltip({'container': 'body'});
+        }
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
@@ -1274,7 +1356,8 @@ $(function () {
     }
     else if (pageId === 'threadPage') {
         handlePageNav('thread/index');
-    } else if (pageId === 'readPage') {
+    }
+    else if (pageId === 'readPage') {
         fastGotoFloor();
         handlePageNav('read/index');
         tuiThread();
@@ -1290,58 +1373,81 @@ $(function () {
         bindMultiQuoteCheckClick();
         handleClearMultiQuoteDataBtn(1);
         addSmileCode();
-    } else if (pageId === 'searchPage') {
+    }
+    else if (pageId === 'searchPage') {
         handlePageNav('search/index');
-    } else if (pageId === 'gjcPage') {
+    }
+    else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
-    } else if (pageId === 'growUpPage') {
+    }
+    else if (pageId === 'growUpPage') {
         checkDonationBtnStatus();
-    } else if (pageId === 'myReplyPage') {
+    }
+    else if (pageId === 'myReplyPage') {
         handlePageNav('personal/reply');
-    } else if (pageId === 'gameIntroSearchPage') {
+    }
+    else if (pageId === 'gameIntroSearchPage') {
         handlePageNav('game_intro/search');
         handleGameIntroSearchArea();
-    } else if (pageId === 'gameIntroPage') {
+    }
+    else if (pageId === 'gameIntroPage') {
         tuiGameIntro('game');
-    } else if (pageId === 'gameIntroCompanyPage') {
+    }
+    else if (pageId === 'gameIntroCompanyPage') {
         tuiGameIntro('company');
-    } else if (pageId === 'gameIntroTypePage') {
+    }
+    else if (pageId === 'gameIntroTypePage') {
         tuiGameIntro('type');
-    } else if (pageId === 'gameIntroPropertyPage') {
+    }
+    else if (pageId === 'gameIntroPropertyPage') {
         tuiGameIntro('property');
-    } else if (pageId === 'smBoxPage') {
+    }
+    else if (pageId === 'smBoxPage') {
         randomSelectSmBox();
-    } else if (pageId === 'favorPage') {
+    }
+    else if (pageId === 'favorPage') {
         bindFavorPageBtnsClick();
-    } else if (pageId === 'friendPage') {
+    }
+    else if (pageId === 'friendPage') {
         bindFriendPageBtnsClick();
-    } else if (pageId === 'modifyPage') {
+    }
+    else if (pageId === 'modifyPage') {
         syncPerPageFloorNum();
         assignBirthdayFiled();
         //uploadAvatar();
-    } else if (pageId === 'bankPage') {
+    }
+    else if (pageId === 'bankPage') {
         transferKfbAlert();
-    } else if (pageId === 'bankLogPage') {
+    }
+    else if (pageId === 'bankLogPage') {
         handlePageNav('bank/log');
-    } else if (pageId === 'messagePage') {
+    }
+    else if (pageId === 'messagePage') {
         handlePageNav('message/index');
         bindMessageActionBtnsClick();
-    } else if (pageId === 'readMessagePage') {
+    }
+    else if (pageId === 'readMessagePage') {
         handleFloorImage();
         copyCode();
-    } else if (pageId === 'writeMessagePage') {
+    }
+    else if (pageId === 'writeMessagePage') {
         bindFastSubmitKeydown($('#msgContent'));
-    } else if (pageId === 'messageBannedPage') {
+    }
+    else if (pageId === 'messageBannedPage') {
         bindFastSubmitKeydown($('#banidinfo'));
-    } else if (pageId === 'selfRateLatestPage') {
+    }
+    else if (pageId === 'selfRateLatestPage') {
         handlePageNav('self_rate/latest');
-    } else if (pageId === 'selfRateCompletePage') {
+    }
+    else if (pageId === 'selfRateCompletePage') {
         handlePageNav('self_rate/complete');
-    } else if (pageId === 'postPage') {
+    }
+    else if (pageId === 'postPage') {
         checkPostForm();
         bindFastSubmitKeydown($('#postContent'));
         handleEditorBtns();
         addSmileCode();
+        handleAttachBtns();
     }
 
     //var tooltipStartTime = new Date();
