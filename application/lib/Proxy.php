@@ -30,14 +30,16 @@ class Proxy
      * 发出请求
      * @param string $url 请求的URL
      * @param string|array|null $postData post数据
+     * @param array|null $uploads 上传文件数据
      * @param array $extraData 额外数据
      * @return array 响应信息
      */
-    public static function request($url, $postData = null, $extraData = [])
+    protected static function request($url, $postData = null, $uploads = null, $extraData = [])
     {
         $remoteEncoding = config('remote_site_encoding');
         $siteEncoding = config('site_encoding');
         $url = config('proxy_base_url') . mb_convert_encoding($url, $remoteEncoding, $siteEncoding);
+
         $cookies = input('cookie.', []);
         unset($cookies[config('kf_cookie_prefix') . 'ipfrom']);
         $clientIp = input('server.REMOTE_ADDR', '');
@@ -46,6 +48,7 @@ class Proxy
             'X-Real-IP: ' . $clientIp,
             'X-Forwarded-For: ' . $clientIp
         ];
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -57,16 +60,35 @@ class Proxy
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
+
         if (!is_null($postData)) {
             curl_setopt($ch, CURLOPT_POST, true);
             if (is_array($postData)) {
                 convert_array_encoding($postData, $remoteEncoding, $siteEncoding);
-                $postData = http_build_query($postData);
+                foreach ($postData as $key => $data) {
+                    if (is_array($data)) {
+                        foreach ($data as $subKey => $subData) {
+                            $postData[$key . '[' . $subKey . ']'] = $subData;
+                        }
+                        unset($postData[$key]);
+                    }
+                }
+                if (!empty($uploads)) {
+                    foreach ($uploads as $upload) {
+                        $curlFile = new \CURLFile(
+                            $upload['path'],
+                            $upload['type'],
+                            mb_convert_encoding($upload['fileName'], $remoteEncoding, $siteEncoding)
+                        );
+                        $postData[$upload['name']] = $curlFile;
+                    }
+                }
             } else {
                 $postData = mb_convert_encoding($postData, $remoteEncoding, $siteEncoding);
             }
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
+
         debug('begin');
         $result = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -76,6 +98,12 @@ class Proxy
         trace('客户端IP：' . $clientIp);
         trace('客户端UA：' . input('server.HTTP_USER_AGENT', '无'));
         trace('获取远端页面用时：' . debug('begin', 'end') . 's');
+
+        if (!empty($uploads)) {
+            foreach ($uploads as $upload) {
+                unlink($upload['path']);
+            }
+        }
 
         if (empty($result)) return ['code' => $code === 200 ? 502 : $code, 'errorMsg' => $errorMsg];
         list($header, $document) = explode("\r\n\r\n", $result, 2);
@@ -125,26 +153,22 @@ class Proxy
             if ($data) $url .= (strpos($url, '?') === false ? '?' : '&') . $data;
         }
         trace('GET请求：' . $url);
-        return self::request($url, null, $extraData);
+        return self::request($url, null, null, $extraData);
     }
 
     /**
      * 发出POST请求
      * @param string $url 请求的URL
      * @param string|array $data POST请求数据
+     * @param array|null $uploads 上传文件数据
      * @param array $extraData 额外数据
      * @return array 响应信息
      */
-    public static function post($url, $data, $extraData = [])
+    public static function post($url, $data, $uploads = null, $extraData = [])
     {
         if (config('app_debug') && !preg_match('/login\.php|profile\.php\?action=modify/', $url)) {
             trace('POST请求：' . $url . '，请求数据：' . http_build_query($data));
         }
-        return self::request($url, $data, $extraData);
-    }
-
-    public static function upload()
-    {
-
+        return self::request($url, $data, $uploads, $extraData);
     }
 }

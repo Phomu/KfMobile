@@ -31,7 +31,31 @@ class Post extends Base
     public function post(Request $request)
     {
         if (!$request->isPost()) return error('非法请求');
-        $response = Proxy::post('post.php', $request->param());
+
+        $uploads = [];
+        $files = $request->file();
+        foreach ($files as $key => $file) {
+            if (!$file->checkExt(['jpg', 'gif', 'png', 'torrent'])) {
+                return error('附件类型不匹配');
+            }
+        }
+        foreach ($files as $key => $file) {
+            $upload = [];
+            $upload['name'] = $key;
+            $infoList = $file->getInfo();
+            $upload['fileName'] = $infoList['name'];
+            $upload['type'] = $infoList['type'];
+            $info = $file->rule('uniqid')->move(TEMP_PATH);
+            if ($info) {
+                $upload['path'] = TEMP_PATH . $info->getFilename();
+                $uploads[] = $upload;
+                unset($info);
+            } else {
+                return error('文件上传失败');
+            }
+        }
+
+        $response = Proxy::post('post.php', $request->param(), $uploads);
         new responser\Responser($response);
         return error('发帖失败');
     }
