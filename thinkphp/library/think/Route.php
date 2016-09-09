@@ -422,6 +422,8 @@ class Route
                     }
                     $vars   = self::parseVar($key);
                     $item[] = ['rule' => $key, 'route' => $route, 'var' => $vars, 'option' => $options, 'pattern' => $patterns];
+                    // 设置路由标识
+                    self::$name[$route][] = [$key, $vars, self::$domain];
                 }
                 self::$rules['*'][$name] = ['rule' => $item, 'route' => '', 'var' => [], 'option' => $option, 'pattern' => $pattern];
             }
@@ -1001,7 +1003,7 @@ class Route
         if (!empty($array[1])) {
             self::parseUrlParams($array[1]);
         }
-        return ['type' => 'method', 'method' => [$class, $action], 'params' => []];
+        return ['type' => 'method', 'method' => [$class, $action]];
     }
 
     /**
@@ -1020,7 +1022,7 @@ class Route
         if (!empty($array[2])) {
             self::parseUrlParams($array[2]);
         }
-        return ['type' => 'method', 'method' => [$namespace . '\\' . $class, $method], 'params' => []];
+        return ['type' => 'method', 'method' => [$namespace . '\\' . $class, $method]];
     }
 
     /**
@@ -1038,7 +1040,7 @@ class Route
         if (!empty($array[1])) {
             self::parseUrlParams($array[1]);
         }
-        return ['type' => 'controller', 'controller' => $controller . '/' . $action, 'params' => []];
+        return ['type' => 'controller', 'controller' => $controller . '/' . $action];
     }
 
     /**
@@ -1170,6 +1172,9 @@ class Route
             self::parseUrlParams(empty($path) ? '' : implode('/', $path));
             // 封装路由
             $route = [$module, $controller, $action];
+            if (isset(self::$name[implode($depr, $route)])) {
+                throw new HttpException(404, 'invalid request:' . $url);
+            }
         }
         return ['type' => 'module', 'module' => $route];
     }
@@ -1341,7 +1346,7 @@ class Route
             }
             // 路由规则重定向
             if ($result instanceof Response) {
-                return ['type' => 'response', 'response' => $result, 'params' => $matches];
+                return ['type' => 'response', 'response' => $result];
             } elseif (is_array($result)) {
                 return $result;
             }
@@ -1349,17 +1354,17 @@ class Route
 
         if ($route instanceof \Closure) {
             // 执行闭包
-            $result = ['type' => 'function', 'function' => $route, 'params' => $matches];
+            $result = ['type' => 'function', 'function' => $route];
         } elseif (0 === strpos($route, '/') || 0 === strpos($route, 'http')) {
             // 路由到重定向地址
             $result = ['type' => 'redirect', 'url' => $route, 'status' => isset($option['status']) ? $option['status'] : 301];
         } elseif (0 === strpos($route, '\\')) {
             // 路由到方法
             $method = strpos($route, '@') ? explode('@', $route) : $route;
-            $result = ['type' => 'method', 'method' => $method, 'params' => $matches];
+            $result = ['type' => 'method', 'method' => $method];
         } elseif (0 === strpos($route, '@')) {
             // 路由到控制器
-            $result = ['type' => 'controller', 'controller' => substr($route, 1), 'params' => $matches];
+            $result = ['type' => 'controller', 'controller' => substr($route, 1)];
         } else {
             // 路由到模块/控制器/操作
             $result = self::parseModule($route);

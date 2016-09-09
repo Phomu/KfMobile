@@ -12,6 +12,7 @@
 namespace think;
 
 use think\Config;
+use think\Env;
 use think\Exception;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
@@ -134,15 +135,15 @@ class App
                     break;
                 case 'controller':
                     // 执行控制器操作
-                    $data = Loader::action($dispatch['controller'], $dispatch['params']);
+                    $data = Loader::action($dispatch['controller']);
                     break;
                 case 'method':
                     // 执行回调方法
-                    $data = self::invokeMethod($dispatch['method'], $dispatch['params']);
+                    $data = self::invokeMethod($dispatch['method']);
                     break;
                 case 'function':
                     // 执行闭包
-                    $data = self::invokeFunction($dispatch['function'], $dispatch['params']);
+                    $data = self::invokeFunction($dispatch['function']);
                     break;
                 case 'response':
                     $data = $dispatch['response'];
@@ -180,12 +181,11 @@ class App
      * @access public
      * @param array|string  $dispatch 调度信息
      * @param string        $type 调度类型
-     * @param array         $params 参数
      * @return void
      */
-    public static function dispatch($dispatch, $type = 'module', $params = [])
+    public static function dispatch($dispatch, $type = 'module')
     {
-        self::$dispatch = ['type' => $type, $type => $dispatch, 'params' => $params];
+        self::$dispatch = ['type' => $type, $type => $dispatch];
     }
 
     /**
@@ -241,6 +241,7 @@ class App
     {
         $args = [];
         // 判断数组类型 数字数组时按顺序绑定参数
+        reset($vars);
         $type = key($vars) === 0 ? 1 : 0;
         if ($reflect->getNumberOfParameters() > 0) {
             $params = $reflect->getParameters();
@@ -249,7 +250,12 @@ class App
                 $class = $param->getClass();
                 if ($class) {
                     $className = $class->getName();
-                    $args[]    = method_exists($className, 'instance') ? $className::instance() : new $className();
+                    if (isset($vars[$name]) && $vars[$name] instanceof $className) {
+                        $args[] = $vars[$name];
+                        unset($vars[$name]);
+                    } else {
+                        $args[] = method_exists($className, 'instance') ? $className::instance() : new $className();
+                    }
                 } elseif (1 == $type && !empty($vars)) {
                     $args[] = array_shift($vars);
                 } elseif (0 == $type && isset($vars[$name])) {
@@ -325,7 +331,7 @@ class App
         $actionName = $convert ? strtolower($actionName) : $actionName;
 
         // 设置当前请求的控制器、操作
-        $request->controller($controller)->action($actionName);
+        $request->controller(Loader::parseName($controller, 1))->action($actionName);
 
         // 监听module_init
         Hook::listen('module_init', $request);
@@ -371,7 +377,7 @@ class App
             self::$suffix = $config['class_suffix'];
 
             // 应用调试模式
-            self::$debug = Config::get('app_debug');
+            self::$debug = Env::get('app_debug', Config::get('app_debug'));
             if (!self::$debug) {
                 ini_set('display_errors', 'Off');
             } elseif (!IS_CLI) {
@@ -446,11 +452,6 @@ class App
             // 加载应用状态配置
             if ($config['app_status']) {
                 $config = Config::load(CONF_PATH . $module . $config['app_status'] . CONF_EXT);
-            }
-
-            // 加载别名文件
-            if (is_file(CONF_PATH . $module . 'alias' . EXT)) {
-                Loader::addClassMap(include CONF_PATH . $module . 'alias' . EXT);
             }
 
             // 加载行为扩展文件
