@@ -35,9 +35,7 @@ return [
     // 关闭网站的提示消息
     'site_close_msg' => '网站维护中……',
     // 登录页面提示信息
-    'login_page_msg' => '<a class="alert-link" href="http://bbs.2dkf.com/read.php?tid=564787" target="_blank">KfMobile项目</a>为喵拉布丁所开发' .
-        '的适用于<b>移动浏览器</b>的KF反向代理服务（尚在开发中）。<br>本站(miaola.info)是由喵拉布丁所搭建的<b>非官方</b>的反向代理服务网站，' .
-        '如对本站的隐私安全方面抱有疑问，请勿继续访问。',
+    'login_page_msg' => '',
     // 网站统计脚本
     'stat_script' => '',
     // 游戏介绍图片域名的url
@@ -58,7 +56,7 @@ return [
     // 应用Trace
     'app_trace' => false,
     // 应用模式状态
-    'app_status' => '',
+    'app_status' => 'status',
     // 是否支持多模块
     'app_multi_module' => false,
     // 入口自动绑定模块
@@ -131,7 +129,7 @@ return [
     'url_route_must' => false,
     // 域名部署
     'url_domain_deploy' => false,
-    // 域名根，如.thinkphp.cn
+    // 域名根，如thinkphp.cn
     'url_domain_root' => '',
     // 是否自动转换URL中的控制器和操作名
     'url_convert' => true,

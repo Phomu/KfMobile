@@ -3,8 +3,9 @@ node_modules/
 runtime/
 vps/
 public/my/
+application/status.php
 composer.lock
 *.log
 build.bat
 composerUpdate.bat
-env.php
+.env

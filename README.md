@@ -27,7 +27,7 @@ https://m.miaola.info/
 以后在项目目录下执行`git pull`即可获取更新。
 
 ## 调试
-在项目目录下复制一份的`env.debug.php`文件并将其命名为`env.php`即可开启调试模式。
+在`application`目录下将`status.debug.php`示例文件复制一份并将其命名为`status.php`即可开启调试模式。
 
 ### 编译静态资源文件
 在项目目录下执行`npm install`安装依赖包（需安装Node.js）；  
@@ -35,8 +35,8 @@ https://m.miaola.info/
 执行`gulp watch`，可监视静态资源文件的改动并立即进行编译；
 
 ## 部署
-删除之前用于调试的`env.php`文件，并在项目目录下复制一份的`env.product.php`文件且将其命名为`env.php`。  
-可修改`env.php`文件里的设置，还可增加任何在`application\config.php`文件中你想覆盖的设置。  
+删除`application`目录下之前用于调试的`status.php`文件，并在该目录下将`status.product.php`示例文件复制一份且将其命名为`status.php`。  
+可修改`status.php`文件里的配置，还可增加任何在`application/config.php`文件中你想覆盖的配置。  
 每次更新文件后（在非调试模式下），请删除`runtime`目录下的`cache`及`temp`文件夹，以更新模板缓存。
 
 ### 虚拟主机配置
@@ -81,8 +81,8 @@ Nginx虚拟主机配置参考：
     
             proxy_cache_key       'kf_$request_uri';
             proxy_cache           cache_one;
-            proxy_cache_valid     200 304 1h;
-            proxy_cache_valid     301 302 2h;
+            proxy_cache_valid     200 304 30m;
+            proxy_cache_valid     301 302 30m;
             proxy_cache_valid     any 1m;
             proxy_cache_use_stale invalid_header error timeout http_502;
     

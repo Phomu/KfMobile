@@ -1,5 +1,5 @@
 <?php
-// 环境配置
+// 状态配置
 return [
     // 异常页面的模板文件（正式部署时建议使用此设置）
     'exception_tmpl' => APP_PATH . 'view' . DS . 'Msg' . DS . 'exception.html',
@@ -11,6 +11,10 @@ return [
     'stat_script' => '',
     // 电脑版的url
     'pc_version_base_url' => 'https://kf.miaola.info/',
+    // 登录页面提示信息
+    //'login_page_msg' => '',
     // 是否关闭网站，默认值：false
     //'site_close' => true,
+    // 关闭网站的提示消息
+    //'site_close_msg' => '网站维护中……',
 ];
