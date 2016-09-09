@@ -8,6 +8,9 @@ _Present for every KFer!_
 ## 网址
 https://m.miaola.info/
 
+## 讨论帖
+http://bbs.2dkf.com/read.php?tid=564787
+
 ## 环境要求
 本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
 
@@ -115,9 +118,6 @@ Nginx虚拟主机配置参考：
             include        fastcgi_params;
         }
     }
-
-## 讨论帖
-http://bbs.2dkf.com/read.php?tid=564787
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
