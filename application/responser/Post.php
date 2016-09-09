@@ -57,15 +57,37 @@ class Post extends Responser
             $threadTypeList[] = ['name' => $name, 'value' => $value, 'selected' => $selected];
         }
 
-        // 发帖标题、内容、关键词等
+        // 发帖标题、关键词等
         $threadTitle = htmlspecialchars($pqForm->find('input[name="atc_title"]')->val());
-        $threadContent = trim_strip($pqForm->find('#textarea')->val());
-        $threadContent = str_replace("\xC2\xA0", " ", $threadContent);
         $gjc = trim_strip($pqForm->find('#diy_guanjianci')->val());
         $xinZuoStatus = $pqForm->find('input[name="diy_xinzuo"]')->attr('checked');
         if ($xinZuoStatus === null) $xinZuoStatus = 0;
         elseif ($xinZuoStatus === 'checked') $xinZuoStatus = 1;
         else $xinZuoStatus = -1;
+
+        // 发帖内容
+        $threadContent = ltrim(htmlspecialchars($pqForm->find('#textarea')->val()));
+        $threadContent = str_replace('&amp;', '&', $threadContent);
+        $threadContent = str_replace("\xC2\xA0", " ", $threadContent);
+        if (preg_match('/\[quote\](.|\n)+?\[\/quote\]/', $threadContent, $matches)) {
+            $quoteContent = $matches[0];
+            $quoteContent = str_replace("\n\n", "\n", $quoteContent);
+            $quoteContent = preg_replace_callback(
+                '/\[url=([^\]]+)\]/',
+                function ($urlMatches) {
+                    $urlMatches[1] = str_replace('&amp;', '&', $urlMatches[1]);
+                    $domain = request()->domain();
+                    $url = convert_url(str_replace($domain . '/', '/', $urlMatches[1]));
+                    if ($url !== $urlMatches[1]) $url = $domain . $url;
+                    return '[url=' . $url . ']';
+                },
+                $quoteContent
+            );
+            $quoteContent = $this->getRemoveUnpairedBBCodeQuoteContent($quoteContent);
+            if ($quoteContent !== $matches[0]) {
+                $threadContent = str_replace($matches[0], $quoteContent, $threadContent);
+            }
+        }
 
         // 投票信息
         $vote = [];
@@ -140,5 +162,31 @@ class Post extends Responser
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
         if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取去除了不配对BBCode的引用内容
+     * @param string $content 引用内容
+     * @return string 去除了不配对BBCode的引用内容
+     */
+    protected function getRemoveUnpairedBBCodeQuoteContent($content)
+    {
+        $startCodeList = [
+            '/\[color=.+?\]/', '/\[backcolor=.+?\]/', '/\[size=.+?\]/', '/\[font=.+?\]/', '/\[align=.+?\]/', '/\[b\]/', '/\[i\]/',
+            '/\[u\]/', '/\[strike\]/', '/\[sup\]/', '/\[sub\]/'
+        ];
+        $endCodeList = [
+            '/\[\/color\]/', '/\[\/backcolor\]/', '/\[\/size\]/', '/\[\/font\]/', '/\[\/align\]/', '/\[\/b\]/', '/\[\/i\]/',
+            '/\[\/u\]/', '/\[\/strike\]/', '/\[\/sup\]/', '/\[\/sub\]/'
+        ];
+        for ($i = 0; $i < count($startCodeList); $i++) {
+            $startMatchesNum = preg_match_all($startCodeList[$i], $content);
+            $endMatchesNum = preg_match_all($endCodeList[$i], $content);
+            if ($startMatchesNum !== $endMatchesNum) {
+                $content = preg_replace($startCodeList[$i], '', $content);
+                $content = preg_replace($endCodeList[$i], '', $content);
+            }
+        }
+        return $content;
     }
 }
