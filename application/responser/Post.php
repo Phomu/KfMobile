@@ -69,7 +69,7 @@ class Post extends Responser
         $threadContent = ltrim(htmlspecialchars($pqForm->find('#textarea')->val()));
         $threadContent = str_replace('&amp;', '&', $threadContent);
         $threadContent = str_replace("\xC2\xA0", " ", $threadContent);
-        if ($hiddenFields['action'] === 'quote' && preg_match('/\[quote\](.|\n)+?\[\/quote\]/', $threadContent, $matches)) {
+        if ($hiddenFields['action'] === 'quote' && preg_match('/\[quote\].+?\[\/quote\]/s', $threadContent, $matches)) {
             $quoteContent = $matches[0];
             $quoteContent = str_replace("\n\n", "\n", $quoteContent);
             $quoteContent = preg_replace('/\[attachment=\d+\]/', '[color=red][附件图片][/color]', $quoteContent);
