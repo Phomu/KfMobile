@@ -4757,7 +4757,7 @@ main {
   overflow-y: auto; }
 
 #userMenuDropdownBtn {
-  max-width: 12.857rem;
+  max-width: 178px;
   white-space: nowrap;
   overflow: hidden; }
 
@@ -4770,9 +4770,9 @@ main {
 
 #rollToTopOrBottom {
   position: fixed;
-  right: .857rem;
-  bottom: 2.286rem;
-  padding: .857rem;
+  right: 12px;
+  bottom: 32px;
+  padding: 12px;
   color: #fff;
   line-height: 1rem;
   background-color: #000;
@@ -4846,12 +4846,12 @@ main {
       line-height: 2.2; }
 
 .smile-panel {
-  width: 19rem;
-  height: 13.4rem;
+  width: 266px;
+  height: 188px;
   overflow-y: auto;
   opacity: .9; }
   .smile-panel img {
-    margin: .214rem;
+    margin: 3px;
     cursor: pointer; }
 
 /* 各页面样式 */
@@ -4924,6 +4924,8 @@ main {
     margin-bottom: 0.5714rem;
     padding: 0.5714rem;
     text-align: left !important;
+    font-weight: normal !important;
+    font-style: normal !important;
     border: 1px solid #f0ad4e;
     border-radius: 0.25rem; }
     .read-content fieldset legend {
@@ -5007,7 +5009,7 @@ main {
     font-size: 80%; }
 
 .forum-rule {
-  max-height: 16.786rem;
+  max-height: 235px;
   overflow-y: auto; }
 
 .user-avatar {
@@ -5042,7 +5044,7 @@ main {
   vertical-align: middle; }
 
 #bankLogList .description {
-  width: 32rem;
+  width: 448px;
   text-align: left;
   white-space: normal;
   word-break: break-all; }
@@ -5055,12 +5057,12 @@ main {
   .game-search-list .media:hover {
     background-color: #f5f5f5; }
   .game-search-list .media .media-left img {
-    max-width: 5rem;
-    max-height: 7.2rem; }
+    max-width: 70px;
+    max-height: 100.8px; }
 
 .game-intro-cover, .character-img {
   max-width: 100%;
-  max-height: 14.5rem; }
+  max-height: 203px; }
 
 #smBoxPanel .table td {
   border-top: none; }

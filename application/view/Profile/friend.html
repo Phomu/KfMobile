@@ -23,8 +23,9 @@
     <li class="breadcrumb-item active">好友列表</li>
   </ol>
 
-  <!-- 好友列表 -->
   <form method="post" action="{:url('Profile/friend')}">
+    {notempty name="friendList"}
+    <!-- 好友列表 -->
     <ul class="row list-group list-group-sm m-b-1" id="friendList">
       {volist name="friendList" id="vo"}
       <li class="list-group-item">
@@ -51,6 +52,9 @@
       </li>
       {/volist}
     </ul>
+    {else /}
+    <div class="alert alert-danger text-xs-center" role="alert">暂无好友</div>
+    {/notempty}
 
     <!-- 功能区 -->
     <section id="friendActionBtns">

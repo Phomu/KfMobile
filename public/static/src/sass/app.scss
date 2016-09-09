@@ -74,7 +74,7 @@ main {
 
 // 用户菜单下拉按钮
 #userMenuDropdownBtn {
-  max-width: 12.857rem; // ~180px
+  max-width: 178px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -94,9 +94,9 @@ main {
 // 滚动到页顶/页底按钮
 #rollToTopOrBottom {
   position: fixed;
-  right: .857rem; // ~12px
-  bottom: 2.286rem; // ~32px
-  padding: .857rem; // ~12px
+  right: 12px;
+  bottom: 32px;
+  padding: 12px;
   color: #fff;
   line-height: 1rem;
   background-color: #000;
@@ -204,13 +204,13 @@ main {
 
 // 表情面板
 .smile-panel {
-  width: 19rem;
-  height: 13.4rem;
+  width: 266px;
+  height: 188px;
   overflow-y: auto;
   opacity: .9;
 
   img {
-    margin: .214rem; // ~3px
+    margin: 3px;
     cursor: pointer;
   }
 }
@@ -221,7 +221,7 @@ main {
 
 // 版块规则
 .forum-rule {
-  max-height: 16.786rem; // ~235px
+  max-height: 235px;
   overflow-y: auto;
 }
 
@@ -283,7 +283,7 @@ main {
 
   // 描述字段
   .description {
-    width: 32rem; // ~448px
+    width: 448px;
     text-align: left;
     white-space: normal;
     word-break: break-all;
@@ -303,8 +303,8 @@ main {
 
     .media-left {
       img {
-        max-width: 5rem; // ~70px
-        max-height: 7.2rem; // ~100.8px
+        max-width: 70px;
+        max-height: 100.8px;
       }
     }
   }
@@ -313,7 +313,7 @@ main {
 // 游戏介绍封面 & 人物图片
 .game-intro-cover, .character-img {
   max-width: 100%;
-  max-height: 14.5rem; // ~203px
+  max-height: 203px;
 }
 
 // 神秘盒子

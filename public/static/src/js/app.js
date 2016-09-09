@@ -286,15 +286,13 @@ var handleRollToTopOrBottomBtn = function () {
         var $btn = $('#rollToTopOrBottom');
         if ($(window).scrollTop() > 640) {
             if ($btn.data('direction') === 'top') return;
-            $btn.data('direction', 'top');
-            $btn.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-            $btn.find('span').text('滚动到页顶');
+            $btn.data('direction', 'top').attr('aria-label', '滚动到页顶')
+                .find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
         }
         else {
             if ($btn.data('direction') === 'bottom') return;
-            $btn.data('direction', 'bottom');
-            $btn.find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-            $btn.find('span').text('滚动到页底');
+            $btn.data('direction', 'bottom').attr('aria-label', '滚动到页底')
+                .find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
         }
     });
 
@@ -535,11 +533,12 @@ var handleFloorImage = function () {
 
 /**
  * 插入表情代码
+ * @param {jQuery} $node 想要绑定的节点的jQuery对象
  */
-var addSmileCode = function () {
+var addSmileCode = function ($node) {
     $('.smile-panel').on('click', 'img', function () {
         $('.smile-panel').addClass('open');
-        var textArea = $('#postContent').get(0);
+        var textArea = $node.get(0);
         if (!textArea) return;
         var code = '[s:' + $(this).data('id') + ']';
         addCode(textArea, code, '');
@@ -919,7 +918,7 @@ var bindFriendPageBtnsClick = function () {
 /**
  * 在账号设置页面里为生日字段赋值
  */
-var assignBirthdayFiled = function () {
+var assignBirthdayField = function () {
     $('#birthday').change(function () {
         var value = $.trim($(this).val());
         var matches = /(\d{4})-(\d{1,2})-(\d{1,2})/.exec(value);
@@ -932,38 +931,6 @@ var assignBirthdayFiled = function () {
         $('input[name="proyear"]').val(year);
         $('input[name="promonth"]').val(month);
         $('input[name="proday"]').val(day);
-    });
-};
-
-/**
- * 上传头像
- */
-var uploadAvatar = function () {
-    $('#uploadAvatar').click(function (e) {
-        e.preventDefault();
-        var $browseAvatar = $('#browseAvatar');
-        if (!$browseAvatar.val()) {
-            alert('请选择要上传的图片');
-            return;
-        }
-        var formData = new FormData();
-        formData.append('facetype', '3');
-        formData.append('step', '2');
-        formData.append('upload', $browseAvatar.get(0).files[0]);
-        $.ajax({
-            type: 'POST',
-            url: '/profile.php?action=ajaxface',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (html) {
-                console.log(html);
-            },
-            error: function () {
-                alert('上传失败');
-            }
-        });
     });
 };
 
@@ -987,6 +954,19 @@ var syncPerPageFloorNum = function () {
     $('#creator').submit(function () {
         readConfig();
         syncConfig();
+    });
+};
+
+/**
+ * 处理上传头像文件浏览按钮
+ */
+var handleUploadAvatarFileBtn = function () {
+    $('#browseAvatar').change(function () {
+        var $this = $(this);
+        var matches = /\.(\w+)$/.exec($this.val());
+        if (!matches || $.inArray(matches[1].toLowerCase(), ['jpg', 'gif', 'png']) === -1) {
+            alert('头像图片类型不匹配');
+        }
     });
 };
 
@@ -1372,7 +1352,7 @@ $(function () {
         copyCode();
         bindMultiQuoteCheckClick();
         handleClearMultiQuoteDataBtn(1);
-        addSmileCode();
+        addSmileCode($('#postContent'));
     }
     else if (pageId === 'searchPage') {
         handlePageNav('search/index');
@@ -1413,8 +1393,8 @@ $(function () {
     }
     else if (pageId === 'modifyPage') {
         syncPerPageFloorNum();
-        assignBirthdayFiled();
-        //uploadAvatar();
+        assignBirthdayField();
+        handleUploadAvatarFileBtn();
     }
     else if (pageId === 'bankPage') {
         transferKfbAlert();
@@ -1432,6 +1412,7 @@ $(function () {
     }
     else if (pageId === 'writeMessagePage') {
         bindFastSubmitKeydown($('#msgContent'));
+        addSmileCode($('#msgContent'));
     }
     else if (pageId === 'messageBannedPage') {
         bindFastSubmitKeydown($('#banidinfo'));
@@ -1446,7 +1427,7 @@ $(function () {
         checkPostForm();
         bindFastSubmitKeydown($('#postContent'));
         handleEditorBtns();
-        addSmileCode();
+        addSmileCode($('#postContent'));
         handleAttachBtns();
     }
 

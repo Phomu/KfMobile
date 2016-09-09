@@ -21,10 +21,10 @@ function serialize_cookies($cookies, $prefix = '')
  * 操作成功跳转的快捷方法
  * @param string $msg 提示信息
  * @param string $url 跳转的URL地址
- * @param int $wait 跳转等待时间
+ * @param int $wait 跳转等待时间，设为-1代表使用默认等待时间
  * @throws \think\exception\HttpResponseException
  */
-function success($msg, $url = null, $wait = 5)
+function success($msg, $url = null, $wait = -1)
 {
     controller('Msg')->successMsg($msg, $url, $wait);
 }

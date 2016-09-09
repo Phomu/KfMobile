@@ -16,7 +16,7 @@ class Msg extends Controller
      * 操作成功跳转的快捷方法
      * @param string $msg 提示信息
      * @param string $url 跳转的URL地址
-     * @param int $wait 跳转等待时间
+     * @param int $wait 跳转等待时间，设为-1代表使用默认等待时间
      * @throws HttpResponseException
      */
     public function successMsg($msg, $url = null, $wait = -1)

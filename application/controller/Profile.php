@@ -68,7 +68,7 @@ class Profile extends Base
             $file = $request->file('upload');
             if (!empty($file)) {
                 if (!$file->checkExt(['jpg', 'gif', 'png'])) {
-                    error('头像文件类型不匹配');
+                    error('头像图片类型不匹配');
                 }
                 $upload = [];
                 $upload['name'] = 'upload';

@@ -47,8 +47,19 @@
                  required>
         </div>
         <div class="form-group">
-          <label for="msgContent">内容</label>
-          <textarea class="form-control" id="msgContent" name="atc_content" rows="8" required>{$msgContent}</textarea>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
+                    aria-label="表情" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-smile-o" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-menu smile-panel" aria-labelledby="smileDropdownBtn">
+              {include file="Public/smile" /}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="msgContent">内容</label>
+          <textarea class="form-control" id="msgContent" name="atc_content" rows="8" placeholder="短消息内容" required>{$msgContent}</textarea>
         </div>
         <div class="checkbox">
           <label>
