@@ -49,12 +49,14 @@ class Post extends Responser
 
         // 主题类型列表
         $threadTypeList = [];
-        foreach ($pqForm->find('select[name="p_type"]')->find('option') as $item) {
-            $pqItem = pq($item);
-            $name = trim_strip($pqItem->text());
-            $value = trim_strip($pqItem->val());
-            $selected = $pqItem->attr('selected') === 'selected';
-            $threadTypeList[] = ['name' => $name, 'value' => $value, 'selected' => $selected];
+        if (!$hiddenFields['pid'] || $hiddenFields['pid'] === 'tpc') {
+            foreach ($pqForm->find('select[name="p_type"]')->find('option') as $item) {
+                $pqItem = pq($item);
+                $name = trim_strip($pqItem->text());
+                $value = trim_strip($pqItem->val());
+                $selected = $pqItem->attr('selected') === 'selected';
+                $threadTypeList[] = ['name' => $name, 'value' => $value, 'selected' => $selected];
+            }
         }
 
         // 发帖标题、关键词等
