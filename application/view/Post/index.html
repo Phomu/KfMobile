@@ -273,9 +273,9 @@
     {neq name="action" value="modify"}
     <!-- 关键词 -->
     <div class="form-group">
-      <label for="postGjc">关键词</label>
-      <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" value="{$gjc}" maxlength="75" placeholder="关键词"
-             aria-describedby="postGjcHelp">
+      <label class="sr-only" for="postGjc">关键词</label>
+      <input class="form-control" id="postGjc" name="diy_guanjianci" data-toggle="tooltip" type="text" value="{$gjc}" maxlength="75"
+             title="关键词" placeholder="关键词" aria-describedby="postGjcHelp">
       <small id="postGjcHelp" class="form-text text-muted">
         最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英文逗号 <kbd>,</kbd> 隔开，不要包含英文单引号、双引号；<br>
         如果关键词是别人的ID名，系统就会@提示此人查看本帖子
@@ -382,7 +382,7 @@
     </div>
 
     <button class="btn btn-primary btn-block" type="submit">
-      <i class="fa fa-send" aria-hidden="true"></i> 提交
+      <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
     </button>
   </form>
 

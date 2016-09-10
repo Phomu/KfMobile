@@ -4726,7 +4726,7 @@ a.text-danger:focus, a.text-danger:hover {
 body {
   padding-top: 3.375rem; }
 
-#successPage, #errorPage, #loginPage {
+#successPage, #errorPage, #loginPage, #registerPage {
   padding-top: 0; }
 
 main {
@@ -4873,6 +4873,8 @@ main {
     margin-right: 0.3571rem; }
   .read-floor header .floor-user {
     font-size: 1.143rem; }
+  .read-floor header .sm-level {
+    color: #00b0f0; }
   .read-floor header .multi-quote-check {
     vertical-align: text-bottom; }
 

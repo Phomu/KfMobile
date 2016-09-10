@@ -14,13 +14,14 @@ $spacer-xs: .3571rem; // ~5px
 @import "utilities";
 
 body {
-  padding-top: 3.375rem;
+  padding-top: 3.375rem; // ~47px
 }
 
-#successPage, #errorPage, #loginPage {
+#successPage, #errorPage, #loginPage, #registerPage {
   padding-top: 0;
 }
 
+// 主区域
 main {
   margin-bottom: $spacer*1.5;
 }
