@@ -506,10 +506,17 @@ var handleBuyThreadBtn = function () {
 var copyBuyThreadList = function () {
     $(document).on('change', '.buy-thread-list', function () {
         var $this = $(this);
-        if ($this.val() !== 'copyList' || $this.children().length <= 3) return;
-        var list = $this.find('option:gt(2)').map(function () {
-            return $(this).text();
+        if ($this.val() !== 'copyList') return;
+        var list = $this.find('option').map(function (index) {
+            var name = $(this).text();
+            if (index === 0 || index === 1 || name === '-----------') return null;
+            else return name;
         }).get().join('\n');
+        if (!list) {
+            alert('暂时无人购买');
+            $this.get(0).selectedIndex = 0;
+            return;
+        }
         $('#buyThreadListContent').val(list);
         $('#buyThreadListDialog').modal('show');
         $this.get(0).selectedIndex = 0;

@@ -201,7 +201,7 @@ class Message extends Responser
                 '/会员\[(.+?)\]通过论坛银行功能给你转帐(\d+)KFB/i',
                 function ($matches) {
                     return sprintf(
-                        '会员[<a href="%s">%s</a>]通过论坛银行功能给你转帐 <b class="text-warning">%s</b> KFB',
+                        '会员[<a href="%s">%s</a>]通过论坛银行功能给你转帐 <b class="d-inline-block text-warning">%s</b> KFB',
                         url('Profile/show', 'username=' . $matches[1]),
                         $matches[1],
                         number_format($matches[2])
