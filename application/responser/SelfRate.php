@@ -8,9 +8,9 @@ namespace app\responser;
 class SelfRate extends Responser
 {
     /**
-     * 获取最近发布的分享帖页面的页面数据
+     * 获取最近发布的分享帖页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function latest($extraData = [])
     {
@@ -72,9 +72,9 @@ class SelfRate extends Responser
     }
 
     /**
-     * 获取待检查的评分记录页面的页面数据
+     * 获取待检查的评分记录页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function waitCheck($extraData = [])
     {
@@ -139,9 +139,9 @@ class SelfRate extends Responser
     }
 
     /**
-     * 获取关于我的评分记录页面的页面数据
+     * 获取关于我的评分记录页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function my($extraData = [])
     {
@@ -203,9 +203,9 @@ class SelfRate extends Responser
     }
 
     /**
-     * 获取已完成的评分记录页面的页面数据
+     * 获取已完成的评分记录页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function complete($extraData = [])
     {
@@ -284,9 +284,9 @@ class SelfRate extends Responser
     }
 
     /**
-     * 获取自助评分奖励页面的页面数据
+     * 获取自助评分奖励页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function rating($extraData = [])
     {
@@ -326,9 +326,9 @@ class SelfRate extends Responser
     }
 
     /**
-     * 获取自助评分检查页面的页面数据
+     * 获取自助评分检查页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function check($extraData = [])
     {

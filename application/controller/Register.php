@@ -17,7 +17,7 @@ class Register extends Controller
      */
     protected function _initialize()
     {
-        if (config('site_close', false)) {
+        if (config('site_close')) {
             error(config('site_close_msg'));
         }
     }

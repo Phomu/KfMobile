@@ -152,9 +152,9 @@ class Responser
     }
 
     /**
-     * 获取通用页面响应数据
+     * 获取通用页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面响应数据
+     * @return array 响应数据
      */
     public function response($extraData = [])
     {

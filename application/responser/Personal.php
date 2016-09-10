@@ -8,9 +8,9 @@ namespace app\responser;
 class Personal extends Responser
 {
     /**
-     * 获取我的回复页面的页面数据
+     * 获取我的回复页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function reply($extraData = [])
     {

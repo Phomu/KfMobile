@@ -8,9 +8,9 @@ namespace app\responser;
 class Profile extends Responser
 {
     /**
-     * 获取个人详细信息页面的页面数据
+     * 获取个人详细信息页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function show($extraData = [])
     {
@@ -76,9 +76,9 @@ class Profile extends Responser
     }
 
     /**
-     * 获取收藏夹页面的页面数据
+     * 获取收藏夹页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function favor($extraData = [])
     {
@@ -159,9 +159,9 @@ class Profile extends Responser
     }
 
     /**
-     * 获取好友列表页面的页面数据
+     * 获取好友列表页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function friend($extraData = [])
     {
@@ -211,9 +211,9 @@ class Profile extends Responser
     }
 
     /**
-     * 获取账号设置页面的页面数据
+     * 获取账号设置页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function modify($extraData = [])
     {

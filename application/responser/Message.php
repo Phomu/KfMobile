@@ -8,9 +8,9 @@ namespace app\responser;
 class Message extends Responser
 {
     /**
-     * 获取短消息页面的页面数据
+     * 获取短消息页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function index($extraData = [])
     {
@@ -120,9 +120,9 @@ class Message extends Responser
     }
 
     /**
-     * 获取屏蔽列表页面的页面数据
+     * 获取屏蔽列表页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function banned($extraData = [])
     {
@@ -153,9 +153,9 @@ class Message extends Responser
     }
 
     /**
-     * 获取查看消息页面的页面数据
+     * 获取查看消息页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function read($extraData = [])
     {
@@ -228,9 +228,9 @@ class Message extends Responser
     }
 
     /**
-     * 获取发送消息页面的页面数据
+     * 获取发送消息页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function write($extraData = [])
     {
@@ -271,8 +271,8 @@ class Message extends Responser
     }
 
     /**
-     * 获取头部的页面数据
-     * @return array 头部的页面数据
+     * 获取头部的响应数据
+     * @return array 头部的响应数据
      */
     protected function getHeaderData()
     {

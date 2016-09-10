@@ -8,9 +8,9 @@ namespace app\responser;
 class Bank extends Responser
 {
     /**
-     * 获取银行页面的页面数据
+     * 获取银行页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function index($extraData = [])
     {
@@ -107,9 +107,9 @@ class Bank extends Responser
     }
 
     /**
-     * 获取银行日志页面的页面数据
+     * 获取银行日志页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function log($extraData = [])
     {

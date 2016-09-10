@@ -8,9 +8,9 @@ namespace app\responser;
 class Rank extends Responser
 {
     /**
-     * 获取论坛排行页面的页面数据
+     * 获取论坛排行页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function index($extraData = [])
     {

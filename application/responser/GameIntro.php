@@ -8,9 +8,9 @@ namespace app\responser;
 class GameIntro extends Responser
 {
     /**
-     * 获取游戏介绍首页的页面数据
+     * 获取游戏介绍首页的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function index($extraData = [])
     {
@@ -65,9 +65,9 @@ class GameIntro extends Responser
     }
 
     /**
-     * 获取游戏搜索页面的页面数据
+     * 获取游戏搜索页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function search($extraData = [])
     {
@@ -175,9 +175,9 @@ class GameIntro extends Responser
     }
 
     /**
-     * 获取本月新作页面的页面数据
+     * 获取本月新作页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function moon($extraData = [])
     {
@@ -264,9 +264,9 @@ class GameIntro extends Responser
     }
 
     /**
-     * 获取游戏介绍页面的页面数据
+     * 获取游戏介绍页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function game($extraData = [])
     {
@@ -366,9 +366,9 @@ class GameIntro extends Responser
     }
 
     /**
-     * 获取游戏公司介绍页面的页面数据
+     * 获取游戏公司介绍页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function company($extraData = [])
     {
@@ -443,9 +443,9 @@ class GameIntro extends Responser
     }
 
     /**
-     * 获取游戏类型介绍页面的页面数据
+     * 获取游戏类型介绍页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function type($extraData = [])
     {
@@ -520,9 +520,9 @@ class GameIntro extends Responser
     }
 
     /**
-     * 获取游戏属性介绍页面的页面数据
+     * 获取游戏属性介绍页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function property($extraData = [])
     {

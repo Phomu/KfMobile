@@ -8,9 +8,9 @@ namespace app\responser;
 class Read extends Responser
 {
     /**
-     * 获取主题页面的页面数据
+     * 获取主题页面的响应数据
      * @param array $extraData 额外参数
-     * @return array 页面数据
+     * @return array 响应数据
      */
     public function index($extraData = [])
     {
@@ -172,9 +172,9 @@ class Read extends Responser
     }
 
     /**
-     * 获取楼层的页面数据
+     * 获取楼层的响应数据
      * @param \phpQueryObject $pqFloor
-     * @return array 楼层的页面数据
+     * @return array 响应数据
      */
     protected function floor($pqFloor)
     {
