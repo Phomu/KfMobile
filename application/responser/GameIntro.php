@@ -326,7 +326,7 @@ class GameIntro extends Responser
         foreach ($pqExtraInfoCell->find('div:first > a') as $item) {
             $pqItem = pq($item);
             $largeImg = $pqItem->attr('href');
-            $thumbImg = str_replace(config('game_intro_base_url'), '', $largeImg);
+            $thumbImg = str_replace(config('game_image_domain'), '', $largeImg);
             $thumbImg = str_replace('/', '-', $thumbImg);
             $smallImg = $pqItem->find('img')->attr('src');
             $gameImgList[] = ['largeImg' => $largeImg, 'thumbImg' => $thumbImg, 'smallImg' => $smallImg];

@@ -6,19 +6,19 @@ return [
 
     // 应用版本号
     'app_version' => '1.4',
-    // 反向代理目标域名的url
-    'proxy_base_url' => 'http://www.9moe.com/',
+    // 反向代理的目标域名
+    'proxy_domain' => 'http://www.9moe.com/',
     // 反向代理在尝试连接时的超时时间（秒)
     'proxy_connection_timeout' => 15,
     // 反向代理执行的超时时间（秒)
     'proxy_timeout' => 25,
     // 网站名称
     'site_name' => '绯月Galgame',
-    // 电脑版的url
-    'pc_version_base_url' => 'https://kf.miaola.info/',
+    // 电脑版的域名
+    'pc_version_domain' => 'https://kf.miaola.info/',
     // 静态资源目录的路径
     'static_path' => 'static/dist/',
-    // 是否使用CDN传输部分静态资源文件（如jquery.js、bootstrap.js）
+    // 是否使用CDN传输部分静态资源文件（如jQuery、Bootstrap脚本及Font Awesome字体文件等）
     'static_file_cdn' => false,
     // 静态资源文件时间戳
     'static_file_timestamp' => '',
@@ -38,11 +38,11 @@ return [
     'login_page_msg' => '',
     // 网站统计脚本
     'stat_script' => '',
-    // 游戏介绍图片域名的url
-    'game_intro_base_url' => 'http://www.9gal.com/',
-    // 缩略图最大宽度
+    // 存放游戏介绍图片的域名
+    'game_image_domain' => 'http://www.9gal.com/',
+    // 缩略图最大宽度（游戏介绍图片）
     'thumb_max_width' => 360,
-    // 缩略图最大高度
+    // 缩略图最大高度（游戏介绍图片）
     'thumb_max_height' => 203,
 
     // +----------------------------------------------------------------------

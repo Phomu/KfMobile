@@ -17,12 +17,12 @@ class Responser
     /**
      * 响应类构造方法
      * @param array $response 回应数据
-     * @param string $jumpUrl 跳转URL
+     * @param array $extraData 额外参数
      */
-    public function __construct($response, $jumpUrl = '')
+    public function __construct($response, $extraData = [])
     {
         $this->response = $response;
-        $this->jumpUrl = $jumpUrl;
+        $this->jumpUrl = !empty($extraData['jumpUrl']) ? $extraData['jumpUrl'] : '';
         $this->_initialize();
     }
 
@@ -60,7 +60,7 @@ class Responser
                 },
                 $msg
             );
-            success($msg, $this->jumpUrl ? $this->jumpUrl : $jumpUrl);
+            success($msg, !empty($this->jumpUrl) ? $this->jumpUrl : $jumpUrl);
         } elseif (preg_match('/操作提示<br\s*\/>\r\n(.+?)<br\s*\/>\r\n<a href="javascript:history\.go\(-1\);">/i', $document, $matches)) {
             error($matches[1]);
         }
@@ -126,7 +126,7 @@ class Responser
             $imgPath = $matches[1];
         }
 
-        $pcVersionUrl = str_replace(config('proxy_base_url'), config('pc_version_base_url'), $this->response['remoteUrl']);
+        $pcVersionUrl = str_replace(config('proxy_domain'), config('pc_version_domain'), $this->response['remoteUrl']);
 
         $request = request();
         return [
@@ -166,7 +166,7 @@ class Responser
             'imgPath' => '123456789',
             'urlParam' => http_build_query(request()->param()),
             'rootPath' => PUBLIC_PATH,
-            'remoteUrl' => config('proxy_base_url'),
+            'remoteUrl' => config('proxy_domain'),
         ];
     }
 

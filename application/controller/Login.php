@@ -25,7 +25,7 @@ class Login extends Controller
     /**
      * 展示登录页面
      * @param bool $isRemote 是否获取远端页面
-     * @param null $jumpUrl 跳转URL
+     * @param string|null $jumpUrl 跳转URL
      * @return mixed
      */
     public function index($isRemote = true, $jumpUrl = null)
@@ -35,7 +35,7 @@ class Login extends Controller
             new Responser($response);
         }
         $this->assign([
-            'jumpUrl' => $jumpUrl ? $jumpUrl : url('/'),
+            'jumpUrl' => !empty($jumpUrl) ? $jumpUrl : url('/'),
             'noPageInfo' => true
         ]);
         return $this->fetch('Login/index');
@@ -63,7 +63,7 @@ class Login extends Controller
             cookie($userCookieName, $cookies[$userCookieName], ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);
         }
 
-        new Responser($response, input('jumpurl', ''));
+        new Responser($response, ['jumpUrl' => input('jumpurl', '')]);
         return error('登录失败');
     }
 
@@ -74,7 +74,7 @@ class Login extends Controller
     public function logout(Request $request)
     {
         $response = Proxy::get('login.php?action=quit&verify=' . $request->param('verify', ''));
-        new Responser($response, url('/'));
-        return success('登出', url('/'));
+        new Responser($response, ['jumpUrl' => url('/')]);
+        return error('登出失败');
     }
 }

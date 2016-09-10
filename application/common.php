@@ -224,7 +224,7 @@ function replace_floor_content($html)
 function make_thumb($path, $thumbPath)
 {
     try {
-        $content = file_get_contents(config('game_intro_base_url') . $path);
+        $content = file_get_contents(config('game_image_domain') . $path);
         $md5Path = md5($path);
         $fp = fopen(TEMP_PATH . $md5Path, 'w+');
         fwrite($fp, $content);

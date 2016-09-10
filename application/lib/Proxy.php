@@ -38,7 +38,8 @@ class Proxy
     {
         $remoteEncoding = config('remote_site_encoding');
         $siteEncoding = config('site_encoding');
-        $url = config('proxy_base_url') . mb_convert_encoding($url, $remoteEncoding, $siteEncoding);
+        $url = (!empty($extraData['proxyDomain']) ? $extraData['proxyDomain'] : config('proxy_domain')) .
+            mb_convert_encoding($url, $remoteEncoding, $siteEncoding);
 
         $cookies = input('cookie.', []);
         unset($cookies[config('kf_cookie_prefix') . 'ipfrom']);
@@ -54,7 +55,7 @@ class Proxy
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_USERAGENT, input('server.HTTP_USER_AGENT', ''));
-        curl_setopt($ch, CURLOPT_REFERER, !empty($extraData['referer']) ? $extraData['referer'] : config('proxy_base_url'));
+        curl_setopt($ch, CURLOPT_REFERER, !empty($extraData['referer']) ? $extraData['referer'] : config('proxy_domain'));
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, config('proxy_connection_timeout'));
         curl_setopt($ch, CURLOPT_TIMEOUT, config('proxy_timeout'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -115,7 +116,7 @@ class Proxy
                 '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"',
                 $document
             );
-            $document = str_replace(rtrim(config('proxy_base_url'), '/'), request()->domain(), $document);
+            $document = str_replace(rtrim(config('proxy_domain'), '/'), request()->domain(), $document);
             return [
                 'code' => $code,
                 'header' => $header,
