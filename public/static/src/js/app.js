@@ -247,6 +247,29 @@ var bindFastSubmitKeydown = function ($node) {
 };
 
 /**
+ * 显示字段验证消息
+ * @param {jQuery} $node 验证字段的jQuery对象
+ * @param {string} type 验证类型
+ * @param {string} [msg] 验证消息
+ */
+var showValidationMsg = function ($node, type, msg) {
+    if (type === 'error') type = 'danger';
+    $node.removeClass('form-control-success form-control-warning form-control-danger');
+    var $parent = $node.parent();
+    $parent.removeClass('has-success has-warning has-danger');
+    if ($.inArray(type, ['success', 'warning', 'danger'] > -1)) {
+        $node.addClass('form-control-' + type).parent().addClass('has-' + type);
+    }
+    var $feedback = $parent.find('.form-control-feedback');
+    if (type === 'wait') {
+        $feedback.html('<span class="text-muted"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> ' + msg + '</span>');
+    }
+    else {
+        $feedback.text(msg ? msg : '');
+    }
+};
+
+/**
  * 读取设置
  */
 var readConfig = function () {
@@ -1328,10 +1351,59 @@ var handleAttachBtns = function () {
 };
 
 /**
+ * 验证注册页面字段
+ */
+var validateRegisterField = function () {
+    $(document).on('change', 'input[name]', function () {
+        var $this = $(this);
+        var name = $this.attr('name');
+        var value = $this.val();
+        if (!value) {
+            showValidationMsg($this, 'clear');
+            return;
+        }
+        if (name === 'regemail') {
+            showValidationMsg($this, 'wait', '检查中，请稍等&hellip;');
+            $.post(makeUrl('register/check'), 'username=' + value, function (data) {
+                if ($this.val() === data.username) {
+                    showValidationMsg($this, data.type, data.msg);
+                }
+            }).fail(function () {
+                showValidationMsg($this, 'error', '响应失败');
+            });
+        }
+        else if (name === 'regpwd') {
+            if (value.length > 16 || value.length < 6) {
+                showValidationMsg($this, 'error', '密码长度不正确');
+            }
+            else {
+                showValidationMsg($this, 'clear');
+                $('[name="regpwdrepeat"]').trigger('change');
+            }
+        }
+        else if (name === 'regpwdrepeat') {
+            if (value !== $('[name="regpwd"]').val()) showValidationMsg($this, 'error', '两次输入的密码不相符');
+            else showValidationMsg($this, 'clear');
+        }
+    });
+
+    $('#registerForm').submit(function () {
+        if ($(this).find('.has-danger').length > 0) {
+            alert('请正确填写表单');
+            return false;
+        }
+    });
+};
+
+/**
  * 初始化
  */
 $(function () {
     if (pageId === 'loginPage') return;
+    else if (pageId === 'registerPage') {
+        validateRegisterField();
+        return;
+    }
     readConfig();
 
     handleMainMenu();

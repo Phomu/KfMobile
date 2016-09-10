@@ -8,6 +8,8 @@ return [
     'app_version' => '1.4',
     // 反向代理的目标域名
     'proxy_domain' => 'http://www.9moe.com/',
+    // 注册页面反向代理的目标域名
+    'register_page_proxy_domain' => 'http://bbs.2dkf.com/',
     // 反向代理在尝试连接时的超时时间（秒)
     'proxy_connection_timeout' => 15,
     // 反向代理执行的超时时间（秒)

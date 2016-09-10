@@ -13,6 +13,8 @@ class Responser
     protected $response = null;
     // 跳转URL
     protected $jumpUrl = '';
+    // 不检查登录状态
+    protected $noCheckLogin = false;
 
     /**
      * 响应类构造方法
@@ -23,6 +25,7 @@ class Responser
     {
         $this->response = $response;
         $this->jumpUrl = !empty($extraData['jumpUrl']) ? $extraData['jumpUrl'] : '';
+        $this->noCheckLogin = !empty($extraData['noCheckLogin']) ? $extraData['noCheckLogin'] : false;
         $this->_initialize();
     }
 
@@ -105,7 +108,7 @@ class Responser
         if (preg_match('/&uid=(\d+)/i', $pqUser->attr('href'), $matches)) $uid = intval($matches[1]);
         $userName = trim_strip($pqUser->text());
         $userTitle = trim_strip($pqUser->attr('title'));
-        if (!$userName) {
+        if (!$userName && !$this->noCheckLogin) {
             success('请登录', 'login/index');
         }
 
@@ -149,25 +152,27 @@ class Responser
     }
 
     /**
-     * 获取测试用的页面通用数据
-     * @return array 测试用的页面通用数据
+     * 获取通用页面响应数据
+     * @param array $extraData 额外参数
+     * @return array 页面响应数据
      */
-    public static function getTestCommonData()
+    public function response($extraData = [])
     {
-        return [
-            'title' => config('site_name'),
-            'keywords' => 'GALGAME,绯月,ACG论坛',
-            'description' => '绯月是一个以动漫、游戏、音乐、绘画等为主题的论坛。',
-            'uid' => 123456,
-            'userName' => '测试账号',
-            'hasNewMsg' => false,
-            'verify' => 'abcdef',
-            'safeId' => 'abc123',
-            'imgPath' => '123456789',
-            'urlParam' => http_build_query(request()->param()),
-            'rootPath' => PUBLIC_PATH,
-            'remoteUrl' => config('proxy_domain'),
-        ];
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        return array_merge($commonData);
     }
 
     /**

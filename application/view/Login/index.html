@@ -25,15 +25,15 @@
     <input name="step" type="hidden" value="2">
     <input name="lgt" type="hidden" value="1">
     <div class="form-group">
-      <label for="pwuser"><i class="fa fa-user" aria-hidden="true"></i> 用户名</label>
-      <input class="form-control" id="pwuser" name="pwuser" type="text" placeholder="用户名" required>
+      <label for="pwuser"><i class="fa fa-user fa-fw" aria-hidden="true"></i> 用户名</label>
+      <input class="form-control" id="pwuser" name="pwuser" type="text" maxlength="12" placeholder="用户名" required>
     </div>
     <div class="form-group">
-      <label for="pwpwd"><i class="fa fa-lock" aria-hidden="true"></i> 密码</label>
-      <input class="form-control" id="pwpwd" name="pwpwd" type="password" placeholder="密码" required>
+      <label for="pwpwd"><i class="fa fa-lock fa-fw" aria-hidden="true"></i> 密码</label>
+      <input class="form-control" id="pwpwd" name="pwpwd" type="password" maxlength="16" placeholder="密码" required>
     </div>
     <div class="form-group">
-      <a href="http://bbs.2dkf.com/register.php" target="_blank">马上注册</a>
+      <a href="{:url('Register/index')}">马上注册</a>
     </div>
 
     <div class="form-group btn-group" data-toggle="buttons" aria-label="登录类型">

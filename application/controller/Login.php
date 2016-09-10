@@ -32,7 +32,7 @@ class Login extends Controller
     {
         if ($isRemote) {
             $response = Proxy::get('login.php');
-            new Responser($response);
+            new Responser($response, ['noCheckLogin' => true]);
         }
         $this->assign([
             'jumpUrl' => !empty($jumpUrl) ? $jumpUrl : url('/'),
