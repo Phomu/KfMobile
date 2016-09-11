@@ -1,0 +1,53 @@
+// 各种警告框的背景颜色
+@include alert-bg-make(success, $alert-success-bg);
+@include alert-bg-make(info, $alert-info-bg);
+@include alert-bg-make(warning, $alert-warning-bg);
+@include alert-bg-make(danger, $alert-danger-bg);
+
+// 导航栏
+.navbar {
+  padding-left: 0;
+  background-color: rgba($gray-lightest, $bg-opacity-lightest);
+
+  // 导航栏标志
+  .navbar-brand {
+    margin-right: 0;
+    padding: {
+      left: $spacer;
+      right: $spacer;
+    }
+  }
+}
+
+// 下拉菜单
+.dropdown-menu {
+  line-height: 2.2;
+}
+
+// 下拉菜单项（激活状态）
+.dropdown-item.active {
+  color: #fff !important;
+}
+
+// 分页链接
+.page-link {
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+// 分页链接（激活状态）
+.page-item.active {
+  .page-link {
+    min-width: 40px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+// 引用框
+.blockquote {
+  background-color: $blockquote-bg;
+}

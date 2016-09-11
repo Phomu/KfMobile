@@ -56,3 +56,16 @@
     }
   }
 }
+
+// 表情面板
+.smile-panel {
+  width: 266px;
+  height: 188px;
+  overflow-y: auto;
+  opacity: .9;
+
+  img {
+    margin: 3px;
+    cursor: pointer;
+  }
+}

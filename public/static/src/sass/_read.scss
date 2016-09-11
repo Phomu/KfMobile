@@ -65,11 +65,6 @@
     padding: $spacer-sm;
     font-size: inherit;
     text-align: left !important;
-    background-color: darken($body-bg, 2%);
-    border-left: {
-      width: .3rem;
-      color: darken($body-bg, 8%);
-    }
 
     p {
       margin-bottom: 0;
@@ -87,9 +82,9 @@
       left: $spacer-sm;
       right: $spacer-sm;
     }
-    text-align: left !important;
-    background-color: darken($body-bg, 2%);
     font-size: $font-size-sm;
+    text-align: left !important;
+    background-color: $blockquote-bg;
 
     a {
       line-height: 2.5;

@@ -1,11 +1,20 @@
+// 生成字体大小
 @mixin font-size-make($name, $size) {
   .font-size-#{$name} {
     font-size: $size;
   }
 }
 
+// 生成文字溢出
 @mixin text-overflow() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// 生成警告框背景颜色
+@mixin alert-bg-make($name, $color) {
+  .alert-#{$name} {
+    background-color: rgba($color, $bg-opacity-lighter);
+  }
 }

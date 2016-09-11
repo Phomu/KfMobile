@@ -1,0 +1,98 @@
+// 主题链接组
+.thread-link-group {
+  @include make-row();
+  margin: {
+    left: 0;
+    right: 0;
+  }
+  padding: 0;
+  $line-height: 2.75;
+
+  // 主题链接
+  .thread-link {
+    @include make-col(10);
+    @include text-overflow;
+    padding-left: $spacer-sm;
+    line-height: $line-height;
+
+    &:hover {
+      text-decoration: none;
+      background-color: $list-group-hover-bg;
+    }
+  }
+
+  // 主题快速跳转链接
+  .thread-link-jump {
+    @include make-col(2);
+    line-height: $line-height;
+    color: $text-muted;
+    text-align: center;
+
+    &:hover {
+      background-color: $list-group-hover-bg;
+    }
+  }
+}
+
+// 主题列表组
+.thread-list-group {
+  // 主题列表项
+  .thread-list-item {
+    margin: {
+      left: 0;
+      right: 0;
+    }
+    padding: 0;
+
+    &:hover {
+      background-color: $list-group-hover-bg;
+    }
+
+    // 主题链接项
+    .thread-link-item {
+      max-height: 3.357rem;
+      padding: {
+        top: $spacer-xs;
+        left: $spacer-sm;
+        right: $spacer-sm;
+      }
+      overflow: hidden;
+
+      // 主题链接
+      .thread-link {
+        text-decoration: none;
+      }
+    }
+
+    // 主题链接项（不限制高度）
+    .thread-link-item-full {
+      max-height: none;
+      overflow: visible;
+    }
+
+    // 主题列表项底部
+    .thread-item-footer {
+      @include clearfix;
+      padding: {
+        left: $spacer-sm;
+        right: $spacer-sm;
+      }
+
+      small {
+        @include text-overflow;
+        padding: {
+          left: 0;
+          right: 0;
+        }
+        color: $text-muted;
+        line-height: 2.2;
+      }
+    }
+  }
+}
+
+// 版块规则
+.forum-rule {
+  max-height: 235px;
+  overflow-y: auto;
+}

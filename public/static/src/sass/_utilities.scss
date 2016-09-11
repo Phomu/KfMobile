@@ -1,3 +1,4 @@
+// 各种字体大小样式
 @include font-size-make(base, $font-size-base);
 @include font-size-make(xl, $font-size-xl);
 @include font-size-make(lg, $font-size-lg);
@@ -24,6 +25,7 @@
 // 列表组项头部
 .list-group-item.list-group-item-header {
   @extend .card-header;
+  background-color: lighten(opacify($card-cap-bg, .23), 2%);
   padding: $card-spacer-y $card-spacer-x;
 }
 

@@ -1,0 +1,60 @@
+body {
+  padding-top: 3.375rem; // ~47px
+}
+
+// 背景图片
+body, .modal-content {
+  background: url("../img/bg1.jpg");
+}
+
+// 个别页面上填充修正
+#successPage, #errorPage, #loginPage, #registerPage {
+  padding-top: 0;
+}
+
+// 主区域
+main {
+  margin-bottom: $spacer*1.5;
+}
+
+// 主菜单
+#mainMenu {
+  overflow-y: auto;
+}
+
+// 用户菜单下拉按钮
+#userMenuDropdownBtn {
+  max-width: 178px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// 主页脚
+.main-footer {
+  font-size: $font-size-sm;
+  text-align: center;
+  background-color: rgba(darken($body-bg, 10%), $bg-opacity);
+
+  // 版本号
+  .version {
+    color: darken($brand-warning, 10%);
+  }
+}
+
+// 滚动到页顶/页底按钮
+#rollToTopOrBottom {
+  position: fixed;
+  right: 12px;
+  bottom: 32px;
+  padding: 12px;
+  color: #fff;
+  line-height: 1rem;
+  background-color: #000;
+  border-radius: $border-radius;
+  cursor: pointer;
+  opacity: .15;
+
+  &:hover {
+    opacity: .35;
+  }
+}

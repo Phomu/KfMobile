@@ -1,0 +1,151 @@
+// 用户头像（个人信息页面）
+.user-avatar {
+  display: block;
+  margin: 0 auto $spacer;
+  max-width: 140px;
+  max-height: 200px;
+}
+
+// 等级经验进度条
+#expProgress {
+  height: 1.428rem; // ~20px
+}
+
+// ID颜色选择项目
+.id-color-item {
+  height: 3.571rem; // ~50px
+  padding: 0;
+  color: #fff;
+  line-height: 3.571rem; // ~50px
+  text-align: center;
+
+  a {
+    color: #fff;
+  }
+
+  span {
+    font-size: $font-size-sm;
+  }
+}
+
+// 论坛排行列表，银行日志列表
+#rankList, #bankLogList {
+  white-space: nowrap;
+
+  th, td {
+    padding: {
+      left: $spacer-sm;
+      right: $spacer-sm;
+    }
+  }
+
+  thead {
+    th {
+      padding: $spacer;
+    }
+  }
+}
+
+// 银行日志列表
+#bankLogList {
+  tbody {
+    th, td {
+      vertical-align: middle;
+    }
+  }
+
+  // 描述字段
+  .description {
+    width: 448px;
+    text-align: left;
+    white-space: normal;
+    word-break: break-all;
+  }
+}
+
+// 游戏搜索列表
+.game-search-list {
+  .media {
+    margin-bottom: $spacer;
+    padding: $spacer-sm;
+    background-color: $list-group-bg;
+    border: 1px solid $list-group-border-color;
+    border-radius: $list-group-border-radius;
+
+    &:hover {
+      background-color: $list-group-hover-bg;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .media-left {
+      img {
+        max-width: 70px;
+        max-height: 100.8px;
+      }
+    }
+  }
+}
+
+// 游戏介绍封面 & 人物图片
+.game-intro-cover, .character-img {
+  max-width: 100%;
+  max-height: 203px;
+}
+
+// 神秘盒子
+#smBoxPanel {
+  .table {
+    td {
+      border-top: none;
+
+      a {
+        min-width: 3.857rem; // ~54px
+      }
+    }
+  }
+}
+
+// 好友列表
+#friendList {
+  .form-group {
+    margin-bottom: $spacer/2;
+  }
+}
+
+// 账户设置页面
+#modifyPage {
+  // 头像
+  #avatar {
+    margin-bottom: $spacer-sm;
+    max-width: 140px;
+    max-height: 200px;
+  }
+
+  // 上传头像浏览按钮
+  #browseAvatar {
+    margin-bottom: $spacer-sm;
+  }
+}
+
+// 短消息信息框
+.msg-box {
+  .card-block {
+    padding: $spacer-sm;
+  }
+
+  // 短消息头部
+  .msg-header {
+    p {
+      margin-bottom: $spacer/2;
+    }
+  }
+
+  // 短消息内容
+  .msg-content {
+    padding: 0;
+    font-size: $font-size-base;
+  }
+}

@@ -1,0 +1,59 @@
+// 页面背景
+$body-bg: #fcfcfc;
+
+// 根元素的字体大小
+$font-size-root: 14px;
+// 超大字体
+$font-size-xl: 1.5rem; // ~21px
+
+// 较小间隔
+$spacer-sm: .5714rem; // ~8px
+// 超小间隔
+$spacer-xs: .3571rem; // ~5px
+
+// 背景透明度
+$bg-opacity: .5;
+// 背景透明度（明亮）
+$bg-opacity-light: .6;
+// 背景透明度（更亮）
+$bg-opacity-lighter: .7;
+// 背景透明度（最亮）
+$bg-opacity-lightest: .95;
+
+// 列表组背景
+$list-group-bg: rgba(#fff, $bg-opacity);
+// 列表组高亮背景
+$list-group-hover-bg: rgba(darken(#f5f5f5, 5%), $bg-opacity);
+
+// 面包屑导航背景
+$breadcrumb-bg: rgba(darken(#eceeef, 5%), $bg-opacity);
+
+// 选项卡背景（激活状态）
+$nav-tabs-active-link-hover-bg: rgba($body-bg, $bg-opacity);
+// 选项卡边框颜色（悬停状态）
+$nav-tabs-link-hover-border-color: darken(#eceeef, 3%);
+
+// 卡片背景
+$card-bg: rgba(#fff, $bg-opacity);
+// 卡片头部背景
+$card-cap-bg: rgba(darken(#f5f5f5, 2%), $bg-opacity);
+
+// 分页背景
+$pagination-bg: rgba(#fff, $bg-opacity-light);
+// 分页背景（禁用状态）
+$pagination-disabled-bg: rgba(#fff, $bg-opacity-light);
+
+// 输入框背景
+$input-bg: rgba(#fff, $bg-opacity-light);
+// 自定义选择框背景
+$custom-select-bg: rgba(#fff, $bg-opacity-light);
+
+// 下拉菜单背景
+$dropdown-bg: rgba(#fff, $bg-opacity-lightest);
+
+// 引用框背景
+$blockquote-bg: rgba(darken($body-bg, 6%), $bg-opacity-lighter);
+// 引用框边框宽度
+$blockquote-border-width: .3rem;
+// 引用框边框颜色
+$blockquote-border-color: darken($body-bg, 10%);
