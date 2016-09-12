@@ -13,6 +13,10 @@ var Config = {};
 var Const = {
     // 存储多重引用数据的LocalStorage名称
     multiQuoteStorageName: 'kf_multi_quote',
+    // at提醒时间的Cookie名称
+    atTipsTimeCookieName: 'at_tips_time',
+    // 上一次at提醒时间的Cookie名称
+    prevAtTipsTimeCookieName: 'prev_at_tips_time',
     // 背景样式的Cookie名称
     bgStyleCookieName: 'bg_style'
 };
@@ -388,16 +392,16 @@ var handleAtTipsBtn = function () {
     $('#atTips').click(function () {
         var $this = $(this);
         var time = $this.data('time');
-        var cookieValue = getCookie('at_tips_time');
+        var cookieValue = getCookie(Const.atTipsTimeCookieName);
         if (!time || time === cookieValue) return;
         if (!cookieValue) {
             var currentDate = (new Date()).getDate();
-            setCookie('prev_at_tips_time', (currentDate < 10 ? '0' + currentDate : currentDate) + '日00时00分');
+            setCookie(Const.prevAtTipsTimeCookieName, (currentDate < 10 ? '0' + currentDate : currentDate) + '日00时00分');
         }
         else if (cookieValue !== time) {
-            setCookie('prev_at_tips_time', cookieValue);
+            setCookie(Const.prevAtTipsTimeCookieName, cookieValue);
         }
-        setCookie('at_tips_time', time, getDate('+3d'));
+        setCookie(Const.atTipsTimeCookieName, time, getDate('+3d'));
         $this.removeClass('btn-outline-danger').addClass('btn-outline-primary');
     });
 };
@@ -407,7 +411,7 @@ var handleAtTipsBtn = function () {
  */
 var highlightUnReadAtTipsMsg = function () {
     if (pageInfo.gjc !== pageInfo.userName) return;
-    var timeString = getCookie('prev_at_tips_time');
+    var timeString = getCookie(Const.prevAtTipsTimeCookieName);
     if (!timeString || !/^\d+日\d+时\d+分$/.test(timeString)) return;
     var prevString = '';
     $('.thread-list-item time').each(function (index) {
@@ -422,7 +426,7 @@ var highlightUnReadAtTipsMsg = function () {
     });
 
     $(document).on('click', '.thread-list-item .thread-link-item a', function () {
-        setCookie('prev_at_tips_time', '', getDate('-1d'));
+        setCookie(Const.prevAtTipsTimeCookieName, '', getDate('-1d'));
     });
 };
 
