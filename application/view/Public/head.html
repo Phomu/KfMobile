@@ -16,6 +16,10 @@
 <script src="__PUBLIC__{$Think.config.static_path}js/jquery.js?v3.1.0"></script>
 {/notempty}
 
+{notempty name="Think.config.bg_style"}
+{$Think.config.bg_style}
+{/notempty}
+
 {empty name="noPageInfo"}
 <script>
   // 页面信息

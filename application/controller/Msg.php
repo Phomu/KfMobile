@@ -13,6 +13,14 @@ use think\response\Redirect;
 class Msg extends Controller
 {
     /**
+     * 初始化
+     */
+    protected function _initialize()
+    {
+        set_bg_style(cookie('bg_style'));
+    }
+
+    /**
      * 操作成功跳转的快捷方法
      * @param string $msg 提示信息
      * @param string $url 跳转的URL地址

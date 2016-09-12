@@ -265,3 +265,24 @@ function convert_array_encoding(&$arr, $toEncoding, $fromEncoding)
         }
     }
 }
+
+/**
+ * 设置页面背景样式
+ * @param number|string $bgStyle 背景样式
+ */
+function set_bg_style($bgStyle)
+{
+    if (empty($bgStyle)) return;
+    $style = '';
+    $bgImageList = config('bg_image_list');
+    if (is_numeric(intval($bgStyle)) && $bgStyle >= 1 && $bgStyle <= count($bgImageList)) {
+        $style = 'background-image: url("' . PUBLIC_PATH . config('static_path') . 'img/bg/' . $bgImageList[$bgStyle - 1] . '")';
+    } elseif (preg_match('/^https?:\/\/[^"\'\r\n]+/', $bgStyle)) {
+        $style = 'background-image: url("' . $bgStyle . '")';
+    } elseif (preg_match('/^#[0-9a-f]{6}$/i', $bgStyle)) {
+        $style = 'background: ' . strtolower($bgStyle);
+    }
+    if (!empty($style)) {
+        config('bg_style', '<style>body, .modal-content { ' . $style . '; }</style>');
+    }
+}

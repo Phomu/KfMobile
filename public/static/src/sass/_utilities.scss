@@ -60,3 +60,12 @@
     }
   }
 }
+
+// 图片文本
+.image-text {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  text-align: center;
+  vertical-align: middle;
+  background-color: $gray-lightest;
+}

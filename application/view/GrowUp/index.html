@@ -56,10 +56,12 @@
         <div class="input-group">
           {eq name="hasDonation" value="true"}
           <span class="input-group-addon font-size-sm">今天已捐款</span>
+          {assign name="donationDisabled" value="disabled" /}
           {/eq}
-          <input class="form-control" name="kfb" type="number" min="1" max="5000" placeholder="捐款数额" required>
+          <input class="form-control" name="kfb" type="number" min="1" max="5000" placeholder="捐款数额" required
+                 {$donationDisabled|default="" }>
           <div class="input-group-btn">
-            <button class="btn btn-primary" type="submit">
+            <button class="btn btn-primary" type="submit" {$donationDisabled|default="" }>
               <i class="fa fa-yen" aria-hidden="true"></i> 捐款
             </button>
           </div>

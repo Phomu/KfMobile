@@ -1,3 +1,20 @@
+// 选择背景图片
+#selectBgImage {
+  padding: $spacer-sm;
+
+  img, #customBgStyle {
+    width: 60px;
+    height: 60px;
+    margin: 3px 2px;
+    cursor: pointer;
+  }
+
+  // 自定义背景样式
+  #customBgStyle {
+    line-height: 54px;
+  }
+}
+
 // 用户头像（个人信息页面）
 .user-avatar {
   display: block;

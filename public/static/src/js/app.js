@@ -12,7 +12,9 @@ var Config = {};
  */
 var Const = {
     // 存储多重引用数据的LocalStorage名称
-    multiQuoteStorageName: 'kf_multi_quote'
+    multiQuoteStorageName: 'kf_multi_quote',
+    // 背景样式的Cookie名称
+    bgStyleCookieName: 'bg_style'
 };
 
 /**
@@ -71,7 +73,7 @@ var getDate = function (value) {
             date.setFullYear(increment);
             break;
         case 'y':
-            date.setYear(flag === 0 ? increment : date.getYear() + increment);
+            date.setFullYear(flag === 0 ? increment : date.getFullYear() + increment);
             break;
         case 'M':
             date.setMonth(flag === 0 ? increment : date.getMonth() + increment);
@@ -450,6 +452,59 @@ var handleIndexThreadPanel = function () {
 };
 
 /**
+ * 处理选择页面背景图片
+ */
+var handleSelectBgImage = function () {
+    $('#selectBgImage').on('click', 'img', function () {
+        var $this = $(this);
+        var id = $this.data('id');
+        var fileName = $this.data('filename');
+        var path = $this.parent().data('path');
+        if (!id || !fileName || !path) return;
+        if (window.confirm('是否选择此背景图片？')) {
+            setCookie(Const.bgStyleCookieName, id, getDate('+1y'));
+            $('body, .modal-content').css('background', 'url("' + path + fileName + '")');
+            alert('背景已更换');
+        }
+    });
+};
+
+/**
+ * 处理自定义背景样式
+ */
+var handleCustomBgStyle = function () {
+    $('#customBgStyle').click(function () {
+        var value = getCookie(Const.bgStyleCookieName);
+        if (!value || parseInt(value)) value = '';
+        value = window.prompt(
+            '请输入背景图片URL或颜色代码：\n（例：http://xxx.com/abc.jpg 或 #fcfcfc，留空表示恢复默认背景）\n' +
+            '（注：建议选择简洁、不花哨、偏浅色系的背景图片或颜色）',
+            value
+        );
+        if (value === null) return;
+        if (value === '') {
+            setCookie(Const.bgStyleCookieName, '', getDate('-1d'));
+            alert('背景已恢复默认');
+            location.reload();
+            return;
+        }
+        else if (/^https?:\/\/[^"\']+/.test(value)) {
+            value = 'url("' + value + '")';
+        }
+        else if (/^#[0-9a-f]{6}$/i.test(value)) {
+            value = value.toLowerCase();
+        }
+        else {
+            alert('格式不正确');
+            return;
+        }
+        setCookie(Const.bgStyleCookieName, value, getDate('+1y'));
+        $('body, .modal-content').css('background', value);
+        alert('背景已更换');
+    });
+};
+
+/**
  * 处理分页导航
  * @param {string} action 控制器
  */
@@ -805,15 +860,6 @@ var handleClearMultiQuoteDataBtn = function (type) {
         else $('#postContent').val('');
         alert('多重引用数据已被清除');
     });
-};
-
-/**
- * 检查捐款按钮状态
- */
-var checkDonationBtnStatus = function () {
-    if ($('form[name="rvrc1"] .input-group-addon:contains("已捐款")').length > 0) {
-        $('form[name="rvrc1"]').find('input, button').prop('disabled', true);
-    }
 };
 
 /**
@@ -1412,6 +1458,8 @@ $(function () {
     if (pageId === 'indexPage') {
         handleAtTipsBtn();
         handleIndexThreadPanel();
+        handleSelectBgImage();
+        handleCustomBgStyle();
     }
     else if (pageId === 'threadPage') {
         handlePageNav('thread/index');
@@ -1438,9 +1486,6 @@ $(function () {
     }
     else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
-    }
-    else if (pageId === 'growUpPage') {
-        checkDonationBtnStatus();
     }
     else if (pageId === 'myReplyPage') {
         handlePageNav('personal/reply');

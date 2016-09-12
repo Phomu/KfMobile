@@ -4724,6 +4724,13 @@ a.text-danger:focus, a.text-danger:hover {
 .table-center tbody th, .table-center tbody td {
   text-align: center; }
 
+.image-text {
+  color: #818a91;
+  font-size: 0.875rem;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #f7f7f9; }
+
 .alert-success {
   background-color: rgba(223, 240, 216, 0.7); }
 
@@ -4765,7 +4772,7 @@ body {
   padding-top: 3.375rem; }
 
 body, .modal-content {
-  background: url("../img/bg1.jpg"); }
+  background-image: url("../img/bg/1.jpg"); }
 
 #successPage, #errorPage, #loginPage, #registerPage {
   padding-top: 0; }
@@ -5029,6 +5036,16 @@ main {
   .smile-panel img {
     margin: 3px;
     cursor: pointer; }
+
+#selectBgImage {
+  padding: 0.5714rem; }
+  #selectBgImage img, #selectBgImage #customBgStyle {
+    width: 60px;
+    height: 60px;
+    margin: 3px 2px;
+    cursor: pointer; }
+  #selectBgImage #customBgStyle {
+    line-height: 54px; }
 
 .user-avatar {
   display: block;

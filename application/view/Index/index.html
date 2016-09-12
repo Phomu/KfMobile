@@ -24,7 +24,7 @@
     {else /}
     <a class="btn {eq name='Think.cookie.at_tips_time' value='$atTipsTime'}btn-outline-primary{else /}btn-outline-danger{/eq} btn-block"
        id="atTips" data-time="{$atTipsTime}" href="{:url('GuanJianCi/index?gjc=' . $userName)}" target="_blank">
-      有人@你(<time>{$atTipsTime}</time>)
+      有人@你 ({$atTipsTime})
     </a>
     {/empty}
     <a class="btn btn-outline-danger btn-block" data-kfb="{$kfb}" href="javascript:;" title="网站虚拟货币">
@@ -47,8 +47,7 @@
   <!-- 最新回复 -->
   <section class="row m-b-2">
     <h4 class="m-b-1">
-      <i class="fa fa-signal" aria-hidden="true"></i>
-      最新回复
+      <i class="fa fa-signal" aria-hidden="true"></i> 最新回复
     </h4>
 
     <!-- 最新回复 Tab -->
@@ -108,8 +107,7 @@
   <!-- 当前推荐 -->
   <section class="row m-b-2">
     <h4 class="m-b-1">
-      <i class="fa fa-signal" aria-hidden="true"></i>
-      当前推荐
+      <i class="fa fa-signal" aria-hidden="true"></i> 当前推荐
     </h4>
 
     <!-- 当前推荐 Tab -->
@@ -169,10 +167,9 @@
   </section>
 
   <!-- 最新发表 -->
-  <section class="row">
+  <section class="row m-b-2">
     <h4 class="m-b-1">
-      <i class="fa fa-signal" aria-hidden="true"></i>
-      最新发表
+      <i class="fa fa-signal" aria-hidden="true"></i> 最新发表
     </h4>
 
     <!-- 最新发表 List -->
@@ -187,6 +184,20 @@
       </li>
       {/volist}
     </ul>
+  </section>
+
+  <!-- 选择背景 -->
+  <section class="row card">
+    <h4 class="card-header m-b-0">
+      <i class="fa fa-signal" aria-hidden="true"></i> 选择背景
+    </h4>
+    <div class="card-block" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
+      {volist name="Think.config.bg_image_list" id="vo"}
+      <img class="img-thumbnail" data-id="{$i}" data-filename="{$vo}" src="__PUBLIC__{$Think.config.static_path}img/bg/small/{$i}.jpg"
+           alt="背景图片">
+      {/volist}
+      <span class="img-thumbnail image-text" id="customBgStyle">自定义</span>
+    </div>
   </section>
 </main>
 {include file="Public/footer" /}
