@@ -55,7 +55,7 @@ Nginx虚拟主机配置参考：
     proxy_busy_buffers_size    128k;
     proxy_temp_file_write_size 512k;
     proxy_temp_path            /var/lib/nginx/proxy;
-    proxy_cache_path           /var/lib/nginx/cache levels=1:2 keys_zone=cache_one:100m inactive=1d max_size=5g;
+    proxy_cache_path           /var/lib/nginx/cache levels=1:2 keys_zone=cache_kf:50m inactive=1d max_size=1g;
     
     server {
         listen      80;
@@ -75,15 +75,16 @@ Nginx虚拟主机配置参考：
     
         location ^~ /static/ {
             index   index.html;
-            expires 7d;
+            expires 3d;
             charset utf-8;
         }
     
         location ~ ^/(ys|js|data|\d+)/ {
             proxy_pass http://www.9moe.com;
+            expires 1d;
     
             proxy_cache_key       'kf_$request_uri';
-            proxy_cache           cache_one;
+            proxy_cache           cache_kf;
             proxy_cache_valid     200 304 30m;
             proxy_cache_valid     301 302 30m;
             proxy_cache_valid     any 1m;

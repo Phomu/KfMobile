@@ -5,7 +5,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 应用版本号
-    'app_version' => '1.4',
+    'app_version' => '1.5',
     // 反向代理的目标域名
     'proxy_domain' => 'http://www.9moe.com/',
     // 注册页面反向代理的目标域名
@@ -36,7 +36,7 @@ return [
     'bg_style' => '',
     // 页面背景图片列表
     'bg_image_list' => [
-        '1.jpg', '2.jpg', '3.png', '4.png', '5.png', '6.jpg', '7.jpg', '8.jpg', '9.png', '10.jpg', '11.jpg', '12.jpg', '13.png', '14.png'
+        '1.jpg', '2.jpg', '3.png', '4.png', '5.png', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.png', '14.png'
     ],
     // 是否关闭网站
     'site_close' => false,
