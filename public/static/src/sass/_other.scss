@@ -1,11 +1,14 @@
 // 选择背景图片
 #selectBgImage {
+  max-height: 180px;
+  overflow-y: auto;
   padding: $spacer-sm;
 
-  img, #customBgStyle {
+  .img-thumbnail {
     width: 60px;
     height: 60px;
     margin: 3px 2px;
+    vertical-align: middle;
     cursor: pointer;
   }
 

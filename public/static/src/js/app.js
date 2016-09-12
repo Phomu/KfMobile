@@ -474,6 +474,22 @@ var handleSelectBgImage = function () {
 };
 
 /**
+ * 处理选择页面背景颜色
+ */
+var handleSelectBgColor = function () {
+    $('#selectBgImage').on('click', '[data-color]', function () {
+        var $this = $(this);
+        var color = $this.data('color');
+        if (!color) return;
+        if (window.confirm('是否选择此背景颜色？')) {
+            setCookie(Const.bgStyleCookieName, color, getDate('+1y'));
+            $('body, .modal-content').css('background', color);
+            alert('背景已更换');
+        }
+    });
+};
+
+/**
  * 处理自定义背景样式
  */
 var handleCustomBgStyle = function () {
@@ -1462,6 +1478,7 @@ $(function () {
         handleAtTipsBtn();
         handleIndexThreadPanel();
         handleSelectBgImage();
+        handleSelectBgColor();
         handleCustomBgStyle();
     }
     else if (pageId === 'threadPage') {
