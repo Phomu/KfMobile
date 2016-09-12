@@ -467,7 +467,7 @@ var handleSelectBgImage = function () {
         if (!id || !fileName || !path) return;
         if (window.confirm('是否选择此背景图片？')) {
             setCookie(Const.bgStyleCookieName, id, getDate('+1y'));
-            $('body, .modal-content').css('background', 'url("' + path + fileName + '")');
+            $('body, .modal-content').css('background-image', 'url("' + path + fileName + '")');
             alert('背景已更换');
         }
     });
@@ -490,21 +490,20 @@ var handleCustomBgStyle = function () {
             setCookie(Const.bgStyleCookieName, '', getDate('-1d'));
             alert('背景已恢复默认');
             location.reload();
-            return;
         }
         else if (/^https?:\/\/[^"\']+/.test(value)) {
-            value = 'url("' + value + '")';
+            setCookie(Const.bgStyleCookieName, value, getDate('+1y'));
+            $('body, .modal-content').css('background-image', 'url("' + value + '")');
+            alert('背景已更换');
         }
         else if (/^#[0-9a-f]{6}$/i.test(value)) {
-            value = value.toLowerCase();
+            setCookie(Const.bgStyleCookieName, value, getDate('+1y'));
+            $('body, .modal-content').css('background', value.toLowerCase());
+            alert('背景已更换');
         }
         else {
             alert('格式不正确');
-            return;
         }
-        setCookie(Const.bgStyleCookieName, value, getDate('+1y'));
-        $('body, .modal-content').css('background', value);
-        alert('背景已更换');
     });
 };
 
