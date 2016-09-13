@@ -459,7 +459,7 @@ var handleIndexThreadPanel = function () {
  * 处理选择页面背景图片
  */
 var handleSelectBgImage = function () {
-    $('#selectBgImage').on('click', 'img', function () {
+    $('#selectBgImage').on('click', '[data-id]', function () {
         var $this = $(this);
         var id = $this.data('id');
         var fileName = $this.data('filename');

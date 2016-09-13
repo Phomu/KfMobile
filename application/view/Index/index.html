@@ -193,8 +193,7 @@
     </h4>
     <div class="card-block" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
       {volist name="Think.config.bg_image_list" id="vo"}
-      <img class="img-thumbnail" data-id="{$i}" data-filename="{$vo}" src="__PUBLIC__{$Think.config.static_path}img/bg/small/{$i}.jpg"
-           alt="背景图片">
+      <span class="img-thumbnail bg-sprite bg-sprite-{$i}" data-id="{$i}" data-filename="{$vo}"></span>
       {/volist}
       <span class="img-thumbnail" data-color="#f6f4ec" style="background-color: #f6f4ec;"></span>
       <span class="img-thumbnail" data-color="#dbeed9" style="background-color: #dbeed9;"></span>
