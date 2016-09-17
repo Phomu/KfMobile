@@ -60,9 +60,9 @@ class Post extends Responser
         }
 
         // 发帖标题、关键词等
-        $threadTitle = htmlspecialchars($pqForm->find('input[name="atc_title"]')->val());
-        $gjc = trim_strip($pqForm->find('#diy_guanjianci')->val());
-        $xinZuoStatus = $pqForm->find('input[name="diy_xinzuo"]')->attr('checked');
+        $threadTitle = htmlspecialchars($pqForm->find('[name="atc_title"]')->val());
+        $gjc = trim_strip($pqForm->find('[name="diy_guanjianci"]')->val());
+        $xinZuoStatus = $pqForm->find('[name="diy_xinzuo"]')->attr('checked');
         if ($xinZuoStatus === null) $xinZuoStatus = 0;
         elseif ($xinZuoStatus === 'checked') $xinZuoStatus = 1;
         else $xinZuoStatus = -1;
@@ -73,7 +73,7 @@ class Post extends Responser
         $threadContent = str_replace("\xC2\xA0", " ", $threadContent);
         if ($hiddenFields['action'] === 'quote' && preg_match('/\[quote\].+?\[\/quote\]/s', $threadContent, $matches)) {
             $quoteContent = $matches[0];
-            $quoteContent = str_replace("\n\n", "\n", $quoteContent);
+            $quoteContent = preg_replace('/\n{2,}/', "\n", $quoteContent);
             $quoteContent = preg_replace('/\[attachment=\d+\]/', '[color=red][附件图片][/color]', $quoteContent);
             $quoteContent = preg_replace_callback(
                 '/\[url=([^\]]+)\]/',
@@ -93,15 +93,15 @@ class Post extends Responser
         // 投票信息
         $vote = [];
         if (intval($hiddenFields['special']) === 1) {
-            $vote['timeLimit'] = trim_strip($pqForm->find('input[name="timelimit"]')->val());
-            $vote['hasClose'] = $pqForm->find('input[name="vote_close"]')->length > 0;
-            $vote['isMultiple'] = $pqForm->find('input[name="multiplevote"]:checked')->length > 0;
-            $vote['mostVotes'] = trim_strip($pqForm->find('input[name="mostvotes"]')->val());
-            $vote['modifiable'] = $pqForm->find('input[name="modifiable"]:checked')->length > 0;
-            $vote['previewable'] = $pqForm->find('input[name="previewable"]:checked')->length > 0;
+            $vote['timeLimit'] = trim_strip($pqForm->find('[name="timelimit"]')->val());
+            $vote['hasClose'] = $pqForm->find('[name="vote_close"]')->length > 0;
+            $vote['isMultiple'] = $pqForm->find('[name="multiplevote"]:checked')->length > 0;
+            $vote['mostVotes'] = trim_strip($pqForm->find('[name="mostvotes"]')->val());
+            $vote['modifiable'] = $pqForm->find('[name="modifiable"]:checked')->length > 0;
+            $vote['previewable'] = $pqForm->find('[name="previewable"]:checked')->length > 0;
 
             $vote['items'] = [];
-            foreach ($pqForm->find('input[name^="vt_selarray"]') as $item) {
+            foreach ($pqForm->find('[name^="vt_selarray"]') as $item) {
                 $pqItem = pq($item);
                 $name = $pqItem->attr('name');
                 $value = trim_strip($pqItem->val());
@@ -115,10 +115,10 @@ class Post extends Responser
         foreach ($pqForm->find('div[id^="att_"]') as $item) {
             $pqItem = pq($item);
 
-            $attachId = intval($pqItem->find('input[name="keep[]"]')->val());
+            $attachId = intval($pqItem->find('[name="keep[]"]')->val());
             if (empty($attachId)) continue;
-            $attachRequire = trim_strip($pqItem->find('input[name^="downrvrc"]')->val());
-            $attachDescription = trim_strip($pqItem->find('input[name^="attdesc"]')->val());
+            $attachRequire = trim_strip($pqItem->find('[name^="downrvrc"]')->val());
+            $attachDescription = trim_strip($pqItem->find('[name^="attdesc"]')->val());
 
             $pqAttachInfo = $pqItem->find('#attach_' . $attachId);
             $attachName = trim_strip($pqAttachInfo->find('b')->text());
