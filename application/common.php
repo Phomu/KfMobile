@@ -280,13 +280,14 @@ function set_bg_style($bgStyle)
     if (empty($bgStyle)) return;
     $style = '';
     $bgImageList = config('bg_image_list');
+    if (preg_match('/[<>{}\r\n]/', trim($bgStyle))) return;
     if (is_numeric(intval($bgStyle)) && $bgStyle >= 1 && $bgStyle <= count($bgImageList)) {
         $style = 'background-image: url("' . PUBLIC_PATH . config('static_path') . 'img/bg/' . $bgImageList[$bgStyle - 1] . '")';
-    } elseif (preg_match('/^https?:\/\/[^"\'\r\n]+/', $bgStyle)) {
+    } elseif (preg_match('/^https?:\/\/[^"\']+/', $bgStyle)) {
         $style = 'background-image: url("' . $bgStyle . '")';
     } elseif (preg_match('/^#[0-9a-f]{6}$/i', $bgStyle)) {
         $style = 'background: ' . strtolower($bgStyle);
-    } elseif (!preg_match('/[<>:{}]/', trim($bgStyle))) {
+    } else {
         $style = 'background: ' . $bgStyle;
     }
     if (!empty($style)) {

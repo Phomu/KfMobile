@@ -97,7 +97,7 @@ class Thread extends Responser
                 $forumRule = replace_common_html_content($pqForumRule->html());
                 $forumRule = str_ireplace('color="blue"', '', $forumRule);
                 $forumRule = str_ireplace('color="red"', 'class="text-danger"', $forumRule);
-                $forumRule = preg_replace('/color="#?000000"/i', 'class="text-default"', $forumRule);
+                $forumRule = preg_replace('/color="#?000000"/i', 'class="text-gray-dark"', $forumRule);
             }
         }
 

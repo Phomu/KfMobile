@@ -544,7 +544,7 @@ var handleCustomBgStyle = function () {
             $('body, .modal-content').css('background', value.toLowerCase());
             alert('背景已更换');
         }
-        else if (!/[<>:{}]/.test(value)) {
+        else if (!/[<>{}]/.test(value)) {
             value = value.replace(';', '');
             setCookie(Const.bgStyleCookieName, value, getDate('+1y'));
             $('body, .modal-content').css('background', value);

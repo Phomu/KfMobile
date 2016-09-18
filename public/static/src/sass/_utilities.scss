@@ -10,11 +10,6 @@
   @include text-overflow();
 }
 
-// 默认文字颜色
-.text-default {
-  color: $body-color;
-}
-
 // 列表组（紧凑）
 .list-group-sm {
   .list-group-item {
@@ -26,6 +21,7 @@
 .list-group-item.list-group-item-header {
   @extend .card-header;
   background-color: lighten(opacify($card-cap-bg, .23), 2%);
+  margin-bottom: -1px;
   padding: $card-spacer-y $card-spacer-x;
 }
 
