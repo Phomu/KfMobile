@@ -385,6 +385,33 @@ var handleSearchDialog = function () {
     }
 };
 
+
+/**
+ * 处理版块列表面板
+ */
+var handleForumPanel = function () {
+    if (Config.activeForumPanel1) {
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config.activeForumPanel1)).tab('show');
+    }
+    if (Config.activeForumPanel2) {
+        $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config.activeForumPanel2)).tab('show');
+    }
+
+    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        var $target = $(e.target);
+        var targetPanel = $target.attr('href');
+        if (targetPanel.indexOf('ForumPanel') === -1) return;
+        var typeName = '';
+        if (targetPanel === '#galgameForumPanel' || targetPanel === '#resourceForumPanel') typeName = 'activeForumArea1Panel';
+        else if (targetPanel === '#discussForumPanel' || targetPanel === '#acgForumPanel') typeName = 'activeForumArea2Panel';
+        if (typeName) {
+            readConfig();
+            Config[typeName] = $target.attr('href');
+            writeConfig();
+        }
+    });
+};
+
 /**
  * 处理首页的@提醒按钮
  */
@@ -434,21 +461,21 @@ var highlightUnReadAtTipsMsg = function () {
  * 处理首页主题链接面板
  */
 var handleIndexThreadPanel = function () {
-    if (Config['activeNewReplyPanel']) {
+    if (Config.activeNewReplyPanel) {
         $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config.activeNewReplyPanel)).tab('show');
     }
-    if (Config['activeTopRecommendPanel']) {
+    if (Config.activeTopRecommendPanel) {
         $('a[data-toggle="tab"][href="{0}"]'.replace('{0}', Config.activeTopRecommendPanel)).tab('show');
     }
 
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
         var $target = $(e.target);
-        readConfig();
-        var panelName = $target.attr('href');
+        var targetPanel = $target.attr('href');
         var typeName = '';
-        if (panelName.indexOf('NewReplyPanel') > 0) typeName = 'activeNewReplyPanel';
-        else if (panelName.indexOf('TopRecommendPanel') > 0) typeName = 'activeTopRecommendPanel';
+        if (targetPanel.indexOf('NewReplyPanel') > 0) typeName = 'activeNewReplyPanel';
+        else if (targetPanel.indexOf('TopRecommendPanel') > 0) typeName = 'activeTopRecommendPanel';
         if (typeName) {
+            readConfig();
             Config[typeName] = $target.attr('href');
             writeConfig();
         }
@@ -1480,6 +1507,7 @@ $(function () {
     handleMainMenu();
     handleRollToTopOrBottomBtn();
     handleSearchDialog();
+    handleForumPanel();
     if (pageId === 'indexPage') {
         handleAtTipsBtn();
         handleIndexThreadPanel();
