@@ -497,12 +497,12 @@ var handleCustomBgStyle = function () {
         var value = getCookie(Const.bgStyleCookieName);
         if (!value || parseInt(value)) value = '';
         value = window.prompt(
-            '请输入背景图片URL或颜色代码：\n（例：http://xxx.com/abc.jpg 或 #fcfcfc，留空表示恢复默认背景）\n' +
+            '请输入背景图片URL、颜色代码或CSS样式：\n（例：http://xxx.com/abc.jpg 或 #fcfcfc，留空表示恢复默认背景）\n' +
             '（注：建议选择简洁、不花哨、偏浅色系的背景图片或颜色）',
             value
         );
         if (value === null) return;
-        if (value === '') {
+        if ($.trim(value) === '') {
             setCookie(Const.bgStyleCookieName, '', getDate('-1d'));
             alert('背景已恢复默认');
             location.reload();
@@ -515,6 +515,12 @@ var handleCustomBgStyle = function () {
         else if (/^#[0-9a-f]{6}$/i.test(value)) {
             setCookie(Const.bgStyleCookieName, value, getDate('+1y'));
             $('body, .modal-content').css('background', value.toLowerCase());
+            alert('背景已更换');
+        }
+        else if (!/[<>:{}]/.test(value)) {
+            value = value.replace(';', '');
+            setCookie(Const.bgStyleCookieName, value, getDate('+1y'));
+            $('body, .modal-content').css('background', value);
             alert('背景已更换');
         }
         else {

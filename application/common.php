@@ -72,6 +72,8 @@ function convert_url($url)
         elseif ($path === 'g_intro_moe.php') return url('GameIntro/property', $params);
         elseif ($path === 'faq.php') return url('Faq/index', $params);
         elseif ($path === 'kf_smbox.php') return url('SmBox/index', $params);
+        elseif ($path === 'kf_share.php') return url('Share/index', $params);
+        elseif ($path === 'kf_no1.php') return url('Rank/index', $params);
         elseif ($path === 'profile.php') {
             if (strpos($params, 'action=favor') !== false)
                 return url('Profile/favor', str_replace('action=favor', '', $params));
@@ -81,6 +83,9 @@ function convert_url($url)
                 return url('Profile/modify', str_replace('action=modify', '', $params));
             elseif (strpos($params, 'action=show') !== false)
                 return url('Profile/show', str_replace('action=show', '', $params));
+        } elseif ($path === 'Personal.php') {
+            if (strpos($params, 'action=post') !== false)
+                return url('Personal/reply', str_replace('action=post', '', $params));
         } elseif ($path === 'hack.php') {
             if (strpos($params, 'H_name=bank') !== false)
                 return url('Bank/index', str_replace('H_name=bank', '', $params));
@@ -281,6 +286,8 @@ function set_bg_style($bgStyle)
         $style = 'background-image: url("' . $bgStyle . '")';
     } elseif (preg_match('/^#[0-9a-f]{6}$/i', $bgStyle)) {
         $style = 'background: ' . strtolower($bgStyle);
+    } elseif (!preg_match('/[<>:{}]/', trim($bgStyle))) {
+        $style = 'background: ' . $bgStyle;
     }
     if (!empty($style)) {
         config('bg_style', '<style>body, .modal-content { ' . $style . '; }</style>');
