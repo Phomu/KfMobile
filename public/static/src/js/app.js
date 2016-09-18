@@ -402,8 +402,8 @@ var handleForumPanel = function () {
         var targetPanel = $target.attr('href');
         if (targetPanel.indexOf('ForumPanel') === -1) return;
         var typeName = '';
-        if (targetPanel === '#galgameForumPanel' || targetPanel === '#resourceForumPanel') typeName = 'activeForumArea1Panel';
-        else if (targetPanel === '#discussForumPanel' || targetPanel === '#acgForumPanel') typeName = 'activeForumArea2Panel';
+        if (targetPanel === '#galgameForumPanel' || targetPanel === '#resourceForumPanel') typeName = 'activeForumPanel1';
+        else if (targetPanel === '#discussForumPanel' || targetPanel === '#acgForumPanel') typeName = 'activeForumPanel2';
         if (typeName) {
             readConfig();
             Config[typeName] = $target.attr('href');
