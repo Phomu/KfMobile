@@ -13,8 +13,8 @@
 }
 
 // 生成警告框背景颜色
-@mixin alert-bg-make($name, $color) {
+@mixin alert-bg-make($name, $color, $opacity: $bg-opacity-lightest) {
   .alert-#{$name} {
-    background-color: rgba($color, $bg-opacity-lighter);
+    background-color: rgba($color, $opacity);
   }
 }

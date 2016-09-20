@@ -46,6 +46,11 @@ class Message extends Responser
         // 信箱状态
         $msgBoxInfo = pq('form[name="del"]')->prev('div')->prev('div')->find('> table > tr:first-child > td')->html();
         $msgBoxInfo = str_replace('信箱状态：', '<b>信箱状态：</b>', $msgBoxInfo);
+        $msgBoxInfo = str_replace(
+            '<font color="red">[信箱已满，请删除一些，以查看最新消息]</font>',
+            '<br><span class="text-danger">(信箱已满，请删除一些，以查看最新消息)</span>',
+            $msgBoxInfo
+        );
 
         // 短消息列表
         $messageList = [];
