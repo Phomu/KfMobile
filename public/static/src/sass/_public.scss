@@ -58,3 +58,10 @@ main {
     opacity: .35;
   }
 }
+
+// 个别页面隐藏滚动到页顶/页底按钮
+#loginPage, #registerPage {
+  #rollToTopOrBottom {
+    display: none;
+  }
+}

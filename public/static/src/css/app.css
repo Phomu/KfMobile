@@ -4831,6 +4831,9 @@ main {
   #rollToTopOrBottom:hover {
     opacity: .35; }
 
+#loginPage #rollToTopOrBottom, #registerPage #rollToTopOrBottom {
+  display: none; }
+
 .thread-link-group {
   margin-left: -15px;
   margin-right: -15px;
