@@ -1,3 +1,11 @@
+// 首页版块列表面板
+#indexForumPanel {
+  padding: {
+    left: $grid-gutter-width/2;
+    right: $grid-gutter-width/2;
+  }
+}
+
 // 选择背景图片
 #selectBgImage {
   max-height: 180px;

@@ -4743,6 +4743,14 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   vertical-align: middle;
   background-color: #f7f7f9; }
 
+.nav-extend {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap; }
+  .nav-extend .nav-item {
+    display: inline-block;
+    float: none; }
+
 .alert-success {
   background-color: rgba(223, 240, 216, 0.95); }
 
@@ -5050,6 +5058,10 @@ main {
   .smile-panel img {
     margin: 3px;
     cursor: pointer; }
+
+#indexForumPanel {
+  padding-left: 15px;
+  padding-right: 15px; }
 
 #selectBgImage {
   max-height: 180px;

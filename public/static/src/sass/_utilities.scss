@@ -65,3 +65,15 @@
   vertical-align: middle;
   background-color: $gray-lightest;
 }
+
+// 导航（延展）
+.nav-extend {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .nav-item {
+    display: inline-block;
+    float: none;
+  }
+}
