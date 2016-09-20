@@ -43,10 +43,9 @@ class Proxy
 
         $cookies = input('cookie.', []);
         unset($cookies[config('kf_cookie_prefix') . 'ipfrom']);
-        $clientIp = input('server.REMOTE_ADDR', '');
+        $clientIp = input('server.HTTP_X_FORWARDED_FOR', input('server.REMOTE_ADDR', ''));
         $headers = [
             'Cookie: ' . serialize_cookies($cookies, config('kf_cookie_prefix')),
-            'X-Real-IP: ' . $clientIp,
             'X-Forwarded-For: ' . $clientIp,
             'Expect:',
         ];
