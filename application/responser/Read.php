@@ -81,7 +81,8 @@ class Read extends Responser
             $floorList[] = $this->floor(pq($floor));
         }
 
-        // 回复验证字段
+        // 回帖表单
+        $canReply = pq('textarea[name="atc_content"]')->length > 0;
         $postVerify = pq('input[name="verify"]')->val();
 
         // 投票区域
@@ -157,6 +158,7 @@ class Read extends Responser
             'pageParam' => $pageParam,
             'canBlockFloor' => $canBlockFloor,
             'floorList' => $floorList,
+            'canReply' => $canReply,
             'postVerify' => $postVerify,
             'voteTitle' => $voteTitle,
             'voteStatus' => $voteStatus,
