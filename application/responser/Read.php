@@ -293,55 +293,68 @@ class Read extends Responser
         // 处理fieldset节点
         foreach ($pqFloor->find('fieldset') as $node) {
             $pqNode = pq($node);
-            if ($pqNode->is('.read_fds')) {
-                $pqNode->attr('class', 'fieldset-alert');
-                if ($pqNode->find('legend:contains("我的其他帖子")')->length > 0) {
-                    $pqNode->addClass('my-other-thread-list');
-                }
-            } elseif ($pqNode->find('legend:contains("Quote:")')->length > 0) {
-                $pqNode->replaceWith(
-                    '<blockquote class="blockquote"><p>' . str_replace('<legend>Quote:</legend>', '', $pqNode->html()) . '</p></blockquote>'
-                );
-            } elseif ($pqNode->find('legend:contains("此帖售价")')->length > 0) {
-                $pqLegend = $pqNode->find('legend');
-                $buyInfo = '';
-                $price = 0;
-                $matches = [];
-                if (preg_match('/此帖售价\s*(\d+)\s*KFB,已有\s*(\d+)\s*人购买/i', $pqLegend->html(), $matches)) {
-                    $price = intval($matches[1]);
-                    $buyInfo = sprintf('售价 %d KFB，有 %d 人购买', $price, $matches[2]);
-                }
-                $pqLegend->contents()->get(0)->textContent = $buyInfo;
-                $pqLegend->find('select')->addClass('custom-select custom-select-sm buy-thread-list')
-                    ->find('option:first-child')->text('名单')
-                    ->after('<option value="copyList">复制名单</option>');
-                $pqBuyBtn = $pqLegend->find('input[type="button"]');
-                $pid = 0;
-                if (preg_match('/pid=(\w+)/i', $pqBuyBtn->attr('onclick'), $matches)) {
-                    $pid = $matches[1];
-                }
-                $pqBuyBtn->replaceWith(
-                    sprintf(
-                        '<button class="btn btn-warning btn-sm buy-thread-btn" data-pid="%s" data-price="%d" type="button">' .
-                        '<i class="fa fa-shopping-cart" aria-hidden="true"></i> 购买</button>',
-                        $pid,
-                        $price
-                    )
-                );
-                $pqNode->find('b:contains("购买后可见本内容")')->addClass('font-size-sm');
-            } elseif ($pqNode->find('legend:contains("Copy code")')->length > 0) {
-                $pqNode->find('legend')->remove();
-                $codeHtml = $pqNode->html();
-                $pqNode->replaceWith(
-                    '<div class="code-area"><a class="copy-code" href="#" role="button">复制代码</a>' .
-                    '<pre class="pre-scrollable">' . $codeHtml . '</pre></div>'
-                );
-            } elseif ($pqNode->find('legend:contains("提示")')->length > 0) {
-                $pqNode->addClass('font-size-sm');
-            }
+            self::handleFieldsetElement($pqNode);
         }
 
         // 处理表格节点
         $pqFloor->find('table')->addClass('table table-bordered table-sm')->removeAttr('style');
+    }
+
+    /**
+     * 处理楼层内的Fieldset元素
+     * @param \phpQueryObject $pqNode
+     */
+    public static function handleFieldsetElement($pqNode)
+    {
+        foreach ($pqNode->find('fieldset') as $subNode) {
+            self::handleFieldsetElement(pq($subNode));
+        }
+
+        if ($pqNode->is('.read_fds')) {
+            $pqNode->attr('class', 'fieldset-alert');
+            if ($pqNode->find('legend:contains("我的其他帖子")')->length > 0) {
+                $pqNode->addClass('my-other-thread-list');
+            }
+        } elseif ($pqNode->find('legend:contains("Quote:")')->length > 0) {
+            $pqNode->replaceWith(
+                '<blockquote class="blockquote"><p>' . str_replace('<legend>Quote:</legend>', '', $pqNode->html()) . '</p></blockquote>'
+            );
+        } elseif ($pqNode->find('legend:contains("此帖售价")')->length > 0) {
+            $pqLegend = $pqNode->find('legend');
+            $buyInfo = '';
+            $price = 0;
+            $matches = [];
+            if (preg_match('/此帖售价\s*(\d+)\s*KFB,已有\s*(\d+)\s*人购买/i', $pqLegend->html(), $matches)) {
+                $price = intval($matches[1]);
+                $buyInfo = sprintf('售价 %d KFB，有 %d 人购买', $price, $matches[2]);
+            }
+            $pqLegend->contents()->get(0)->textContent = $buyInfo;
+            $pqLegend->find('select')->addClass('custom-select custom-select-sm buy-thread-list')
+                ->find('option:first-child')->text('名单')
+                ->after('<option value="copyList">复制名单</option>');
+            $pqBuyBtn = $pqLegend->find('input[type="button"]');
+            $pid = 0;
+            if (preg_match('/pid=(\w+)/i', $pqBuyBtn->attr('onclick'), $matches)) {
+                $pid = $matches[1];
+            }
+            $pqBuyBtn->replaceWith(
+                sprintf(
+                    '<button class="btn btn-warning btn-sm buy-thread-btn" data-pid="%s" data-price="%d" type="button">' .
+                    '<i class="fa fa-shopping-cart" aria-hidden="true"></i> 购买</button>',
+                    $pid,
+                    $price
+                )
+            );
+            $pqNode->find('b:contains("购买后可见本内容")')->addClass('font-size-sm');
+        } elseif ($pqNode->find('legend:contains("Copy code")')->length > 0) {
+            $pqNode->find('legend')->remove();
+            $codeHtml = $pqNode->html();
+            $pqNode->replaceWith(
+                '<div class="code-area"><a class="copy-code" href="#" role="button">复制代码</a>' .
+                '<pre class="pre-scrollable">' . $codeHtml . '</pre></div>'
+            );
+        } elseif ($pqNode->find('legend:contains("提示")')->length > 0) {
+            $pqNode->addClass('font-size-sm');
+        }
     }
 }
