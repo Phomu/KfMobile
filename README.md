@@ -14,8 +14,9 @@ http://bbs.2dkf.com/read.php?tid=564787
 ## 环境要求
 本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
 
-    php >= 5.6.0
+    php >= 5.5.0
     cURL PHP Extension
+    mbstring PHP Extension
 
 ## 源码下载方式
 共分为两种方式：
@@ -30,7 +31,8 @@ http://bbs.2dkf.com/read.php?tid=564787
 以后在项目目录下执行`git pull`即可获取更新。
 
 ## 调试
-在`application`目录下将`status.debug.php`示例文件复制一份并将其命名为`status.php`即可开启调试模式。
+在`application`目录下将`status.debug.php`示例文件复制一份并将其命名为`status.php`即可开启调试模式。  
+注：Linux下，如出现`mkdir(): Permission denied`的错误，请将`runtime`目录的权限改为0777（如找不到该目录请自行建立）
 
 ### 编译静态资源文件
 在项目目录下执行`npm install`安装依赖包（需安装Node.js）；  
@@ -39,8 +41,7 @@ http://bbs.2dkf.com/read.php?tid=564787
 
 ## 部署
 删除`application`目录下之前用于调试的`status.php`文件，并在该目录下将`status.product.php`示例文件复制一份且将其命名为`status.php`。  
-可修改`status.php`文件里的配置，还可增加任何在`application/config.php`文件中你想覆盖的配置。  
-每次更新文件后（在非调试模式下），请删除`runtime`目录下的`cache`及`temp`文件夹，以更新模板缓存。
+可修改`status.php`文件里的配置，还可增加任何在`application/config.php`文件中你想覆盖的配置。
 
 ### 虚拟主机配置
 网站的入口为`public/index.php`文件，因此请将虚拟主机的root目录设为项目目录下的`public`文件夹。
