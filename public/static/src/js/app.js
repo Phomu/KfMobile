@@ -279,7 +279,7 @@ var showValidationMsg = function ($node, type, msg) {
  * 读取设置
  */
 var readConfig = function () {
-    var options = localStorage['configName'];
+    var options = localStorage[configName];
     if (!options) return;
     try {
         options = JSON.parse(options);
@@ -295,7 +295,7 @@ var readConfig = function () {
  * 写入设置
  */
 var writeConfig = function () {
-    localStorage['configName'] = JSON.stringify(Config);
+    localStorage[configName] = JSON.stringify(Config);
 };
 
 /**
@@ -1507,7 +1507,7 @@ $(function () {
     handleMainMenu();
     handleRollToTopOrBottomBtn();
     handleSearchDialog();
-    handleForumPanel();
+    //handleForumPanel();
     if (pageId === 'indexPage') {
         handleAtTipsBtn();
         handleIndexThreadPanel();
