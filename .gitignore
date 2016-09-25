@@ -3,7 +3,7 @@ node_modules/
 runtime/
 vps/
 public/my/
-application/status.php
+application/my.php
 composer.lock
 *.log
 build.bat

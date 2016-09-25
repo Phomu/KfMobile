@@ -31,7 +31,7 @@ http://bbs.2dkf.com/read.php?tid=564787
 以后在项目目录下执行`git pull`即可获取更新。
 
 ## 调试
-在`application`目录下将`status.debug.php`示例文件复制一份并将其命名为`status.php`即可开启调试模式。  
+在`application`目录下将`my.debug.php`示例文件复制一份并将其命名为`my.php`即可开启调试模式。  
 注：Linux下，如出现`mkdir(): Permission denied`的错误，请将`runtime`目录的权限改为0777（如找不到该目录请自行建立）
 
 ### 编译静态资源文件
@@ -40,8 +40,9 @@ http://bbs.2dkf.com/read.php?tid=564787
 执行`gulp watch`，可监视静态资源文件的改动并立即进行编译；
 
 ## 部署
-删除`application`目录下之前用于调试的`status.php`文件，并在该目录下将`status.product.php`示例文件复制一份且将其命名为`status.php`。  
-可修改`status.php`文件里的配置，还可增加任何在`application/config.php`文件中你想覆盖的配置。
+删除`application`目录下之前用于调试的`my.php`文件，并在该目录下将`my.product.php`示例文件复制一份且将其命名为`my.php`。  
+可修改`my.php`文件里的配置，还可增加任何在`application/config.php`文件中你想覆盖的配置。  
+注：每次更新KfMobile之后，如发现网站界面未更新（在非调试模式下），请删除`runtime`目录下的`temp`模板缓存文件夹。
 
 ### 虚拟主机配置
 网站的入口为`public/index.php`文件，因此请将虚拟主机的root目录设为项目目录下的`public`文件夹。

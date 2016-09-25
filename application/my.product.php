@@ -1,5 +1,5 @@
 <?php
-// 状态配置
+// 我的自定义配置
 return [
     // 异常页面的模板文件（正式部署时建议使用此设置）
     'exception_tmpl' => APP_PATH . 'view' . DS . 'Msg' . DS . 'exception.html',
