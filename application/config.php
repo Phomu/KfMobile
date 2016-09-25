@@ -65,7 +65,7 @@ return [
     // 应用Trace
     'app_trace' => false,
     // 应用模式状态
-    'app_status' => 'status',
+    'app_status' => 'my',
     // 是否支持多模块
     'app_multi_module' => false,
     // 入口自动绑定模块
