@@ -50,7 +50,7 @@
             {switch name="vo.sizeStatus"}
             {case value="-1"}{assign name="sizeColor" value="warning" /}{/case}
             {case value="1"}{assign name="sizeColor" value="danger" /}{/case}
-            {default /}{assign name="sizeColor" value="default" /}
+            {default /}{assign name="sizeColor" value="gray-dark" /}
             {/switch}
             <span class="text-{$sizeColor}" data-toggle="{notempty name='vo.sizeStatus'}tooltip{/notempty}" title="{$vo.sizeTips}"
                   aria-label="{$vo.sizeTips}">
