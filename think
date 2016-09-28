@@ -11,7 +11,7 @@
 // +----------------------------------------------------------------------
 
 // 定义项目路径
-define('APP_PATH', './application/');
+define('APP_PATH', __DIR__ . '/application/');
 // 定义公共入口所在目录的url路径
 define('PUBLIC_PATH', '/');
 
