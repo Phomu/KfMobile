@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /*!
  * Bootstrap v4.0.0-alpha.4 (http://getbootstrap.com)
  * Copyright 2011-2016 The Bootstrap Authors
@@ -4942,7 +4941,7 @@ main {
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1.1rem;
-  word-break: break-all; }
+  word-wrap: break-word; }
   .read-content .blockquote {
     margin-top: 0.5714rem;
     margin-bottom: 0.5714rem;
@@ -4964,7 +4963,8 @@ main {
       line-height: 2.5; }
     .read-content .code-area pre {
       padding-bottom: 0.5714rem;
-      font-size: inherit; }
+      font-size: inherit;
+      word-wrap: normal; }
     .read-content .code-area .code-textarea {
       height: 340px;
       font-size: inherit; }
@@ -4986,7 +4986,8 @@ main {
       .read-content fieldset legend select {
         width: 5rem;
         margin-left: 0.5714rem;
-        margin-right: 0.5714rem; }
+        margin-right: 0.5714rem;
+        word-wrap: normal; }
     .read-content fieldset .custom-select {
       font-size: .714rem; }
   .read-content .fieldset-alert {
@@ -4997,8 +4998,12 @@ main {
       color: #d9534f; }
     .read-content .fieldset-alert li {
       list-style-type: none; }
-  .read-content .my-other-thread-list a:before {
-    content: "● "; }
+  .read-content .my-other-thread-list {
+    display: table-cell;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
   .read-content img, .read-content audio, .read-content video, .read-content marquee {
     max-width: 100%;
     margin-top: 0.3571rem;
@@ -5119,7 +5124,7 @@ main {
   width: 448px;
   text-align: left;
   white-space: normal;
-  word-break: break-all; }
+  word-wrap: break-word; }
 
 .game-search-list .media {
   margin-bottom: 1rem;

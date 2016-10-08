@@ -60,7 +60,7 @@
     bottom: $spacer;
   }
   font-size: 1.1rem; // ~15.4px
-  word-break: break-all;
+  word-wrap: break-word;
 
   // 引用框
   .blockquote {
@@ -99,6 +99,7 @@
     pre {
       padding-bottom: $spacer-sm;
       font-size: inherit;
+      word-wrap: normal;
     }
 
     .code-textarea {
@@ -135,6 +136,7 @@
           left: $spacer-sm;
           right: $spacer-sm;
         }
+        word-wrap: normal;
       }
     }
 
@@ -160,9 +162,9 @@
 
   // 我的其他帖子列表
   .my-other-thread-list {
-    a:before {
-      content: "● ";
-    }
+    display: table-cell;
+    max-width: 100%;
+    @include text-overflow;
   }
 
   img, audio, video, marquee {
