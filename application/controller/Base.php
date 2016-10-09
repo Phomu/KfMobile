@@ -27,4 +27,12 @@ class Base extends Controller
         }
         set_bg_style(cookie('bg_style'));
     }
+
+    /**
+     * 空操作
+     */
+    public function _empty()
+    {
+        error('抱歉，您访问的页面不存在~~');
+    }
 }
