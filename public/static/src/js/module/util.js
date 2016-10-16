@@ -240,3 +240,42 @@ export const showValidationMsg = function ($node, type, msg = '') {
         $feedback.text(msg);
     }
 };
+
+/**
+ * 获取对象A在对象B中的相对补集
+ * @param {Object} a 对象A
+ * @param {Object} b 对象B
+ * @returns {Object} 相对补集
+ */
+export const getDifferenceSetOfObject = function (a, b) {
+    let c = {};
+    if ($.type(a) !== 'object' || $.type(b) !== 'object') return c;
+    $.each(b, (key, data) => {
+        if (key in a) {
+            if (!deepEqual(a[key], data)) c[key] = data;
+        }
+    });
+    return c;
+};
+
+/**
+ * 深度比较两个对象是否相等
+ * @param {*} a
+ * @param {*} b
+ * @returns {boolean} 是否相等
+ */
+export const deepEqual = function (a, b) {
+    if (a === b) return true;
+    if ($.type(a) !== $.type(b)) return false;
+    if (typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b)) return true;
+    if ($.isArray(a) && $.isArray(b) || $.type(a) === 'object' && $.type(b) === 'object') {
+        if (a.length !== b.length) return false;
+        let c = $.extend($.isArray(a) ? [] : {}, a, b);
+        $.each(c, i => {
+            if (typeof a[i] === 'undefined' || typeof b[i] === 'undefined') return false;
+            if (!deepEqual(a[i], b[i])) return false;
+        });
+        return true;
+    }
+    return false;
+};

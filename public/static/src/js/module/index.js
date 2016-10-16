@@ -25,30 +25,6 @@ export const handleAtTipsBtn = function () {
 };
 
 /**
- * 高亮关键词页面中未读的消息
- */
-export const highlightUnReadAtTipsMsg = function () {
-    if (pageInfo.gjc !== pageInfo.userName) return;
-    let timeString = Util.getCookie(Const.prevAtTipsTimeCookieName);
-    if (!timeString || !/^\d+日\d+时\d+分$/.test(timeString)) return;
-    let prevString = '';
-    $('.thread-list-item time').each(function (index) {
-        let $this = $(this);
-        let curString = $.trim($this.text());
-        if (index === 0) prevString = curString;
-        if (timeString < curString && prevString >= curString) {
-            $this.addClass('text-danger');
-            prevString = curString;
-        }
-        else return false;
-    });
-
-    $(document).on('click', '.thread-list-item .thread-link-item a', function () {
-        Util.deleteCookie(Const.prevAtTipsTimeCookieName);
-    });
-};
-
-/**
  * 处理首页主题链接面板
  */
 export const handleIndexThreadPanel = function () {
@@ -65,9 +41,9 @@ export const handleIndexThreadPanel = function () {
         let typeName = '';
         if (targetPanel.includes('NewReplyPanel')) typeName = 'activeNewReplyPanel';
         else if (targetPanel.includes('TopRecommendPanel')) typeName = 'activeTopRecommendPanel';
-        if (typeName) {
+        if (typeName && Config[typeName] !== targetPanel) {
             readConfig();
-            Config[typeName] = $target.attr('href');
+            Config[typeName] = targetPanel;
             writeConfig();
         }
     });
@@ -86,7 +62,7 @@ export const handleSelectBgImage = function () {
         if (confirm('是否选择此背景图片？')) {
             Util.setCookie(Const.bgStyleCookieName, id, Util.getDate('+1y'));
             $('body, .modal-content').css('background-image', 'url("' + path + fileName + '")');
-            alert('背景已更换');
+            alert('背景已更换（图片可能需要一定时间加载）');
         }
     });
 };
@@ -125,10 +101,10 @@ export const handleCustomBgStyle = function () {
             alert('背景已恢复默认');
             location.reload();
         }
-        else if (/^https?:\/\/[^"\']+/.test(value)) {
+        else if (/^https?:\/\/[^"']+/.test(value)) {
             Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'));
             $('body, .modal-content').css('background-image', 'url("' + value + '")');
-            alert('背景已更换');
+            alert('背景已更换（图片可能需要一定时间加载）');
         }
         else if (/^#[0-9a-f]{6}$/i.test(value)) {
             Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'));
@@ -139,7 +115,7 @@ export const handleCustomBgStyle = function () {
             value = value.replace(';', '');
             Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'));
             $('body, .modal-content').css('background', value);
-            alert('背景已更换');
+            alert('背景已更换（图片可能需要一定时间加载）');
         }
         else {
             alert('格式不正确');

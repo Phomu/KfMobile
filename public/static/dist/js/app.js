@@ -1,39 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _util = require('./module/util');
-
-var Util = _interopRequireWildcard(_util);
-
-var _const = require('./module/const');
-
-var _const2 = _interopRequireDefault(_const);
-
 var _config = require('./module/config');
 
 var _public = require('./module/public');
 
-var Public = _interopRequireWildcard(_public);
-
 var _index = require('./module/index');
-
-var Index = _interopRequireWildcard(_index);
 
 var _read = require('./module/read');
 
-var Read = _interopRequireWildcard(_read);
-
 var _post = require('./module/post');
 
-var Post = _interopRequireWildcard(_post);
-
 var _other = require('./module/other');
-
-var Other = _interopRequireWildcard(_other);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 // 页面ID
 window.pageId = $('body').attr('id');
@@ -43,91 +21,91 @@ window.pageId = $('body').attr('id');
  */
 $(function () {
     if (pageId === 'loginPage') return;else if (pageId === 'registerPage') {
-        Other.validateRegisterField();
+        (0, _other.validateRegisterField)();
         return;
     }
-    (0, _config.read)();
+    (0, _config.init)();
 
-    Public.handleMainMenu();
-    Public.handleRollToTopOrBottomBtn();
-    Public.handleSearchDialog();
-    //Public.handleForumPanel();
+    (0, _public.handleMainMenu)();
+    (0, _public.handleRollToTopOrBottomBtn)();
+    (0, _public.handleSearchDialog)();
+    //handleForumPanel();
     if (pageId === 'indexPage') {
-        Index.handleAtTipsBtn();
-        Index.handleIndexThreadPanel();
-        Index.handleSelectBgImage();
-        Index.handleSelectBgColor();
-        Index.handleCustomBgStyle();
+        (0, _index.handleAtTipsBtn)();
+        (0, _index.handleIndexThreadPanel)();
+        (0, _index.handleSelectBgImage)();
+        (0, _index.handleSelectBgColor)();
+        (0, _index.handleCustomBgStyle)();
     } else if (pageId === 'threadPage') {
-        Public.handlePageNav('thread/index');
+        (0, _public.handlePageNav)('thread/index');
     } else if (pageId === 'readPage') {
-        Read.fastGotoFloor();
-        Public.handlePageNav('read/index');
-        Read.tuiThread();
-        Read.showFloorLink();
-        Read.handleFastReplyBtn();
-        Read.handleBlockFloorBtn();
-        Read.handleBuyThreadBtn();
-        Read.copyBuyThreadList();
-        Read.handleFloorImage();
-        Post.checkPostForm();
-        Public.bindFastSubmitShortcutKey($('#postContent'));
-        Read.copyCode();
-        Read.bindMultiQuoteCheckClick();
-        Read.handleClearMultiQuoteDataBtn(1);
-        Post.addSmileCode($('#postContent'));
+        (0, _read.fastGotoFloor)();
+        (0, _public.handlePageNav)('read/index');
+        (0, _read.tuiThread)();
+        (0, _read.showFloorLink)();
+        (0, _read.handleFastReplyBtn)();
+        (0, _read.handleBlockFloorBtn)();
+        (0, _read.handleBuyThreadBtn)();
+        (0, _read.copyBuyThreadList)();
+        (0, _read.handleFloorImage)();
+        (0, _post.checkPostForm)();
+        (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
+        (0, _read.copyCode)();
+        (0, _read.bindMultiQuoteCheckClick)();
+        (0, _read.handleClearMultiQuoteDataBtn)(1);
+        (0, _post.addSmileCode)($('#postContent'));
     } else if (pageId === 'searchPage') {
-        Public.handlePageNav('search/index');
+        (0, _public.handlePageNav)('search/index');
     } else if (pageId === 'gjcPage') {
-        Index.highlightUnReadAtTipsMsg();
+        (0, _other.highlightUnReadAtTipsMsg)();
     } else if (pageId === 'myReplyPage') {
-        Public.handlePageNav('personal/reply');
+        (0, _public.handlePageNav)('personal/reply');
     } else if (pageId === 'gameIntroSearchPage') {
-        Public.handlePageNav('game_intro/search');
-        Other.handleGameIntroSearchArea();
+        (0, _public.handlePageNav)('game_intro/search');
+        (0, _other.handleGameIntroSearchArea)();
     } else if (pageId === 'gameIntroPage') {
-        Other.tuiGameIntro('game');
+        (0, _other.tuiGameIntro)('game');
     } else if (pageId === 'gameIntroCompanyPage') {
-        Other.tuiGameIntro('company');
+        (0, _other.tuiGameIntro)('company');
     } else if (pageId === 'gameIntroTypePage') {
-        Other.tuiGameIntro('type');
+        (0, _other.tuiGameIntro)('type');
     } else if (pageId === 'gameIntroPropertyPage') {
-        Other.tuiGameIntro('property');
+        (0, _other.tuiGameIntro)('property');
     } else if (pageId === 'smBoxPage') {
-        Other.randomSelectSmBox();
+        (0, _other.randomSelectSmBox)();
     } else if (pageId === 'favorPage') {
-        Other.bindFavorPageBtnsClick();
+        (0, _other.bindFavorPageBtnsClick)();
     } else if (pageId === 'friendPage') {
-        Other.bindFriendPageBtnsClick();
+        (0, _other.bindFriendPageBtnsClick)();
     } else if (pageId === 'modifyPage') {
-        Other.syncPerPageFloorNum();
-        Other.assignBirthdayField();
-        Other.handleUploadAvatarFileBtn();
+        (0, _other.syncPerPageFloorNum)();
+        (0, _other.assignBirthdayField)();
+        (0, _other.handleUploadAvatarFileBtn)();
     } else if (pageId === 'bankPage') {
-        Other.transferKfbAlert();
+        (0, _other.transferKfbAlert)();
     } else if (pageId === 'bankLogPage') {
-        Public.handlePageNav('bank/log');
+        (0, _public.handlePageNav)('bank/log');
     } else if (pageId === 'messagePage') {
-        Public.handlePageNav('message/index');
-        Other.bindMessageActionBtnsClick();
+        (0, _public.handlePageNav)('message/index');
+        (0, _other.bindMessageActionBtnsClick)();
     } else if (pageId === 'readMessagePage') {
-        Read.handleFloorImage();
-        Read.copyCode();
+        (0, _read.handleFloorImage)();
+        (0, _read.copyCode)();
     } else if (pageId === 'writeMessagePage') {
-        Public.bindFastSubmitShortcutKey($('#msgContent'));
-        Post.addSmileCode($('#msgContent'));
+        (0, _public.bindFastSubmitShortcutKey)($('#msgContent'));
+        (0, _post.addSmileCode)($('#msgContent'));
     } else if (pageId === 'messageBannedPage') {
-        Public.bindFastSubmitShortcutKey($('#banidinfo'));
+        (0, _public.bindFastSubmitShortcutKey)($('[name="banidinfo"]'));
     } else if (pageId === 'selfRateLatestPage') {
-        Public.handlePageNav('self_rate/latest');
+        (0, _public.handlePageNav)('self_rate/latest');
     } else if (pageId === 'selfRateCompletePage') {
-        Public.handlePageNav('self_rate/complete');
+        (0, _public.handlePageNav)('self_rate/complete');
     } else if (pageId === 'postPage') {
-        Post.checkPostForm();
-        Public.bindFastSubmitShortcutKey($('#postContent'));
-        Post.handleEditorBtns();
-        Post.addSmileCode($('#postContent'));
-        Post.handleAttachBtns();
+        (0, _post.checkPostForm)();
+        (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
+        (0, _post.handleEditorBtns)();
+        (0, _post.addSmileCode)($('#postContent'));
+        (0, _post.handleAttachBtns)();
     }
 
     //let tooltipStartTime = new Date();
@@ -135,26 +113,52 @@ $(function () {
     //console.log(`tooltip初始化耗时：${new Date() - tooltipStartTime}ms`);
 });
 
-},{"./module/config":2,"./module/const":3,"./module/index":4,"./module/other":5,"./module/post":6,"./module/public":7,"./module/read":8,"./module/util":9}],2:[function(require,module,exports){
+},{"./module/config":2,"./module/index":4,"./module/other":5,"./module/post":6,"./module/public":7,"./module/read":8}],2:[function(require,module,exports){
 'use strict';
-
-// 配置名称
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var configName = 'kf_config';
+exports.clear = exports.write = exports.read = exports.init = undefined;
+
+var _util = require('./util');
+
+var Util = _interopRequireWildcard(_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+// 配置名称
+var name = 'kf_config';
 
 /**
  * 配置类
  */
-var Config = {};
+var Config = {
+    // 主题每页楼层数量
+    perPageFloorNum: 0,
+    // 当前激活的最新回复面板
+    activeNewReplyPanel: '#galgameNewReplyPanel',
+    // 当前激活的当前推荐面板
+    activeTopRecommendPanel: '#galgameTopRecommendPanel',
+    // 当前激活的版块列表面板1
+    activeForumPanel1: '',
+    // 当前激活的版块列表面板2
+    activeForumPanel2: ''
+};
+
+/**
+ * 初始化
+ */
+var init = exports.init = function init() {
+    window.Config = $.extend(true, {}, Config);
+    read();
+};
 
 /**
  * 读取设置
  */
 var read = exports.read = function read() {
-    var options = localStorage[configName];
+    var options = localStorage[name];
     if (!options) return;
     try {
         options = JSON.parse(options);
@@ -162,17 +166,42 @@ var read = exports.read = function read() {
         return;
     }
     if (!options || $.type(options) !== 'object' || $.isEmptyObject(options)) return;
-    window.Config = options;
+    options = normalize(options);
+    window.Config = $.extend(true, {}, Config, options);
 };
 
 /**
  * 写入设置
  */
 var write = exports.write = function write() {
-    localStorage[configName] = JSON.stringify(window.Config);
+    var options = Util.getDifferenceSetOfObject(Config, window.Config);
+    localStorage[name] = JSON.stringify(options);
 };
 
-},{}],3:[function(require,module,exports){
+/**
+ * 清空设置
+ */
+var clear = exports.clear = function clear() {
+    localStorage.removeItem(name);
+};
+
+/**
+ * 获取经过规范化的Config对象
+ * @param {{}} options 待处理的Config对象
+ * @returns {{}} 经过规范化的Config对象
+ */
+var normalize = function normalize(options) {
+    var settings = {};
+    if ($.type(options) !== 'object') return settings;
+    $.each(options, function (key, value) {
+        if (key in Config) {
+            settings[key] = value;
+        }
+    });
+    return settings;
+};
+
+},{"./util":9}],3:[function(require,module,exports){
 'use strict';
 
 /**
@@ -201,7 +230,7 @@ exports.default = Const;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleCustomBgStyle = exports.handleSelectBgColor = exports.handleSelectBgImage = exports.handleIndexThreadPanel = exports.highlightUnReadAtTipsMsg = exports.handleAtTipsBtn = undefined;
+exports.handleCustomBgStyle = exports.handleSelectBgColor = exports.handleSelectBgImage = exports.handleIndexThreadPanel = exports.handleAtTipsBtn = undefined;
 
 var _util = require('./util');
 
@@ -238,29 +267,6 @@ var handleAtTipsBtn = exports.handleAtTipsBtn = function handleAtTipsBtn() {
 };
 
 /**
- * 高亮关键词页面中未读的消息
- */
-var highlightUnReadAtTipsMsg = exports.highlightUnReadAtTipsMsg = function highlightUnReadAtTipsMsg() {
-    if (pageInfo.gjc !== pageInfo.userName) return;
-    var timeString = Util.getCookie(_const2.default.prevAtTipsTimeCookieName);
-    if (!timeString || !/^\d+日\d+时\d+分$/.test(timeString)) return;
-    var prevString = '';
-    $('.thread-list-item time').each(function (index) {
-        var $this = $(this);
-        var curString = $.trim($this.text());
-        if (index === 0) prevString = curString;
-        if (timeString < curString && prevString >= curString) {
-            $this.addClass('text-danger');
-            prevString = curString;
-        } else return false;
-    });
-
-    $(document).on('click', '.thread-list-item .thread-link-item a', function () {
-        Util.deleteCookie(_const2.default.prevAtTipsTimeCookieName);
-    });
-};
-
-/**
  * 处理首页主题链接面板
  */
 var handleIndexThreadPanel = exports.handleIndexThreadPanel = function handleIndexThreadPanel() {
@@ -276,9 +282,9 @@ var handleIndexThreadPanel = exports.handleIndexThreadPanel = function handleInd
         var targetPanel = $target.attr('href');
         var typeName = '';
         if (targetPanel.includes('NewReplyPanel')) typeName = 'activeNewReplyPanel';else if (targetPanel.includes('TopRecommendPanel')) typeName = 'activeTopRecommendPanel';
-        if (typeName) {
+        if (typeName && Config[typeName] !== targetPanel) {
             (0, _config.read)();
-            Config[typeName] = $target.attr('href');
+            Config[typeName] = targetPanel;
             (0, _config.write)();
         }
     });
@@ -297,7 +303,7 @@ var handleSelectBgImage = exports.handleSelectBgImage = function handleSelectBgI
         if (confirm('是否选择此背景图片？')) {
             Util.setCookie(_const2.default.bgStyleCookieName, id, Util.getDate('+1y'));
             $('body, .modal-content').css('background-image', 'url("' + path + fileName + '")');
-            alert('背景已更换');
+            alert('背景已更换（图片可能需要一定时间加载）');
         }
     });
 };
@@ -331,10 +337,10 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
             Util.setCookie(_const2.default.bgStyleCookieName, '', Util.getDate('-1d'));
             alert('背景已恢复默认');
             location.reload();
-        } else if (/^https?:\/\/[^"\']+/.test(value)) {
+        } else if (/^https?:\/\/[^"']+/.test(value)) {
             Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
             $('body, .modal-content').css('background-image', 'url("' + value + '")');
-            alert('背景已更换');
+            alert('背景已更换（图片可能需要一定时间加载）');
         } else if (/^#[0-9a-f]{6}$/i.test(value)) {
             Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
             $('body, .modal-content').css('background', value.toLowerCase());
@@ -343,7 +349,7 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
             value = value.replace(';', '');
             Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
             $('body, .modal-content').css('background', value);
-            alert('背景已更换');
+            alert('背景已更换（图片可能需要一定时间加载）');
         } else {
             alert('格式不正确');
         }
@@ -356,7 +362,7 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.randomSelectSmBox = exports.tuiGameIntro = exports.handleGameIntroSearchArea = undefined;
+exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.randomSelectSmBox = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -364,9 +370,38 @@ var _util = require('./util');
 
 var Util = _interopRequireWildcard(_util);
 
+var _const = require('./const');
+
+var _const2 = _interopRequireDefault(_const);
+
 var _config = require('./config');
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * 高亮关键词页面中未读的消息
+ */
+var highlightUnReadAtTipsMsg = exports.highlightUnReadAtTipsMsg = function highlightUnReadAtTipsMsg() {
+    if (pageInfo.gjc !== pageInfo.userName) return;
+    var timeString = Util.getCookie(_const2.default.prevAtTipsTimeCookieName);
+    if (!timeString || !/^\d+日\d+时\d+分$/.test(timeString)) return;
+    var prevString = '';
+    $('.thread-list-item time').each(function (index) {
+        var $this = $(this);
+        var curString = $.trim($this.text());
+        if (index === 0) prevString = curString;
+        if (timeString < curString && prevString >= curString) {
+            $this.addClass('text-danger');
+            prevString = curString;
+        } else return false;
+    });
+
+    $(document).on('click', '.thread-list-item .thread-link-item a', function () {
+        Util.deleteCookie(_const2.default.prevAtTipsTimeCookieName);
+    });
+};
 
 /**
  * 处理游戏搜索区域
@@ -676,7 +711,7 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
     });
 };
 
-},{"./config":2,"./util":9}],6:[function(require,module,exports){
+},{"./config":2,"./const":3,"./util":9}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1047,7 +1082,7 @@ var handleSearchDialog = exports.handleSearchDialog = function handleSearchDialo
             if (searchType === 'title') {
                 if (keyword.length && Util.getStrByteLen(keyword) <= 2) {
                     (function () {
-                        var $method = $this.find('input[name="method"]');
+                        var $method = $this.find('[name="method"]');
                         $method.val('OR');
                         $searchKeyword.val(keyword + ' ' + Math.floor(new Date().getTime() / 1000));
                         setTimeout(function () {
@@ -1095,9 +1130,9 @@ var handleForumPanel = exports.handleForumPanel = function handleForumPanel() {
         if (!targetPanel.includes('ForumPanel')) return;
         var typeName = '';
         if (targetPanel === '#galgameForumPanel' || targetPanel === '#resourceForumPanel') typeName = 'activeForumPanel1';else if (targetPanel === '#discussForumPanel' || targetPanel === '#acgForumPanel') typeName = 'activeForumPanel2';
-        if (typeName) {
+        if (typeName && Config[typeName] !== targetPanel) {
             (0, _config.read)();
-            Config[typeName] = $target.attr('href');
+            Config[typeName] = targetPanel;
             (0, _config.write)();
         }
     });
@@ -1210,13 +1245,11 @@ var handleBuyThreadBtn = exports.handleBuyThreadBtn = function handleBuyThreadBt
  */
 var copyBuyThreadList = exports.copyBuyThreadList = function copyBuyThreadList() {
     $(document).on('change', '.buy-thread-list', function () {
-        var _this = this;
-
         var $this = $(this);
         if ($this.val() !== 'copyList') return;
         var list = $this.find('option').map(function (index) {
-            var name = $(_this).text();
-            if (index === 0 || index === 1 || name === '-----------') return null;else return name;
+            var name = $(this).text();
+            if (index === 0 || index === 1 || name === '-'.repeat(11)) return null;else return name;
         }).get().join('\n');
         if (!list) {
             alert('暂时无人购买');
@@ -1815,6 +1848,45 @@ var showValidationMsg = exports.showValidationMsg = function showValidationMsg($
     } else {
         $feedback.text(msg);
     }
+};
+
+/**
+ * 获取对象A在对象B中的相对补集
+ * @param {Object} a 对象A
+ * @param {Object} b 对象B
+ * @returns {Object} 相对补集
+ */
+var getDifferenceSetOfObject = exports.getDifferenceSetOfObject = function getDifferenceSetOfObject(a, b) {
+    var c = {};
+    if ($.type(a) !== 'object' || $.type(b) !== 'object') return c;
+    $.each(b, function (key, data) {
+        if (key in a) {
+            if (!deepEqual(a[key], data)) c[key] = data;
+        }
+    });
+    return c;
+};
+
+/**
+ * 深度比较两个对象是否相等
+ * @param {*} a
+ * @param {*} b
+ * @returns {boolean} 是否相等
+ */
+var deepEqual = exports.deepEqual = function deepEqual(a, b) {
+    if (a === b) return true;
+    if ($.type(a) !== $.type(b)) return false;
+    if (typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b)) return true;
+    if ($.isArray(a) && $.isArray(b) || $.type(a) === 'object' && $.type(b) === 'object') {
+        if (a.length !== b.length) return false;
+        var c = $.extend($.isArray(a) ? [] : {}, a, b);
+        $.each(c, function (i) {
+            if (typeof a[i] === 'undefined' || typeof b[i] === 'undefined') return false;
+            if (!deepEqual(a[i], b[i])) return false;
+        });
+        return true;
+    }
+    return false;
 };
 
 },{}]},{},[1])

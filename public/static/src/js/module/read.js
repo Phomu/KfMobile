@@ -1,7 +1,7 @@
 'use strict';
 import * as Util from './util';
 import Const from './const';
-import {read as readConfig, write as writeConfig} from './config';
+import {write as writeConfig} from './config';
 
 /**
  * 显示楼层跳转链接
@@ -59,9 +59,9 @@ export const copyBuyThreadList = function () {
     $(document).on('change', '.buy-thread-list', function () {
         let $this = $(this);
         if ($this.val() !== 'copyList') return;
-        let list = $this.find('option').map(index => {
+        let list = $this.find('option').map(function (index) {
             let name = $(this).text();
-            if (index === 0 || index === 1 || name === '-----------') return null;
+            if (index === 0 || index === 1 || name === '-'.repeat(11)) return null;
             else return name;
         }).get().join('\n');
         if (!list) {
@@ -140,7 +140,7 @@ export const tuiThread = function () {
                 if (matches) {
                     let $num = $this.find('span:first');
                     $num.text('+1');
-                    setTimeout(function () {
+                    setTimeout(() => {
                         $num.text(matches[1]);
                     }, 1000);
                 }

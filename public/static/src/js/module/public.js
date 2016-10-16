@@ -59,10 +59,10 @@ export const handleSearchDialog = function () {
             $searchKeyword.attr('name', searchType === 'author' ? 'pwuser' : 'keyword');
             if (searchType === 'title') {
                 if (keyword.length && Util.getStrByteLen(keyword) <= 2) {
-                    let $method = $this.find('input[name="method"]');
+                    let $method = $this.find('[name="method"]');
                     $method.val('OR');
                     $searchKeyword.val(keyword + ' ' + Math.floor(new Date().getTime() / 1000));
-                    setTimeout(function () {
+                    setTimeout(() => {
                         $searchKeyword.val(keyword);
                         $method.val('AND');
                     }, 200);
@@ -108,9 +108,9 @@ export const handleForumPanel = function () {
         let typeName = '';
         if (targetPanel === '#galgameForumPanel' || targetPanel === '#resourceForumPanel') typeName = 'activeForumPanel1';
         else if (targetPanel === '#discussForumPanel' || targetPanel === '#acgForumPanel') typeName = 'activeForumPanel2';
-        if (typeName) {
+        if (typeName && Config[typeName] !== targetPanel) {
             readConfig();
-            Config[typeName] = $target.attr('href');
+            Config[typeName] = targetPanel;
             writeConfig();
         }
     });

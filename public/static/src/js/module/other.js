@@ -1,6 +1,31 @@
 'use strict';
 import * as Util from './util';
+import Const from './const';
 import {read as readConfig, write as writeConfig} from './config';
+
+/**
+ * 高亮关键词页面中未读的消息
+ */
+export const highlightUnReadAtTipsMsg = function () {
+    if (pageInfo.gjc !== pageInfo.userName) return;
+    let timeString = Util.getCookie(Const.prevAtTipsTimeCookieName);
+    if (!timeString || !/^\d+日\d+时\d+分$/.test(timeString)) return;
+    let prevString = '';
+    $('.thread-list-item time').each(function (index) {
+        let $this = $(this);
+        let curString = $.trim($this.text());
+        if (index === 0) prevString = curString;
+        if (timeString < curString && prevString >= curString) {
+            $this.addClass('text-danger');
+            prevString = curString;
+        }
+        else return false;
+    });
+
+    $(document).on('click', '.thread-list-item .thread-link-item a', function () {
+        Util.deleteCookie(Const.prevAtTipsTimeCookieName);
+    });
+};
 
 /**
  * 处理游戏搜索区域
@@ -39,7 +64,7 @@ export const tuiGameIntro = function (type) {
                 let $num = $this.find('span:first');
                 let num = parseInt($num.text());
                 $num.text('+1');
-                setTimeout(function () {
+                setTimeout(() => {
                     $num.text(++num);
                 }, 1000);
             },
@@ -74,9 +99,7 @@ export const randomSelectSmBox = function () {
 export const bindFavorPageBtnsClick = function () {
     let $form = $('form[name="favorForm"]');
 
-    $(document).on('click', '.remove-catalog', () => {
-        return confirm('是否删除该目录？');
-    });
+    $(document).on('click', '.remove-catalog', () => confirm('是否删除该目录？'));
 
     $('#addCatalog').click(function (e) {
         e.preventDefault();
