@@ -36,7 +36,8 @@ class Login extends Controller
         }
         $this->assign([
             'jumpUrl' => !empty($jumpUrl) ? $jumpUrl : url('/'),
-            'noPageInfo' => true
+            'noPageInfo' => true,
+            'pcVersionUrl' => config('pc_version_domain'),
         ]);
         return $this->fetch('Login/index');
     }

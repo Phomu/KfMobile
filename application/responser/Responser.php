@@ -98,13 +98,15 @@ class Responser
      */
     protected function getCommonData(\phpQueryObject $doc)
     {
+        $matches = [];
+        $request = request();
+
         $title = trim_strip(pq('title', $doc)->text());
         $keywords = trim_strip(pq('meta[name="keywords"]', $doc)->attr('content'));
         $description = trim_strip(pq('meta[name="description"]', $doc)->attr('content'));
 
         $pqUser = pq('.topright > a[href^="profile.php?action=show&uid="]', $doc);
         $uid = 0;
-        $matches = [];
         if (preg_match('/&uid=(\d+)/i', $pqUser->attr('href'), $matches)) $uid = intval($matches[1]);
         $userName = trim_strip($pqUser->text());
         $userTitle = trim_strip($pqUser->attr('title'));
@@ -130,8 +132,6 @@ class Responser
         }
 
         $pcVersionUrl = str_replace(config('proxy_domain'), config('pc_version_domain'), $this->response['remoteUrl']);
-
-        $request = request();
         return [
             'title' => $title,
             'keywords' => $keywords,
