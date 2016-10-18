@@ -58,6 +58,8 @@ $(function () {
         (0, _public.handlePageNav)('search/index');
     } else if (pageId === 'gjcPage') {
         (0, _other.highlightUnReadAtTipsMsg)();
+    } else if (pageId === 'myTopicPage') {
+        (0, _public.handlePageNav)('personal/topic');
     } else if (pageId === 'myReplyPage') {
         (0, _public.handlePageNav)('personal/reply');
     } else if (pageId === 'gameIntroSearchPage') {

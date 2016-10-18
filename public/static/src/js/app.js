@@ -105,6 +105,9 @@ $(function () {
     else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
     }
+    else if (pageId === 'myTopicPage') {
+        handlePageNav('personal/topic');
+    }
     else if (pageId === 'myReplyPage') {
         handlePageNav('personal/reply');
     }
