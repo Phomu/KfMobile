@@ -57,7 +57,7 @@ Nginx虚拟主机配置参考：
     proxy_busy_buffers_size    128k;
     proxy_temp_file_write_size 512k;
     proxy_temp_path            /var/lib/nginx/proxy;
-    proxy_cache_path           /var/lib/nginx/cache levels=1:2 keys_zone=cache_kf:50m inactive=1d max_size=1g;
+    proxy_cache_path           /var/lib/nginx/cache levels=1:2 keys_zone=cache_kf:10m inactive=1d max_size=1g;
     
     server {
         listen      80;
