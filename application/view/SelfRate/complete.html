@@ -44,7 +44,7 @@
       </li>
       {/eq}
       <li class="page-item active">
-        <a class="page-link" href="#">
+        <a class="page-link page-input" data-url="{:url('SelfRate/complete')}" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>
@@ -77,7 +77,7 @@
         <footer class="thread-item-footer">
           <small>
             <span title="评分时间" aria-label="评分时间">
-              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.rateTime}</time>
             </span>&nbsp;
             {switch name="vo.sizeStatus"}
@@ -122,7 +122,7 @@
       </li>
       {/eq}
       <li class="page-item active">
-        <a class="page-link" href="#">
+        <a class="page-link page-input" data-url="{:url('SelfRate/complete')}" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>

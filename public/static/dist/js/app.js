@@ -30,17 +30,17 @@ $(function () {
     (0, _public.handleRollToTopOrBottomBtn)();
     (0, _public.handleSearchDialog)();
     //handleForumPanel();
+    if ($('.page-input').length > 0) {
+        (0, _public.handlePageInput)();
+    }
     if (pageId === 'indexPage') {
         (0, _index.handleAtTipsBtn)();
         (0, _index.handleIndexThreadPanel)();
         (0, _index.handleSelectBgImage)();
         (0, _index.handleSelectBgColor)();
         (0, _index.handleCustomBgStyle)();
-    } else if (pageId === 'threadPage') {
-        (0, _public.handlePageNav)('thread/index');
     } else if (pageId === 'readPage') {
         (0, _read.fastGotoFloor)();
-        (0, _public.handlePageNav)('read/index');
         (0, _read.tuiThread)();
         (0, _read.showFloorLink)();
         (0, _read.handleFastReplyBtn)();
@@ -54,16 +54,9 @@ $(function () {
         (0, _read.bindMultiQuoteCheckClick)();
         (0, _read.handleClearMultiQuoteDataBtn)(1);
         (0, _post.addSmileCode)($('#postContent'));
-    } else if (pageId === 'searchPage') {
-        (0, _public.handlePageNav)('search/index');
     } else if (pageId === 'gjcPage') {
         (0, _other.highlightUnReadAtTipsMsg)();
-    } else if (pageId === 'myTopicPage') {
-        (0, _public.handlePageNav)('personal/topic');
-    } else if (pageId === 'myReplyPage') {
-        (0, _public.handlePageNav)('personal/reply');
     } else if (pageId === 'gameIntroSearchPage') {
-        (0, _public.handlePageNav)('game_intro/search');
         (0, _other.handleGameIntroSearchArea)();
     } else if (pageId === 'gameIntroPage') {
         (0, _other.tuiGameIntro)('game');
@@ -85,10 +78,7 @@ $(function () {
         (0, _other.handleUploadAvatarFileBtn)();
     } else if (pageId === 'bankPage') {
         (0, _other.transferKfbAlert)();
-    } else if (pageId === 'bankLogPage') {
-        (0, _public.handlePageNav)('bank/log');
     } else if (pageId === 'messagePage') {
-        (0, _public.handlePageNav)('message/index');
         (0, _other.bindMessageActionBtnsClick)();
     } else if (pageId === 'readMessagePage') {
         (0, _read.handleFloorImage)();
@@ -98,10 +88,6 @@ $(function () {
         (0, _post.addSmileCode)($('#msgContent'));
     } else if (pageId === 'messageBannedPage') {
         (0, _public.bindFastSubmitShortcutKey)($('[name="banidinfo"]'));
-    } else if (pageId === 'selfRateLatestPage') {
-        (0, _public.handlePageNav)('self_rate/latest');
-    } else if (pageId === 'selfRateCompletePage') {
-        (0, _public.handlePageNav)('self_rate/complete');
     } else if (pageId === 'postPage') {
         (0, _post.checkPostForm)();
         (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
@@ -1021,7 +1007,7 @@ var addSmileCode = exports.addSmileCode = function addSmileCode($node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.bindFastSubmitShortcutKey = exports.handlePageNav = exports.handleForumPanel = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
+exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleForumPanel = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
 
 var _util = require('./util');
 
@@ -1142,12 +1128,13 @@ var handleForumPanel = exports.handleForumPanel = function handleForumPanel() {
 
 /**
  * 处理分页导航
- * @param {string} action 控制器
  */
-var handlePageNav = exports.handlePageNav = function handlePageNav(action) {
-    $(document).on('click', '.page-item.active > .page-link', function (e) {
+var handlePageInput = exports.handlePageInput = function handlePageInput() {
+    $(document).on('click', '.page-input', function (e) {
         e.preventDefault();
         if (pageInfo.maxPageNum && pageInfo.maxPageNum <= 1) return;
+        var action = $(this).data('url');
+        if (!action) return;
         var num = parseInt(prompt('\u8981\u8DF3\u8F6C\u5230\u7B2C\u51E0\u9875\uFF1F' + (pageInfo.maxPageNum ? '\uFF08\u5171' + pageInfo.maxPageNum + '\u9875\uFF09' : ''), pageInfo.currentPageNum));
         if (num && num > 0) {
             location.href = Util.makeUrl(action, 'page=' + num, true);
@@ -1684,7 +1671,7 @@ var addCode = exports.addCode = function addCode(textArea, code) {
     var startPos = selText === '' ? code.indexOf(']') + 1 : code.indexOf(selText);
     if (typeof textArea.selectionStart !== 'undefined') {
         var prePos = textArea.selectionStart;
-        textArea.value = textArea.value.substr(0, prePos) + code + textArea.value.substr(textArea.selectionEnd);
+        textArea.value = textArea.value.substring(0, prePos) + code + textArea.value.substring(textArea.selectionEnd);
         textArea.selectionStart = prePos + startPos;
         textArea.selectionEnd = prePos + startPos + selText.length;
     } else {
@@ -1698,7 +1685,7 @@ var addCode = exports.addCode = function addCode(textArea, code) {
  * @returns {string} 选择文本
  */
 var getSelText = exports.getSelText = function getSelText(textArea) {
-    return textArea.value.substr(textArea.selectionStart, textArea.selectionEnd - textArea.selectionStart);
+    return textArea.value.substring(textArea.selectionStart, textArea.selectionEnd);
 };
 
 /**
@@ -1756,7 +1743,11 @@ var buildQueryStr = exports.buildQueryStr = function buildQueryStr(map) {
             var key = _step2$value[0];
             var value = _step2$value[1];
 
-            queryStr += '/' + key + '/' + value;
+            if (pageInfo.urlType === 2) {
+                queryStr += (queryStr ? '&' : '') + key + '=' + value;
+            } else {
+                queryStr += (queryStr ? '/' : '') + key + '/' + value;
+            }
         }
     } catch (err) {
         _didIteratorError2 = true;
@@ -1792,10 +1783,16 @@ var makeUrl = exports.makeUrl = function makeUrl(action) {
     if (includeOtherParam) {
         paramList = new Map([].concat(_toConsumableArray(extractQueryStr(pageInfo.urlParam).entries()), _toConsumableArray(paramList.entries())));
     }
-    if (location.pathname.startsWith(pageInfo.baseFile)) url = pageInfo.baseFile;else url = pageInfo.rootPath.substr(0, pageInfo.rootPath.length - 1);
-    var queryStr = '';
-    if (paramList.size > 0) queryStr = buildQueryStr(paramList);
-    if (pageInfo.urlType === 2) url += '?s=/' + action + queryStr;else url += '/' + action + queryStr;
+    if (!action.startsWith('/')) {
+        if (location.pathname.startsWith(pageInfo.baseFile)) url = pageInfo.baseFile + '/';else url = pageInfo.rootPath;
+    }
+    url += action;
+    if (paramList.size > 0) {
+        var queryStr = buildQueryStr(paramList);
+        if (queryStr) {
+            url += (pageInfo.urlType === 2 ? '?' : '/') + queryStr;
+        }
+    }
     return url;
 };
 

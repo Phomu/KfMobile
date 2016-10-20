@@ -115,7 +115,7 @@ export const addCode = function (textArea, code, selText = '') {
     let startPos = selText === '' ? code.indexOf(']') + 1 : code.indexOf(selText);
     if (typeof textArea.selectionStart !== 'undefined') {
         let prePos = textArea.selectionStart;
-        textArea.value = textArea.value.substr(0, prePos) + code + textArea.value.substr(textArea.selectionEnd);
+        textArea.value = textArea.value.substring(0, prePos) + code + textArea.value.substring(textArea.selectionEnd);
         textArea.selectionStart = prePos + startPos;
         textArea.selectionEnd = prePos + startPos + selText.length;
     }
@@ -130,7 +130,7 @@ export const addCode = function (textArea, code, selText = '') {
  * @returns {string} 选择文本
  */
 export const getSelText = function (textArea) {
-    return textArea.value.substr(textArea.selectionStart, textArea.selectionEnd - textArea.selectionStart);
+    return textArea.value.substring(textArea.selectionStart, textArea.selectionEnd);
 };
 
 /**
@@ -156,7 +156,12 @@ export const extractQueryStr = function (str) {
 export const buildQueryStr = function (map) {
     let queryStr = '';
     for (let [key, value] of map) {
-        queryStr += '/' + key + '/' + value;
+        if (pageInfo.urlType === 2) {
+            queryStr += (queryStr ? '&' : '') + key + '=' + value;
+        }
+        else {
+            queryStr += (queryStr ? '/' : '') + key + '/' + value;
+        }
     }
     return queryStr;
 };
@@ -174,12 +179,17 @@ export const makeUrl = function (action, param = '', includeOtherParam = false) 
     if (includeOtherParam) {
         paramList = new Map([...extractQueryStr(pageInfo.urlParam).entries(), ...paramList.entries()]);
     }
-    if (location.pathname.startsWith(pageInfo.baseFile)) url = pageInfo.baseFile;
-    else url = pageInfo.rootPath.substr(0, pageInfo.rootPath.length - 1);
-    let queryStr = '';
-    if (paramList.size > 0) queryStr = buildQueryStr(paramList);
-    if (pageInfo.urlType === 2) url += '?s=/' + action + queryStr;
-    else url += '/' + action + queryStr;
+    if (!action.startsWith('/')) {
+        if (location.pathname.startsWith(pageInfo.baseFile)) url = pageInfo.baseFile + '/';
+        else url = pageInfo.rootPath;
+    }
+    url += action;
+    if (paramList.size > 0) {
+        let queryStr = buildQueryStr(paramList);
+        if (queryStr) {
+            url += (pageInfo.urlType === 2 ? '?' : '/') + queryStr;
+        }
+    }
     return url;
 };
 

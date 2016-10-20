@@ -6,7 +6,7 @@ import {
     handleRollToTopOrBottomBtn,
     handleSearchDialog,
     handleForumPanel,
-    handlePageNav,
+    handlePageInput,
     bindFastSubmitShortcutKey,
 } from './module/public';
 
@@ -72,6 +72,9 @@ $(function () {
     handleRollToTopOrBottomBtn();
     handleSearchDialog();
     //handleForumPanel();
+    if ($('.page-input').length > 0) {
+        handlePageInput();
+    }
     if (pageId === 'indexPage') {
         handleAtTipsBtn();
         handleIndexThreadPanel();
@@ -79,12 +82,8 @@ $(function () {
         handleSelectBgColor();
         handleCustomBgStyle();
     }
-    else if (pageId === 'threadPage') {
-        handlePageNav('thread/index');
-    }
     else if (pageId === 'readPage') {
         fastGotoFloor();
-        handlePageNav('read/index');
         tuiThread();
         showFloorLink();
         handleFastReplyBtn();
@@ -99,20 +98,10 @@ $(function () {
         handleClearMultiQuoteDataBtn(1);
         addSmileCode($('#postContent'));
     }
-    else if (pageId === 'searchPage') {
-        handlePageNav('search/index');
-    }
     else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
     }
-    else if (pageId === 'myTopicPage') {
-        handlePageNav('personal/topic');
-    }
-    else if (pageId === 'myReplyPage') {
-        handlePageNav('personal/reply');
-    }
     else if (pageId === 'gameIntroSearchPage') {
-        handlePageNav('game_intro/search');
         handleGameIntroSearchArea();
     }
     else if (pageId === 'gameIntroPage') {
@@ -144,11 +133,7 @@ $(function () {
     else if (pageId === 'bankPage') {
         transferKfbAlert();
     }
-    else if (pageId === 'bankLogPage') {
-        handlePageNav('bank/log');
-    }
     else if (pageId === 'messagePage') {
-        handlePageNav('message/index');
         bindMessageActionBtnsClick();
     }
     else if (pageId === 'readMessagePage') {
@@ -161,12 +146,6 @@ $(function () {
     }
     else if (pageId === 'messageBannedPage') {
         bindFastSubmitShortcutKey($('[name="banidinfo"]'));
-    }
-    else if (pageId === 'selfRateLatestPage') {
-        handlePageNav('self_rate/latest');
-    }
-    else if (pageId === 'selfRateCompletePage') {
-        handlePageNav('self_rate/complete');
     }
     else if (pageId === 'postPage') {
         checkPostForm();

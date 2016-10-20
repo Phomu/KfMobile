@@ -118,12 +118,13 @@ export const handleForumPanel = function () {
 
 /**
  * 处理分页导航
- * @param {string} action 控制器
  */
-export const handlePageNav = function (action) {
-    $(document).on('click', '.page-item.active > .page-link', function (e) {
+export const handlePageInput = function () {
+    $(document).on('click', '.page-input', function (e) {
         e.preventDefault();
         if (pageInfo.maxPageNum && pageInfo.maxPageNum <= 1) return;
+        let action = $(this).data('url');
+        if (!action) return;
         let num = parseInt(
             prompt(`要跳转到第几页？${pageInfo.maxPageNum ? `（共${pageInfo.maxPageNum}页）` : ''}`, pageInfo.currentPageNum)
         );
