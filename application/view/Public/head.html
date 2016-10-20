@@ -10,12 +10,12 @@
 <link rel="stylesheet" href="__PUBLIC__{$Think.config.static_path}css/app.min.css?ts={$Think.config.static_file_timestamp}">
 {notempty name="Think.config.static_file_cdn"}
 <link rel="stylesheet" href="https://cdn.css.net/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<script src="https://cdn.css.net/libs/babel-polyfill/6.16.0/polyfill.min.js"></script>
 <script src="https://cdn.css.net/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdn.css.net/libs/babel-polyfill/6.9.1/polyfill.min.js"></script>
 {else/}
 <link rel="stylesheet" href="__PUBLIC__{$Think.config.static_path}css/font-awesome.min.css?v=4.6.3">
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/polyfill.min.js?v=6.16.0"></script>
 <script src="__PUBLIC__{$Think.config.static_path}js/lib/jquery.min.js?v=3.1.1"></script>
-<script src="__PUBLIC__{$Think.config.static_path}js/lib/polyfill.min.js?v=6.9.1"></script>
 {/notempty}
 
 {notempty name="Think.config.bg_style"}
