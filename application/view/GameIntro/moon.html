@@ -13,9 +13,9 @@
 </head>
 <body id="gameIntroMoonPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">本月新作</li>
   </ol>
@@ -59,20 +59,20 @@
   <hr>
 
   <!-- 标题 -->
-  <h5 class="m-b-1">{$moonTitle}</h5>
+  <h5 class="mb-1">{$moonTitle}</h5>
 
   {notempty name="gameImgList"}
   <!-- 该月游戏图片 -->
-  <div class="row carousel carousel-sm slide m-b-1" id="moonGameImagesCarousel" data-ride="carousel">
+  <div class="row carousel carousel-sm slide mb-1" id="moonGameImagesCarousel" data-ride="carousel">
     <ol class="carousel-indicators">
       {volist name="gameImgList" id="vo"}
       <li class="{eq name='i' value='1'}active{/eq}" data-target="#moonGameImagesCarousel" data-slide-to="{$i-1}"></li>
       {/volist}
     </ol>
-    <div class="carousel-inner" role="listbox">
+    <div class="carousel-inner text-xs-center" role="listbox">
       {volist name="gameImgList" id="vo"}
       <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{:url('GameIntro/game?id=' . $vo['id'])}">
-        <img class="m-x-auto" src="{$vo.img}" alt="游戏图片">
+        <img class="mx-auto" src="{$vo.img}" alt="游戏图片">
         <div class="carousel-caption">
           <p>{$vo.name}</p>
         </div>

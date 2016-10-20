@@ -14,10 +14,10 @@
 </head>
 <body id="loginPage">
 <header class="container">
-  <h1 class="p-y-2">{$Think.config.site_name}</h1>
+  <h1 class="py-2">{$Think.config.site_name}</h1>
 </header>
 <main class="container">
-  <form class="m-b-2" action="{:url('Login/login')}" method="post">
+  <form class="mb-2" action="{:url('Login/login')}" method="post">
     <input name="jumpurl" type="hidden" value="{$jumpUrl}">
     <input name="step" type="hidden" value="2">
     <input name="lgt" type="hidden" value="1">

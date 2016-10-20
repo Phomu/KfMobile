@@ -17,9 +17,9 @@
 </head>
 <body id="messagePage">
 {include file="Public/header" /}
-<main class="container p-t-2 m-b-0">
+<main class="container pt-2 mb-0">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">短消息</li>
   </ol>
@@ -27,7 +27,7 @@
   {include file="Message/nav" /}
 
   <!-- 信箱状态 -->
-  <div class="alert alert-info text-xs-center m-b-0" role="alert">{$msgBoxInfo}</div>
+  <div class="alert alert-info text-xs-center mb-0" role="alert">{$msgBoxInfo}</div>
 
   <!-- 分页导航 -->
   <nav class="text-xs-center">
@@ -77,7 +77,7 @@
   <form id="messageListForm" action="{:url('Message/job')}" method="post">
     {notempty name="messageList"}
     <!-- 短消息列表 -->
-    <section class="row m-b-1">
+    <section class="row mb-1">
       <ul class="list-group thread-list-group">
         {volist name="messageList" id="vo"}
         <li class="list-group-item thread-list-item">

@@ -20,9 +20,9 @@
 </head>
 <body id="readPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     {notempty name="parentForumName"}
     <li class="breadcrumb-item">
@@ -42,8 +42,8 @@
       <input name="voteaction" type="hidden" value="modify">
       {/eq}
       <input name="tid" type="hidden" value="{$tid}">
-      <h6 class="m-b-1">{$voteTitle}</h6>
-      <ul class="list-group list-group-sm vote-group m-b-1">
+      <h6 class="mb-1">{$voteTitle}</h6>
+      <ul class="list-group list-group-sm vote-group mb-1">
         {volist name="voteList" id="vo"}
         <li class="list-group-item">
           <div class="form-check">
@@ -67,7 +67,7 @@
         {/volist}
       </ul>
       <footer class="form-group">
-        <div class="small text-muted m-b-1">
+        <div class="small text-muted mb-1">
           {notempty name="voteTotalCount"}合计<b>{$voteTotalCount}</b>票{/notempty}
           {$votedInfo}
         </div>
@@ -94,7 +94,7 @@
   <h1 class="thread-title">{$threadTitle}</h1>
 
   <!-- 主题信息 -->
-  <section class="small text-muted m-b-1 pull-md-left">
+  <section class="small text-muted mb-1 float-md-left">
     <span data-toggle="tooltip" title="点击数" aria-label="点击数">
       <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
       {eq name="hitNum|is_numeric" value="true"}{$hitNum|number_format}{else /}{$hitNum}{/eq}
@@ -122,7 +122,7 @@
       <i class="fa fa-reply" aria-hidden="true"></i> 回帖
     </a>
   </section>
-  <hr class="m-b-0">
+  <hr class="mb-0">
 
   <!-- 分页导航 -->
   <nav class="text-xs-center">
@@ -179,12 +179,12 @@
     <header class="media">
       {notempty name="vo.avatar"}
       <div class="media-left">
-        <img class="avatar img-rounded" src="{$vo.avatar}" alt="头像">
+        <img class="avatar rounded" src="{$vo.avatar}" alt="头像">
       </div>
       {/notempty}
       <div class="media-body">
         <div class="clearfix">
-          <div class="media-heading pull-xs-left">
+          <div class="media-heading float-xs-left">
             <a class="font-size-sm text-muted floor-num"
                href="{:url('Read/index?tid=' . $tid . ($vo['pid'] !== 'tpc' ? '&spid=' . $vo['pid'] : ''))}" role="button">
               {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
@@ -196,7 +196,7 @@
             <span class="tag tag-default" title="该用户已被禁言">禁</span>
             {/eq}
           </div>
-          <div class="pull-xs-right">
+          <div class="float-xs-right">
             <label class="form-check-inline font-size-sm text-muted" title="多重引用" aria-label="多重引用">
               <input class="form-check-input multi-quote-check" type="checkbox" autocomplete="off"> 引
             </label>&nbsp;
@@ -234,12 +234,12 @@
       {if condition="$canBlockFloor AND $vo['pid'] !== 'tpc'"}
       {assign name="hasBlockFloor" value="true" /}
       {/if}
-      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} p-x-0 small">
+      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} px-0 small">
         {notempty name="vo.sign"}
         <span data-toggle="tooltip" title="{$vo.sign}"><i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}</span>
         {/notempty}
       </div>
-      <div class="{empty name='hasBlockFloor'}col-xs-3{else /}col-xs-6{/empty} p-x-0 text-xs-right">
+      <div class="{empty name='hasBlockFloor'}col-xs-3{else /}col-xs-6{/empty} px-0 text-xs-right">
         {notempty name="hasBlockFloor"}
         <a class="btn btn-outline-danger btn-sm block-floor"
            href="{:url('Read/blockFloor', ['safeid'=>$safeId, 'tid'=>$tid, 'pid'=>$vo['pid']])}" role="button">
@@ -299,7 +299,7 @@
 
   {eq name="canReply" value="true"}
   <!-- 功能区 -->
-  <hr class="m-t-0">
+  <hr class="mt-0">
   <section class="text-xs-right">
     <a class="btn btn-secondary clear-multi-quote-data-btn" href="#" title="清除在浏览器中保存的多重引用数据">
       <i class="fa fa-trash" aria-hidden="true"></i> 清除引用
@@ -323,13 +323,13 @@
       <input name="atc_autourl" type="hidden" value="1">
 
       <div class="form-group">
-        <div class="form-group col-xs-9 p-x-0">
+        <div class="form-group col-xs-9 px-0">
           <label class="sr-only" for="postGjc">关键词</label>
           <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" placeholder="关键词"
                  title="最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英语逗号,隔开，不要包含英文单引号、双引号。如果关键词是别人的ID名，系统就会@提示此人查看本帖子。">
         </div>
 
-        <div class="form-group col-xs-3 p-x-0 text-xs-right">
+        <div class="form-group col-xs-3 px-0 text-xs-right">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
                     aria-label="表情" aria-haspopup="true" aria-expanded="false">

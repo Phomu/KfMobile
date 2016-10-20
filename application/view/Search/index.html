@@ -17,9 +17,9 @@
 </head>
 <body id="searchPage">
 {include file="Public/header" /}
-<main class="container p-t-2 m-b-0">
+<main class="container pt-2 mb-0">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">搜索{notempty name="keyword"}：“{$keyword}”{/notempty}</li>
   </ol>
@@ -89,7 +89,7 @@
           <small>
             {notempty name="vo.threadForum"}
             <span class="text-gray-dark" title="所属版块" aria-label="所属版块">
-              <i class="fa fa-th-large" aria-hidden="true"></i>
+              <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadForum}
             </span>&nbsp;
             {/notempty}

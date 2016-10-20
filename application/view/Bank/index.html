@@ -13,9 +13,9 @@
 </head>
 <body id="bankPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">银行</li>
   </ol>
@@ -23,15 +23,15 @@
   <!-- 存款信息 -->
   <div class="alert alert-info" role="alert">
     <h5 class="alert-heading">存款信息</h5>
-    <p class="m-b-0">
-      当前所持：<b id="cash">{$cash}</b> KFB<br>
-      活期存款：<b id="currentDeposit">{$currentDeposit}</b> KFB<br>
-      定期存款：<b id="fixedDeposit">{$fixedDeposit}</b> KFB<br>
+    <p class="mb-0">
+      当前所持：<b id="cash">{$cash|number_format}</b> KFB<br>
+      活期存款：<b id="currentDeposit">{$currentDeposit|number_format}</b> KFB<br>
+      定期存款：<b id="fixedDeposit">{$fixedDeposit|number_format}</b> KFB<br>
       <small class="text-muted">(存款3个月，期间不存取定期，才可以获得利息)</small>
       <br>
-      当前利息：<b class="{notempty name='interest'}text-danger{/notempty}">{$interest}</b> KFB
+      当前利息：<b class="{notempty name='interest'}text-danger{/notempty}">{$interest|number_format}</b> KFB
       {if condition="!empty($expectedInterest) AND empty($interest)"}
-      <span class="text-success">(预期利息：<b>{$expectedInterest}</b> KFB)</span>
+      <span class="text-success">(预期利息：<b>{$expectedInterest|number_format}</b> KFB)</span>
       {/if}
       <br>
       <small class="text-muted">(在当前利息不为0的时候，取出定期将获得该数额的KFB利息)</small>
@@ -44,9 +44,9 @@
   </div>
 
   <!-- 功能区 -->
-  <section class="m-b-1">
+  <section class="mb-1">
     <!-- 功能区 Tab -->
-    <ul class="nav nav-tabs m-b-1" role="tablist">
+    <ul class="nav nav-tabs mb-1" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#saveOrDrawKfbPanel" role="tab" aria-controls="saveOrDrawKfbPanel">存/取KFB</a>
       </li>
@@ -58,8 +58,8 @@
     <div class="tab-content">
       <!-- 存/取KFB -->
       <div class="tab-pane card active" id="saveOrDrawKfbPanel" role="tabpanel">
-        <h5 class="card-header m-b-0">存/取KFB</h5>
-        <div class="card-block p-a-1">
+        <h5 class="card-header mb-0">存/取KFB</h5>
+        <div class="card-block p-1">
           <form action="{:url('Bank/service')}" method="post" autocomplete="off">
             <input name="action" type="hidden" value="save">
             <div class="form-group">
@@ -105,10 +105,10 @@
 
       <!-- 转账KFB -->
       <div class="tab-pane card" id="transferKfbPanel" role="tabpanel">
-        <h5 class="card-header m-b-0">转账KFB</h5>
-        <div class="card-block p-a-1">
+        <h5 class="card-header mb-0">转账KFB</h5>
+        <div class="card-block p-1">
           <p>
-            <span class="text-danger">可转账额度：<b>{$transferLimit}</b></span><br>
+            <span class="text-danger">可转账额度：<b>{$transferLimit|number_format}</b></span><br>
             <small class="text-muted">转账将消耗与KFB等量的额度，额度可通过发帖(每个主题帖200额度/回复帖10额度)和被评分(评分数x120%额度)获得</small>
             <br>
             <span>手续费：<b>{$fee}%</b></span>
@@ -143,7 +143,7 @@
   <!-- 存款排行 -->
   <section>
     <!-- 存款排行 Tab -->
-    <ul class="nav nav-tabs m-b-1" role="tablist">
+    <ul class="nav nav-tabs mb-1" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#currentDepositRankListPanel" role="tab"
            aria-controls="currentDepositRankListPanel">活期存款排行</a>

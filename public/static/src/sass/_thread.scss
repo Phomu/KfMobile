@@ -2,8 +2,8 @@
 .thread-link-group {
   @include make-row();
   margin: {
-    left: 0;
-    right: 0;
+    left: 0 !important;
+    right: 0 !important;
   }
   padding: 0;
   $line-height: 2.75;
@@ -94,5 +94,6 @@
 // 版块规则
 .forum-rule {
   max-height: 235px;
+  overflow-x: hidden;
   overflow-y: auto;
 }

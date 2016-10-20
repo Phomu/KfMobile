@@ -13,9 +13,9 @@
 </head>
 <body id="rankPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">论坛排行</li>
   </ol>
@@ -30,7 +30,7 @@
   </div>
 
   <!-- 分类导航 -->
-  <nav class="nav nav-pills nav-stacked m-b-1">
+  <nav class="nav nav-pills nav-stacked mb-1">
     <a class="nav-link {eq name='type' value='sm'}active{/eq}" href="{:url('Rank/index?no1=sm')}">神秘系数排名</a>
     <a class="nav-link {eq name='type' value='cz'}active{/eq}" href="{:url('Rank/index?no1=cz')}">成长经验排名</a>
     <a class="nav-link {eq name='type' value='gz'}active{/eq}" href="{:url('Rank/index?no1=gz')}">被关注数排名</a>

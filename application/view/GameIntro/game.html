@@ -16,9 +16,9 @@
 </head>
 <body id="gameIntroPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">游戏介绍</li>
   </ol>
@@ -26,11 +26,11 @@
   {include file="GameIntro/searchArea" /}
 
   <!-- 游戏标题 -->
-  <h5 class="text-xs-center m-b-1">《{$gameName}》</h5>
+  <h5 class="text-xs-center mb-1">《{$gameName}》</h5>
 
   <!-- 游戏封面 -->
-  <div class="text-xs-center m-b-1">
-    <div class="m-b-1">
+  <div class="text-xs-center mb-1">
+    <div class="mb-1">
       <a href="{$largeCover}">
         <img class="img-thumbnail game-intro-cover" src="{$smallCover}" alt="游戏封面">
       </a>
@@ -41,7 +41,7 @@
   </div>
 
   <!-- 基本信息 -->
-  <div class="card m-b-1">
+  <div class="card mb-1">
     <div class="card-block">
       <p class="card-text">{$gameInfo}</p>
     </div>
@@ -49,16 +49,16 @@
 
   {notempty name="gameImgList"}
   <!-- 游戏图片 -->
-  <div class="row carousel carousel-sm slide m-b-1" id="gameImagesCarousel" data-ride="carousel">
+  <div class="row carousel carousel-sm slide mb-1" id="gameImagesCarousel" data-ride="carousel">
     <ol class="carousel-indicators">
       {volist name="gameImgList" id="vo"}
       <li class="{eq name='i' value='1'}active{/eq}" data-target="#gameImagesCarousel" data-slide-to="{$i-1}"></li>
       {/volist}
     </ol>
-    <div class="carousel-inner" role="listbox">
+    <div class="carousel-inner text-xs-center" role="listbox">
       {volist name="gameImgList" id="vo"}
       <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{$vo.largeImg}">
-        <img class="m-x-auto" src="{:url('GameIntro/thumb?path=' . $vo['thumbImg'])}" alt="游戏图片">
+        <img class="mx-auto" src="{:url('GameIntro/thumb?path=' . $vo['thumbImg'])}" alt="游戏图片">
       </a>
       {/volist}
     </div>
@@ -75,7 +75,7 @@
 
   {notempty name="gameExtraInfo"}
   <!-- 额外信息 -->
-  <div class="card m-b-1">
+  <div class="card mb-1">
     <div class="card-block">
       <p class="card-text">{$gameExtraInfo}</p>
     </div>
@@ -85,8 +85,8 @@
   {notempty name="characterList"}
   <!-- 人物列表 -->
   {volist name="characterList" id="vo"}
-  <div class="card text-xs-center p-t-1">
-    <img class="img-rounded character-img" src="{$vo.img}" alt="人物图片">
+  <div class="card text-xs-center pt-1">
+    <img class="rounded character-img" src="{$vo.img}" alt="人物图片">
     <div class="card-block text-xs-left">
       <p class="card-text">{$vo.intro}</p>
     </div>

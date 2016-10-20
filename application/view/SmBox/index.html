@@ -13,9 +13,9 @@
 </head>
 <body id="smBoxPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">神秘盒子</li>
   </ol>
@@ -28,7 +28,7 @@
       如果中奖则获取[<b>2000KFB</b>]，并且所有数字盒子重置，开始新一轮抽奖。<br>
       如果未中，也会获得一个随机数的额外奖励，基础随机数由神秘等级决定。<br>
     </p>
-    <p class="text-danger m-b-0">
+    <p class="text-danger mb-0">
       注意：抽取神秘盒子将延长争夺奖励的领取时间，请二选其一，尽量不要同时进行。
     </p>
   </div>
@@ -36,7 +36,7 @@
   <!-- 功能区域 -->
   <section>
     <!-- Tab -->
-    <ul class="nav nav-tabs m-b-1" role="tablist">
+    <ul class="nav nav-tabs mb-1" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#smBoxPanel" role="tab" aria-controls="smBoxPanel">神秘盒子</a>
       </li>
@@ -48,7 +48,7 @@
     <div class="tab-content">
       <!-- 神秘盒子 -->
       <div class="tab-pane active" id="smBoxPanel" role="tabpanel">
-        <button class="btn btn-outline-danger btn-block m-b-1" id="smBoxRandom" type="button">随机选择</button>
+        <button class="btn btn-outline-danger btn-block mb-1" id="smBoxRandom" type="button">随机选择</button>
         <table class="table table-sm text-xs-center">
           <tbody>
           {volist name="smBoxList" id="box" mod="5"}

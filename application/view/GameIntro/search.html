@@ -19,9 +19,9 @@
 </head>
 <body id="gameIntroSearchPage">
 {include file="Public/header" /}
-<main class="container p-t-2 m-b-0">
+<main class="container pt-2 mb-0">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">游戏搜索：“{$keyword}”</li>
   </ol>
@@ -30,7 +30,7 @@
 
   <!-- 分页导航 -->
   <nav class="text-xs-center">
-    <ul class="pagination m-t-0">
+    <ul class="pagination mt-0">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>
@@ -75,19 +75,19 @@
 
   {notempty name="gameList"}
   <!-- 游戏列表 -->
-  <ul class="row media-list game-search-list m-b-0">
+  <ul class="row media-list game-search-list mb-0">
     {volist name="gameList" id="vo"}
     <li class="media">
       <div class="media-left">
         <a href="{:url('GameIntro/game?id=' . $vo['id'])}">
-          <img class="media-object img-rounded" src="{$vo.img}" alt="游戏图片">
+          <img class="media-object rounded" src="{$vo.img}" alt="游戏图片">
         </a>
       </div>
       <div class="media-body">
         <h6 class="media-heading">
           <a href="{:url('GameIntro/game?id=' . $vo['id'])}">{$vo.gameName}</a>
         </h6>
-        <p class="font-size-sm m-b-0">
+        <p class="font-size-sm mb-0">
           别名：{$vo.aliasName|default="无"}<br>
           会社：{$vo.company}<br>
           发售时间：<time>{$vo.sellTime}</time><br>
@@ -99,7 +99,7 @@
     {/volist}
   </ul>
   {else /}
-  <div class="alert alert-danger text-xs-center m-b-0" role="alert">没有找到您查询的内容，请调整关键字再搜索。</div>
+  <div class="alert alert-danger text-xs-center mb-0" role="alert">没有找到您查询的内容，请调整关键字再搜索。</div>
   {/notempty}
 
   <!-- 分页导航 -->

@@ -13,9 +13,9 @@
 </head>
 <body id="selfRateRatingPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助评分</a></li>
     <li class="breadcrumb-item active">自助评分奖励</li>
@@ -25,8 +25,8 @@
 
   <!-- 自助评分奖励 -->
   <div class="card">
-    <h5 class="card-header m-b-0">自助评分奖励</h5>
-    <div class="card-block p-a-1">
+    <h5 class="card-header mb-0">自助评分奖励</h5>
+    <div class="card-block p-1">
       <form action="{:url('SelfRate/rating')}" method="get">
         <input name="safeid" type="hidden" value="{$safeId}">
         <input name="ptid" type="hidden" value="{$tid}">
@@ -76,7 +76,7 @@
         </div>
         <div class="alert alert-warning font-size-sm" role="alert">
           <h6 class="alert-heading font-weight-bold">伪原创认定范围：</h6>
-          <p class="m-b-0">
+          <p class="mb-0">
             1. 文件名 或 下载页发布者 或 下载页备注 或 帖子提供压缩包内ID名截图，以上任意一处必须有发帖者ID名，否则为伪原创。<br>
             2. 文件体积错误不算伪原创，按照实际大小评分即可。<br>
             3. 直接盗链、冒充自购等恶意情况，请提交伪原创评分后，再去管理区举报，我们会封号处理。

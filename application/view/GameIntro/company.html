@@ -16,9 +16,9 @@
 </head>
 <body id="gameIntroCompanyPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">会社介绍</li>
   </ol>
@@ -26,11 +26,11 @@
   {include file="GameIntro/searchArea" /}
 
   <!-- 会社名称 -->
-  <h5 class="text-xs-center m-b-1">{$companyName}</h5>
+  <h5 class="text-xs-center mb-1">{$companyName}</h5>
 
   <!-- 会社封面 -->
-  <div class="text-xs-center m-b-1">
-    <div class="m-b-1">
+  <div class="text-xs-center mb-1">
+    <div class="mb-1">
       <img class="img-thumbnail game-intro-cover" src="{$companyCover}" alt="会社封面">
     </div>
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
@@ -39,15 +39,15 @@
   </div>
 
   <!-- 基本信息 -->
-  <div class="card m-b-1">
-    <h6 class="card-header m-b-0">基本信息</h6>
+  <div class="card mb-1">
+    <h6 class="card-header mb-0">基本信息</h6>
     <div class="card-block">
       <p class="card-text">{$companyInfo}</p>
     </div>
   </div>
 
   <!-- 该会社受关注作品排行 -->
-  <div class="list-group list-group-sm m-b-1" role="list">
+  <div class="list-group list-group-sm mb-1" role="list">
     <h6 class="list-group-item list-group-item-header">该会社受关注作品排行</h6>
     {volist name="gameAttentionRankList" id="vo"}
     <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.name}</a>
@@ -55,16 +55,16 @@
   </div>
 
   <!-- 会社介绍 -->
-  <div class="card m-b-1">
-    <h6 class="card-header m-b-0">会社介绍</h6>
+  <div class="card mb-1">
+    <h6 class="card-header mb-0">会社介绍</h6>
     <div class="card-block">
       <p class="card-text">{$companyIntro}</p>
     </div>
   </div>
 
   <!-- 主要人员 -->
-  <div class="card m-b-1">
-    <h6 class="card-header m-b-0">主要人员</h6>
+  <div class="card mb-1">
+    <h6 class="card-header mb-0">主要人员</h6>
     <div class="card-block">
       <p class="card-text">{$companyStaff}</p>
     </div>
@@ -72,7 +72,7 @@
 
   <!-- 相关信息 -->
   <div class="card">
-    <h6 class="card-header m-b-0">相关信息</h6>
+    <h6 class="card-header mb-0">相关信息</h6>
     <div class="card-block">
       <p class="card-text">{$companyExtraInfo}</p>
     </div>

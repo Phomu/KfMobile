@@ -13,15 +13,15 @@
 </head>
 <body id="sharePage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">最新共享</li>
   </ol>
 
   <!-- 分类导航 -->
-  <ul class="nav nav-pills m-b-1">
+  <ul class="nav nav-pills mb-1">
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle {eq name='type' value='all'}active{/eq}" data-toggle="dropdown" href="#" role="button"
          aria-haspopup="true" aria-expanded="false">全部分类</a>
@@ -84,7 +84,7 @@
         <footer class="thread-item-footer">
           <small>
             <span style="color: {$vo.threadTypeColor}" title="类型" aria-label="类型">
-              <i class="fa fa-th-large" aria-hidden="true"></i>
+              <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadType}
             </span>&nbsp;
             <a href="{:url('Profile/show?username=' . $vo['author'])}" title="发布者" aria-label="发布者">

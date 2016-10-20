@@ -13,9 +13,9 @@
 </head>
 <body id="friendPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">好友列表</li>
   </ol>
@@ -23,7 +23,7 @@
   <form method="post" action="{:url('Profile/friend')}">
     {notempty name="friendList"}
     <!-- 好友列表 -->
-    <ul class="row list-group list-group-sm m-b-1" id="friendList">
+    <ul class="row list-group list-group-sm mb-1" id="friendList">
       {volist name="friendList" id="vo"}
       <li class="list-group-item">
         <div class="form-group">

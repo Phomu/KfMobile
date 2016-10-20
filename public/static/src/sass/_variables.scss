@@ -29,7 +29,7 @@ $list-group-hover-bg: rgba(darken(#f5f5f5, 5%), $bg-opacity);
 $breadcrumb-bg: rgba(darken(#eceeef, 5%), $bg-opacity);
 
 // 选项卡背景（激活状态）
-$nav-tabs-active-link-hover-bg: rgba($body-bg, $bg-opacity);
+$nav-tabs-active-link-hover-bg: rgba($body-bg, $bg-opacity-light);
 // 选项卡边框颜色（悬停状态）
 $nav-tabs-link-hover-border-color: darken(#eceeef, 3%);
 
@@ -47,6 +47,8 @@ $pagination-disabled-bg: rgba(#fff, $bg-opacity-light);
 $input-bg: rgba(#fff, $bg-opacity-light);
 // 自定义选择框背景
 $custom-select-bg: rgba(#fff, $bg-opacity-light);
+// 自定义选择框指示物
+$custom-select-indicator: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
 
 // 模态框头部边框颜色
 $modal-header-border-color: darken(#e5e5e5, 1%);

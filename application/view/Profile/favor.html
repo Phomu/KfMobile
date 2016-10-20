@@ -13,15 +13,15 @@
 </head>
 <body id="favorPage">
 {include file="Public/header" /}
-<main class="container p-t-2">
+<main class="container pt-2">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb m-b-1">
+  <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">收藏夹</li>
   </ol>
 
   <!-- 目录导航 -->
-  <ul class="nav nav-pills m-b-1">
+  <ul class="nav nav-pills mb-1">
     <li class="nav-item">
       <a class="nav-link {eq name='type' value='-1'}active{/eq}" href="{:url('Profile/favor')}">全部收藏</a>
     </li>
@@ -47,7 +47,7 @@
   {notempty name="threadList"}
   <form name="favorForm" method="post" action="{:url('Profile/favor')}">
     <!-- 主题列表 -->
-    <section class="row m-b-1">
+    <section class="row mb-1">
       <ul class="list-group thread-list-group">
         {volist name="threadList" id="vo"}
         <li class="list-group-item thread-list-item">
@@ -63,7 +63,7 @@
             <small>
               {notempty name="vo.threadForum"}
               <span class="text-gray-dark" title="所属版块" aria-label="所属版块">
-              <i class="fa fa-th-large" aria-hidden="true"></i>
+              <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadForum}
             </span>&nbsp;
               {/notempty}
