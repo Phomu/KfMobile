@@ -35,6 +35,26 @@
     </li>
     {/notempty}
   </ol>
+
+  {notempty name="subForumList"}
+  <!-- 子版块列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="subForumList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a class="thread-link" href="{:url('Thread/index?fid=' . $vo['fid'])}">{$vo.forumName}</a>
+        </div>
+        <footer class="thread-item-footer text-overflow">
+          <small>
+            <a class="text-muted" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">{$vo.threadInfo}</a>
+          </small>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {/notempty}
 </main>
 {include file="Public/footer" /}
 </body>

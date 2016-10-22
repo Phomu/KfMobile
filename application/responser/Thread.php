@@ -34,15 +34,24 @@ class Thread extends Responser
             $fid = 98;
             $forumName = '苍雪日本語版';
             $subForumList = [];
-            $pqSubForumList = pq('td.b_tit4 > a[href^="thread.php?fid="]');
-            foreach ($pqSubForumList as $subForum) {
+            foreach (pq('td.b_tit4')->parent('tr') as $subForum) {
                 $pqSubForum = pq($subForum);
+
+                $pqSubForumLink = $pqSubForum->find('a[href^="thread.php?fid="]');
                 $subFid = 0;
-                if (preg_match('/fid=(\d+)/i', $pqSubForum->attr('href'), $matches)) {
+                if (preg_match('/fid=(\d+)/i', $pqSubForumLink->attr('href'), $matches)) {
                     $subFid = intval($matches[1]);
                 }
-                $subForumName = trim_strip($pqSubForum->contents()->eq(0)->text());
-                $subForumList[] = ['fid' => $subFid, 'forumName' => $subForumName];
+                $subForumName = trim_strip($pqSubForumLink->contents()->eq(0)->text());
+
+                $pqSubForumThreadLink = $pqSubForum->find('a[href^="read.php?tid="]');
+                $subTid = 0;
+                if (preg_match('/tid=(\d+)/i', $pqSubForumThreadLink->attr('href'), $matches)) {
+                    $subTid = intval($matches[1]);
+                }
+                $subThreadInfo = trim_strip($pqSubForumThreadLink->text());
+
+                $subForumList[] = ['fid' => $subFid, 'forumName' => $subForumName, 'tid' => $subTid, 'threadInfo' => $subThreadInfo];
             }
 
             $data = [
