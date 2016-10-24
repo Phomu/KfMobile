@@ -106,11 +106,13 @@ export const fastGotoFloor = function () {
             }
             else return;
         }
+        let action = $(this).data('url');
+        if (!action) return;
         let floor = parseInt(prompt('你要跳转到哪一层楼？'));
         if (!floor || floor <= 0) return;
         location.href = Util.makeUrl(
-            'read/index',
-            `tid=${pageInfo.tid}&page=${Math.floor(floor / Config.perPageFloorNum) + 1}&floor=${floor}`
+            action,
+            `page=${Math.floor(floor / Config.perPageFloorNum) + 1}&floor=${floor}`
         );
     });
 

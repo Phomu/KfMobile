@@ -125,11 +125,14 @@ export const handlePageInput = function () {
         if (pageInfo.maxPageNum && pageInfo.maxPageNum <= 1) return;
         let action = $(this).data('url');
         if (!action) return;
+        let excludeParams = $(this).data('exclude');
+        if (excludeParams) excludeParams = excludeParams.split(',');
+        else excludeParams = [];
         let num = parseInt(
             prompt(`要跳转到第几页？${pageInfo.maxPageNum ? `（共${pageInfo.maxPageNum}页）` : ''}`, pageInfo.currentPageNum)
         );
         if (num && num > 0) {
-            location.href = Util.makeUrl(action, 'page=' + num, true);
+            location.href = Util.makeUrl(action, 'page=' + num, true, excludeParams);
         }
     });
 };

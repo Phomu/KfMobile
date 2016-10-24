@@ -115,7 +115,7 @@
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
       <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
     </a>
-    <a class="btn btn-info fast-goto-floor" href="#" title="快速直达指定楼层" role="button">
+    <a class="btn btn-info fast-goto-floor" data-url="{:url('Read/index?tid=' . $tid)}" href="#" title="快速直达指定楼层" role="button">
       <i class="fa fa-bolt" aria-hidden="true"></i> 电梯
     </a>
     <a class="btn btn-primary" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid)}">
@@ -143,7 +143,7 @@
       </li>
       {/eq}
       <li class="page-item active">
-        <a class="page-link page-input" data-url="{:url('Read/index')}" href="#">
+        <a class="page-link page-input" data-url="{:url('Read/index?tid=' . $tid)}" data-exclude="tid" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>
@@ -271,7 +271,7 @@
       </li>
       {/eq}
       <li class="page-item active">
-        <a class="page-link page-input" data-url="{:url('Read/index')}" href="#">
+        <a class="page-link page-input" data-url="{:url('Read/index?tid=' . $tid)}" data-exclude="tid" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>

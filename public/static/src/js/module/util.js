@@ -139,13 +139,13 @@ export const getSelText = function (textArea) {
  * @returns {Map} 参数集合
  */
 export const extractQueryStr = function (str) {
-    let param = new Map();
-    for (let value of str.split('&')) {
-        if (!value) continue;
-        let arr = value.split('=');
-        param.set(arr[0], arr[1] !== undefined ? arr[1] : '');
+    let params = new Map();
+    for (let param of str.split('&')) {
+        if (!param) continue;
+        let [key, value] = param.split('=');
+        params.set(key, value !== undefined ? value : '');
     }
-    return param;
+    return params;
 };
 
 /**
@@ -171,13 +171,17 @@ export const buildQueryStr = function (map) {
  * @param {string} action 控制器（小写）
  * @param {string} param 查询参数
  * @param {boolean} includeOtherParam 是否包括当前页面的其它查询参数
+ * @param {[]} excludeParams 要排除当前页面的查询参数列表
  * @returns {string} URL 最终的URL
  */
-export const makeUrl = function (action, param = '', includeOtherParam = false) {
+export const makeUrl = function (action, param = '', includeOtherParam = false, excludeParams = []) {
     let url = '';
     let paramList = extractQueryStr(param);
     if (includeOtherParam) {
         paramList = new Map([...extractQueryStr(pageInfo.urlParam).entries(), ...paramList.entries()]);
+        for (let i in excludeParams) {
+            paramList.delete(excludeParams[i]);
+        }
     }
     if (!action.startsWith('/')) {
         if (location.pathname.startsWith(pageInfo.baseFile)) url = pageInfo.baseFile + '/';

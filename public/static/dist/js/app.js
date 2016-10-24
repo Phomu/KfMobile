@@ -1135,9 +1135,11 @@ var handlePageInput = exports.handlePageInput = function handlePageInput() {
         if (pageInfo.maxPageNum && pageInfo.maxPageNum <= 1) return;
         var action = $(this).data('url');
         if (!action) return;
+        var excludeParams = $(this).data('exclude');
+        if (excludeParams) excludeParams = excludeParams.split(',');else excludeParams = [];
         var num = parseInt(prompt('\u8981\u8DF3\u8F6C\u5230\u7B2C\u51E0\u9875\uFF1F' + (pageInfo.maxPageNum ? '\uFF08\u5171' + pageInfo.maxPageNum + '\u9875\uFF09' : ''), pageInfo.currentPageNum));
         if (num && num > 0) {
-            location.href = Util.makeUrl(action, 'page=' + num, true);
+            location.href = Util.makeUrl(action, 'page=' + num, true, excludeParams);
         }
     });
 };
@@ -1279,9 +1281,11 @@ var fastGotoFloor = exports.fastGotoFloor = function fastGotoFloor() {
                 (0, _config.write)();
             } else return;
         }
+        var action = $(this).data('url');
+        if (!action) return;
         var floor = parseInt(prompt('你要跳转到哪一层楼？'));
         if (!floor || floor <= 0) return;
-        location.href = Util.makeUrl('read/index', 'tid=' + pageInfo.tid + '&page=' + (Math.floor(floor / Config.perPageFloorNum) + 1) + '&floor=' + floor);
+        location.href = Util.makeUrl(action, 'page=' + (Math.floor(floor / Config.perPageFloorNum) + 1) + '&floor=' + floor);
     });
 
     if (pageInfo.floor && pageInfo.floor > 0) {
@@ -1694,18 +1698,25 @@ var getSelText = exports.getSelText = function getSelText(textArea) {
  * @returns {Map} 参数集合
  */
 var extractQueryStr = exports.extractQueryStr = function extractQueryStr(str) {
-    var param = new Map();
+    var params = new Map();
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
 
     try {
         for (var _iterator = str.split('&')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var value = _step.value;
+            var param = _step.value;
 
-            if (!value) continue;
-            var arr = value.split('=');
-            param.set(arr[0], arr[1] !== undefined ? arr[1] : '');
+            if (!param) continue;
+
+            var _param$split = param.split('=');
+
+            var _param$split2 = _slicedToArray(_param$split, 2);
+
+            var key = _param$split2[0];
+            var value = _param$split2[1];
+
+            params.set(key, value !== undefined ? value : '');
         }
     } catch (err) {
         _didIteratorError = true;
@@ -1722,7 +1733,7 @@ var extractQueryStr = exports.extractQueryStr = function extractQueryStr(str) {
         }
     }
 
-    return param;
+    return params;
 };
 
 /**
@@ -1772,16 +1783,21 @@ var buildQueryStr = exports.buildQueryStr = function buildQueryStr(map) {
  * @param {string} action 控制器（小写）
  * @param {string} param 查询参数
  * @param {boolean} includeOtherParam 是否包括当前页面的其它查询参数
+ * @param {[]} excludeParams 要排除当前页面的查询参数列表
  * @returns {string} URL 最终的URL
  */
 var makeUrl = exports.makeUrl = function makeUrl(action) {
     var param = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
     var includeOtherParam = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+    var excludeParams = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 
     var url = '';
     var paramList = extractQueryStr(param);
     if (includeOtherParam) {
         paramList = new Map([].concat(_toConsumableArray(extractQueryStr(pageInfo.urlParam).entries()), _toConsumableArray(paramList.entries())));
+        for (var i in excludeParams) {
+            paramList.delete(excludeParams[i]);
+        }
     }
     if (!action.startsWith('/')) {
         if (location.pathname.startsWith(pageInfo.baseFile)) url = pageInfo.baseFile + '/';else url = pageInfo.rootPath;

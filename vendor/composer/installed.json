@@ -45,48 +45,6 @@
         "homepage": "http://code.google.com/p/phpquery/"
     },
     {
-        "name": "topthink/think-image",
-        "version": "v1.0.6",
-        "version_normalized": "1.0.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-image.git",
-            "reference": "a708d93ec30bae62bad53f7b82e466cfada2b7d6"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/think-image/a708d93ec30bae62bad53f7b82e466cfada2b7d6.zip",
-            "reference": "a708d93ec30bae62bad53f7b82e466cfada2b7d6",
-            "shasum": ""
-        },
-        "require": {
-            "ext-gd": "*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "4.8.*",
-            "topthink/framework": "dev-master"
-        },
-        "time": "2016-07-20 04:18:35",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Image Package"
-    },
-    {
         "name": "topthink/think-installer",
         "version": "v1.0.10",
         "version_normalized": "1.0.10.0",
@@ -131,17 +89,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.0.1",
-        "version_normalized": "5.0.1.0",
+        "version": "v5.0.2",
+        "version_normalized": "5.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "0e39004f5661ad6c11e1b00026aa9d857068dbbc"
+            "reference": "aca32d1da34ddef7ad3c423c3dc46c77115e7157"
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/framework/0e39004f5661ad6c11e1b00026aa9d857068dbbc.zip",
-            "reference": "0e39004f5661ad6c11e1b00026aa9d857068dbbc",
+            "url": "https://packagist.phpcomposer.com/files/top-think/framework/aca32d1da34ddef7ad3c423c3dc46c77115e7157.zip",
+            "reference": "aca32d1da34ddef7ad3c423c3dc46c77115e7157",
             "shasum": ""
         },
         "require": {
@@ -157,9 +115,14 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2016-09-28 03:40:39",
+        "time": "2016-10-23 15:40:36",
         "type": "think-framework",
         "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\": "library/think"
+            }
+        },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "Apache-2.0"
@@ -177,5 +140,47 @@
             "orm",
             "thinkphp"
         ]
+    },
+    {
+        "name": "topthink/think-image",
+        "version": "v1.0.7",
+        "version_normalized": "1.0.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-image.git",
+            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://packagist.phpcomposer.com/files/top-think/think-image/8586cf47f117481c6d415b20f7dedf62e79d5512.zip",
+            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.8.*",
+            "topthink/framework": "^5.0"
+        },
+        "time": "2016-09-29 06:05:43",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "The ThinkPHP5 Image Package"
     }
 ]
