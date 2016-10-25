@@ -38,13 +38,12 @@ class Msg extends Controller
         $result = [
             'msg' => $msg,
             'url' => $url,
-            'wait' => $wait,
-            'noPageInfo' => true
+            'wait' => $wait
         ];
 
         $type = $this->getResponseType();
         if ('html' == strtolower($type)) {
-            $result = $this->fetch('Msg/success', $result);
+            $result = $this->fetch('Msg/success', array_merge($result, ['noPageInfo' => true]));
         }
         $response = Response::create($result, $type);
         throw new HttpResponseException($response);
@@ -57,13 +56,10 @@ class Msg extends Controller
      */
     public function errorMsg($msg)
     {
-        $result = [
-            'msg' => $msg,
-            'noPageInfo' => true
-        ];
+        $result = ['msg' => $msg];
         $type = $this->getResponseType();
         if ('html' == strtolower($type)) {
-            $result = $this->fetch('Msg/error', $result);
+            $result = $this->fetch('Msg/error', array_merge($result, ['noPageInfo' => true]));
         }
         $response = Response::create($result, $type);
         throw new HttpResponseException($response);

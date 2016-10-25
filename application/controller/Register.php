@@ -72,7 +72,7 @@ class Register extends Controller
      */
     public function check($username = '')
     {
-        if (!$this->request->isAjax()) error('非法请求');
+        if (!$this->request->isPost()) error('非法请求');
 
         $response = Proxy::post(
             'register.php',
