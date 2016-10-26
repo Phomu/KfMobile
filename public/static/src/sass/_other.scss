@@ -29,8 +29,6 @@
 
 // 用户头像（个人信息页面）
 .user-avatar {
-  display: block;
-  margin: 0 auto $spacer;
   max-width: 140px;
   max-height: 200px;
 }
@@ -155,10 +153,6 @@
 
 // 短消息信息框
 .msg-box {
-  .card-block {
-    padding: $spacer-sm;
-  }
-
   // 短消息头部
   .msg-header {
     p {
@@ -169,6 +163,6 @@
   // 短消息内容
   .msg-content {
     padding: 0;
-    font-size: $font-size-base;
+    font-size: 1rem;
   }
 }

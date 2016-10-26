@@ -5015,19 +5015,19 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   filter: alpha(opacity=20); }
 
 .font-size-base {
-  font-size: 1rem; }
+  font-size: 1rem !important; }
 
 .font-size-xl {
-  font-size: 1.5rem; }
+  font-size: 1.5rem !important; }
 
 .font-size-lg {
-  font-size: 1.25rem; }
+  font-size: 1.25rem !important; }
 
 .font-size-sm {
-  font-size: 0.875rem; }
+  font-size: 0.875rem !important; }
 
 .font-size-xs {
-  font-size: 0.75rem; }
+  font-size: 0.75rem !important; }
 
 .text-overflow {
   overflow: hidden;
@@ -5089,7 +5089,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     margin-bottom: 0;
     padding-left: 0.57143rem;
     padding-right: 0.57143rem;
-    font-size: 1.143rem; }
+    font-size: 1rem; }
 
 .alert-success {
   background-color: rgba(223, 240, 216, 0.95); }
@@ -5177,7 +5177,7 @@ main {
   display: none; }
 
 .edit-forum-list {
-  overflow-y: auto; }
+  min-height: 43.5px; }
   .edit-forum-list .btn {
     margin: 5px;
     min-width: 6.143rem; }
@@ -5467,8 +5467,6 @@ main {
     line-height: 58px; }
 
 .user-avatar {
-  display: block;
-  margin: 0 auto 1rem;
   max-width: 140px;
   max-height: 200px; }
 
@@ -5532,9 +5530,6 @@ main {
 #modifyPage #avatar {
   max-width: 140px;
   max-height: 200px; }
-
-.msg-box .card-block {
-  padding: 0.57143rem; }
 
 .msg-box .msg-header p {
   margin-bottom: 0.5rem; }

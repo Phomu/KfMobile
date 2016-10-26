@@ -1,7 +1,7 @@
 // 生成字体大小
 @mixin font-size-make($name, $size) {
   .font-size-#{$name} {
-    font-size: $size;
+    font-size: $size !important;
   }
 }
 

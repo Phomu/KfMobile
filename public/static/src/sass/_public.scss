@@ -14,7 +14,7 @@ body, .modal-content {
 
 // 主区域
 main {
-  margin-bottom: $spacer*1.5;
+  margin-bottom: $spacer * 1.5;
 }
 
 // 主菜单
@@ -68,12 +68,10 @@ main {
 
 // 编辑版块列表
 .edit-forum-list {
-  //min-height: 43.5px;
-  //max-height: 174px;
-  overflow-y: auto;
+  min-height: 43.5px;
 
   .btn {
     margin: 5px;
-    min-width: 6.143rem; //~86px
+    min-width: 6.143rem; // ~86px
   }
 }

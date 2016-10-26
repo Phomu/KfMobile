@@ -23,7 +23,7 @@
   <!-- 头像 -->
   <section class="text-xs-center mb-1">
     {notempty name="profileAvatar"}
-    <img class="img-thumbnail user-avatar" src="{$profileAvatar}" alt="头像">
+    <img class="img-thumbnail user-avatar d-block mx-auto mb-1" src="{$profileAvatar}" alt="头像">
     {/notempty}
     <a class="btn btn-outline-primary" href="{:url('Message/write?touid=' . $profileUid)}">
       <i class="fa fa-send" aria-hidden="true"></i> 发送短信
