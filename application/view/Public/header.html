@@ -204,13 +204,21 @@
         <h5 class="modal-title" id="forumListDialogTitle">版块列表</h5>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body px-sm">
 
         <!-- Galgame游戏区 & 动漫音乐区 版块列表 Tab -->
         <ul class="nav nav-tabs mb-1" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#galgameForumPanel" role="tab"
-               aria-controls="galgameForumPanel">Galgame游戏区</a>
+            <a class="nav-link active" data-toggle="tab" href="#commonForumPanel" role="tab" aria-controls="commonForumPanel">常用版块</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-btn edit-common-forum-btn" href="#" title="编辑常用版块" aria-label="编辑常用版块">
+              <i class="fa fa-edit" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#galgameForumPanel" role="tab"
+               aria-controls="galgameForumPanel">游戏区</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#resourceForumPanel" role="tab" aria-controls="resourceForumPanel">动漫音乐区</a>
@@ -218,7 +226,9 @@
         </ul>
         <!-- Galgame游戏区 & 动漫音乐区 版块列表 Panel -->
         <div class="tab-content">
-          <div class="tab-pane active" id="galgameForumPanel" role="tabpanel">
+          <div class="tab-pane active common-forum-panel" id="commonForumPanel" role="tabpanel"></div>
+
+          <div class="tab-pane" id="galgameForumPanel" role="tabpanel">
             <div class="row mb-1">
               <div class="col-xs-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作游戏动态</a>

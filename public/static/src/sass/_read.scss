@@ -109,7 +109,7 @@
   }
 
   // 功能区域
-  fieldset {
+  .fieldset {
     margin: {
       top: $spacer-sm;
       bottom: $spacer-sm;
@@ -118,16 +118,9 @@
     text-align: left !important;
     font-weight: normal !important;
     font-style: normal !important;
-    border: 1px solid $brand-warning;
-    border-radius: $border-radius;
+    border-color: $brand-warning;
 
     legend {
-      width: auto;
-      margin-bottom: 0;
-      padding: {
-        left: $spacer-sm;
-        right: $spacer-sm;
-      }
       font-size: $font-size-sm;
 
       select {

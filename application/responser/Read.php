@@ -310,8 +310,9 @@ class Read extends Responser
             self::handleFieldsetElement(pq($subNode));
         }
 
+        $pqNode->addClass('fieldset');
         if ($pqNode->is('.read_fds')) {
-            $pqNode->attr('class', 'fieldset-alert');
+            $pqNode->removeClass('read_fds')->addClass('fieldset-alert');
             if ($pqNode->find('legend:contains("我的其他帖子")')->length > 0) {
                 $pqNode->addClass('my-other-thread-list');
             }

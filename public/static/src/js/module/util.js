@@ -89,9 +89,8 @@ export const getDate = function (value) {
  */
 export const getStrByteLen = function (str) {
     let len = 0;
-    let sLen = str.includes('\n') ? str.replace(/\r?\n/g, '_').length : str.length;
     let cLen = 2;
-    for (let i = 0; i < sLen; i++) {
+    for (let i = 0; i < str.length; i++) {
         len += str.charCodeAt(i) < 0 || str.charCodeAt(i) > 255 ? cLen : 1;
     }
     return len;
@@ -284,11 +283,10 @@ export const deepEqual = function (a, b) {
     if (typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b)) return true;
     if ($.isArray(a) && $.isArray(b) || $.type(a) === 'object' && $.type(b) === 'object') {
         if (a.length !== b.length) return false;
-        let c = $.extend($.isArray(a) ? [] : {}, a, b);
-        $.each(c, i => {
+        for (var i in $.extend($.isArray(a) ? [] : {}, a, b)) {
             if (typeof a[i] === 'undefined' || typeof b[i] === 'undefined') return false;
             if (!deepEqual(a[i], b[i])) return false;
-        });
+        }
         return true;
     }
     return false;

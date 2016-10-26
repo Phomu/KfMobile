@@ -1,8 +1,8 @@
 // 首页版块列表面板
 #indexForumPanel {
   padding: {
-    left: $grid-gutter-width-base/2;
-    right: $grid-gutter-width-base/2;
+    left: $grid-gutter-width-base / 2;
+    right: $grid-gutter-width-base / 2;
   }
 }
 
@@ -10,7 +10,6 @@
 #selectBgImage {
   max-height: 180px;
   overflow-y: auto;
-  padding: $spacer-sm;
 
   .img-thumbnail {
     display: inline-block;
@@ -141,7 +140,7 @@
 // 好友列表
 #friendList {
   .form-group {
-    margin-bottom: $spacer/2;
+    margin-bottom: $spacer / 2;
   }
 }
 
@@ -149,14 +148,8 @@
 #modifyPage {
   // 头像
   #avatar {
-    margin-bottom: $spacer-sm;
     max-width: 140px;
     max-height: 200px;
-  }
-
-  // 上传头像浏览按钮
-  #browseAvatar {
-    margin-bottom: $spacer-sm;
   }
 }
 
@@ -169,7 +162,7 @@
   // 短消息头部
   .msg-header {
     p {
-      margin-bottom: $spacer/2;
+      margin-bottom: $spacer / 2;
     }
   }
 

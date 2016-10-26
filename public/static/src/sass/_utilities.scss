@@ -77,3 +77,34 @@
     float: none;
   }
 }
+
+// 导航链接按钮
+.nav-tabs {
+  .nav-link-btn {
+    padding: {
+      left: 2px;
+      right: 2px;
+    }
+
+    &:focus, &:hover {
+      border-color: transparent;
+    }
+  }
+}
+
+// 控件组
+.fieldset {
+  padding: $spacer;
+  border: 1px solid $card-border-color;
+  border-radius: $card-border-radius;
+
+  legend {
+    width: auto;
+    margin-bottom: 0;
+    padding: {
+      left: $spacer-sm;
+      right: $spacer-sm;
+    }
+    font-size: 1.143rem; // ~16px
+  }
+}

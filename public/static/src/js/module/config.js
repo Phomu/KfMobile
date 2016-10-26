@@ -7,7 +7,7 @@ const name = 'kf_config';
 /**
  * 配置类
  */
-let Config = {
+export const Config = {
     // 主题每页楼层数量
     perPageFloorNum: 0,
     // 当前激活的最新回复面板
@@ -18,6 +18,8 @@ let Config = {
     activeForumPanel1: '',
     // 当前激活的版块列表面板2
     activeForumPanel2: '',
+    // 常用版块列表
+    commonForumList: [],
 };
 
 /**
@@ -69,7 +71,7 @@ const normalize = function (options) {
     var settings = {};
     if ($.type(options) !== 'object') return settings;
     $.each(options, (key, value) => {
-        if (key in Config) {
+        if (key in Config && $.type(value) === $.type(Config[key])) {
             settings[key] = value;
         }
     });

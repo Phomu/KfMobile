@@ -29,7 +29,8 @@ $(function () {
     (0, _public.handleMainMenu)();
     (0, _public.handleRollToTopOrBottomBtn)();
     (0, _public.handleSearchDialog)();
-    //handleForumPanel();
+    (0, _public.fillCommonForumPanel)();
+    (0, _public.showEditCommonForumDialog)();
     if ($('.page-input').length > 0) {
         (0, _public.handlePageInput)();
     }
@@ -107,7 +108,7 @@ $(function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.clear = exports.write = exports.read = exports.init = undefined;
+exports.clear = exports.write = exports.read = exports.init = exports.Config = undefined;
 
 var _util = require('./util');
 
@@ -121,7 +122,7 @@ var name = 'kf_config';
 /**
  * 配置类
  */
-var Config = {
+var Config = exports.Config = {
     // 主题每页楼层数量
     perPageFloorNum: 0,
     // 当前激活的最新回复面板
@@ -131,7 +132,9 @@ var Config = {
     // 当前激活的版块列表面板1
     activeForumPanel1: '',
     // 当前激活的版块列表面板2
-    activeForumPanel2: ''
+    activeForumPanel2: '',
+    // 常用版块列表
+    commonForumList: []
 };
 
 /**
@@ -182,7 +185,7 @@ var normalize = function normalize(options) {
     var settings = {};
     if ($.type(options) !== 'object') return settings;
     $.each(options, function (key, value) {
-        if (key in Config) {
+        if (key in Config && $.type(value) === $.type(Config[key])) {
             settings[key] = value;
         }
     });
@@ -207,7 +210,11 @@ var Const = {
     // 上一次at提醒时间的Cookie名称
     prevAtTipsTimeCookieName: 'prev_at_tips_time',
     // 背景样式的Cookie名称
-    bgStyleCookieName: 'bg_style'
+    bgStyleCookieName: 'bg_style',
+    // 常用版块列表
+    commonForumList: [{ fid: 106, name: '新作动态' }, { fid: 41, name: '网盘下载' }, { fid: 16, name: '种子下载' }, { fid: 52, name: '游戏讨论' }, { fid: 84, name: '动漫讨论' }, { fid: 67, name: 'CG下载' }, { fid: 5, name: '自由讨论' }, { fid: 56, name: '个人日记' }, { fid: 57, name: '同人漫本' }],
+    // 可用版块列表
+    availableForumList: [{ fid: 106, name: '新作动态' }, { fid: 52, name: '游戏讨论' }, { fid: 16, name: '种子下载' }, { fid: 41, name: '网盘下载' }, { fid: 67, name: 'CG下载' }, { fid: 102, name: '游戏推荐' }, { fid: 24, name: '疑难互助' }, { fid: 57, name: '同人漫本' }, { fid: 84, name: '动漫讨论' }, { fid: 92, name: '动画共享' }, { fid: 127, name: '漫画小说' }, { fid: 68, name: '音乐共享' }, { fid: 163, name: 'LIVE共享' }, { fid: 182, name: '转载资源' }, { fid: 94, name: '原创绘画' }, { fid: 87, name: '宅物交流' }, { fid: 86, name: '电子产品' }, { fid: 115, name: '文字作品' }, { fid: 96, name: '图片来源' }, { fid: 36, name: '寻求资源' }, { fid: 5, name: '自由讨论' }, { fid: 56, name: '个人日记' }, { fid: 9, name: '我的关注' }, { fid: 4, name: '意见投诉' }, { fid: 93, name: '管理组区' }, { fid: 59, name: '原创组区' }, { fid: 125, name: '水楼林立' }, { fid: 181, name: '私人日记' }, { fid: 42, name: '旧期资料' }, { fid: 128, name: '作品判定' }, { fid: 98, name: '日本语版' }, { fid: 99, name: '意見箱' }, { fid: 112, name: '掲示板' }, { fid: 100, name: '創作感想' }]
 };
 
 exports.default = Const;
@@ -1007,13 +1014,21 @@ var addSmileCode = exports.addSmileCode = function addSmileCode($node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleForumPanel = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
+exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _util = require('./util');
 
 var Util = _interopRequireWildcard(_util);
 
+var _const = require('./const');
+
+var _const2 = _interopRequireDefault(_const);
+
 var _config = require('./config');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1022,7 +1037,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  */
 var handleMainMenu = exports.handleMainMenu = function handleMainMenu() {
     $('#mainMenuTogglerBtn').click(function () {
-        $('#mainMenu').css('max-height', document.documentElement.clientHeight - 49 + 'px');
+        var maxHeight = document.documentElement.clientHeight - $(this).closest('.navbar').outerHeight();
+        if (maxHeight > 0) {
+            $('#mainMenu').css('max-height', maxHeight + 'px');
+        }
     });
 };
 
@@ -1102,31 +1120,6 @@ var handleSearchDialog = exports.handleSearchDialog = function handleSearchDialo
 };
 
 /**
- * 处理版块列表面板
- */
-var handleForumPanel = exports.handleForumPanel = function handleForumPanel() {
-    if (Config.activeForumPanel1) {
-        $('a[data-toggle="tab"][href="' + Config.activeForumPanel1 + '"]').tab('show');
-    }
-    if (Config.activeForumPanel2) {
-        $('a[data-toggle="tab"][href="' + Config.activeForumPanel2 + '"]').tab('show');
-    }
-
-    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-        var $target = $(e.target);
-        var targetPanel = $target.attr('href');
-        if (!targetPanel.includes('ForumPanel')) return;
-        var typeName = '';
-        if (targetPanel === '#galgameForumPanel' || targetPanel === '#resourceForumPanel') typeName = 'activeForumPanel1';else if (targetPanel === '#discussForumPanel' || targetPanel === '#acgForumPanel') typeName = 'activeForumPanel2';
-        if (typeName && Config[typeName] !== targetPanel) {
-            (0, _config.read)();
-            Config[typeName] = targetPanel;
-            (0, _config.write)();
-        }
-    });
-};
-
-/**
  * 处理分页导航
  */
 var handlePageInput = exports.handlePageInput = function handlePageInput() {
@@ -1156,7 +1149,151 @@ var bindFastSubmitShortcutKey = exports.bindFastSubmitShortcutKey = function bin
     });
 };
 
-},{"./config":2,"./util":9}],8:[function(require,module,exports){
+/**
+ * 显示编辑常用版块对话框
+ */
+var showEditCommonForumDialog = exports.showEditCommonForumDialog = function showEditCommonForumDialog() {
+    $(document).on('click', '.edit-common-forum-btn', function (e) {
+        e.preventDefault();
+        (0, _config.read)();
+
+        var commonForumList = Config.commonForumList.length > 0 ? Config.commonForumList : _const2.default.commonForumList;
+        var commonForumListHtml = '';
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = commonForumList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var _step$value = _step.value;
+                var fid = _step$value.fid;
+                var name = _step$value.name;
+
+                commonForumListHtml += '<span class="btn btn-outline-primary" data-fid="' + fid + '">' + name + '</span>';
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
+        var availableForumListHtml = '';
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+            var _loop = function _loop() {
+                var _step2$value = _step2.value;
+                var fid = _step2$value.fid;
+                var name = _step2$value.name;
+
+                if (commonForumList.find(function (elem) {
+                    return elem.fid === fid;
+                })) return 'continue';
+                availableForumListHtml += '<span class="btn btn-outline-primary" data-fid="' + fid + '">' + name + '</span>';
+            };
+
+            for (var _iterator2 = _const2.default.availableForumList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var _ret2 = _loop();
+
+                if (_ret2 === 'continue') continue;
+            }
+        } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                    _iterator2.return();
+                }
+            } finally {
+                if (_didIteratorError2) {
+                    throw _iteratorError2;
+                }
+            }
+        }
+
+        var $dialog = $('\n<div class="modal fade" id="editCommonForumDialog" tabindex="-1" role="dialog" aria-labelledby="editCommonForumDialogTitle" aria-hidden="true">\n  <div class="modal-dialog" role="document">\n    <div class="modal-content">\n      <div class="modal-header">\n        <button class="close" data-dismiss="modal" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <h4 class="modal-title" id="editCommonForumDialogTitle">\u5E38\u7528\u7248\u5757</h4>\n      </div>\n      <div class="modal-body">\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u5E38\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editCommonForumList">' + commonForumListHtml + '</div>\n        </fieldset>\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u53EF\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editAvailableForumList">' + availableForumListHtml + '</div>\n        </fieldset>\n      </div>\n      <div class="modal-footer">\n        <button class="btn btn-primary" data-action="save" type="button">\u4FDD\u5B58</button>\n        <button class="btn btn-secondary" data-dismiss="modal" type="button">\u53D6\u6D88</button>\n        <button class="btn btn-danger" data-action="reset" type="button">\u91CD\u7F6E</button>\n      </div>\n    </div>\n  </div>\n</div>\n').appendTo('body').modal('show');
+        dragula($('.edit-forum-list').get(), { revertOnSpill: true });
+
+        $dialog.on('hidden.bs.modal', function () {
+            $(this).remove();
+        }).find('[data-action="save"]').click(function () {
+            Config.commonForumList = [];
+            $('#editCommonForumList').children('.btn').each(function () {
+                var $this = $(this);
+                var fid = parseInt($this.data('fid'));
+                var name = $this.text().trim();
+                if (!fid || !name) return;
+                Config.commonForumList.push({ fid: fid, name: name });
+            });
+            (0, _config.write)();
+            alert('设置已保存');
+            $dialog.modal('hide');
+            location.reload();
+        }).end().find('[data-action="reset"]').click(function () {
+            if (!confirm('是否重置？')) return;
+            Config.commonForumList = [];
+            (0, _config.write)();
+            alert('设置已重置');
+            $dialog.modal('hide');
+            location.reload();
+        });
+    });
+};
+
+/**
+ * 填充常用版块面板
+ */
+var fillCommonForumPanel = exports.fillCommonForumPanel = function fillCommonForumPanel() {
+    var commonForumList = Config.commonForumList.length > 0 ? Config.commonForumList : _const2.default.commonForumList;
+    var html = '';
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+        for (var _iterator3 = commonForumList.entries()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            var _step3$value = _slicedToArray(_step3.value, 2);
+
+            var index = _step3$value[0];
+            var _step3$value$ = _step3$value[1];
+            var _fid = _step3$value$.fid;
+            var name = _step3$value$.name;
+
+            if (index === 0 || index % 3 === 0) html += '<div class="row mb-1">';
+            html += '\n<div class="col-xs-4">\n  <a class="btn btn-outline-primary btn-block" href="' + Util.makeUrl('thread') + '/' + _fid + '">' + name + '</a>\n</div>\n';
+            if (index === commonForumList.length - 1 || index % 3 === 2) html += '</div>';
+        }
+    } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                _iterator3.return();
+            }
+        } finally {
+            if (_didIteratorError3) {
+                throw _iteratorError3;
+            }
+        }
+    }
+
+    $('.common-forum-panel').html(html);
+};
+
+},{"./config":2,"./const":3,"./util":9}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1647,9 +1784,8 @@ var getDate = exports.getDate = function getDate(value) {
  */
 var getStrByteLen = exports.getStrByteLen = function getStrByteLen(str) {
     var len = 0;
-    var sLen = str.includes('\n') ? str.replace(/\r?\n/g, '_').length : str.length;
     var cLen = 2;
-    for (var i = 0; i < sLen; i++) {
+    for (var i = 0; i < str.length; i++) {
         len += str.charCodeAt(i) < 0 || str.charCodeAt(i) > 255 ? cLen : 1;
     }
     return len;
@@ -1894,11 +2030,10 @@ var deepEqual = exports.deepEqual = function deepEqual(a, b) {
     if (typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b)) return true;
     if ($.isArray(a) && $.isArray(b) || $.type(a) === 'object' && $.type(b) === 'object') {
         if (a.length !== b.length) return false;
-        var c = $.extend($.isArray(a) ? [] : {}, a, b);
-        $.each(c, function (i) {
+        for (var i in $.extend($.isArray(a) ? [] : {}, a, b)) {
             if (typeof a[i] === 'undefined' || typeof b[i] === 'undefined') return false;
             if (!deepEqual(a[i], b[i])) return false;
-        });
+        }
         return true;
     }
     return false;

@@ -6,10 +6,43 @@ $font-size-root: 14px;
 // 超大字体
 $font-size-xl: 1.5rem; // ~21px
 
+// 标准间隔
+$spacer: 1rem;
+// 标准间隔（水平）
+$spacer-x: $spacer;
+// 标准间隔（垂直）
+$spacer-y: $spacer;
 // 较小间隔
-$spacer-sm: .5714rem; // ~8px
+$spacer-sm: $spacer / 1.75; // ~8px
 // 超小间隔
-$spacer-xs: .3571rem; // ~5px
+$spacer-xs: $spacer / 2.8; // ~5px
+// 间隔列表
+$spacers: (
+        0: (
+                x: 0,
+                y: 0
+        ),
+        1: (
+                x: $spacer-x,
+                y: $spacer-y
+        ),
+        2: (
+                x: ($spacer-x * 1.5),
+                y: ($spacer-y * 1.5)
+        ),
+        3: (
+                x: ($spacer-x * 3),
+                y: ($spacer-y * 3)
+        ),
+        sm: (
+                x: $spacer-sm,
+                y: $spacer-sm
+        ),
+        xs: (
+                x: $spacer-xs,
+                y: $spacer-xs
+        )
+);
 
 // 背景透明度
 $bg-opacity: .5;
@@ -54,8 +87,8 @@ $custom-select-indicator: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='htt
 $modal-header-border-color: darken(#e5e5e5, 1%);
 
 // 引用框背景
-$blockquote-bg: rgba(darken($body-bg, 6%), $bg-opacity-lighter);
+$blockquote-bg: rgba(darken($body-bg, 7%), $bg-opacity-lighter);
 // 引用框边框宽度
 $blockquote-border-width: .3rem;
 // 引用框边框颜色
-$blockquote-border-color: darken($body-bg, 10%);
+$blockquote-border-color: darken($body-bg, 11%);

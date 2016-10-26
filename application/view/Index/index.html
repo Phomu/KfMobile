@@ -53,8 +53,12 @@
         <a class="nav-link active" data-toggle="tab" href="#indexCommonForumPanel" role="tab" aria-controls="indexCommonForumPanel">常用版块</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#indexGalgameForumPanel" role="tab"
-           aria-controls="indexGalgameForumPanel">游戏区</a>
+        <a class="nav-link nav-link-btn edit-common-forum-btn" href="#" title="编辑常用版块" aria-label="编辑常用版块">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#indexGalgameForumPanel" role="tab" aria-controls="indexGalgameForumPanel">游戏区</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#indexResourceForumPanel" role="tab" aria-controls="indexResourceForumPanel">动漫区</a>
@@ -69,45 +73,7 @@
 
     <!-- 版块列表 Panel -->
     <div class="tab-content" id="indexForumPanel">
-      <div class="tab-pane active" id="indexCommonForumPanel" role="tabpanel">
-        <div class="row mb-1">
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作动态</a>
-          </div>
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=41')}">网盘下载</a>
-          </div>
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=16')}">种子下载</a>
-          </div>
-        </div>
-        <div class="row mb-1">
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=52')}">游戏讨论</a>
-          </div>
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=84')}">动漫讨论</a>
-          </div>
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=67')}">CG下载</a>
-          </div>
-        </div>
-        <div class="row mb-1">
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=5')}">自由讨论</a>
-          </div>
-          <div class="col-xs-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=56')}">个人日记</a>
-          </div>
-          <div class="col-xs-4">
-            {eq name="uid" value="39286"}
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=86')}">电子产品</a>
-            {else /}
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=57')}">同人漫本</a>
-            {/eq}
-          </div>
-        </div>
-      </div>
+      <div class="tab-pane active common-forum-panel" id="indexCommonForumPanel" role="tabpanel"></div>
 
       <div class="tab-pane" id="indexGalgameForumPanel" role="tabpanel">
         <div class="row mb-1">
@@ -379,7 +345,7 @@
     <h4 class="card-header mb-0">
       <i class="fa fa-signal" aria-hidden="true"></i> 选择背景
     </h4>
-    <div class="card-block" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
+    <div class="card-block p-sm" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
       {volist name="Think.config.bg_image_list" id="vo"}
       <span class="img-thumbnail bg-sprite bg-sprite-{$i}" data-id="{$i}" data-filename="{$vo}"></span>
       {/volist}

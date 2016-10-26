@@ -5,9 +5,10 @@ import {
     handleMainMenu,
     handleRollToTopOrBottomBtn,
     handleSearchDialog,
-    handleForumPanel,
     handlePageInput,
     bindFastSubmitShortcutKey,
+    showEditCommonForumDialog,
+    fillCommonForumPanel
 } from './module/public';
 
 import {
@@ -71,7 +72,8 @@ $(function () {
     handleMainMenu();
     handleRollToTopOrBottomBtn();
     handleSearchDialog();
-    //handleForumPanel();
+    fillCommonForumPanel();
+    showEditCommonForumDialog();
     if ($('.page-input').length > 0) {
         handlePageInput();
     }
