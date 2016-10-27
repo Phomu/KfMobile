@@ -14,12 +14,26 @@ var del = require('del');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 
+// Path definition
 var staticPath = 'public/static/';
+
 var srcPath = staticPath + 'src/';
+var jsSrcPath = srcPath + 'js/';
+var jsLibSrcPath = jsSrcPath + 'lib/';
+var sassSrcPath = srcPath + 'sass/';
+var cssSrcPath = srcPath + 'css/';
+var fontSrcPath = srcPath + 'fonts/';
+var imgSrcPath = srcPath + 'img/';
+
 var distPath = staticPath + 'dist/';
+var jsDistPath = distPath + 'js/';
+var jsLibDistPath = jsDistPath + 'lib/';
+var cssDistPath = distPath + 'css/';
+var fontDistPath = distPath + 'fonts/';
+var imgDistPath = distPath + 'img/';
 
 var getBrowserify = function () {
-    return browserify({entries: [srcPath + 'js/app.js'], debug: true})
+    return browserify({entries: [jsSrcPath + 'app.js'], debug: true})
         .transform(babelify, {presets: ['es2015', 'es2016', 'es2017']});
 };
 
@@ -29,13 +43,13 @@ var compileScript = function (bundler) {
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(gulp.dest(distPath + 'js/'))
+        .pipe(gulp.dest(jsDistPath))
         .pipe(uglify())
         .pipe(rename(function (path) {
             path.basename += '.min';
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(distPath + 'js/'));
+        .pipe(gulp.dest(jsDistPath));
 };
 
 gulp.task('script', function () {
@@ -43,10 +57,10 @@ gulp.task('script', function () {
 });
 
 gulp.task('sass', function () {
-    gulp.src(srcPath + 'sass/*.scss')
+    gulp.src(sassSrcPath + '*.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest(srcPath + 'css/'))
+        .pipe(gulp.dest(cssSrcPath))
         .pipe(minifycss())
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.4', 'iOS >= 7']
@@ -55,12 +69,12 @@ gulp.task('sass', function () {
             path.basename += '.min';
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(distPath + 'css/'));
+        .pipe(gulp.dest(cssDistPath));
 });
 
 var bundler = watchify(getBrowserify());
 gulp.task('watch', function () {
-    gulp.watch(srcPath + 'sass/*.scss', ['sass']);
+    gulp.watch(sassSrcPath + '*.scss', ['sass']);
 
     bundler.on('update', function () {
         console.log('-> Compiling Script...');
@@ -71,18 +85,18 @@ gulp.task('watch', function () {
 });
 
 gulp.task('clean', function (cb) {
-    return del([srcPath + 'css/', distPath], cb);
+    return del([cssSrcPath, distPath], cb);
 });
 
 gulp.task('copy', function () {
-    gulp.src(srcPath + 'js/lib/*.js')
-        .pipe(gulp.dest(distPath + 'js/lib/'));
+    gulp.src(jsLibSrcPath + '*.js')
+        .pipe(gulp.dest(jsLibDistPath));
 
-    gulp.src(srcPath + 'fonts/**/*.*')
-        .pipe(gulp.dest(distPath + 'fonts/'));
+    gulp.src(fontSrcPath + '**/*.*')
+        .pipe(gulp.dest(fontDistPath));
 
-    gulp.src(srcPath + 'img/**/*.*')
-        .pipe(gulp.dest(distPath + 'img/'));
+    gulp.src(imgSrcPath + '**/*.*')
+        .pipe(gulp.dest(imgDistPath));
 });
 
 gulp.task('build', function (cb) {
