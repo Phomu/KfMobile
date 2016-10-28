@@ -2,7 +2,6 @@
 import {init as initConfig} from './module/config';
 
 import {
-    handleMainMenu,
     handleRollToTopOrBottomBtn,
     handleSearchDialog,
     handlePageInput,
@@ -69,7 +68,6 @@ $(function () {
     }
     initConfig();
 
-    handleMainMenu();
     handleRollToTopOrBottomBtn();
     handleSearchDialog();
     fillCommonForumPanel();

@@ -4,18 +4,6 @@ import Const from './const';
 import {read as readConfig, write as writeConfig} from './config';
 
 /**
- * 处理主菜单
- */
-export const handleMainMenu = function () {
-    $('#mainMenuTogglerBtn').click(function () {
-        let maxHeight = document.documentElement.clientHeight - $(this).closest('.navbar').outerHeight();
-        if (maxHeight > 0) {
-            $('#mainMenu').css('max-height', maxHeight + 'px');
-        }
-    });
-};
-
-/**
  * 处理滚动到页顶/页底按钮
  */
 export const handleRollToTopOrBottomBtn = function () {
@@ -174,8 +162,9 @@ export const showEditCommonForumDialog = function () {
   </div>
 </div>
 `).appendTo('body').modal('show');
+
         dragula(
-            $('.edit-forum-list').get(),
+            $dialog.find('.edit-forum-list').get(),
             {revertOnSpill: true}
         );
 

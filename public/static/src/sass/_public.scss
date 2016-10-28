@@ -19,6 +19,7 @@ main {
 
 // 主菜单
 #mainMenu {
+  max-height: calc(100% - 49px);
   overflow-y: auto;
 }
 

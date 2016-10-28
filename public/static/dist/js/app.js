@@ -26,7 +26,6 @@ $(function () {
     }
     (0, _config.init)();
 
-    (0, _public.handleMainMenu)();
     (0, _public.handleRollToTopOrBottomBtn)();
     (0, _public.handleSearchDialog)();
     (0, _public.fillCommonForumPanel)();
@@ -1014,7 +1013,7 @@ var addSmileCode = exports.addSmileCode = function addSmileCode($node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
+exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1031,18 +1030,6 @@ var _config = require('./config');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * 处理主菜单
- */
-var handleMainMenu = exports.handleMainMenu = function handleMainMenu() {
-    $('#mainMenuTogglerBtn').click(function () {
-        var maxHeight = document.documentElement.clientHeight - $(this).closest('.navbar').outerHeight();
-        if (maxHeight > 0) {
-            $('#mainMenu').css('max-height', maxHeight + 'px');
-        }
-    });
-};
 
 /**
  * 处理滚动到页顶/页底按钮
@@ -1224,7 +1211,8 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
         }
 
         var $dialog = $('\n<div class="modal fade" id="editCommonForumDialog" tabindex="-1" role="dialog" aria-labelledby="editCommonForumDialogTitle" aria-hidden="true">\n  <div class="modal-dialog" role="document">\n    <div class="modal-content">\n      <div class="modal-header">\n        <button class="close" data-dismiss="modal" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <h4 class="modal-title" id="editCommonForumDialogTitle">\u5E38\u7528\u7248\u5757</h4>\n      </div>\n      <div class="modal-body">\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u5E38\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editCommonForumList">' + commonForumListHtml + '</div>\n        </fieldset>\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u53EF\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editAvailableForumList">' + availableForumListHtml + '</div>\n        </fieldset>\n      </div>\n      <div class="modal-footer">\n        <button class="btn btn-primary" data-action="save" type="button">\u4FDD\u5B58</button>\n        <button class="btn btn-secondary" data-dismiss="modal" type="button">\u53D6\u6D88</button>\n        <button class="btn btn-danger" data-action="reset" type="button">\u91CD\u7F6E</button>\n      </div>\n    </div>\n  </div>\n</div>\n').appendTo('body').modal('show');
-        dragula($('.edit-forum-list').get(), { revertOnSpill: true });
+
+        dragula($dialog.find('.edit-forum-list').get(), { revertOnSpill: true });
 
         $dialog.on('hidden.bs.modal', function () {
             $(this).remove();
