@@ -351,7 +351,7 @@ class Read extends Responser
             $pqNode->find('legend')->remove();
             $codeHtml = $pqNode->html();
             $pqNode->replaceWith(
-                '<div class="code-area"><a class="copy-code" href="#" role="button">复制代码</a>' .
+                '<div class="code-area"><a class="copy-code" href="#" title="复制代码" role="button">复制代码</a>' .
                 '<pre class="pre-scrollable">' . $codeHtml . '</pre></div>'
             );
         } elseif ($pqNode->find('legend:contains("提示")')->length > 0) {

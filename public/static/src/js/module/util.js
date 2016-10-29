@@ -291,3 +291,29 @@ export const deepEqual = function (a, b) {
     }
     return false;
 };
+
+/**
+ * 复制文本
+ * @param {jQuery} $target 要复制文本的目标元素
+ * @param {?jQuery} $source 触发事件的源元素
+ * @returns {boolean} 是否复制成功
+ */
+export const copyText = function ($target, $source = null) {
+    if (!('execCommand' in document) || !$target.length) return false;
+    let copyText = $target.data('copy-text');
+    if (copyText) {
+        $target = $(`<span class="text-hide">${copyText}</span>`).insertAfter($target);
+    }
+    let s = window.getSelection();
+    s.selectAllChildren($target.get(0));
+    let result = document.execCommand('copy');
+    s.removeAllRanges();
+    if (copyText) $target.remove();
+    if (result && $source) {
+        let msg = $source.data('copy-msg');
+        $source.attr('title', msg ? msg : '已复制').on('hidden.bs.tooltip', function () {
+            $(this).tooltip('dispose');
+        }).tooltip('show');
+    }
+    return result;
+};

@@ -5341,12 +5341,13 @@ main {
     font-size: 0.875rem;
     text-align: left !important;
     background-color: rgba(234, 234, 234, 0.7); }
-    .read-content .code-area a {
+    .read-content .code-area .copy-code {
       line-height: 2.5; }
     .read-content .code-area pre {
       padding-bottom: 0.57143rem;
       font-size: inherit;
-      word-wrap: normal; }
+      word-wrap: normal;
+      overflow-y: auto; }
     .read-content .code-area .code-textarea {
       height: 340px;
       font-size: inherit; }

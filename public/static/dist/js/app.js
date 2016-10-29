@@ -43,7 +43,7 @@ $(function () {
     } else if (pageId === 'readPage') {
         (0, _read.fastGotoFloor)();
         (0, _read.tuiThread)();
-        (0, _read.showFloorLink)();
+        (0, _read.handleCopyFloorLinkBtn)();
         (0, _read.handleFastReplyBtn)();
         (0, _read.handleBlockFloorBtn)();
         (0, _read.handleBuyThreadBtn)();
@@ -51,7 +51,7 @@ $(function () {
         (0, _read.handleFloorImage)();
         (0, _post.checkPostForm)();
         (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
-        (0, _read.copyCode)();
+        (0, _read.handleCopyCodeBtn)();
         (0, _read.bindMultiQuoteCheckClick)();
         (0, _read.handleClearMultiQuoteDataBtn)(1);
         (0, _post.addSmileCode)($('#postContent'));
@@ -83,7 +83,7 @@ $(function () {
         (0, _other.bindMessageActionBtnsClick)();
     } else if (pageId === 'readMessagePage') {
         (0, _read.handleFloorImage)();
-        (0, _read.copyCode)();
+        (0, _read.handleCopyCodeBtn)();
     } else if (pageId === 'writeMessagePage') {
         (0, _public.bindFastSubmitShortcutKey)($('#msgContent'));
         (0, _post.addSmileCode)($('#msgContent'));
@@ -1300,7 +1300,7 @@ var fillCommonForumPanel = exports.fillCommonForumPanel = function fillCommonFor
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleClearMultiQuoteDataBtn = exports.bindMultiQuoteCheckClick = exports.copyCode = exports.tuiThread = exports.fastGotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.showFloorLink = undefined;
+exports.handleClearMultiQuoteDataBtn = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.tuiThread = exports.fastGotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
 
 var _util = require('./util');
 
@@ -1319,12 +1319,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 /**
- * 显示楼层跳转链接
+ * 处理复制楼层跳转链接按钮
  */
-var showFloorLink = exports.showFloorLink = function showFloorLink() {
+var handleCopyFloorLinkBtn = exports.handleCopyFloorLinkBtn = function handleCopyFloorLinkBtn() {
     $(document).on('click', '.floor-num', function (e) {
         e.preventDefault();
-        prompt('本楼的跳转链接：', Util.getHostNameUrl() + $(this).attr('href'));
+        var $this = $(this);
+        var link = Util.getHostNameUrl() + $this.attr('href');
+        $this.data('copy-text', link);
+        if (!Util.copyText($this, $this)) {
+            prompt('本楼的跳转链接：', link);
+        }
     });
 };
 
@@ -1474,12 +1479,14 @@ var tuiThread = exports.tuiThread = function tuiThread() {
 };
 
 /**
- * 复制代码
+ * 处理复制代码按钮
  */
-var copyCode = exports.copyCode = function copyCode() {
+var handleCopyCodeBtn = exports.handleCopyCodeBtn = function handleCopyCodeBtn() {
     $(document).on('click', '.copy-code', function (e) {
         e.preventDefault();
         var $this = $(this);
+        if (Util.copyText($this.next('pre'), $this)) return;
+
         var code = $this.data('code');
         if (code) {
             $this.text('复制代码').removeData('code');
@@ -2038,6 +2045,34 @@ var deepEqual = exports.deepEqual = function deepEqual(a, b) {
         return true;
     }
     return false;
+};
+
+/**
+ * 复制文本
+ * @param {jQuery} $target 要复制文本的目标元素
+ * @param {?jQuery} $source 触发事件的源元素
+ * @returns {boolean} 是否复制成功
+ */
+var copyText = exports.copyText = function copyText($target) {
+    var $source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    if (!('execCommand' in document) || !$target.length) return false;
+    var copyText = $target.data('copy-text');
+    if (copyText) {
+        $target = $('<span class="text-hide">' + copyText + '</span>').insertAfter($target);
+    }
+    var s = window.getSelection();
+    s.selectAllChildren($target.get(0));
+    var result = document.execCommand('copy');
+    s.removeAllRanges();
+    if (copyText) $target.remove();
+    if (result && $source) {
+        var msg = $source.data('copy-msg');
+        $source.attr('title', msg ? msg : '已复制').on('hidden.bs.tooltip', function () {
+            $(this).tooltip('dispose');
+        }).tooltip('show');
+    }
+    return result;
 };
 
 },{}]},{},[1])

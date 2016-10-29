@@ -4,12 +4,17 @@ import Const from './const';
 import {write as writeConfig} from './config';
 
 /**
- * 显示楼层跳转链接
+ * 处理复制楼层跳转链接按钮
  */
-export const showFloorLink = function () {
+export const handleCopyFloorLinkBtn = function () {
     $(document).on('click', '.floor-num', function (e) {
         e.preventDefault();
-        prompt('本楼的跳转链接：', Util.getHostNameUrl() + $(this).attr('href'));
+        let $this = $(this);
+        let link = Util.getHostNameUrl() + $this.attr('href');
+        $this.data('copy-text', link);
+        if (!Util.copyText($this, $this)) {
+            prompt('本楼的跳转链接：', link);
+        }
     });
 };
 
@@ -164,12 +169,14 @@ export const tuiThread = function () {
 };
 
 /**
- * 复制代码
+ * 处理复制代码按钮
  */
-export const copyCode = function () {
+export const handleCopyCodeBtn = function () {
     $(document).on('click', '.copy-code', function (e) {
         e.preventDefault();
         let $this = $(this);
+        if (Util.copyText($this.next('pre'), $this)) return;
+
         let code = $this.data('code');
         if (code) {
             $this.text('复制代码').removeData('code');

@@ -22,13 +22,13 @@ import {
 import {
     fastGotoFloor,
     tuiThread,
-    showFloorLink,
+    handleCopyFloorLinkBtn,
     handleFastReplyBtn,
     handleBlockFloorBtn,
     handleBuyThreadBtn,
     copyBuyThreadList,
     handleFloorImage,
-    copyCode,
+    handleCopyCodeBtn,
     bindMultiQuoteCheckClick,
     handleClearMultiQuoteDataBtn,
 } from './module/read';
@@ -87,7 +87,7 @@ $(function () {
     else if (pageId === 'readPage') {
         fastGotoFloor();
         tuiThread();
-        showFloorLink();
+        handleCopyFloorLinkBtn();
         handleFastReplyBtn();
         handleBlockFloorBtn();
         handleBuyThreadBtn();
@@ -95,7 +95,7 @@ $(function () {
         handleFloorImage();
         checkPostForm();
         bindFastSubmitShortcutKey($('#postContent'));
-        copyCode();
+        handleCopyCodeBtn();
         bindMultiQuoteCheckClick();
         handleClearMultiQuoteDataBtn(1);
         addSmileCode($('#postContent'));
@@ -140,7 +140,7 @@ $(function () {
     }
     else if (pageId === 'readMessagePage') {
         handleFloorImage();
-        copyCode();
+        handleCopyCodeBtn();
     }
     else if (pageId === 'writeMessagePage') {
         bindFastSubmitShortcutKey($('#msgContent'));

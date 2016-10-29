@@ -185,7 +185,7 @@
       <div class="media-body">
         <div class="clearfix">
           <div class="media-heading float-xs-left">
-            <a class="font-size-sm text-muted floor-num"
+            <a class="font-size-sm text-muted floor-num" title="复制楼层链接"
                href="{:url('Read/index?tid=' . $tid . ($vo['pid'] !== 'tpc' ? '&spid=' . $vo['pid'] : ''))}" role="button">
               {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
             </a>

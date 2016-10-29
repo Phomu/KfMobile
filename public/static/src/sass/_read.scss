@@ -92,7 +92,7 @@
     text-align: left !important;
     background-color: $blockquote-bg;
 
-    a {
+    .copy-code {
       line-height: 2.5;
     }
 
@@ -100,6 +100,7 @@
       padding-bottom: $spacer-sm;
       font-size: inherit;
       word-wrap: normal;
+      overflow-y: auto;
     }
 
     .code-textarea {
