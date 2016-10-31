@@ -34,11 +34,6 @@ main {
   font-size: $font-size-sm;
   text-align: center;
   background-color: rgba(darken($body-bg, 10%), $bg-opacity);
-
-  // 版本号
-  .version {
-    color: darken($brand-warning, 10%);
-  }
 }
 
 // 滚动到页顶/页底按钮

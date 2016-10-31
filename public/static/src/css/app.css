@@ -5203,8 +5203,6 @@ main {
   font-size: 0.875rem;
   text-align: center;
   background-color: rgba(227, 227, 227, 0.5); }
-  .main-footer .version {
-    color: #ec971f; }
 
 #rollToTopOrBottom {
   position: fixed;

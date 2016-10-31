@@ -106,6 +106,15 @@ $(function () {
             handleMultiQuote(1);
         });
     }
+    else if (pageId === 'postPage') {
+        checkPostForm();
+        bindFastSubmitShortcutKey($('#postContent'));
+        handleEditorBtns();
+        addSmileCode($('#postContent'));
+        handleAttachBtns();
+        handleClearMultiQuoteDataBtn();
+        if (pageInfo.multiQuote) handleMultiQuote(2);
+    }
     else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
     }
@@ -154,15 +163,6 @@ $(function () {
     }
     else if (pageId === 'messageBannedPage') {
         bindFastSubmitShortcutKey($('[name="banidinfo"]'));
-    }
-    else if (pageId === 'postPage') {
-        checkPostForm();
-        bindFastSubmitShortcutKey($('#postContent'));
-        handleEditorBtns();
-        addSmileCode($('#postContent'));
-        handleAttachBtns();
-        handleClearMultiQuoteDataBtn();
-        if (pageInfo.multiQuote) handleMultiQuote(2);
     }
 
     //let tooltipStartTime = new Date();

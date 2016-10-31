@@ -25,7 +25,7 @@
   $(function () {
     $('#clearMsgBox').click(function (e) {
       e.preventDefault();
-      if (window.confirm('是否删除收件箱和发件箱内所有消息？')) {
+      if (confirm('是否删除收件箱和发件箱内所有消息？')) {
         location.href = $(this).data('url');
       }
     });

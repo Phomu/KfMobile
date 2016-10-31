@@ -59,6 +59,14 @@ $(function () {
         $('.multi-reply-btn').click(function () {
             (0, _post.handleMultiQuote)(1);
         });
+    } else if (pageId === 'postPage') {
+        (0, _post.checkPostForm)();
+        (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
+        (0, _post.handleEditorBtns)();
+        (0, _post.addSmileCode)($('#postContent'));
+        (0, _post.handleAttachBtns)();
+        (0, _post.handleClearMultiQuoteDataBtn)();
+        if (pageInfo.multiQuote) (0, _post.handleMultiQuote)(2);
     } else if (pageId === 'gjcPage') {
         (0, _other.highlightUnReadAtTipsMsg)();
     } else if (pageId === 'gameIntroSearchPage') {
@@ -93,14 +101,6 @@ $(function () {
         (0, _post.addSmileCode)($('#msgContent'));
     } else if (pageId === 'messageBannedPage') {
         (0, _public.bindFastSubmitShortcutKey)($('[name="banidinfo"]'));
-    } else if (pageId === 'postPage') {
-        (0, _post.checkPostForm)();
-        (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
-        (0, _post.handleEditorBtns)();
-        (0, _post.addSmileCode)($('#postContent'));
-        (0, _post.handleAttachBtns)();
-        (0, _post.handleClearMultiQuoteDataBtn)();
-        if (pageInfo.multiQuote) (0, _post.handleMultiQuote)(2);
     }
 
     //let tooltipStartTime = new Date();

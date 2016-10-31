@@ -36,19 +36,20 @@
       <div class="message-header">
         <p>
           <i class="fa fa-user" aria-hidden="true"></i>
-          {eq name="action" value="read"}发件人{else /}收件人{/eq}:
+          {eq name="action" value="read"}发件人{else /}收件人{/eq}：
           {eq name="msgUserName|strtoupper" value="SYSTEM"}
           <span>{$msgUserName}</span>
           {else /}
           <a href="{:url('Profile/show', 'username=' . $msgUserName)}">{$msgUserName}</a>
           {/eq}
         </p>
-        <p title="标题" aria-label="标题">
-          <i class="fa fa-info-circle" aria-hidden="true"></i> {$msgTitle}
+        <p>
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          标题：{$msgTitle}
         </p>
-        <p title="发送时间" aria-label="发送时间">
+        <p>
           <i class="fa fa-calendar" aria-hidden="true"></i>
-          <time>{$sendTime}</time>
+          时间：<time>{$sendTime}</time>
         </p>
       </div>
       <hr>
@@ -58,16 +59,16 @@
       <a class="btn btn-primary {eq name='isTransfer' value='true'}disabled{/eq}" href="{:url('Message/write?remid=' . $mid)}">
         <i class="fa fa-reply" aria-hidden="true"></i> 回复
       </a>
-      <a class="btn btn-success" href="{:url('Message/job', 'action=unread&mid=' . $mid)}">
-        <i class="fa fa-bookmark" aria-hidden="true"></i> 标记未读
+      <a class="btn btn-success" href="{:url('Message/job', 'action=unread&mid=' . $mid)}" title="标记未读">
+        <i class="fa fa-bookmark" aria-hidden="true"></i> 未读
       </a>
       {else /}
       <a class="btn btn-primary" href="{:url('Message/write?touid=' . $toUid)}">
         <i class="fa fa-reply" aria-hidden="true"></i> 另发
       </a>
       {/eq}
-      <a class="btn btn-danger" href="{:url('Message/job', 'action=del&towhere=' . $toWhere . '&delids=' . $mid)}"
-         onclick="return window.confirm('是否删除该短消息？');">
+      <a class="btn btn-danger float-xs-right" href="{:url('Message/job', 'action=del&towhere=' . $toWhere . '&delids=' . $mid)}"
+         onclick="return confirm('是否删除该短消息？');">
         <i class="fa fa-trash" aria-hidden="true"></i> 删除
       </a>
     </div>
