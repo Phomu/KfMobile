@@ -42,8 +42,9 @@ $(function () {
         (0, _index.handleSelectBgColor)();
         (0, _index.handleCustomBgStyle)();
     } else if (pageId === 'readPage') {
-        (0, _read.fastGotoFloor)();
-        (0, _read.tuiThread)();
+        (0, _read.gotoFloor)();
+        (0, _read.handleFastGotoFloorBtn)();
+        (0, _read.handleTuiThreadBtn)();
         (0, _read.handleCopyFloorLinkBtn)();
         (0, _read.handleFastReplyBtn)();
         (0, _read.handleBlockFloorBtn)();
@@ -1612,7 +1613,7 @@ var preventCloseWindow = exports.preventCloseWindow = function preventCloseWindo
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.tuiThread = exports.fastGotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
+exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
 
 var _util = require('./util');
 
@@ -1623,6 +1624,10 @@ var _const = require('./const');
 var _const2 = _interopRequireDefault(_const);
 
 var _config = require('./config');
+
+var _msg = require('./msg');
+
+var Msg = _interopRequireWildcard(_msg);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1680,7 +1685,20 @@ var handleBuyThreadBtn = exports.handleBuyThreadBtn = function handleBuyThreadBt
         var pid = $this.data('pid');
         var price = $this.data('price');
         if (price > 5 && !confirm('\u6B64\u8D34\u552E\u4EF7' + price + 'KFB\uFF0C\u662F\u5426\u8D2D\u4E70\uFF1F')) return;
-        location.href = Util.makeUrl('job/buytopic', 'tid=' + pageInfo.tid + '&pid=' + pid + '&verify=' + pageInfo.verify);
+        var $wait = Msg.wait('正在购买帖子&hellip;');
+        $.get(Util.makeUrl('job/buytopic', 'tid=' + pageInfo.tid + '&pid=' + pid + '&verify=' + pageInfo.verify), function (_ref) {
+            var msg = _ref.msg;
+
+            Msg.remove($wait);
+            if (msg === '操作完成') {
+                location.reload();
+            } else if (msg.includes('您已经购买此帖')) {
+                alert('你已经购买过此帖');
+                location.reload();
+            } else {
+                alert('帖子购买失败');
+            }
+        });
     });
 };
 
@@ -1722,9 +1740,19 @@ var handleFloorImage = exports.handleFloorImage = function handleFloorImage() {
 };
 
 /**
- * 快速跳转到指定楼层
+ * 跳转到指定楼层
  */
-var fastGotoFloor = exports.fastGotoFloor = function fastGotoFloor() {
+var gotoFloor = exports.gotoFloor = function gotoFloor() {
+    if (pageInfo.floor && pageInfo.floor > 0) {
+        var hashName = $('article[data-floor="' + pageInfo.floor + '"]').prev('a').attr('name');
+        if (hashName) location.hash = '#' + hashName;
+    }
+};
+
+/**
+ * 处理快速跳转到指定楼层按钮
+ */
+var handleFastGotoFloorBtn = exports.handleFastGotoFloorBtn = function handleFastGotoFloorBtn() {
     $('.fast-goto-floor').click(function (e) {
         e.preventDefault();
         if (!Config.perPageFloorNum) {
@@ -1740,19 +1768,12 @@ var fastGotoFloor = exports.fastGotoFloor = function fastGotoFloor() {
         if (!floor || floor <= 0) return;
         location.href = Util.makeUrl(action, 'page=' + (Math.floor(floor / Config.perPageFloorNum) + 1) + '&floor=' + floor);
     });
-
-    if (pageInfo.floor && pageInfo.floor > 0) {
-        var hashName = $('article[data-floor="' + pageInfo.floor + '"]').prev('a').attr('name');
-        if (hashName) {
-            location.hash = '#' + hashName;
-        }
-    }
 };
 
 /**
- * 推帖子
+ * 处理推帖子按钮
  */
-var tuiThread = exports.tuiThread = function tuiThread() {
+var handleTuiThreadBtn = exports.handleTuiThreadBtn = function handleTuiThreadBtn() {
     $('.tui-btn').click(function (e) {
         e.preventDefault();
         var $this = $(this);
@@ -1855,7 +1876,7 @@ var bindMultiQuoteCheckClick = exports.bindMultiQuoteCheckClick = function bindM
     });
 };
 
-},{"./config":2,"./const":3,"./util":10}],10:[function(require,module,exports){
+},{"./config":2,"./const":3,"./msg":5,"./util":10}],10:[function(require,module,exports){
 'use strict';
 
 /**

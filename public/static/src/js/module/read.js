@@ -2,6 +2,7 @@
 import * as Util from './util';
 import Const from './const';
 import {write as writeConfig} from './config';
+import * as Msg from './msg';
 
 /**
  * 处理复制楼层跳转链接按钮
@@ -53,7 +54,21 @@ export const handleBuyThreadBtn = function () {
         let pid = $this.data('pid');
         let price = $this.data('price');
         if (price > 5 && !confirm(`此贴售价${price}KFB，是否购买？`)) return;
-        location.href = Util.makeUrl('job/buytopic', `tid=${pageInfo.tid}&pid=${pid}&verify=${pageInfo.verify}`);
+        let $wait = Msg.wait('正在购买帖子&hellip;');
+        $.get(Util.makeUrl('job/buytopic', `tid=${pageInfo.tid}&pid=${pid}&verify=${pageInfo.verify}`),
+            function ({msg}) {
+                Msg.remove($wait);
+                if (msg === '操作完成') {
+                    location.reload();
+                }
+                else if (msg.includes('您已经购买此帖')) {
+                    alert('你已经购买过此帖');
+                    location.reload();
+                }
+                else {
+                    alert('帖子购买失败');
+                }
+            });
     });
 };
 
@@ -96,9 +111,19 @@ export const handleFloorImage = function () {
 };
 
 /**
- * 快速跳转到指定楼层
+ * 跳转到指定楼层
  */
-export const fastGotoFloor = function () {
+export const gotoFloor = function () {
+    if (pageInfo.floor && pageInfo.floor > 0) {
+        let hashName = $(`article[data-floor="${pageInfo.floor}"]`).prev('a').attr('name');
+        if (hashName) location.hash = '#' + hashName;
+    }
+};
+
+/**
+ * 处理快速跳转到指定楼层按钮
+ */
+export const handleFastGotoFloorBtn = function () {
     $('.fast-goto-floor').click(function (e) {
         e.preventDefault();
         if (!Config.perPageFloorNum) {
@@ -115,24 +140,14 @@ export const fastGotoFloor = function () {
         if (!action) return;
         let floor = parseInt(prompt('你要跳转到哪一层楼？'));
         if (!floor || floor <= 0) return;
-        location.href = Util.makeUrl(
-            action,
-            `page=${Math.floor(floor / Config.perPageFloorNum) + 1}&floor=${floor}`
-        );
+        location.href = Util.makeUrl(action, `page=${Math.floor(floor / Config.perPageFloorNum) + 1}&floor=${floor}`);
     });
-
-    if (pageInfo.floor && pageInfo.floor > 0) {
-        let hashName = $(`article[data-floor="${pageInfo.floor}"]`).prev('a').attr('name');
-        if (hashName) {
-            location.hash = '#' + hashName;
-        }
-    }
 };
 
 /**
- * 推帖子
+ * 处理推帖子按钮
  */
-export const tuiThread = function () {
+export const handleTuiThreadBtn = function () {
     $('.tui-btn').click(function (e) {
         e.preventDefault();
         let $this = $(this);

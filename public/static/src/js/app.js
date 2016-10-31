@@ -21,8 +21,9 @@ import {
 } from './module/index';
 
 import {
-    fastGotoFloor,
-    tuiThread,
+    gotoFloor,
+    handleFastGotoFloorBtn,
+    handleTuiThreadBtn,
     handleCopyFloorLinkBtn,
     handleFastReplyBtn,
     handleBlockFloorBtn,
@@ -88,8 +89,9 @@ $(function () {
         handleCustomBgStyle();
     }
     else if (pageId === 'readPage') {
-        fastGotoFloor();
-        tuiThread();
+        gotoFloor();
+        handleFastGotoFloorBtn();
+        handleTuiThreadBtn();
         handleCopyFloorLinkBtn();
         handleFastReplyBtn();
         handleBlockFloorBtn();

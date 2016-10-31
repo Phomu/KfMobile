@@ -86,9 +86,13 @@ function convert_url($url)
         } elseif ($path === 'Personal.php') {
             if (strpos($params, 'action=post') !== false)
                 return url('Personal/reply', str_replace('action=post', '', $params));
+            else if (strpos($params, 'action') === false) return url('Personal/topic', $params);
         } elseif ($path === 'hack.php') {
-            if (strpos($params, 'H_name=bank') !== false)
-                return url('Bank/index', str_replace('H_name=bank', '', $params));
+            if (strpos($params, 'H_name=bank') !== false) {
+                $params = str_replace('H_name=bank', '', $params);
+                if (strpos($params, 'action=log') !== false) return url('Bank/log', str_replace('action=log', '', $params));
+                else return url('Bank/index', $params);
+            }
         } elseif ($path === 'message.php') {
             if (preg_match('/action=(\w+)/i', $params, $matches)) {
                 if (in_array($matches[1], ['receivebox', 'sendbox', 'scout']))
