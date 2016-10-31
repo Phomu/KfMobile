@@ -20,6 +20,8 @@ export const Config = {
     activeForumPanel2: '',
     // 常用版块列表
     commonForumList: [],
+    // 默认消息的持续时间（秒），设置为-1表示永久显示
+    defShowMsgDuration: -1,
 };
 
 /**

@@ -5,13 +5,6 @@
   }
 }
 
-// 生成文字溢出
-@mixin text-overflow() {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 // 生成警告框背景颜色
 @mixin alert-bg-make($name, $color, $opacity: $bg-opacity-lightest) {
   .alert-#{$name} {

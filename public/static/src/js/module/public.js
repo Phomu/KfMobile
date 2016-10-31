@@ -223,3 +223,16 @@ export const fillCommonForumPanel = function () {
     }
     $('.common-forum-panel').html(html);
 };
+
+/**
+ * 在操作进行时阻止关闭页面
+ */
+export const preventCloseWindow = function () {
+    window.addEventListener("beforeunload", function (e) {
+        if ($('.mask').length > 0) {
+            let msg = '正在进行操作中，确定要关闭页面吗？';
+            e.returnValue = msg;
+            return msg;
+        }
+    });
+};

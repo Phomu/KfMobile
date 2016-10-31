@@ -8,7 +8,8 @@ import {
     handlePageInput,
     bindFastSubmitShortcutKey,
     showEditCommonForumDialog,
-    fillCommonForumPanel
+    fillCommonForumPanel,
+    preventCloseWindow,
 } from './module/public';
 
 import {
@@ -69,6 +70,7 @@ $(function () {
     }
     initConfig();
 
+    preventCloseWindow();
     handleMainMenu();
     handleRollToTopOrBottomBtn();
     handleSearchDialog();

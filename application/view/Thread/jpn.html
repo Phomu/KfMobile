@@ -45,7 +45,7 @@
         <div class="thread-link-item">
           <a class="thread-link" href="{:url('Thread/index?fid=' . $vo['fid'])}">{$vo.forumName}</a>
         </div>
-        <footer class="thread-item-footer text-overflow">
+        <footer class="thread-item-footer text-truncate">
           <small>
             <a class="text-muted" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">{$vo.threadInfo}</a>
           </small>

@@ -142,7 +142,7 @@ export const extractQueryStr = function (str) {
     for (let param of str.split('&')) {
         if (!param) continue;
         let [key, value] = param.split('=');
-        params.set(key, value !== undefined ? value : '');
+        params.set(key, typeof value !== 'undefined' ? value : '');
     }
     return params;
 };

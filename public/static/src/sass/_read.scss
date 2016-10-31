@@ -46,7 +46,7 @@
   footer {
     // 签名
     .floor-sign {
-      @include text-overflow;
+      @include text-truncate;
       color: $text-muted;
       line-height: 2.171;
     }
@@ -158,7 +158,7 @@
   .my-other-thread-list {
     display: table-cell;
     max-width: 100%;
-    @include text-overflow;
+    @include text-truncate;
   }
 
   img, audio, video, marquee {

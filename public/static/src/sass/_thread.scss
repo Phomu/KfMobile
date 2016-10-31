@@ -11,7 +11,7 @@
   // 主题链接
   .thread-link {
     @include make-col(10);
-    @include text-overflow;
+    @include text-truncate;
     padding-left: $spacer-sm;
     line-height: $line-height;
 
@@ -79,7 +79,7 @@
       }
 
       small {
-        @include text-overflow;
+        @include text-truncate;
         padding: {
           left: 0;
           right: 0;

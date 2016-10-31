@@ -26,6 +26,7 @@ $(function () {
     }
     (0, _config.init)();
 
+    (0, _public.preventCloseWindow)();
     (0, _public.handleMainMenu)();
     (0, _public.handleRollToTopOrBottomBtn)();
     (0, _public.handleSearchDialog)();
@@ -134,7 +135,9 @@ var Config = exports.Config = {
     // 当前激活的版块列表面板2
     activeForumPanel2: '',
     // 常用版块列表
-    commonForumList: []
+    commonForumList: [],
+    // 默认消息的持续时间（秒），设置为-1表示永久显示
+    defShowMsgDuration: -1
 };
 
 /**
@@ -1014,7 +1017,7 @@ var addSmileCode = exports.addSmileCode = function addSmileCode($node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
+exports.preventCloseWindow = exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1292,6 +1295,19 @@ var fillCommonForumPanel = exports.fillCommonForumPanel = function fillCommonFor
     }
 
     $('.common-forum-panel').html(html);
+};
+
+/**
+ * 在操作进行时阻止关闭页面
+ */
+var preventCloseWindow = exports.preventCloseWindow = function preventCloseWindow() {
+    window.addEventListener("beforeunload", function (e) {
+        if ($('.mask').length > 0) {
+            var msg = '正在进行操作中，确定要关闭页面吗？';
+            e.returnValue = msg;
+            return msg;
+        }
+    });
 };
 
 },{"./config":2,"./const":3,"./util":9}],8:[function(require,module,exports){
@@ -1860,7 +1876,7 @@ var extractQueryStr = exports.extractQueryStr = function extractQueryStr(str) {
             var key = _param$split2[0];
             var value = _param$split2[1];
 
-            params.set(key, value !== undefined ? value : '');
+            params.set(key, typeof value !== 'undefined' ? value : '');
         }
     } catch (err) {
         _didIteratorError = true;

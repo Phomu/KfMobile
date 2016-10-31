@@ -5,11 +5,6 @@
 @include font-size-make(sm, $font-size-sm);
 @include font-size-make(xs, $font-size-xs);
 
-// 文字溢出
-.text-overflow {
-  @include text-overflow();
-}
-
 // 列表组（紧凑）
 .list-group-sm {
   .list-group-item {

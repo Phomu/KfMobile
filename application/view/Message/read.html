@@ -30,10 +30,10 @@
   {include file="Message/nav" /}
 
   <!-- 查看消息 -->
-  <div class="card msg-box">
+  <div class="card message-box">
     <h5 class="card-header mb-0">查看消息</h5>
     <div class="card-block p-sm">
-      <div class="msg-header">
+      <div class="message-header">
         <p>
           <i class="fa fa-user" aria-hidden="true"></i>
           {eq name="action" value="read"}发件人{else /}收件人{/eq}:
@@ -52,7 +52,7 @@
         </p>
       </div>
       <hr>
-      <div class="read-content msg-content" aria-label="短消息内容">{$msgContent}</div>
+      <div class="read-content message-content" aria-label="短消息内容">{$msgContent}</div>
       <hr>
       {eq name="action" value="read"}
       <a class="btn btn-primary {eq name='isTransfer' value='true'}disabled{/eq}" href="{:url('Message/write?remid=' . $mid)}">
