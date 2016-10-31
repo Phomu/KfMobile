@@ -31,7 +31,6 @@ import {
     handleFloorImage,
     handleCopyCodeBtn,
     bindMultiQuoteCheckClick,
-    handleClearMultiQuoteDataBtn,
 } from './module/read';
 
 import {
@@ -39,6 +38,8 @@ import {
     addSmileCode,
     handleEditorBtns,
     handleAttachBtns,
+    handleMultiQuote,
+    handleClearMultiQuoteDataBtn,
 } from './module/post';
 
 import {
@@ -98,9 +99,12 @@ $(function () {
         checkPostForm();
         bindFastSubmitShortcutKey($('#postContent'));
         handleCopyCodeBtn();
-        bindMultiQuoteCheckClick();
-        handleClearMultiQuoteDataBtn(1);
         addSmileCode($('#postContent'));
+        bindMultiQuoteCheckClick();
+        handleClearMultiQuoteDataBtn();
+        $('.multi-reply-btn').click(() => {
+            handleMultiQuote(1);
+        });
     }
     else if (pageId === 'gjcPage') {
         highlightUnReadAtTipsMsg();
@@ -157,6 +161,8 @@ $(function () {
         handleEditorBtns();
         addSmileCode($('#postContent'));
         handleAttachBtns();
+        handleClearMultiQuoteDataBtn();
+        if (pageInfo.multiQuote) handleMultiQuote(2);
     }
 
     //let tooltipStartTime = new Date();

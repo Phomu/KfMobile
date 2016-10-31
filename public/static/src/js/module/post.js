@@ -1,5 +1,7 @@
 'use strict';
 import * as Util from './util';
+import Const from './const';
+import * as Msg from './msg';
 
 /**
  * 处理编辑器按钮
@@ -316,5 +318,89 @@ export const addSmileCode = function ($node) {
     $('#smileDropdownBtn').click(function () {
         let $this = $(this);
         $this.data('open', !$this.data('open'));
+    });
+};
+
+/**
+ * 处理多重回复和多重引用
+ * @param {number} type 处理类型，1：多重回复；2：多重引用
+ */
+export const handleMultiQuote = function (type = 1) {
+    let data = localStorage[Const.multiQuoteStorageName];
+    if (!data) return;
+    try {
+        data = JSON.parse(data);
+    }
+    catch (ex) {
+        return;
+    }
+    if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) return;
+    let {tid, quoteList} = data;
+    if (!pageInfo.tid || tid !== pageInfo.tid || $.type(quoteList) !== 'object') return;
+    if (type === 2 && !pageInfo.fid) return;
+    let list = [];
+    for (let data of Object.values(quoteList)) {
+        if ($.type(data) !== 'array') continue;
+        for (let quote of data) {
+            list.push(quote);
+        }
+    }
+    if (!list.length) {
+        localStorage.removeItem(Const.multiQuoteStorageName);
+        return;
+    }
+
+    let keywords = new Set();
+    let content = '';
+    if (type === 2) {
+        Msg.wait(`<span class="mr-1">正在获取引用内容中&hellip;</span>剩余：<em class="text-warning countdown-num">${list.length}</em>`);
+        $(document).clearQueue('MultiQuote');
+    }
+    for (let [index, quote] of list.entries()) {
+        if (!('floor' in quote) || !('pid' in quote)) continue;
+        keywords.add(quote.userName);
+        if (type === 2) {
+            $(document).queue('MultiQuote', function () {
+                $.get(Util.makeUrl(
+                    'post/index',
+                    `action=quote&fid=${pageInfo.fid}&tid=${tid}&pid=${quote.pid}&article=${quote.floor}&t=${new Date().getTime()}`
+                ), function ({threadContent}) {
+                    content += threadContent ? threadContent + (index === list.length - 1 ? '' : '\n') : '';
+                    var $countdownNum = $('.countdown-num:last');
+                    $countdownNum.text(parseInt($countdownNum.text()) - 1);
+                    if (index === list.length - 1) {
+                        Msg.destroy();
+                        $('#postContent').val(content).focus();
+                    }
+                    else {
+                        setTimeout(function () {
+                            $(document).dequeue('MultiQuote');
+                        }, 100);
+                    }
+                });
+            });
+        }
+        else {
+            content += `[quote]回 ${quote.floor}楼(${quote.userName}) 的帖子[/quote]\n`;
+        }
+    }
+    $('input[name="diy_guanjianci"]').val([...keywords].join(','));
+    $('#postForm').submit(function () {
+        localStorage.removeItem(Const.multiQuoteStorageName);
+    });
+    if (type === 2) $(document).dequeue('MultiQuote');
+    else $('#postContent').val(content).focus();
+};
+
+/**
+ * 处理清除多重引用数据按钮
+ */
+export const handleClearMultiQuoteDataBtn = function () {
+    $('.clear-multi-quote-data-btn').click(function (e) {
+        e.preventDefault();
+        if (!confirm('是否清除多重引用数据？')) return;
+        localStorage.removeItem(Const.multiQuoteStorageName);
+        $('[name="diy_guanjianci"]').val('');
+        $('#postContent').val('');
     });
 };

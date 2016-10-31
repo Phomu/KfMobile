@@ -94,7 +94,7 @@ export const remove = function ($msg) {
         $container.remove();
         $('.mask').remove();
     }
-    else if (!$('.msg[preventable]').length) { // countdown-num
+    else if (!$('.msg[preventable]').length) {
         $('.mask').remove();
     }
 };
@@ -104,4 +104,5 @@ export const remove = function ($msg) {
  */
 export const destroy = function () {
     $('.msg-container').remove();
+    $('.mask').remove();
 };

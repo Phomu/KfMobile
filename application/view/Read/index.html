@@ -301,11 +301,15 @@
   <!-- 功能区 -->
   <hr class="mt-0">
   <section class="text-xs-right">
-    <a class="btn btn-secondary clear-multi-quote-data-btn" href="#" title="清除在浏览器中保存的多重引用数据">
-      <i class="fa fa-trash" aria-hidden="true"></i> 清除引用
-    </a>
-    <a class="btn btn-secondary multi-reply-btn" href="#" title="多重回复">
-      <i class="fa fa-reply" aria-hidden="true"></i> 回复
+    <button class="btn btn-danger clear-multi-quote-data-btn" title="清除在浏览器中保存的多重引用数据" aria-label="清除引用">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-secondary multi-reply-btn" title="多重回复">
+      <i class="fa fa-reply-all" aria-hidden="true"></i> 回复
+    </button>
+    <a class="btn btn-secondary multi-quote-btn" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid . '&multiquote=1')}"
+       title="多重引用">
+      <i class="fa fa-quote-left" aria-hidden="true"></i> 引用
     </a>
   </section>
 

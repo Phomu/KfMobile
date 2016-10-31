@@ -197,6 +197,15 @@ export const makeUrl = function (action, param = '', includeOtherParam = false, 
 };
 
 /**
+ * 获取URL查询字符串中的指定参数
+ * @param {string} name 参数名称
+ * @returns {?string} 参数值
+ */
+export const getQueryParam = function (name) {
+    return extractQueryStr(pageInfo.urlParam).get(name);
+};
+
+/**
  * 解码HTML特殊字符
  * @param {string} str 待解码的字符串
  * @returns {string} 解码后的字符串

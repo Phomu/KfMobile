@@ -53,9 +53,12 @@ $(function () {
         (0, _post.checkPostForm)();
         (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
         (0, _read.handleCopyCodeBtn)();
-        (0, _read.bindMultiQuoteCheckClick)();
-        (0, _read.handleClearMultiQuoteDataBtn)(1);
         (0, _post.addSmileCode)($('#postContent'));
+        (0, _read.bindMultiQuoteCheckClick)();
+        (0, _post.handleClearMultiQuoteDataBtn)();
+        $('.multi-reply-btn').click(function () {
+            (0, _post.handleMultiQuote)(1);
+        });
     } else if (pageId === 'gjcPage') {
         (0, _other.highlightUnReadAtTipsMsg)();
     } else if (pageId === 'gameIntroSearchPage') {
@@ -96,6 +99,8 @@ $(function () {
         (0, _post.handleEditorBtns)();
         (0, _post.addSmileCode)($('#postContent'));
         (0, _post.handleAttachBtns)();
+        (0, _post.handleClearMultiQuoteDataBtn)();
+        if (pageInfo.multiQuote) (0, _post.handleMultiQuote)(2);
     }
 
     //let tooltipStartTime = new Date();
@@ -103,7 +108,7 @@ $(function () {
     //console.log(`tooltip初始化耗时：${new Date() - tooltipStartTime}ms`);
 });
 
-},{"./module/config":2,"./module/index":4,"./module/other":5,"./module/post":6,"./module/public":7,"./module/read":8}],2:[function(require,module,exports){
+},{"./module/config":2,"./module/index":4,"./module/other":6,"./module/post":7,"./module/public":8,"./module/read":9}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -195,7 +200,7 @@ var normalize = function normalize(options) {
     return settings;
 };
 
-},{"./util":9}],3:[function(require,module,exports){
+},{"./util":10}],3:[function(require,module,exports){
 'use strict';
 
 /**
@@ -354,7 +359,126 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
     });
 };
 
-},{"./config":2,"./const":3,"./util":9}],5:[function(require,module,exports){
+},{"./config":2,"./const":3,"./util":10}],5:[function(require,module,exports){
+'use strict';
+
+/**
+ * 显示消息
+ * @param {string} msg 消息
+ * @param {number} duration 消息持续时间（秒），-1为永久显示
+ * @param {boolean} clickable 消息框可否手动点击消除
+ * @param {boolean} preventable 是否阻止点击网页上的其它元素
+ * @example
+ * show('<span class="mr-1">使用道具</span><span class="text-item">神秘系数<em class="text-warning">+1</em></span>', -1);
+ * show({
+ *   msg: '<span class="mr-1">抽取神秘盒子</span><span class="text-item">KFB<em class="text-warning">+8</em></span>',
+ *   duration: 20,
+ *   clickable: false,
+ * });
+ * @returns {jQuery} 消息框对象
+ */
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var show = exports.show = function show(_ref) {
+    var _ref$msg = _ref.msg;
+    var msg = _ref$msg === undefined ? '' : _ref$msg;
+    var _ref$duration = _ref.duration;
+    var duration = _ref$duration === undefined ? Config.defShowMsgDuration : _ref$duration;
+    var _ref$clickable = _ref.clickable;
+    var clickable = _ref$clickable === undefined ? true : _ref$clickable;
+    var _ref$preventable = _ref.preventable;
+    var preventable = _ref$preventable === undefined ? false : _ref$preventable;
+
+    if (arguments.length > 0) {
+        if ($.type(arguments[0]) === 'string') msg = arguments[0];
+        if ($.type(arguments[1]) === 'number') duration = arguments[1];
+    }
+
+    var $container = $('.msg-container');
+    var isFirst = $container.length === 0;
+    if (!isFirst && !$('.mask').length) {
+        if ($container.height() >= $(window).height() * 0.8) {
+            destroy();
+            isFirst = true;
+        }
+    }
+    if (preventable && !$('.mask').length) {
+        $('<div class="mask"></div>').appendTo('body');
+    }
+    if (isFirst) {
+        $container = $('<div class="container msg-container"></div>').appendTo('body');
+    }
+
+    var $msg = $('<div class="msg">' + msg + '</div>').appendTo($container);
+    $msg.on('click', '.stop-action', function (e) {
+        e.preventDefault();
+        $(this).text('正在停止&hellip;').closest('.msg').data('stop', true);
+    });
+    if (clickable) {
+        $msg.css('cursor', 'pointer').click(function () {
+            hide($(this));
+        }).find('a').click(function (e) {
+            e.stopPropagation();
+        });
+    }
+    if (preventable) $msg.attr('preventable', true);
+    $msg.slideDown('normal');
+    if (duration > -1) {
+        setTimeout(function () {
+            hide($msg);
+        }, duration * 1000);
+    }
+    return $msg;
+};
+
+/**
+ * 显示等待消息
+ * @param {string} msg 消息
+ * @param {boolean} preventable 是否阻止点击网页上的其它元素
+ * @returns {jQuery} 消息框对象
+ */
+var wait = exports.wait = function wait(msg) {
+    var preventable = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    return show({ msg: msg, duration: -1, clickable: false, preventable: preventable });
+};
+
+/**
+ * 隐藏指定消息框
+ * @param {jQuery} $msg 消息框对象
+ */
+var hide = exports.hide = function hide($msg) {
+    $msg.slideUp('normal', function () {
+        remove($(this));
+    });
+};
+
+/**
+ * 删除指定消息框
+ * @param {jQuery} $msg 消息框对象
+ */
+var remove = exports.remove = function remove($msg) {
+    var $container = $msg.parent();
+    $msg.remove();
+    if (!$('.msg').length) {
+        $container.remove();
+        $('.mask').remove();
+    } else if (!$('.msg[preventable]').length) {
+        $('.mask').remove();
+    }
+};
+
+/**
+ * 销毁所有消息框
+ */
+var destroy = exports.destroy = function destroy() {
+    $('.msg-container').remove();
+    $('.mask').remove();
+};
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -709,19 +833,33 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
     });
 };
 
-},{"./config":2,"./const":3,"./util":9}],6:[function(require,module,exports){
+},{"./config":2,"./const":3,"./util":10}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.addSmileCode = exports.handleAttachBtns = exports.checkPostForm = exports.handleEditorBtns = undefined;
+exports.handleClearMultiQuoteDataBtn = exports.handleMultiQuote = exports.addSmileCode = exports.handleAttachBtns = exports.checkPostForm = exports.handleEditorBtns = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _util = require('./util');
 
 var Util = _interopRequireWildcard(_util);
 
+var _const = require('./const');
+
+var _const2 = _interopRequireDefault(_const);
+
+var _msg = require('./msg');
+
+var Msg = _interopRequireWildcard(_msg);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 /**
  * 处理编辑器按钮
@@ -1011,7 +1149,165 @@ var addSmileCode = exports.addSmileCode = function addSmileCode($node) {
     });
 };
 
-},{"./util":9}],7:[function(require,module,exports){
+/**
+ * 处理多重回复和多重引用
+ * @param {number} type 处理类型，1：多重回复；2：多重引用
+ */
+var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
+    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+    var data = localStorage[_const2.default.multiQuoteStorageName];
+    if (!data) return;
+    try {
+        data = JSON.parse(data);
+    } catch (ex) {
+        return;
+    }
+    if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) return;
+    var _data = data;
+    var tid = _data.tid;
+    var quoteList = _data.quoteList;
+
+    if (!pageInfo.tid || tid !== pageInfo.tid || $.type(quoteList) !== 'object') return;
+    if (type === 2 && !pageInfo.fid) return;
+    var list = [];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = Object.values(quoteList)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var _data2 = _step.value;
+
+            if ($.type(_data2) !== 'array') continue;
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+                for (var _iterator3 = _data2[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var quote = _step3.value;
+
+                    list.push(quote);
+                }
+            } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
+                    }
+                } finally {
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
+                    }
+                }
+            }
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    if (!list.length) {
+        localStorage.removeItem(_const2.default.multiQuoteStorageName);
+        return;
+    }
+
+    var keywords = new Set();
+    var content = '';
+    if (type === 2) {
+        Msg.wait('<span class="mr-1">\u6B63\u5728\u83B7\u53D6\u5F15\u7528\u5185\u5BB9\u4E2D&hellip;</span>\u5269\u4F59\uFF1A<em class="text-warning countdown-num">' + list.length + '</em>');
+        $(document).clearQueue('MultiQuote');
+    }
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+        var _loop = function _loop() {
+            var _step2$value = _slicedToArray(_step2.value, 2);
+
+            var index = _step2$value[0];
+            var quote = _step2$value[1];
+
+            if (!('floor' in quote) || !('pid' in quote)) return 'continue';
+            keywords.add(quote.userName);
+            if (type === 2) {
+                $(document).queue('MultiQuote', function () {
+                    $.get(Util.makeUrl('post/index', 'action=quote&fid=' + pageInfo.fid + '&tid=' + tid + '&pid=' + quote.pid + '&article=' + quote.floor + '&t=' + new Date().getTime()), function (_ref) {
+                        var threadContent = _ref.threadContent;
+
+                        content += threadContent ? threadContent + (index === list.length - 1 ? '' : '\n') : '';
+                        var $countdownNum = $('.countdown-num:last');
+                        $countdownNum.text(parseInt($countdownNum.text()) - 1);
+                        if (index === list.length - 1) {
+                            Msg.destroy();
+                            $('#postContent').val(content).focus();
+                        } else {
+                            setTimeout(function () {
+                                $(document).dequeue('MultiQuote');
+                            }, 100);
+                        }
+                    });
+                });
+            } else {
+                content += '[quote]\u56DE ' + quote.floor + '\u697C(' + quote.userName + ') \u7684\u5E16\u5B50[/quote]\n';
+            }
+        };
+
+        for (var _iterator2 = list.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var _ret = _loop();
+
+            if (_ret === 'continue') continue;
+        }
+    } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+            }
+        } finally {
+            if (_didIteratorError2) {
+                throw _iteratorError2;
+            }
+        }
+    }
+
+    $('input[name="diy_guanjianci"]').val([].concat(_toConsumableArray(keywords)).join(','));
+    $('#postForm').submit(function () {
+        localStorage.removeItem(_const2.default.multiQuoteStorageName);
+    });
+    if (type === 2) $(document).dequeue('MultiQuote');else $('#postContent').val(content).focus();
+};
+
+/**
+ * 处理清除多重引用数据按钮
+ */
+var handleClearMultiQuoteDataBtn = exports.handleClearMultiQuoteDataBtn = function handleClearMultiQuoteDataBtn() {
+    $('.clear-multi-quote-data-btn').click(function (e) {
+        e.preventDefault();
+        if (!confirm('是否清除多重引用数据？')) return;
+        localStorage.removeItem(_const2.default.multiQuoteStorageName);
+        $('[name="diy_guanjianci"]').val('');
+        $('#postContent').val('');
+    });
+};
+
+},{"./const":3,"./msg":5,"./util":10}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1310,13 +1606,13 @@ var preventCloseWindow = exports.preventCloseWindow = function preventCloseWindo
     });
 };
 
-},{"./config":2,"./const":3,"./util":9}],8:[function(require,module,exports){
+},{"./config":2,"./const":3,"./util":10}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleClearMultiQuoteDataBtn = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.tuiThread = exports.fastGotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
+exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.tuiThread = exports.fastGotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
 
 var _util = require('./util');
 
@@ -1331,8 +1627,6 @@ var _config = require('./config');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 /**
  * 处理复制楼层跳转链接按钮
@@ -1559,149 +1853,9 @@ var bindMultiQuoteCheckClick = exports.bindMultiQuoteCheckClick = function bindM
         if (quoteList.length > 0) data.quoteList[pageInfo.currentPageNum] = quoteList;else delete data.quoteList[pageInfo.currentPageNum];
         localStorage[_const2.default.multiQuoteStorageName] = JSON.stringify(data);
     });
-
-    $('.multi-reply-btn').click(function (e) {
-        e.preventDefault();
-        handleMultiQuote(1);
-    });
 };
 
-/**
- * 处理多重回复和多重引用
- * @param {number} type 处理类型，1：多重回复；2：多重引用
- */
-var handleMultiQuote = function handleMultiQuote() {
-    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-    var data = localStorage[_const2.default.multiQuoteStorageName];
-    if (!data) return;
-    try {
-        data = JSON.parse(data);
-    } catch (ex) {
-        return;
-    }
-    if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) return;
-    var _data = data;
-    var tid = _data.tid;
-    var quoteList = _data.quoteList;
-
-    if (!pageInfo.tid || tid !== pageInfo.tid || $.type(quoteList) !== 'object') return;
-    if (type === 2 && !pageInfo.fid) return;
-    var list = [];
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-        for (var _iterator = Object.values(quoteList)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var _data2 = _step.value;
-
-            if ($.type(_data2) !== 'array') continue;
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
-
-            try {
-                for (var _iterator3 = _data2[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var quote = _step3.value;
-
-                    list.push(quote);
-                }
-            } catch (err) {
-                _didIteratorError3 = true;
-                _iteratorError3 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                        _iterator3.return();
-                    }
-                } finally {
-                    if (_didIteratorError3) {
-                        throw _iteratorError3;
-                    }
-                }
-            }
-        }
-    } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-            }
-        } finally {
-            if (_didIteratorError) {
-                throw _iteratorError;
-            }
-        }
-    }
-
-    if (!list.length) {
-        localStorage.removeItem(_const2.default.multiQuoteStorageName);
-        return;
-    }
-
-    var keywords = new Set();
-    var content = '';
-    if (type === 2) {
-        // 显示多重引用等待消息
-    }
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var _quote = _step2.value;
-
-            if (!('floor' in _quote) || !('pid' in _quote)) continue;
-            keywords.add(_quote.userName);
-            if (type === 2) {
-                // 处理多重引用
-            } else {
-                content += '[quote]\u56DE ' + _quote.floor + '\u697C(' + _quote.userName + ') \u7684\u5E16\u5B50[/quote]\n';
-            }
-        }
-    } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
-            }
-        } finally {
-            if (_didIteratorError2) {
-                throw _iteratorError2;
-            }
-        }
-    }
-
-    $('input[name="diy_guanjianci"]').val([].concat(_toConsumableArray(keywords)).join(','));
-    $('#postForm').submit(function () {
-        localStorage.removeItem(_const2.default.multiQuoteStorageName);
-    });
-    if (type === 1) $('#postContent').val(content).focus();
-};
-
-/**
- * 处理清除多重引用数据按钮
- * @param {number} type 处理类型，1：多重回复；2：多重引用
- */
-var handleClearMultiQuoteDataBtn = exports.handleClearMultiQuoteDataBtn = function handleClearMultiQuoteDataBtn() {
-    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-    $('.clear-multi-quote-data-btn').click(function (e) {
-        e.preventDefault();
-        localStorage.removeItem(_const2.default.multiQuoteStorageName);
-        $('[name="diy_guanjianci"]').val('');
-        if (type === 2) $('#textarea').val('');else $('#postContent').val('');
-        alert('多重引用数据已被清除');
-    });
-};
-
-},{"./config":2,"./const":3,"./util":9}],9:[function(require,module,exports){
+},{"./config":2,"./const":3,"./util":10}],10:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1970,6 +2124,15 @@ var makeUrl = exports.makeUrl = function makeUrl(action) {
         }
     }
     return url;
+};
+
+/**
+ * 获取URL查询字符串中的指定参数
+ * @param {string} name 参数名称
+ * @returns {?string} 参数值
+ */
+var getQueryParam = exports.getQueryParam = function getQueryParam(name) {
+    return extractQueryStr(pageInfo.urlParam).get(name);
 };
 
 /**
