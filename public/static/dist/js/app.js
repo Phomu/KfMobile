@@ -80,8 +80,6 @@ $(function () {
         (0, _other.tuiGameIntro)('type');
     } else if (pageId === 'gameIntroPropertyPage') {
         (0, _other.tuiGameIntro)('property');
-    } else if (pageId === 'smBoxPage') {
-        (0, _other.randomSelectSmBox)();
     } else if (pageId === 'favorPage') {
         (0, _other.bindFavorPageBtnsClick)();
     } else if (pageId === 'friendPage') {
@@ -485,7 +483,7 @@ var destroy = exports.destroy = function destroy() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.randomSelectSmBox = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -572,20 +570,6 @@ var tuiGameIntro = exports.tuiGameIntro = function tuiGameIntro(type) {
             },
             dataType: 'html'
         });
-    });
-};
-
-/**
- * 随机选择神秘盒子
- */
-var randomSelectSmBox = exports.randomSelectSmBox = function randomSelectSmBox() {
-    $('#smBoxRandom').click(function () {
-        var $boxes = $('#smBoxPanel .table a');
-        var number = Math.floor(Math.random() * $boxes.length);
-        $(this).html('\u4F60\u9009\u62E9\u4E86<b>No. ' + number + '</b>').off('click');
-        setTimeout(function () {
-            location.href = $boxes.eq(number).attr('href');
-        }, 1000);
     });
 };
 

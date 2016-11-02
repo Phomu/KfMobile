@@ -80,20 +80,6 @@ export const tuiGameIntro = function (type) {
 };
 
 /**
- * 随机选择神秘盒子
- */
-export const randomSelectSmBox = function () {
-    $('#smBoxRandom').click(function () {
-        let $boxes = $('#smBoxPanel .table a');
-        let number = Math.floor(Math.random() * $boxes.length);
-        $(this).html(`你选择了<b>No. ${number}</b>`).off('click');
-        setTimeout(() => {
-            location.href = $boxes.eq(number).attr('href');
-        }, 1000);
-    });
-};
-
-/**
  * 绑定收藏夹页面按钮点击事件
  */
 export const bindFavorPageBtnsClick = function () {

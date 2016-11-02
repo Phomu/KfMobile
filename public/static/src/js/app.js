@@ -48,7 +48,6 @@ import {
     validateRegisterField,
     handleGameIntroSearchArea,
     tuiGameIntro,
-    randomSelectSmBox,
     bindFavorPageBtnsClick,
     bindFriendPageBtnsClick,
     syncPerPageFloorNum,
@@ -134,9 +133,6 @@ $(function () {
     }
     else if (pageId === 'gameIntroPropertyPage') {
         tuiGameIntro('property');
-    }
-    else if (pageId === 'smBoxPage') {
-        randomSelectSmBox();
     }
     else if (pageId === 'favorPage') {
         bindFavorPageBtnsClick();

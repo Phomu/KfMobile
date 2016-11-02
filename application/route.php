@@ -22,6 +22,4 @@ return [
     'game/:id' => ['GameIntro/game', [], ['id' => '\d+']],
     // 帮助页面
     'faq/:id' => ['Faq/index', [], ['id' => '\d+']],
-    // 神秘盒子页面
-    'smbox' => 'SmBox/index',
 ];
