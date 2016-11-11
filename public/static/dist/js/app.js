@@ -108,6 +108,7 @@ $(function () {
 });
 
 },{"./module/config":2,"./module/index":4,"./module/other":6,"./module/post":7,"./module/public":8,"./module/read":9}],2:[function(require,module,exports){
+/* 配置模块 */
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -140,7 +141,7 @@ var Config = exports.Config = {
     activeForumPanel2: '',
     // 常用版块列表
     commonForumList: [],
-    // 默认消息的持续时间（秒），设置为-1表示永久显示
+    // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1
 };
 
@@ -200,10 +201,11 @@ var normalize = function normalize(options) {
 };
 
 },{"./util":10}],3:[function(require,module,exports){
+/* 常量模块 */
 'use strict';
 
 /**
- * 配置常量类
+ * 常量类
  */
 
 Object.defineProperty(exports, "__esModule", {
@@ -227,6 +229,7 @@ var Const = {
 exports.default = Const;
 
 },{}],4:[function(require,module,exports){
+/* 首页模块 */
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -359,14 +362,17 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
 };
 
 },{"./config":2,"./const":3,"./util":10}],5:[function(require,module,exports){
+/* 工具模块 */
 'use strict';
 
 /**
  * 显示消息
- * @param {string} msg 消息
- * @param {number} duration 消息持续时间（秒），-1为永久显示
- * @param {boolean} clickable 消息框可否手动点击消除
- * @param {boolean} preventable 是否阻止点击网页上的其它元素
+ * @param {string|Object} options 消息或设置对象
+ * @param {string} [options.msg] 消息
+ * @param {number} [options.duration={@link Config.defShowMsgDuration}] 消息显示时间（秒），-1为永久显示
+ * @param {boolean} [options.clickable=true] 消息框可否手动点击消除
+ * @param {boolean} [options.preventable=false] 是否阻止点击网页上的其它元素
+ * @param {number} [duration] 消息显示时间（秒），-1为永久显示
  * @example
  * show('<span class="mr-1">使用道具</span><span class="text-item">神秘系数<em class="text-warning">+1</em></span>', -1);
  * show({
@@ -380,19 +386,18 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var show = exports.show = function show(_ref) {
-    var _ref$msg = _ref.msg;
-    var msg = _ref$msg === undefined ? '' : _ref$msg;
-    var _ref$duration = _ref.duration;
-    var duration = _ref$duration === undefined ? Config.defShowMsgDuration : _ref$duration;
-    var _ref$clickable = _ref.clickable;
-    var clickable = _ref$clickable === undefined ? true : _ref$clickable;
-    var _ref$preventable = _ref.preventable;
-    var preventable = _ref$preventable === undefined ? false : _ref$preventable;
-
-    if (arguments.length > 0) {
-        if ($.type(arguments[0]) === 'string') msg = arguments[0];
-        if ($.type(arguments[1]) === 'number') duration = arguments[1];
+var show = exports.show = function show(options, duration) {
+    var settings = {
+        msg: '',
+        duration: Config.defShowMsgDuration,
+        clickable: true,
+        preventable: false
+    };
+    if ($.type(options) === 'object') {
+        $.extend(settings, options);
+    } else {
+        settings.msg = options;
+        settings.duration = typeof duration === 'undefined' ? Config.defShowMsgDuration : duration;
     }
 
     var $container = $('.msg-container');
@@ -403,31 +408,31 @@ var show = exports.show = function show(_ref) {
             isFirst = true;
         }
     }
-    if (preventable && !$('.mask').length) {
+    if (settings.preventable && !$('.mask').length) {
         $('<div class="mask"></div>').appendTo('body');
     }
     if (isFirst) {
         $container = $('<div class="container msg-container"></div>').appendTo('body');
     }
 
-    var $msg = $('<div class="msg">' + msg + '</div>').appendTo($container);
+    var $msg = $('<div class="msg">' + settings.msg + '</div>').appendTo($container);
     $msg.on('click', '.stop-action', function (e) {
         e.preventDefault();
         $(this).text('正在停止&hellip;').closest('.msg').data('stop', true);
     });
-    if (clickable) {
+    if (settings.clickable) {
         $msg.css('cursor', 'pointer').click(function () {
             hide($(this));
         }).find('a').click(function (e) {
             e.stopPropagation();
         });
     }
-    if (preventable) $msg.attr('preventable', true);
+    if (settings.preventable) $msg.attr('preventable', true);
     $msg.slideDown('normal');
-    if (duration > -1) {
+    if (settings.duration > -1) {
         setTimeout(function () {
             hide($msg);
-        }, duration * 1000);
+        }, settings.duration * 1000);
     }
     return $msg;
 };
@@ -455,7 +460,7 @@ var hide = exports.hide = function hide($msg) {
 };
 
 /**
- * 删除指定消息框
+ * 移除指定消息框
  * @param {jQuery} $msg 消息框对象
  */
 var remove = exports.remove = function remove($msg) {
@@ -478,6 +483,7 @@ var destroy = exports.destroy = function destroy() {
 };
 
 },{}],6:[function(require,module,exports){
+/* 其它模块 */
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -788,9 +794,9 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
         if (name === 'regemail') {
             Util.showValidationMsg($this, 'wait', '检查中，请稍等&hellip;');
             $.post(Util.makeUrl('register/check'), 'username=' + value, function (_ref) {
-                var type = _ref.type;
-                var msg = _ref.msg;
-                var username = _ref.username;
+                var type = _ref.type,
+                    msg = _ref.msg,
+                    username = _ref.username;
 
                 if ($this.val() === username) {
                     Util.showValidationMsg($this, type, msg);
@@ -819,6 +825,7 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
 };
 
 },{"./config":2,"./const":3,"./util":10}],7:[function(require,module,exports){
+/* 发帖模块 */
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1149,9 +1156,9 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
         return;
     }
     if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) return;
-    var _data = data;
-    var tid = _data.tid;
-    var quoteList = _data.quoteList;
+    var _data = data,
+        tid = _data.tid,
+        quoteList = _data.quoteList;
 
     if (!pageInfo.tid || tid !== pageInfo.tid || $.type(quoteList) !== 'object') return;
     if (type === 2 && !pageInfo.fid) return;
@@ -1222,10 +1229,9 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
 
     try {
         var _loop = function _loop() {
-            var _step2$value = _slicedToArray(_step2.value, 2);
-
-            var index = _step2$value[0];
-            var quote = _step2$value[1];
+            var _step2$value = _slicedToArray(_step2.value, 2),
+                index = _step2$value[0],
+                quote = _step2$value[1];
 
             if (!('floor' in quote) || !('pid' in quote)) return 'continue';
             keywords.add(quote.userName);
@@ -1293,6 +1299,7 @@ var handleClearMultiQuoteDataBtn = exports.handleClearMultiQuoteDataBtn = functi
 };
 
 },{"./const":3,"./msg":5,"./util":10}],8:[function(require,module,exports){
+/* 公共模块 */
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1449,9 +1456,9 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
 
         try {
             for (var _iterator = commonForumList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var _step$value = _step.value;
-                var fid = _step$value.fid;
-                var name = _step$value.name;
+                var _step$value = _step.value,
+                    fid = _step$value.fid,
+                    name = _step$value.name;
 
                 commonForumListHtml += '<span class="btn btn-outline-primary" data-fid="' + fid + '">' + name + '</span>';
             }
@@ -1477,9 +1484,9 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
 
         try {
             var _loop = function _loop() {
-                var _step2$value = _step2.value;
-                var fid = _step2$value.fid;
-                var name = _step2$value.name;
+                var _step2$value = _step2.value,
+                    fid = _step2$value.fid,
+                    name = _step2$value.name;
 
                 if (commonForumList.find(function (elem) {
                     return elem.fid === fid;
@@ -1549,12 +1556,11 @@ var fillCommonForumPanel = exports.fillCommonForumPanel = function fillCommonFor
 
     try {
         for (var _iterator3 = commonForumList.entries()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var _step3$value = _slicedToArray(_step3.value, 2);
-
-            var index = _step3$value[0];
-            var _step3$value$ = _step3$value[1];
-            var _fid = _step3$value$.fid;
-            var name = _step3$value$.name;
+            var _step3$value = _slicedToArray(_step3.value, 2),
+                index = _step3$value[0],
+                _step3$value$ = _step3$value[1],
+                _fid = _step3$value$.fid,
+                name = _step3$value$.name;
 
             if (index === 0 || index % 3 === 0) html += '<div class="row mb-1">';
             html += '\n<div class="col-xs-4">\n  <a class="btn btn-outline-primary btn-block" href="' + Util.makeUrl('thread') + '/' + _fid + '">' + name + '</a>\n</div>\n';
@@ -1592,6 +1598,7 @@ var preventCloseWindow = exports.preventCloseWindow = function preventCloseWindo
 };
 
 },{"./config":2,"./const":3,"./util":10}],9:[function(require,module,exports){
+/* 主题模块 */
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1861,6 +1868,7 @@ var bindMultiQuoteCheckClick = exports.bindMultiQuoteCheckClick = function bindM
 };
 
 },{"./config":2,"./const":3,"./msg":5,"./util":10}],10:[function(require,module,exports){
+/* 其它模块 */
 'use strict';
 
 /**
@@ -2028,12 +2036,10 @@ var extractQueryStr = exports.extractQueryStr = function extractQueryStr(str) {
 
             if (!param) continue;
 
-            var _param$split = param.split('=');
-
-            var _param$split2 = _slicedToArray(_param$split, 2);
-
-            var key = _param$split2[0];
-            var value = _param$split2[1];
+            var _param$split = param.split('='),
+                _param$split2 = _slicedToArray(_param$split, 2),
+                key = _param$split2[0],
+                value = _param$split2[1];
 
             params.set(key, typeof value !== 'undefined' ? value : '');
         }
@@ -2068,10 +2074,9 @@ var buildQueryStr = exports.buildQueryStr = function buildQueryStr(map) {
 
     try {
         for (var _iterator2 = map[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var _step2$value = _slicedToArray(_step2.value, 2);
-
-            var key = _step2$value[0];
-            var value = _step2$value[1];
+            var _step2$value = _slicedToArray(_step2.value, 2),
+                key = _step2$value[0],
+                value = _step2$value[1];
 
             if (pageInfo.urlType === 2) {
                 queryStr += (queryStr ? '&' : '') + key + '=' + value;

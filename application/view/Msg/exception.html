@@ -6,19 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
   <meta name="robots" content="noindex,nofollow">
   <title>错误信息 - <?php echo config('site_name'); ?></title>
-  <link rel="shortcut icon" href="<?php echo PUBLIC_PATH; ?>favicon.ico">
-  <link rel="stylesheet" href="<?php echo PUBLIC_PATH . config('static_path') . 'css/app.css?ts=' . config('static_file_timestamp'); ?>">
+  <link rel="shortcut icon" href="<?php echo PUBLIC_PATH ?>favicon.ico">
+  <link rel="stylesheet" href="<?php echo PUBLIC_PATH . config('static_path') . 'css/app.min.css?ts=' . config('static_file_timestamp') ?>">
 </head>
 <body id="errorPage">
 <main class="container px-0 pt-3">
   <h1 class="display-1 font-weight-normal pl-1 pb-2">:(</h1>
   <div class="alert alert-danger" role="alert">
     <p><b>错误信息</b></p>
-    <p><?php echo htmlentities($message); ?></p>
+    <p><?php echo htmlentities($message) ?></p>
     <div>
       <a class="alert-link" href="javascript:history.go(-1);">返回上一步操作</a>
       &nbsp;或&nbsp;
-      <a class="alert-link" href="<?php echo PUBLIC_PATH; ?>">返回首页</a>
+      <a class="alert-link" href="<?php echo PUBLIC_PATH ?>">返回首页</a>
     </div>
   </div>
 </main>

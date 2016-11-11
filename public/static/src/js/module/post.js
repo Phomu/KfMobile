@@ -1,3 +1,4 @@
+/* 发帖模块 */
 'use strict';
 import * as Util from './util';
 import Const from './const';

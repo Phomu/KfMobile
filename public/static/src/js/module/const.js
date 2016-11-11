@@ -1,7 +1,8 @@
+/* 常量模块 */
 'use strict';
 
 /**
- * 配置常量类
+ * 常量类
  */
 const Const = {
     // 存储多重引用数据的LocalStorage名称

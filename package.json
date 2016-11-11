@@ -2,18 +2,21 @@
   "name": "kfmobile",
   "version": "1.0.0",
   "description": "the dev tools of KfMobile",
-  "main": "gulpfile.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "KfMobile",
-    "gulp"
+    "KfMobile"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miaolapd/KfMobile.git"
+  },
   "author": "miaolapd",
   "license": "MIT",
   "devDependencies": {
-    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
     "babel-preset-es2016": "^6.16.0",
     "babel-preset-es2017": "^6.16.0",
     "babelify": "^7.3.0",
