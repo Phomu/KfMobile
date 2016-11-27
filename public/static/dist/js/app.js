@@ -1241,9 +1241,9 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
             if (type === 2) {
                 $(document).queue('MultiQuote', function () {
                     $.get(Util.makeUrl('post/index', 'action=quote&fid=' + pageInfo.fid + '&tid=' + tid + '&pid=' + quote.pid + '&article=' + quote.floor + '&t=' + new Date().getTime()), function (_ref) {
-                        var threadContent = _ref.threadContent;
+                        var postContent = _ref.postContent;
 
-                        content += threadContent ? threadContent + (index === list.length - 1 ? '' : '\n') : '';
+                        content += postContent ? postContent + (index === list.length - 1 ? '' : '\n') : '';
                         var $countdownNum = $('.countdown-num:last');
                         $countdownNum.text(parseInt($countdownNum.text()) - 1);
                         if (index === list.length - 1) {
@@ -1281,7 +1281,7 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
         }
     }
 
-    $('input[name="diy_guanjianci"]').val([].concat(_toConsumableArray(keywords)).join(','));
+    $('[name="diy_guanjianci"]').val([].concat(_toConsumableArray(keywords)).join(','));
     $('#postForm').submit(function () {
         localStorage.removeItem(_const2.default.multiQuoteStorageName);
     });

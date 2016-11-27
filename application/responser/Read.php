@@ -82,7 +82,7 @@ class Read extends Responser
         }
 
         // 回帖表单
-        $canReply = pq('textarea[name="atc_content"]')->length > 0;
+        $postContentName = pq('textarea:first')->attr('name');
         $postVerify = pq('input[name="verify"]')->val();
 
         // 投票区域
@@ -158,7 +158,7 @@ class Read extends Responser
             'pageParam' => $pageParam,
             'canBlockFloor' => $canBlockFloor,
             'floorList' => $floorList,
-            'canReply' => $canReply,
+            'postContentName' => $postContentName,
             'postVerify' => $postVerify,
             'voteTitle' => $voteTitle,
             'voteStatus' => $voteStatus,

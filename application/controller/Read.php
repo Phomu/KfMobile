@@ -22,8 +22,13 @@ class Read extends Base
         $floor = input('floor/d', 0);
         $response = Proxy::get('read.php', $request->param());
         $read = new responser\Read($response);
-        $this->assign($read->index(['fpage' => $fpage, 'floor' => $floor]));
-        return $this->fetch('Read/index');
+        $data = $read->index();
+        if ($request->isAjax()) {
+            return $data;
+        } else {
+            $this->assign(array_merge($data, ['fpage' => $fpage, 'floor' => $floor]));
+            return $this->fetch();
+        }
     }
 
     /**

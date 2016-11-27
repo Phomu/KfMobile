@@ -25,7 +25,7 @@ class Post extends Base
             return $data;
         } else {
             $this->assign(array_merge($data, ['multiQuote' => input('multiquote', 0)]));
-            return $this->fetch('Post/index');
+            return $this->fetch();
         }
     }
 

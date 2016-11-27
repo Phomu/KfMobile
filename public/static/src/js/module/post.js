@@ -366,9 +366,9 @@ export const handleMultiQuote = function (type = 1) {
                 $.get(Util.makeUrl(
                     'post/index',
                     `action=quote&fid=${pageInfo.fid}&tid=${tid}&pid=${quote.pid}&article=${quote.floor}&t=${new Date().getTime()}`
-                ), function ({threadContent}) {
-                    content += threadContent ? threadContent + (index === list.length - 1 ? '' : '\n') : '';
-                    var $countdownNum = $('.countdown-num:last');
+                ), function ({postContent}) {
+                    content += postContent ? postContent + (index === list.length - 1 ? '' : '\n') : '';
+                    let $countdownNum = $('.countdown-num:last');
                     $countdownNum.text(parseInt($countdownNum.text()) - 1);
                     if (index === list.length - 1) {
                         Msg.destroy();
@@ -386,7 +386,7 @@ export const handleMultiQuote = function (type = 1) {
             content += `[quote]回 ${quote.floor}楼(${quote.userName}) 的帖子[/quote]\n`;
         }
     }
-    $('input[name="diy_guanjianci"]').val([...keywords].join(','));
+    $('[name="diy_guanjianci"]').val([...keywords].join(','));
     $('#postForm').submit(function () {
         localStorage.removeItem(Const.multiQuoteStorageName);
     });

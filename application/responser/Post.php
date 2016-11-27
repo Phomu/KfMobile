@@ -68,10 +68,11 @@ class Post extends Responser
         else $xinZuoStatus = -1;
 
         // 发帖内容
-        $threadContent = ltrim(htmlspecialchars($pqForm->find('#textarea')->val()));
-        $threadContent = str_replace('&amp;', '&', $threadContent);
-        $threadContent = str_replace("\xC2\xA0", " ", $threadContent);
-        if ($hiddenFields['action'] === 'quote' && preg_match('/\[quote\].+?\[\/quote\]/s', $threadContent, $matches)) {
+        $postContentName = $pqForm->find('#textarea')->attr('name');
+        $postContent = ltrim(htmlspecialchars($pqForm->find('#textarea')->val()));
+        $postContent = str_replace('&amp;', '&', $postContent);
+        $postContent = str_replace("\xC2\xA0", " ", $postContent);
+        if ($hiddenFields['action'] === 'quote' && preg_match('/\[quote\].+?\[\/quote\]/s', $postContent, $matches)) {
             $quoteContent = $matches[0];
             $quoteContent = preg_replace('/\n{2,}/', "\n", $quoteContent);
             $quoteContent = preg_replace('/\[attachment=\d+\]/', '[color=red][附件图片][/color]', $quoteContent);
@@ -87,7 +88,7 @@ class Post extends Responser
                 $quoteContent
             );
             $quoteContent = $this->getRemoveUnpairedBBCodeQuoteContent($quoteContent);
-            $threadContent = str_replace($matches[0], $quoteContent, $threadContent);
+            $postContent = str_replace($matches[0], $quoteContent, $postContent);
         }
 
         // 投票信息
@@ -151,7 +152,8 @@ class Post extends Responser
             'parentNavName' => $parentNavName,
             'threadTypeList' => $threadTypeList,
             'threadTitle' => $threadTitle,
-            'threadContent' => $threadContent,
+            'postContentName' => $postContentName,
+            'postContent' => $postContent,
             'gjc' => $gjc,
             'xinZuoStatus' => $xinZuoStatus,
             'vote' => $vote,
