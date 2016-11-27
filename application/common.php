@@ -4,14 +4,14 @@
 /**
  * 获取经过序列化后的cookies字符串
  * @param array $cookies cookies数组
- * @param string $prefix 用于筛选的cookies前缀
+ * @param string $excludePrefix 要排除的cookies前缀
  * @return string 经过序列化后的cookies字符串
  */
-function serialize_cookies($cookies, $prefix = '')
+function serialize_cookies($cookies, $excludePrefix = '')
 {
     $result = '';
     foreach ($cookies as $key => $value) {
-        if ($prefix && strpos($key, $prefix) !== 0) continue;
+        if ($excludePrefix && strpos($key, $excludePrefix) === 0) continue;
         $result .= $key . '=' . $value . '; ';
     }
     return $result;

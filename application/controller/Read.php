@@ -27,7 +27,7 @@ class Read extends Base
             return $data;
         } else {
             $this->assign(array_merge($data, ['fpage' => $fpage, 'floor' => $floor]));
-            return $this->fetch();
+            return $this->fetch('Read/index');
         }
     }
 
