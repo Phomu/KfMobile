@@ -46,24 +46,6 @@ class GrowUp extends Responser
 
         // 任务、捐款
         $pqOtherArea = $pqArea->find('> div:nth-child(3) > table > tr');
-        $jobList = [];
-        foreach ($pqOtherArea->find('> td:first > div:first > div') as $job) {
-            $pqJob = pq($job);
-            $jobName = $pqJob->find('> div:last')->html();
-            if ($pqJob->is('div:last')) {
-                $jobName = str_replace('帖子被奖励KFB', '帖子被奖励KFB(被协管评分)', $jobName);
-            }
-            $jobExp = trim_strip($pqJob->find('> div:first')->text());
-            $jobExp = preg_replace_callback(
-                '/\((未获得|已获得)\)/',
-                function ($matches) {
-                    if ($matches[1] === '已获得') return ' <span class="tag tag-success">已获得</span>';
-                    else  return ' <span class="tag tag-default">未获得</span>';
-                },
-                $jobExp
-            );
-            $jobList[] = ['name' => $jobName, 'exp' => $jobExp];
-        }
         $isVip = $pqOtherArea->find('> td:nth-child(2) > div > div:eq(1) > div:first > div:eq(1) > span:contains("Yes")')->length > 0;
         $hasDonation = strpos($pqOtherArea->find('form[name="rvrc1"]')->html(), '今天已经捐款') > 0;
 
@@ -89,7 +71,6 @@ class GrowUp extends Responser
             'expInfo' => $expInfo,
             'expPercent' => $expPercent,
             'expRemain' => $expRemain,
-            'jobList' => $jobList,
             'isVip' => $isVip,
             'hasDonation' => $hasDonation,
             'colorList' => $colorList,
