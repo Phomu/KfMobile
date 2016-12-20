@@ -52,6 +52,14 @@
   </form>
 </main>
 <script src="/ys/r1129.js"></script>
+<script>
+    $(function () {
+        if (!$('#diy_ryzm').val()) {
+            $('#registerForm').prop('hidden', true);
+            alert('注册页面有错误');
+        }
+    });
+</script>
 {include file="Public/footer" /}
 </body>
 </html>

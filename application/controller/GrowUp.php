@@ -25,15 +25,14 @@ class GrowUp extends Base
     }
 
     /**
-     * 捐款
+     * 领取每日奖励
      * @param Request $request
      */
-    public function donation(Request $request)
+    public function getBonus(Request $request)
     {
-        if (!$request->isPost()) error('非法请求');
-        $response = Proxy::post('kf_growup.php?ok=1', $request->param());
+        $response = Proxy::get('kf_growup.php?ok=3', $request->param());
         new responser\Responser($response);
-        return error('捐款失败');
+        return error('领取每日奖励失败');
     }
 
     /**

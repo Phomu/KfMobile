@@ -39,54 +39,24 @@
     </div>
   </section>
 
-  <!-- 捐款 -->
-  <section class="card">
-    <h5 class="card-header mb-0">捐款</h5>
-    <div class="card-block p-1">
-      <p class="font-size-sm text-muted">
-        捐款是通过KFB换取成长经验值的一个方式<br>
-        每天仅限一次，每次最高5000KFB，最低1KFB<br>
-        如果有成长加速，每天捐1KFB即可获得加速的奖励<br>
-        输入捐款数额（最小1、最大5000，小数点将被舍去）
-      </p>
-      <form name="rvrc1" action="{:url('GrowUp/donation')}" method="post">
-        <div class="input-group">
-          {eq name="hasDonation" value="true"}
-          <span class="input-group-addon font-size-sm">今天已捐款</span>
-          {assign name="donationDisabled" value="disabled" /}
-          {/eq}
-          <input class="form-control" name="kfb" type="number" min="1" max="5000" placeholder="捐款数额" required
-                 {$donationDisabled|default="" }>
-          <div class="input-group-btn">
-            <button class="btn btn-primary" type="submit" {$donationDisabled|default="" }>
-              <i class="fa fa-yen" aria-hidden="true"></i> 捐款
-            </button>
-          </div>
-        </div>
-        <div class="text-danger font-size-sm">优惠期：每次捐款赠送50%成长经验</div>
-      </form>
-    </div>
-  </section>
-
-  <!-- 成长加速 -->
-  <ul class="list-group list-group-sm mb-1">
-    <li class="list-group-item list-group-item-header h5">成长加速</li>
-    <li class="list-group-item">
-      <div>
-        VIP加速
-        {eq name="isVip" value="true"}
-        <span class="tag tag-success">Yes</span>
-        {else /}
-        <span class="tag tag-default">No</span>
-        {/eq}
-      </div>
-      <div class="font-size-sm text-muted">每天捐款附送50经验值</div>
+  <!-- 每日奖励 -->
+  <ul class="list-group list-group-sm mb-xs">
+    <li class="list-group-item list-group-item-header h5">每日奖励</li>
+    {volist name="dailyBonusList" id="vo"}
+    <li class="list-group-item font-size-sm {eq name='vo.isComplete' value='true'}list-group-item-success{/eq}">
+      {$vo.info}
     </li>
-    <li class="list-group-item">
-      <div>神秘系数加速</div>
-      <div class="font-size-sm text-muted">每天捐款附加神秘系数等值的经验值</div>
-    </li>
+    {/volist}
   </ul>
+  <div class="mb-1">
+    {notempty name="getBonusText"}
+    <a class="btn btn-primary btn-block" href="{:url('GrowUp/getBonus', 'safeid=' . $safeId)}" onclick="return confirm('是否领取奖励？')">
+      {$getBonusText}
+    </a>
+    {else /}
+    <button class="btn btn-primary btn-block" type="button" disabled>今天的每日奖励已经领过了，请明天继续</button>
+    {/notempty}
+  </div>
 
   <!-- 自定义ID颜色 -->
   <section class="card">

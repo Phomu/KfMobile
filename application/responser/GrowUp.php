@@ -44,14 +44,21 @@ class GrowUp extends Responser
             $expPercent = intval($matches[1]);
         }
 
-        // 任务、捐款
-        $pqOtherArea = $pqArea->find('> div:nth-child(3) > table > tr');
-        $isVip = $pqOtherArea->find('> td:nth-child(2) > div > div:eq(1) > div:first > div:eq(1) > span:contains("Yes")')->length > 0;
-        $hasDonation = strpos($pqOtherArea->find('form[name="rvrc1"]')->html(), '今天已经捐款') > 0;
+        // 每日奖励
+        $dailyBonusList = [];
+        foreach (pq('div[class^="gro_"]') as $node) {
+            $pqNode = pq($node);
+            $info = trim($pqNode->html());
+            $isComplete = $pqNode->hasClass('gro_divlv');
+            $dailyBonusList[] = ['info' => $info, 'isComplete' => $isComplete];
+        }
+        $getBonusText = trim(pq('a[href^="kf_growup.php?ok=3&safeid="]:contains("你可以领取")')->html());
+        $getBonusText = str_replace('经验 +', '经验 +<br>', $getBonusText);
+        $getBonusText = str_replace(' 请点击这里', '', $getBonusText);
 
         // 自定义ID颜色
         $colorList = [];
-        foreach ($pqArea->next()->next()->find('> table > tr:gt(0) > td') as $node) {
+        foreach (pq('table[width="860"]:last > tr:gt(0) > td') as $node) {
             $pqNode = pq($node);
             $color = '';
             $colorId = 0;
@@ -71,8 +78,8 @@ class GrowUp extends Responser
             'expInfo' => $expInfo,
             'expPercent' => $expPercent,
             'expRemain' => $expRemain,
-            'isVip' => $isVip,
-            'hasDonation' => $hasDonation,
+            'dailyBonusList' => $dailyBonusList,
+            'getBonusText' => $getBonusText,
             'colorList' => $colorList,
         ];
         debug('end');

@@ -82,7 +82,7 @@ class Read extends Responser
         }
 
         // 回帖表单
-        $postContentName = pq('textarea:first')->attr('name');
+        $postContentName = pq('[name="atc_content"]')->attr('name');
         $postVerify = pq('input[name="verify"]')->val();
 
         // 投票区域
