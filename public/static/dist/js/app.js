@@ -1519,7 +1519,14 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
 
         var $dialog = $('\n<div class="modal fade" id="editCommonForumDialog" tabindex="-1" role="dialog" aria-labelledby="editCommonForumDialogTitle" aria-hidden="true">\n  <div class="modal-dialog" role="document">\n    <div class="modal-content">\n      <div class="modal-header">\n        <button class="close" data-dismiss="modal" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <h4 class="modal-title" id="editCommonForumDialogTitle">\u5E38\u7528\u7248\u5757</h4>\n      </div>\n      <div class="modal-body">\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u5E38\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editCommonForumList">' + commonForumListHtml + '</div>\n        </fieldset>\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u53EF\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editAvailableForumList">' + availableForumListHtml + '</div>\n        </fieldset>\n      </div>\n      <div class="modal-footer">\n        <button class="btn btn-primary" data-action="save" type="button">\u4FDD\u5B58</button>\n        <button class="btn btn-secondary" data-dismiss="modal" type="button">\u53D6\u6D88</button>\n        <button class="btn btn-danger" data-action="reset" type="button">\u91CD\u7F6E</button>\n      </div>\n    </div>\n  </div>\n</div>\n').appendTo('body').modal('show');
 
-        dragula($dialog.find('.edit-forum-list').get(), { revertOnSpill: true });
+        var $dragulaScriptPath = $('[name="dragulaScriptPath"]');
+        var dragulaScriptPath = $dragulaScriptPath.val();
+        if (dragulaScriptPath) {
+            $.getScript(dragulaScriptPath, function () {
+                return dragula($dialog.find('.edit-forum-list').get(), { revertOnSpill: true });
+            });
+            $dragulaScriptPath.val('');
+        } else dragula($dialog.find('.edit-forum-list').get(), { revertOnSpill: true });
 
         $dialog.on('hidden.bs.modal', function () {
             $(this).remove();

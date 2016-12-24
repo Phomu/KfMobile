@@ -176,10 +176,13 @@ export const showEditCommonForumDialog = function () {
 </div>
 `).appendTo('body').modal('show');
 
-        dragula(
-            $dialog.find('.edit-forum-list').get(),
-            {revertOnSpill: true}
-        );
+        let $dragulaScriptPath = $('[name="dragulaScriptPath"]');
+        let dragulaScriptPath = $dragulaScriptPath.val();
+        if (dragulaScriptPath) {
+            $.getScript(dragulaScriptPath, () => dragula($dialog.find('.edit-forum-list').get(), {revertOnSpill: true}));
+            $dragulaScriptPath.val('');
+        }
+        else dragula($dialog.find('.edit-forum-list').get(), {revertOnSpill: true});
 
         $dialog.on('hidden.bs.modal', function () {
             $(this).remove();
