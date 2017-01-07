@@ -3,6 +3,7 @@
 import * as Util from './util';
 import Const from './const';
 import {read as readConfig, write as writeConfig} from './config';
+import * as ConfigDialog from './configDialog';
 
 /**
  * 处理主菜单
@@ -13,6 +14,17 @@ export const handleMainMenu = function () {
         if (maxHeight > 0) {
             $('#mainMenu').css('max-height', maxHeight + 'px');
         }
+    });
+};
+
+/**
+ * 处理主菜单链接
+ */
+export const handleMainMenuLink = function () {
+    $('#mainMenu').find('[data-name="openConfigDialog"]').click(function (e) {
+        e.preventDefault();
+        $('#mainMenuTogglerBtn').click();
+        ConfigDialog.show();
     });
 };
 

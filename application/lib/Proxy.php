@@ -167,9 +167,9 @@ class Proxy
      */
     public static function post($url, $data, $uploads = null, $extraData = [])
     {
-        if (config('app_debug') && !preg_match('/login\.php|profile\.php\?action=modify/', $url)) {
+        if (config('app_debug') && !preg_match('/login\.php|profile\.php\?action=modify/', $url))
             trace('POST请求：' . $url . '，请求数据：' . (is_string($data) ? $data : http_build_query($data)));
-        }
+        else trace('POST请求：' . $url);
         return self::request($url, $data, $uploads, $extraData);
     }
 }

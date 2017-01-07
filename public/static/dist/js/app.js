@@ -28,6 +28,7 @@ $(function () {
 
     (0, _public.preventCloseWindow)();
     (0, _public.handleMainMenu)();
+    (0, _public.handleMainMenuLink)();
     (0, _public.handleRollToTopOrBottomBtn)();
     (0, _public.handleSearchDialog)();
     (0, _public.fillCommonForumPanel)();
@@ -107,7 +108,7 @@ $(function () {
     //console.log(`tooltip初始化耗时：${new Date() - tooltipStartTime}ms`);
 });
 
-},{"./module/config":2,"./module/index":4,"./module/other":6,"./module/post":7,"./module/public":8,"./module/read":9}],2:[function(require,module,exports){
+},{"./module/config":2,"./module/index":6,"./module/other":8,"./module/post":9,"./module/public":10,"./module/read":11}],2:[function(require,module,exports){
 /* 配置模块 */
 'use strict';
 
@@ -200,7 +201,37 @@ var normalize = function normalize(options) {
     return settings;
 };
 
-},{"./util":10}],3:[function(require,module,exports){
+},{"./util":12}],3:[function(require,module,exports){
+/* 设置对话框模块 */
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.show = undefined;
+
+var _dialog = require('./dialog');
+
+var Dialog = _interopRequireWildcard(_dialog);
+
+var _config = require('./config');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * 显示设置对话框
+ */
+var show = exports.show = function show() {
+  var dialogName = 'configDialog';
+  if ($('#' + dialogName).length > 0) return;
+  (0, _config.read)();
+  var bodyContent = '\n<fieldset class="fieldset mb-1 py-sm">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group">\n    <label>\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n    <select class="custom-select form-control" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-1 py-sm">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="form-group">\n    <label>\u9ED8\u8BA4\u6D88\u606F\u663E\u793A\u65F6\u95F4</label>\n    <span class="tips" data-toggle="tooltip" title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">[?]</span>\n    <input class="form-control" name="defShowMsgDuration" type="number" min="-1" required>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-1 py-sm">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-1" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-1" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-1" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
+  var footerContent = '\n<button class="btn btn-primary" type="button">\u786E\u5B9A</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+  var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
+  Dialog.show(dialogName);
+};
+
+},{"./config":2,"./dialog":5}],4:[function(require,module,exports){
 /* 常量模块 */
 'use strict';
 
@@ -228,7 +259,89 @@ var Const = {
 
 exports.default = Const;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+/* 对话框模块 */
+'use strict';
+
+/**
+ * 创建对话框
+ * @param {string} id 对话框ID
+ * @param {string} title 对话框标题
+ * @param {string} bodyContent 对话框主体内容
+ * @param {string} footerContent 对话框底部内容
+ * @param {string} style 对话框样式
+ * @returns {jQuery} 对话框的jQuery对象
+ */
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var create = exports.create = function create(id, title, bodyContent) {
+    var footerContent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+    var style = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+
+    var html = '\n<div class="dialog-container" id="' + id + '" style="' + style + '" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="' + id + 'Title">\n  <div class="container" role="document">\n    <form>\n      <div class="dialog-header">\n        <button class="close" data-dismiss="dialog" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <h5 class="dialog-title" id="' + id + 'Title">' + title + '</h5>\n      </div>\n      <div class="dialog-body">' + bodyContent + '</div>\n      <div class="dialog-footer" ' + (!footerContent ? 'hidden' : '') + '>' + footerContent + '</div>\n    </form>\n  </div>\n</div>';
+    var $dialog = $(html).appendTo('body');
+    $dialog.on('click', '[data-dismiss="dialog"]', function () {
+        return close(id);
+    }).on('click', '.tips', function () {
+        return false;
+    }).on('click', '.disabled-link', function () {
+        return false;
+    }).keydown(function (e) {
+        if (e.keyCode === 27) {
+            return close(id);
+        }
+    }).find('legend [type="checkbox"]').click(function () {
+        var $this = $(this);
+        $this.closest('fieldset').prop('disabled', !$this.prop('checked'));
+    }).end().find('input[data-disabled]').click(function () {
+        var $this = $(this);
+        var checked = $this.prop('checked');
+        $($this.data('disabled')).each(function () {
+            var $this = $(this);
+            if ($this.is('a')) {
+                if (checked) $this.removeClass('disabled-link');else $this.addClass('disabled-link');
+            } else {
+                $this.prop('disabled', !checked);
+            }
+        });
+    }).end().find('[data-toggle="tooltip"]').tooltip({ 'container': 'body' });
+    $(window).on('resize.' + id, function () {
+        return show(id);
+    });
+    return $dialog;
+};
+
+/**
+ * 显示或调整对话框
+ * @param {string} id 对话框ID
+ */
+var show = exports.show = function show(id) {
+    var $dialog = $('#' + id);
+    if (!$dialog.length) return;
+    $dialog.find('.dialog-body').css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight()).end().find('legend [type="checkbox"]').each(function () {
+        $(this).triggerHandler('click');
+    }).end().find('input[data-disabled]').each(function () {
+        $(this).triggerHandler('click');
+    });
+    $dialog.fadeIn('fast').find('.close:first').focus();
+};
+
+/**
+ * 关闭对话框
+ * @param {string} id 对话框ID
+ * @returns {boolean} 返回false
+ */
+var close = exports.close = function close(id) {
+    $('#' + id).fadeOut('fast', function () {
+        $(this).remove();
+    });
+    $(window).off('resize.' + id);
+    return false;
+};
+
+},{}],6:[function(require,module,exports){
 /* 首页模块 */
 'use strict';
 
@@ -338,22 +451,23 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
         if (!value || parseInt(value)) value = '';
         value = prompt('请输入背景图片URL、颜色代码或CSS样式：\n（例：http://xxx.com/abc.jpg 或 #fcfcfc，留空表示恢复默认背景）\n' + '（注：建议选择简洁、不花哨、偏浅色系的背景图片或颜色）', value);
         if (value === null) return;
+        var $bg = $('body, .modal-content, .dialog-container');
         if ($.trim(value) === '') {
             Util.setCookie(_const2.default.bgStyleCookieName, '', Util.getDate('-1d'));
             alert('背景已恢复默认');
             location.reload();
         } else if (/^https?:\/\/[^"']+/.test(value)) {
             Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
-            $('body, .modal-content').css('background-image', 'url("' + value + '")');
+            $bg.css('background-image', 'url("' + value + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         } else if (/^#[0-9a-f]{6}$/i.test(value)) {
             Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
-            $('body, .modal-content').css('background', value.toLowerCase());
+            $bg.css('background', value.toLowerCase());
             alert('背景已更换');
         } else if (!/[<>{}]/.test(value)) {
             value = value.replace(';', '');
             Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
-            $('body, .modal-content').css('background', value);
+            $bg.css('background', value);
             alert('背景已更换（图片可能需要一定时间加载）');
         } else {
             alert('格式不正确');
@@ -361,8 +475,8 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
     });
 };
 
-},{"./config":2,"./const":3,"./util":10}],5:[function(require,module,exports){
-/* 工具模块 */
+},{"./config":2,"./const":4,"./util":12}],7:[function(require,module,exports){
+/* 消息模块 */
 'use strict';
 
 /**
@@ -482,7 +596,7 @@ var destroy = exports.destroy = function destroy() {
     $('.mask').remove();
 };
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /* 其它模块 */
 'use strict';
 
@@ -824,7 +938,7 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
     });
 };
 
-},{"./config":2,"./const":3,"./util":10}],7:[function(require,module,exports){
+},{"./config":2,"./const":4,"./util":12}],9:[function(require,module,exports){
 /* 发帖模块 */
 'use strict';
 
@@ -1301,14 +1415,14 @@ var handleClearMultiQuoteDataBtn = exports.handleClearMultiQuoteDataBtn = functi
     });
 };
 
-},{"./const":3,"./msg":5,"./util":10}],8:[function(require,module,exports){
+},{"./const":4,"./msg":7,"./util":12}],10:[function(require,module,exports){
 /* 公共模块 */
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.preventCloseWindow = exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenu = undefined;
+exports.preventCloseWindow = exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenuLink = exports.handleMainMenu = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1321,6 +1435,10 @@ var _const = require('./const');
 var _const2 = _interopRequireDefault(_const);
 
 var _config = require('./config');
+
+var _configDialog = require('./configDialog');
+
+var ConfigDialog = _interopRequireWildcard(_configDialog);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1335,6 +1453,17 @@ var handleMainMenu = exports.handleMainMenu = function handleMainMenu() {
         if (maxHeight > 0) {
             $('#mainMenu').css('max-height', maxHeight + 'px');
         }
+    });
+};
+
+/**
+ * 处理主菜单链接
+ */
+var handleMainMenuLink = exports.handleMainMenuLink = function handleMainMenuLink() {
+    $('#mainMenu').find('[data-name="openConfigDialog"]').click(function (e) {
+        e.preventDefault();
+        $('#mainMenuTogglerBtn').click();
+        ConfigDialog.show();
     });
 };
 
@@ -1607,7 +1736,7 @@ var preventCloseWindow = exports.preventCloseWindow = function preventCloseWindo
     });
 };
 
-},{"./config":2,"./const":3,"./util":10}],9:[function(require,module,exports){
+},{"./config":2,"./configDialog":3,"./const":4,"./util":12}],11:[function(require,module,exports){
 /* 主题模块 */
 'use strict';
 
@@ -1877,7 +2006,7 @@ var bindMultiQuoteCheckClick = exports.bindMultiQuoteCheckClick = function bindM
     });
 };
 
-},{"./config":2,"./const":3,"./msg":5,"./util":10}],10:[function(require,module,exports){
+},{"./config":2,"./const":4,"./msg":7,"./util":12}],12:[function(require,module,exports){
 /* 其它模块 */
 'use strict';
 

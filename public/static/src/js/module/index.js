@@ -97,6 +97,7 @@ export const handleCustomBgStyle = function () {
             value
         );
         if (value === null) return;
+        let $bg = $('body, .modal-content, .dialog-container');
         if ($.trim(value) === '') {
             Util.setCookie(Const.bgStyleCookieName, '', Util.getDate('-1d'));
             alert('背景已恢复默认');
@@ -104,18 +105,18 @@ export const handleCustomBgStyle = function () {
         }
         else if (/^https?:\/\/[^"']+/.test(value)) {
             Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'));
-            $('body, .modal-content').css('background-image', 'url("' + value + '")');
+            $bg.css('background-image', 'url("' + value + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         }
         else if (/^#[0-9a-f]{6}$/i.test(value)) {
             Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'));
-            $('body, .modal-content').css('background', value.toLowerCase());
+            $bg.css('background', value.toLowerCase());
             alert('背景已更换');
         }
         else if (!/[<>{}]/.test(value)) {
             value = value.replace(';', '');
             Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'));
-            $('body, .modal-content').css('background', value);
+            $bg.css('background', value);
             alert('背景已更换（图片可能需要一定时间加载）');
         }
         else {

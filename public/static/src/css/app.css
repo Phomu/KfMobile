@@ -3961,30 +3961,30 @@ button.close {
   .modal-backdrop.in {
     opacity: 0.5; }
 
-.modal-header {
+.modal-header, .dialog-header {
   padding: 15px;
   border-bottom: 1px solid #e2e2e2; }
-  .modal-header::after {
+  .modal-header::after, .dialog-header::after {
     content: "";
     display: table;
     clear: both; }
 
-.modal-header .close {
+.modal-header .close, .dialog-header .close {
   margin-top: -2px; }
 
-.modal-title {
+.modal-title, .dialog-title {
   margin: 0;
   line-height: 1.5; }
 
-.modal-body {
+.modal-body, .dialog-body {
   position: relative;
   padding: 15px; }
 
-.modal-footer {
+.modal-footer, .dialog-footer {
   padding: 15px;
   text-align: right;
   border-top: 1px solid #e2e2e2; }
-  .modal-footer::after {
+  .modal-footer::after, .dialog-footer::after {
     content: "";
     display: table;
     clear: both; }
@@ -5084,7 +5084,19 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     margin-bottom: 0;
     padding-left: 0.57143rem;
     padding-right: 0.57143rem;
-    font-size: 1rem; }
+    font-size: 1rem;
+    font-weight: bolder; }
+
+.tips {
+  color: #0275d8;
+  cursor: help; }
+  .tips:hover, .tips:focus {
+    color: #014c8c; }
+
+.disabled-link {
+  opacity: .65;
+  cursor: not-allowed;
+  pointer-events: none; }
 
 .alert-success {
   background-color: rgba(223, 240, 216, 0.95); }
@@ -5179,10 +5191,33 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     font-weight: bolder;
     font-style: normal; }
 
+.dialog-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f7f7f9;
+  z-index: 1040; }
+
+.dialog-header {
+  padding-left: 0;
+  padding-right: 0; }
+
+.dialog-body {
+  max-height: 520px;
+  overflow-y: auto;
+  padding-left: 0;
+  padding-right: 0; }
+
+.dialog-footer {
+  padding-left: 0;
+  padding-right: 0; }
+
 body {
   padding-top: 3.375rem; }
 
-body, .modal-content {
+body, .modal-content, .dialog-container {
   background-image: url("../img/bg/1.jpg"); }
 
 #successPage, #errorPage, #loginPage, #registerPage {

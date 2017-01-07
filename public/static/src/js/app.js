@@ -3,6 +3,7 @@ import {init as initConfig} from './module/config';
 
 import {
     handleMainMenu,
+    handleMainMenuLink,
     handleRollToTopOrBottomBtn,
     handleSearchDialog,
     handlePageInput,
@@ -73,6 +74,7 @@ $(function () {
 
     preventCloseWindow();
     handleMainMenu();
+    handleMainMenuLink();
     handleRollToTopOrBottomBtn();
     handleSearchDialog();
     fillCommonForumPanel();

@@ -101,5 +101,23 @@
       right: $spacer-sm;
     }
     font-size: 1rem;
+    font-weight: bolder;
   }
+}
+
+// 提示标签
+.tips {
+  color: $link-color;
+  cursor: help;
+
+  &:hover, &:focus {
+    color: $link-hover-color;
+  }
+}
+
+// 禁用的链接
+.disabled-link {
+  opacity: .65;
+  cursor: not-allowed;
+  pointer-events: none;
 }
