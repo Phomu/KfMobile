@@ -1,5 +1,5 @@
 body {
-  padding-top: 3.375rem; // ~47px
+  padding-top: 3rem; // ~42px
 }
 
 // 背景图片
@@ -24,7 +24,8 @@ main {
 
 // 用户菜单下拉按钮
 #userMenuDropdownBtn {
-  max-width: 178px;
+  max-width: 163px;
+  line-height: 2;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -44,7 +45,7 @@ main {
   padding: 12px;
   color: #fff;
   line-height: 1rem;
-  background-color: #000;
+  background-color: $black;
   border-radius: $border-radius;
   cursor: pointer;
   opacity: .15;

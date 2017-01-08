@@ -1,83 +1,79 @@
 <header>
   <!-- 导航栏 -->
-  <nav class="navbar navbar-fixed-top navbar-light bg-faded">
-    <div class="container px-0">
+  <nav class="navbar fixed-top navbar-light bg-faded px-0">
+    <div class="container d-flex px-3">
       <!-- 首页按钮 -->
-      <a class="navbar-brand" href="__PUBLIC__" title="首页">
+      <a class="navbar-brand mr-0 pr-3 py-0" href="__PUBLIC__" title="首页">
         <i class="fa fa-home fa-lg" aria-hidden="true"></i>
         <span class="sr-only">首页</span>
       </a>
 
-      <!-- 主菜单按钮 -->
-      <button class="navbar-toggler float-xs-right" id="mainMenuTogglerBtn" data-toggle="collapse" data-target="#mainMenu" type="button"
-              aria-expanded="false" aria-controls="mainMenu">
-        <i class="fa fa-bars" aria-hidden="true"></i>
-      </button>
-
       <!-- 用户菜单 -->
-      <ul class="nav navbar-nav">
-        <li class="nav-item">
-          <div class="dropdown">
-            <a class="nav-link dropdown-toggle active" id="userMenuDropdownBtn" data-toggle="dropdown" href="#" title="{$userTitle}"
-               role="button" aria-haspopup="true" aria-expanded="false">
-              {$userName}
-              {eq name="hasNewMsg" value="true"}&nbsp;<span class="tag tag-danger">New</span>{/eq}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="userMenuDropdownBtn">
-              <a class="dropdown-item" href="{:url('Profile/show?uid=' . $uid)}">
-                <i class="fa fa-user fa-fw" aria-hidden="true"></i> 个人信息
-              </a>
-              <div class="dropdown-divider" role="separator"></div>
-              <a class="dropdown-item" href="{:url('Message/index')}">
-                <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> 短消息
-                {eq name="hasNewMsg" value="true"}<span class="tag tag-danger">New</span>{/eq}
-              </a>
-              <a class="dropdown-item" href="{:url('GuanJianCi/index?gjc=' . $userName)}">
-                <i class="fa fa-at fa-fw" aria-hidden="true"></i> 提醒
-              </a>
-              <a class="dropdown-item" href="{:url('Personal/topic')}">
-                <i class="fa fa-comments fa-fw" aria-hidden="true"></i> 我的主题
-              </a>
-              <a class="dropdown-item" href="{:url('Personal/reply')}">
-                <i class="fa fa-commenting fa-fw" aria-hidden="true"></i> 我的回复
-              </a>
-              <div class="dropdown-divider" role="separator"></div>
-              <a class="dropdown-item" href="{:url('Profile/favor')}">
-                <i class="fa fa-bookmark fa-fw" aria-hidden="true"></i> 收藏
-              </a>
-              <a class="dropdown-item" href="{:url('Profile/friend')}">
-                <i class="fa fa-heart fa-fw" aria-hidden="true"></i> 好友
-              </a>
-              <a class="dropdown-item" href="{:url('Profile/modify')}">
-                <i class="fa fa-cog fa-fw" aria-hidden="true"></i> 设置
-              </a>
-              <div class="dropdown-divider" role="separator"></div>
-              <a class="dropdown-item" href="{:url('Login/logout', 'verify=' . $verify)}" onclick="return confirm('是否登出账号？');">
-                <i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> 退出
-              </a>
-            </div>
-          </div>
-        </li>
-        <!-- 版块列表按钮 -->
-        <li class="float-xs-right">
-          <button class="navbar-toggler" data-toggle="modal" data-target="#forumListDialog" type="button" title="版块列表">
-            <i class="fa fa-map-signs" aria-hidden="true"></i>
-            <span class="sr-only">版块列表</span>
-          </button>
-        </li>
+      <div class="dropdown">
+        <a class="dropdown-toggle d-inline-block align-middle py-0" id="userMenuDropdownBtn" data-toggle="dropdown" href="#"
+           title="{$userTitle}" role="button" aria-haspopup="true" aria-expanded="false">
+          {$userName}
+          {eq name="hasNewMsg" value="true"}&nbsp;<span class="badge badge-danger">New</span>{/eq}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="userMenuDropdownBtn">
+          <a class="dropdown-item" href="{:url('Profile/show?uid=' . $uid)}">
+            <i class="fa fa-user fa-fw" aria-hidden="true"></i> 个人信息
+          </a>
+          <div class="dropdown-divider" role="separator"></div>
+          <a class="dropdown-item" href="{:url('Message/index')}">
+            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> 短消息
+            {eq name="hasNewMsg" value="true"}<span class="badge badge-danger">New</span>{/eq}
+          </a>
+          <a class="dropdown-item" href="{:url('GuanJianCi/index?gjc=' . $userName)}">
+            <i class="fa fa-at fa-fw" aria-hidden="true"></i> 提醒
+          </a>
+          <a class="dropdown-item" href="{:url('Personal/topic')}">
+            <i class="fa fa-comments fa-fw" aria-hidden="true"></i> 我的主题
+          </a>
+          <a class="dropdown-item" href="{:url('Personal/reply')}">
+            <i class="fa fa-commenting fa-fw" aria-hidden="true"></i> 我的回复
+          </a>
+          <div class="dropdown-divider" role="separator"></div>
+          <a class="dropdown-item" href="{:url('Profile/favor')}">
+            <i class="fa fa-bookmark fa-fw" aria-hidden="true"></i> 收藏
+          </a>
+          <a class="dropdown-item" href="{:url('Profile/friend')}">
+            <i class="fa fa-heart fa-fw" aria-hidden="true"></i> 好友
+          </a>
+          <a class="dropdown-item" href="{:url('Profile/modify')}">
+            <i class="fa fa-cog fa-fw" aria-hidden="true"></i> 设置
+          </a>
+          <div class="dropdown-divider" role="separator"></div>
+          <a class="dropdown-item" href="{:url('Login/logout', 'verify=' . $verify)}" onclick="return confirm('是否登出账号？');">
+            <i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> 退出
+          </a>
+        </div>
+      </div>
+
+      <div class="ml-auto">
         <!-- 搜索按钮 -->
-        <li class="float-xs-right">
-          <button class="navbar-toggler" data-toggle="modal" data-target="#searchDialog" type="button" title="搜索">
-            <i class="fa fa-search" aria-hidden="true"></i>
-            <span class="sr-only">搜索</span>
-          </button>
-        </li>
-      </ul>
+        <button class="navbar-toggler" data-toggle="modal" data-target="#searchDialog" type="button" title="搜索">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span class="sr-only">搜索</span>
+        </button>
+
+        <!-- 版块列表按钮 -->
+        <button class="navbar-toggler" data-toggle="modal" data-target="#forumListDialog" type="button" title="版块列表">
+          <i class="fa fa-map-signs" aria-hidden="true"></i>
+          <span class="sr-only">版块列表</span>
+        </button>
+
+        <!-- 主菜单按钮 -->
+        <button class="navbar-toggler" id="mainMenuTogglerBtn" data-toggle="collapse" data-target="#mainMenu" type="button"
+                aria-expanded="false" aria-controls="mainMenu">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
 
     <!-- 主菜单 -->
-    <div class="container collapse p-0 bg-faded" id="mainMenu">
-      <ul class="nav nav-pills nav-stacked pt-1">
+    <div class="collapse bg-faded pt-3" id="mainMenu">
+      <ul class="container flex-column nav">
         <li class="nav-item">
           <a class="nav-link" data-name="openConfigDialog" href="#" role="button">
             <i class="fa fa-cog fa-fw" aria-hidden="true"></i> 助手设置
@@ -93,7 +89,7 @@
           <a href="javascript:;" class="nav-link disabled">
             <i class="fa fa-trophy fa-fw" aria-hidden="true"></i> KFOL
           </a>
-          <ul class="nav nav-pills nav-stacked ml-1">
+          <ul class="nav  flex-column ml-3">
             <li class="nav-item">
               <a class="nav-link" href="{:url('GrowUp/index')}">等级经验</a>
             </li>
@@ -116,7 +112,7 @@
           <a href="javascript:;" class="nav-link disabled">
             <i class="fa fa-gg fa-fw" aria-hidden="true"></i> 游戏·资源
           </a>
-          <ul class="nav nav-pills nav-stacked ml-1">
+          <ul class="nav flex-column ml-3">
             <li class="nav-item">
               <a class="nav-link" href="{:url('GameIntro/index')}">游戏介绍</a>
             </li>
@@ -149,10 +145,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title" id="searchDialogTitle">搜索</h5>
         <button class="close" data-dismiss="modal" type="button" aria-label="关闭">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="searchDialogTitle">搜索</h5>
       </div>
 
       <div class="modal-body">
@@ -165,8 +161,9 @@
           <input name="orderway" type="hidden" value="lastpost">
           <input name="asc" type="hidden" value="DESC">
 
-          <div class="input-group mb-1">
-            <input class="form-control" id="searchKeyword" name="keyword" type="search" aria-label="关键字">
+          <div class="input-group mb-3">
+            <label class="sr-only" for="searchKeyword">关键字</label>
+            <input class="form-control" id="searchKeyword" name="keyword" type="search">
             <div class="input-group-btn">
               <button class="btn btn-primary" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -175,14 +172,19 @@
             </div>
           </div>
 
-          <div class="text-xs-right">
-            <label class="radio-inline mr-1">
-              <input type="radio" name="searchRange" value="all" autocomplete="off" checked> 全站
-            </label>
-            <label class="radio-inline mr-1 disabled">
-              <input type="radio" name="searchRange" value="current" autocomplete="off" disabled> 本版
-            </label>
-            <select class="custom-select" id="searchType" autocomplete="off" aria-label="搜索类型">
+          <div class="text-right">
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="searchRange" value="all" autocomplete="off" checked> 全站
+              </label>
+            </div>
+            <div class="form-check form-check-inline mr-3 disabled">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="searchRange" value="current" autocomplete="off" disabled> 本版
+              </label>
+            </div>
+            <label class="sr-only" for="searchType">搜索类型</label>
+            <select class="custom-select" id="searchType" autocomplete="off">
               <option value="title" selected>标题</option>
               <option value="author">作者</option>
               <option value="gjc">关键词</option>
@@ -200,21 +202,21 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title" id="forumListDialogTitle">版块列表</h5>
         <button class="close" data-dismiss="modal" type="button" aria-label="关闭">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="forumListDialogTitle">版块列表</h5>
       </div>
 
-      <div class="modal-body px-sm">
+      <div class="modal-body">
 
         <!-- Galgame游戏区 & 动漫音乐区 版块列表 Tab -->
-        <ul class="nav nav-tabs mb-1" role="tablist">
+        <ul class="nav nav-tabs mb-3" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#commonForumPanel" role="tab" aria-controls="commonForumPanel">常用版块</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-btn edit-common-forum-btn" href="#" title="编辑常用版块" aria-label="编辑常用版块">
+            <a class="nav-link nav-link-btn edit-common-forum-btn px-2" href="#" title="编辑常用版块" aria-label="编辑常用版块">
               <i class="fa fa-edit" aria-hidden="true"></i>
             </a>
           </li>
@@ -231,60 +233,60 @@
           <div class="tab-pane active common-forum-panel" id="commonForumPanel" role="tabpanel"></div>
 
           <div class="tab-pane" id="galgameForumPanel" role="tabpanel">
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作游戏动态</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=52')}">游戏综合讨论</a>
               </div>
             </div>
-            <div class="row mb-1">
-              <div class="col-xs-4">
+            <div class="row mb-3">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=16')}">BT下载</a>
               </div>
-              <div class="col-xs-4">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=41')}">网盘下载</a>
               </div>
-              <div class="col-xs-4">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=67')}">CG下载</a>
               </div>
             </div>
-            <div class="row mb-1">
-              <div class="col-xs-4">
+            <div class="row mb-3">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=102')}">游戏推荐</a>
               </div>
-              <div class="col-xs-4">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=24')}">疑难互助</a>
               </div>
-              <div class="col-xs-4">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=57')}">同人漫本</a>
               </div>
             </div>
           </div>
 
           <div class="tab-pane" id="resourceForumPanel" role="tabpanel">
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=84')}">动漫综合讨论</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=92')}">动画资源下载</a>
               </div>
             </div>
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=127')}">漫画小说</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=68')}">动漫游戏音乐</a>
               </div>
             </div>
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=163')}">ACG类LIVE共享</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=182')}">转载资源</a>
               </div>
             </div>
@@ -292,7 +294,7 @@
         </div>
 
         <!-- 交流区 & ACG综合区 版块列表 Tab -->
-        <ul class="nav nav-tabs mb-1" role="tablist">
+        <ul class="nav nav-tabs mb-3" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#discussForumPanel" role="tab" aria-controls="discussForumPanel">交流区</a>
           </li>
@@ -303,61 +305,61 @@
         <!-- 交流区 & ACG综合区 版块列表 Panel -->
         <div class="tab-content">
           <div class="tab-pane active" id="discussForumPanel" role="tabpanel">
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=5')}">自由讨论区</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=56')}">个人日记区</a>
               </div>
             </div>
 
-            <div class="row mb-1">
-              <div class="col-xs-4">
+            <div class="row mb-3">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=98')}">日本语版</a>
               </div>
-              <div class="col-xs-4">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=9')}">我的关注</a>
               </div>
-              <div class="col-xs-4">
+              <div class="col-4">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=4')}">意见投诉</a>
               </div>
             </div>
 
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=93')}">管理组区(内部)</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=59')}">原创组区(内部)</a>
               </div>
             </div>
           </div>
 
           <div class="tab-pane" id="acgForumPanel" role="tabpanel">
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=94')}">原创绘画作品</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=87')}">ACG宅物交流</a>
               </div>
             </div>
 
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=86')}">电子产品交流</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=115')}">ACG文字作品</a>
               </div>
             </div>
 
-            <div class="row mb-1">
-              <div class="col-xs-6">
+            <div class="row mb-3">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=96')}">图片来源出处</a>
               </div>
-              <div class="col-xs-6">
+              <div class="col-6">
                 <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=36')}">资源下载求助</a>
               </div>
             </div>

@@ -41,7 +41,6 @@
 // ID颜色选择项目
 .id-color-item {
   height: 3.571rem; // ~50px
-  padding: 0;
   color: #fff;
   line-height: 3.571rem; // ~50px
   text-align: center;
@@ -61,8 +60,8 @@
 
   th, td {
     padding: {
-      left: $spacer-sm;
-      right: $spacer-sm;
+      left: $spacer-2;
+      right: $spacer-2;
     }
   }
 
@@ -93,8 +92,7 @@
 // 游戏搜索列表
 .game-search-list {
   .media {
-    margin-bottom: $spacer;
-    padding: $spacer-sm;
+    padding: $spacer-2;
     background-color: $list-group-bg;
     border: 1px solid $list-group-border-color;
     border-radius: $list-group-border-radius;
@@ -103,15 +101,9 @@
       background-color: $list-group-hover-bg;
     }
 
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    .media-left {
-      img {
-        max-width: 70px;
-        max-height: 100.8px;
-      }
+    .game-search-img {
+      max-width: 70px;
+      max-height: 100.8px;
     }
   }
 }

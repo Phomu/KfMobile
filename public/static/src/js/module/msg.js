@@ -10,9 +10,9 @@
  * @param {boolean} [options.preventable=false] 是否阻止点击网页上的其它元素
  * @param {number} [duration] 消息显示时间（秒），-1为永久显示
  * @example
- * show('<span class="mr-1">使用道具</span><span class="text-item">神秘系数<em class="text-warning">+1</em></span>', -1);
+ * show('<span class="mr-3">使用道具</span><span class="text-item">神秘系数<em class="text-warning">+1</em></span>', -1);
  * show({
- *   msg: '<span class="mr-1">抽取神秘盒子</span><span class="text-item">KFB<em class="text-warning">+8</em></span>',
+ *   msg: '<span class="mr-3">抽取神秘盒子</span><span class="text-item">KFB<em class="text-warning">+8</em></span>',
  *   duration: 20,
  *   clickable: false,
  * });

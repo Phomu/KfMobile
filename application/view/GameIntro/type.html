@@ -16,9 +16,9 @@
 </head>
 <body id="gameIntroTypePage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">游戏类型介绍</li>
   </ol>
@@ -26,11 +26,11 @@
   {include file="GameIntro/searchArea" /}
 
   <!-- 游戏类型名称 -->
-  <h5 class="text-xs-center mb-1">{$typeName}</h5>
+  <h5 class="text-center mb-3">{$typeName}</h5>
 
   <!-- 游戏类型封面 -->
-  <div class="text-xs-center mb-1">
-    <div class="mb-1">
+  <div class="text-center mb-3">
+    <div class="mb-3">
       <img class="img-thumbnail game-intro-cover" src="{$typeCover}" alt="游戏类型封面">
     </div>
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
@@ -39,39 +39,39 @@
   </div>
 
   <!-- 基本信息 -->
-  <div class="card mb-1">
-    <h6 class="card-header mb-0">基本信息</h6>
+  <div class="card mb-3">
+    <h6 class="card-header">基本信息</h6>
     <div class="card-block">
       <p class="card-text">{$typeInfo}</p>
     </div>
   </div>
 
   <!-- 类型说明 -->
-  <div class="card mb-1">
-    <h6 class="card-header mb-0">类型说明</h6>
+  <div class="card mb-3">
+    <h6 class="card-header">类型说明</h6>
     <div class="card-block">
       <p class="card-text">{$typeIntro}</p>
     </div>
   </div>
 
   <!-- 该类型游戏举例 -->
-  <div class="card mb-1">
-    <h6 class="card-header mb-0">该类型游戏举例</h6>
+  <div class="card mb-3">
+    <h6 class="card-header">该类型游戏举例</h6>
     <div class="card-block">
       <p class="card-text">{$typeExample}</p>
     </div>
   </div>
 
   <!-- 相关信息 -->
-  <div class="card">
-    <h6 class="card-header mb-0">相关信息</h6>
+  <div class="card mb-3">
+    <h6 class="card-header">相关信息</h6>
     <div class="card-block">
       <p class="card-text">{$typeExtraInfo}</p>
     </div>
   </div>
 
   <!-- 游戏类型受关注排行 -->
-  <div class="list-group list-group-sm mb-1" role="list">
+  <div class="list-group list-group-sm mb-3" role="list">
     <h6 class="list-group-item list-group-item-header">游戏类型受关注排行</h6>
     {volist name="gameAttentionRankList" id="vo"}
     <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.name}</a>

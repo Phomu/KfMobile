@@ -12,7 +12,7 @@
   .thread-link {
     @include make-col(10);
     @include text-truncate;
-    padding-left: $spacer-sm;
+    padding-left: $spacer-2;
     line-height: $line-height;
 
     &:hover {
@@ -36,6 +36,8 @@
 
 // 主题列表组
 .thread-list-group {
+  @include make-col(12);
+
   // 主题列表项
   .thread-list-item {
     margin: {
@@ -50,11 +52,12 @@
 
     // 主题链接项
     .thread-link-item {
+      @include make-col(12);
       max-height: 3.357rem;
       padding: {
-        top: $spacer-xs;
-        left: $spacer-sm;
-        right: $spacer-sm;
+        top: $spacer-1;
+        left: $spacer-2;
+        right: $spacer-2;
       }
       overflow: hidden;
 
@@ -72,10 +75,11 @@
 
     // 主题列表项底部
     .thread-item-footer {
-      @include clearfix;
+      @include make-col(12);
+      display: flex;
       padding: {
-        left: $spacer-sm;
-        right: $spacer-sm;
+        left: $spacer-2;
+        right: $spacer-2;
       }
 
       small {
@@ -88,6 +92,14 @@
         line-height: 2.2;
       }
     }
+  }
+}
+
+#threadPage {
+  // 主题页面中的主题列表尾部增加补白
+  .thread-link::after {
+    padding-right: $spacer * 2;
+    content: " ";
   }
 }
 

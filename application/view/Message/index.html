@@ -7,8 +7,8 @@
   <title>短消息 - {$Think.config.site_name}</title>
   {include file="Public/head" /}
   <script>
-    pageInfo.currentPageNum = {$currentPageNum};
-    pageInfo.maxPageNum = {$maxPageNum};
+      pageInfo.currentPageNum = {$currentPageNum};
+      pageInfo.maxPageNum = {$maxPageNum};
   </script>
   {/* 编辑器提示用
   <link rel="stylesheet" href="../../public/static/src/css/app.css">
@@ -17,9 +17,9 @@
 </head>
 <body id="messagePage">
 {include file="Public/header" /}
-<main class="container pt-2 mb-0">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">短消息</li>
   </ol>
@@ -27,11 +27,11 @@
   {include file="Message/nav" /}
 
   <!-- 信箱状态 -->
-  <div class="alert alert-info text-xs-center mb-0" role="alert">{$msgBoxInfo}</div>
+  <div class="alert alert-info text-center" role="alert">{$msgBoxInfo}</div>
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>
@@ -77,19 +77,21 @@
   <form id="messageListForm" action="{:url('Message/job')}" method="post">
     {notempty name="messageList"}
     <!-- 短消息列表 -->
-    <section class="row mb-1">
+    <section class="row mb-3">
       <ul class="list-group thread-list-group">
         {volist name="messageList" id="vo"}
         <li class="list-group-item thread-list-item">
           <div class="thread-link-item">
             {eq name="vo.canSelect" value="true"}
-            <label class="form-check-inline">
-              <input class="form-check-input" name="delid[]" type="checkbox" value="{$vo.mid}" aria-label="选择短消息">
-            </label>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" name="delid[]" type="checkbox" value="{$vo.mid}" aria-label="选择短消息">
+              </label>
+            </div>
             {/eq}
             <span class="font-size-sm text-muted">{$vo.no}.</span>
             {eq name="vo.unRead" value="true"}
-            <span class="tag tag-danger">未读</span>
+            <span class="badge badge-danger">未读</span>
             {/eq}
             {switch name="action"}
             {case value="sendbox"}{assign name="readAction" value="readsnd" /}{/case}
@@ -130,11 +132,11 @@
       </ul>
     </section>
     {else /}
-    <div class="alert alert-danger text-xs-center" role="alert">暂无短消息</div>
+    <div class="alert alert-danger text-center" role="alert">暂无短消息</div>
     {/notempty}
 
     <!-- 功能区 -->
-    <section id="messageActionBtns">
+    <section class="mb-3" id="messageActionBtns">
       <input name="towhere" type="hidden" value="{$action}">
       <input name="action" type="hidden" value="">
       <button class="btn btn-secondary" data-action="selectAll" type="button">全选</button>
@@ -146,8 +148,8 @@
   </form>
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>

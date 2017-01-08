@@ -8,19 +8,20 @@
 .read-floor {
   @include make-row();
   margin-bottom: $spacer;
-  padding: $spacer-sm;
+  padding: $spacer-2;
   border: 1px solid $list-group-border-color;
   border-radius: $border-radius;
 
   // 楼层顶部
   header {
+    @include make-col(12);
     .avatar {
       max-width: 3.424rem; // ~48px
       max-height: 4.891rem; // ~68px
     }
 
     .floor-num {
-      margin-right: $spacer-xs;
+      margin-right: $spacer-1;
     }
 
     .floor-user {
@@ -30,20 +31,11 @@
     .sm-level {
       color: #00b0f0;
     }
-
-    // 多重引用复选框
-    .multi-quote-check {
-      vertical-align: text-bottom;
-    }
-    @-moz-document url-prefix() {
-      .multi-quote-check {
-        vertical-align: text-top;
-      }
-    }
   }
 
   // 楼层底部
   footer {
+    @include make-col(12);
     // 签名
     .floor-sign {
       @include text-truncate;
@@ -55,6 +47,7 @@
 
 // 楼层内容
 .read-content {
+  @include make-col(12);
   padding: {
     top: $spacer;
     bottom: $spacer;
@@ -65,10 +58,10 @@
   // 引用框
   .blockquote {
     margin: {
-      top: $spacer-sm;
-      bottom: $spacer-sm;
+      top: $spacer-2;
+      bottom: $spacer-2;
     }
-    padding: $spacer-sm;
+    padding: $spacer-2;
     font-size: inherit;
     text-align: left !important;
 
@@ -85,8 +78,8 @@
       bottom: $spacer;
     }
     padding: {
-      left: $spacer-sm;
-      right: $spacer-sm;
+      left: $spacer-2;
+      right: $spacer-2;
     }
     font-size: $font-size-sm;
     text-align: left !important;
@@ -97,7 +90,7 @@
     }
 
     pre {
-      padding-bottom: $spacer-sm;
+      padding-bottom: $spacer-2;
       font-size: inherit;
       word-wrap: normal;
       overflow-y: auto;
@@ -112,10 +105,10 @@
   // 功能区域
   .fieldset {
     margin: {
-      top: $spacer-sm;
-      bottom: $spacer-sm;
+      top: $spacer-2;
+      bottom: $spacer-2;
     }
-    padding: $spacer-sm;
+    padding: $spacer-2;
     text-align: left !important;
     font-weight: normal !important;
     font-style: normal !important;
@@ -123,12 +116,13 @@
 
     legend {
       font-size: $font-size-sm;
+      font-weight: normal !important;
 
       select {
         width: 5rem;
         margin: {
-          left: $spacer-sm;
-          right: $spacer-sm;
+          left: $spacer-2;
+          right: $spacer-2;
         }
         word-wrap: normal;
       }
@@ -164,8 +158,8 @@
   img, audio, video, marquee {
     max-width: 100%;
     margin: {
-      top: $spacer-xs;
-      bottom: $spacer-xs;
+      top: $spacer-1;
+      bottom: $spacer-1;
     }
     vertical-align: text-bottom;
   }
@@ -179,13 +173,13 @@
   .floor_edit_mark {
     font-size: $font-size-sm;
     color: $text-muted;
-    padding-top: $spacer-sm;
+    padding-top: $spacer-2;
     text-align: left !important;
   }
 
   // 附件
   .attach {
-    margin-bottom: $spacer-xs;
+    margin-bottom: $spacer-1;
     font-size: $font-size-sm;
     color: $text-muted;
     text-align: left !important;
@@ -197,10 +191,10 @@
   max-height: 370px;
   overflow-y: auto;
 
-  // 投票项
+  /*// 投票项
   .list-group-item {
     .form-check {
-      margin-bottom: $spacer-xs;
+      margin-bottom: $spacer-1;
 
       .form-check-label {
         padding-left: 0;
@@ -210,5 +204,5 @@
     .progress {
       margin-bottom: 0;
     }
-  }
+  }*/
 }

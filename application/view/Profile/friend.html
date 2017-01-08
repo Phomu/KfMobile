@@ -13,9 +13,9 @@
 </head>
 <body id="friendPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">好友列表</li>
   </ol>
@@ -23,14 +23,14 @@
   <form method="post" action="{:url('Profile/friend')}">
     {notempty name="friendList"}
     <!-- 好友列表 -->
-    <ul class="row list-group list-group-sm mb-1" id="friendList">
+    <ul class="row list-group list-group-sm mb-3" id="friendList">
       {volist name="friendList" id="vo"}
       <li class="list-group-item">
-        <div class="form-group">
+        <div class="form-group w-100">
           {eq name="vo.isOnline" value="true"}
-          <span class="tag tag-success">在线</span>
+          <span class="badge badge-success">在线</span>
           {else /}
-          <span class="tag tag-default">离线</span>
+          <span class="badge badge-default">离线</span>
           {/eq}
           <a href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank">{$vo.name}</a>&nbsp;
           <small class="text-muted" title="加入时间" aria-label="加入时间">
@@ -38,11 +38,13 @@
             <time>{$vo.addTime}</time>
           </small>
           &nbsp;
-          <label class="form-check-inline text-muted">
-            <input class="form-check-input" name="selid[]" type="checkbox" value="{$vo.uid}"> 删
-          </label>
+          <div class="form-check-inline">
+            <label class="form-check-label text-muted">
+              <input class="form-check-input" name="selid[]" type="checkbox" value="{$vo.uid}"> 删
+            </label>
+          </div>
         </div>
-        <div class="form-group">
+        <div class="form-group w-100">
           <input class="form-control form-control-sm" name="frienddb[{$vo.uid}]" type="text" value="{$vo.description}" placeholder="描述"
                  aria-label="描述">
         </div>
@@ -50,19 +52,17 @@
       {/volist}
     </ul>
     {else /}
-    <div class="alert alert-danger text-xs-center" role="alert">暂无好友</div>
+    <div class="alert alert-danger text-center" role="alert">暂无好友</div>
     {/notempty}
 
     <!-- 功能区 -->
     <section id="friendActionBtns">
       <input name="job" type="hidden" value="submit">
-      <div class="form-inline form-group">
-        <div class="form-group">
-          <input class="form-control" name="pwuser" type="text" placeholder="用户名" aria-label="用户名">
-        </div>
-        <div class="form-group">
-          <input class="form-control" name="descrip" type="text" placeholder="描述" aria-label="描述">
-        </div>
+      <div class="form-inline mb-sm-2">
+        <label class="sr-only" for="friendUser">用户名</label>
+        <input class="form-control mb-2 mr-sm-2 mb-sm-0" name="pwuser" id="friendUser" type="text" placeholder="用户名">
+        <label class="sr-only" for="friendDescription">描述</label>
+        <input class="form-control mb-2 mb-sm-0" name="descrip" id="friendDescription" type="text" placeholder="描述">
       </div>
       <div class="form-group">
         <button class="btn btn-secondary" data-action="selectAll" type="button">全选</button>

@@ -19,9 +19,9 @@
 </head>
 <body id="gameIntroSearchPage">
 {include file="Public/header" /}
-<main class="container pt-2 mb-0">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">游戏搜索：“{$keyword}”</li>
   </ol>
@@ -29,8 +29,8 @@
   {include file="GameIntro/searchArea" /}
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination mt-0">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>
@@ -75,16 +75,14 @@
 
   {notempty name="gameList"}
   <!-- 游戏列表 -->
-  <ul class="row media-list game-search-list mb-0">
+  <ul class="row list-unstyled game-search-list mb-0">
     {volist name="gameList" id="vo"}
-    <li class="media">
-      <div class="media-left">
-        <a href="{:url('GameIntro/game?id=' . $vo['id'])}">
-          <img class="media-object rounded" src="{$vo.img}" alt="游戏图片">
-        </a>
-      </div>
+    <li class="col-12 media mb-3">
+      <a class="d-flex mr-3" href="{:url('GameIntro/game?id=' . $vo['id'])}">
+        <img class="game-search-img rounded" src="{$vo.img}" alt="游戏图片">
+      </a>
       <div class="media-body">
-        <h6 class="media-heading">
+        <h6>
           <a href="{:url('GameIntro/game?id=' . $vo['id'])}">{$vo.gameName}</a>
         </h6>
         <p class="font-size-sm mb-0">
@@ -99,12 +97,12 @@
     {/volist}
   </ul>
   {else /}
-  <div class="alert alert-danger text-xs-center mb-0" role="alert">没有找到您查询的内容，请调整关键字再搜索。</div>
+  <div class="alert alert-danger text-center" role="alert">没有找到您查询的内容，请调整关键字再搜索。</div>
   {/notempty}
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>

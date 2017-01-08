@@ -19,9 +19,9 @@
 </head>
 <body id="postPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item text-truncate"><a href="{$parentNavUrl}">{$parentNavName}</a></li>
     <li class="breadcrumb-item active">
@@ -81,9 +81,9 @@
       {else /}
       {assign name="voteDisabled" value="" /}
       {/eq}
-      <h6 class="card-header mb-0">投票信息</h6>
+      <h6 class="card-header">投票信息</h6>
 
-      <div class="card-block p-1">
+      <div class="card-block p-3">
         {eq name="vote.hasClose" value="true"}
         <div class="form-check">
           <label class="form-check-label text-danger">
@@ -93,8 +93,8 @@
         {/eq}
 
         <div class="form-group row">
-          <label class="col-xs-5 form-text" for="timelimit">投票有效天数</label>
-          <div class="col-xs-7">
+          <label class="col-5 form-text" for="timelimit">投票有效天数</label>
+          <div class="col-7">
             <input class="form-control" id="timelimit" name="timelimit" type="number" value="{$vote.timeLimit}" min="0"
                    placeholder="投票有效天数" {$voteDisabled}>
           </div>
@@ -111,8 +111,8 @@
         </div>
 
         <div class="form-group row">
-          <label class="col-xs-5 form-text" for="mostvotes">最多选择个数</label>
-          <div class="col-xs-7">
+          <label class="col-5 form-text" for="mostvotes">最多选择个数</label>
+          <div class="col-7">
             <input class="form-control" id="mostvotes" name="mostvotes" type="number" value="{$vote.mostVotes}" min="0"
                    placeholder="最多选择个数" {$voteDisabled}>
           </div>
@@ -159,7 +159,7 @@
     {/notempty}
 
     <!-- 编辑器按钮 -->
-    <div class="btn-group btn-group-sm editor-btn-group" role="group" aria-label="编辑器按钮">
+    <div class="btn-group btn-group-sm editor-btn-group flex-wrap" role="group" aria-label="编辑器按钮">
       <div class="btn-group" role="group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" id="fontSizeDropdownBtn" data-toggle="dropdown" type="button"
                 aria-haspopup="true" aria-expanded="false">
@@ -286,7 +286,7 @@
     </div>
     {/neq}
 
-    <button class="btn btn-primary btn-block mb-1" type="submit">
+    <button class="btn btn-primary btn-block mb-3" type="submit">
       <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
     </button>
 
@@ -305,29 +305,31 @@
     {/neq}
 
     <!-- 功能选项 -->
-    <div class="form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" name="atc_autourl" type="checkbox" value="1" checked> 自动分析url
-      </label>
-    </div>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" name="atc_convert" type="checkbox" value="1" checked> Wind Code自动转换
-      </label>
+    <div class="form-group mb-2">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" name="atc_autourl" type="checkbox" value="1" checked> 自动分析url
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" name="atc_convert" type="checkbox" value="1" checked> Wind Code自动转换
+        </label>
+      </div>
     </div>
 
     {notempty name="attachList"}
     <!-- 该帖包含附件 -->
     <div class="card">
-      <h6 class="card-header mb-0">
+      <h6 class="card-header">
         该帖包含附件
         <small class="text-muted">(不想保留的附件去掉&check;)</small>
       </h6>
-      <div class="card-block p-1">
+      <div class="card-block p-3">
         {volist name="attachList" id="vo"}
         <div class="form-group row font-size-sm attach-area" data-id="{$vo.id}">
-          <div class="col-xs-12 col-form-label">
-            <label class="form-check-inline">
+          <div class="col-12 form-check">
+            <label class="form-check-label">
               <input class="form-check-input" name="keep[]" type="checkbox" value="{$vo.id}" aria-label="选择附件" checked>
             </label>
             <span class="attach-info">
@@ -339,12 +341,12 @@
               <a data-action="update" href="#">更新</a>
             </span>
           </div>
-          <div class="col-xs-4">
+          <div class="col-4">
             <label class="sr-only" for="downrvrc_{$vo.id}">神秘系数</label>
             <input class="form-control form-control-sm" id="downrvrc_{$vo.id}" name="downrvrc[{$vo.id}]" data-toggle="tooltip"
                    type="number" value="{$vo.require}" min="0" title="神秘系数" placeholder="神秘系数">
           </div>
-          <div class="col-xs-8">
+          <div class="col-8">
             <label class="sr-only" for="attdesc_{$vo.id}">描述</label>
             <input class="form-control form-control-sm" id="attdesc_{$vo.id}" name="attdesc[{$vo.id}]" data-toggle="tooltip" type="text"
                    value="{$vo.description}" title="描述" placeholder="描述">
@@ -357,10 +359,10 @@
 
     <!-- 添加附件 -->
     <div class="card">
-      <h6 class="card-header mb-0">添加附件</h6>
-      <div class="card-block p-1" id="newAttachArea">
+      <h6 class="card-header">添加附件</h6>
+      <div class="card-block p-3" id="newAttachArea">
         <div class="form-group row font-size-sm attach-area" data-id="1">
-          <div class="col-xs-12 col-form-label">
+          <div class="col-12 col-form-label">
             <label>
               <input name="attachment_1" data-type="new" type="file" aria-label="选择附件">
             </label>
@@ -369,12 +371,12 @@
               <a data-action="delete" href="#">删除</a>
             </span>
           </div>
-          <div class="col-xs-4">
+          <div class="col-4">
             <label class="sr-only" for="atc_downrvrc1">神秘系数</label>
             <input class="form-control form-control-sm" id="atc_downrvrc1" name="atc_downrvrc1" data-toggle="tooltip" type="number"
                    value="0" min="0" title="神秘系数" placeholder="神秘系数">
           </div>
-          <div class="col-xs-8">
+          <div class="col-8">
             <label class="sr-only" for="atc_desc1">描述</label>
             <input class="form-control form-control-sm" id="atc_desc1" name="atc_desc1" data-toggle="tooltip" type="text" title="描述"
                    placeholder="描述">
@@ -391,9 +393,9 @@
 
   {notempty name="latestFloorContent"}
   <!-- 主题回顾 -->
-  <div class="card mt-2">
-    <h6 class="card-header mb-0">主题回顾</h6>
-    <div class="card-block read-content latest-floor-content">
+  <div class="card mt-4">
+    <h6 class="card-header">主题回顾</h6>
+    <div class="card-block read-content latest-floor-content p-3">
       {$latestFloorContent}
     </div>
   </div>

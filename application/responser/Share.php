@@ -46,8 +46,8 @@ class Share extends Responser
                 $tid = intval($matches[1]);
             }
             $threadTitle = trim($pqThreadLink->html());
-            $threadTitle = str_replace('<font color="#009900">[新作]</font>', '<span class="tag tag-success">新作</span> ', $threadTitle);
-            $threadTitle = str_replace('<font color="#ff0000">[推荐]</font>', '<span class="tag tag-danger">推荐</span> ', $threadTitle);
+            $threadTitle = str_replace('<font color="#009900">[新作]</font>', '<span class="badge badge-success">新作</span> ', $threadTitle);
+            $threadTitle = str_replace('<font color="#ff0000">[推荐]</font>', '<span class="badge badge-danger">推荐</span> ', $threadTitle);
 
             $author = trim($pqItem->find('td:nth-child(4)')->html());
             $shareList[] = [

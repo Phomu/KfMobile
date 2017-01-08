@@ -13,15 +13,15 @@
 </head>
 <body id="rankPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">论坛排行</li>
   </ol>
 
   <!-- 我的神秘系数排名 -->
-  <div class="alert alert-danger text-xs-center" role="alert">
+  <div class="alert alert-success text-center" role="alert">
     {empty name="myRank"}
     我的神秘系数目前不在 <b>10000</b> 位以内
     {else /}
@@ -30,7 +30,7 @@
   </div>
 
   <!-- 分类导航 -->
-  <nav class="nav nav-pills nav-stacked mb-1">
+  <nav class="nav nav-pills flex-column flex-md-row mb-3">
     <a class="nav-link {eq name='type' value='sm'}active{/eq}" href="{:url('Rank/index?no1=sm')}">神秘系数排名</a>
     <a class="nav-link {eq name='type' value='cz'}active{/eq}" href="{:url('Rank/index?no1=cz')}">成长经验排名</a>
     <a class="nav-link {eq name='type' value='gz'}active{/eq}" href="{:url('Rank/index?no1=gz')}">被关注数排名</a>

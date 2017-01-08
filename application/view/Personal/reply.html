@@ -17,16 +17,16 @@
 </head>
 <body id="myReplyPage">
 {include file="Public/header" /}
-<main class="container pt-2 mb-0">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-0">
+  <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">我的回复</li>
   </ol>
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>
@@ -71,7 +71,7 @@
 
   {notempty name="replyList"}
   <!-- 回复列表 -->
-  <section class="row">
+  <section class="row mb-3">
     <ul class="list-group thread-list-group">
       {volist name="replyList" id="vo"}
       <li class="list-group-item thread-list-item">
@@ -103,12 +103,12 @@
     </ul>
   </section>
   {else /}
-  <div class="alert alert-danger text-xs-center" role="alert">暂无回复</div>
+  <div class="alert alert-danger text-center" role="alert">暂无回复</div>
   {/notempty}
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>

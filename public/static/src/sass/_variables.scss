@@ -1,8 +1,8 @@
-// 页面背景
-$body-bg: #fcfcfc;
-
 // 根元素的字体大小
-$font-size-root: 14px;
+html {
+  font-size: 14px;
+}
+
 // 超大字体
 $font-size-xl: 1.5rem; // ~21px
 
@@ -13,36 +13,36 @@ $spacer-x: $spacer;
 // 标准间隔（垂直）
 $spacer-y: $spacer;
 // 较小间隔
-$spacer-sm: $spacer / 1.75; // ~8px
+$spacer-2: $spacer * .5; // ~7px
 // 超小间隔
-$spacer-xs: $spacer / 2.8; // ~5px
-// 间隔列表
-$spacers: (
-        0: (
-                x: 0,
-                y: 0
-        ),
-        1: (
-                x: $spacer-x,
-                y: $spacer-y
-        ),
-        2: (
-                x: ($spacer-x * 1.5),
-                y: ($spacer-y * 1.5)
-        ),
-        3: (
-                x: ($spacer-x * 3),
-                y: ($spacer-y * 3)
-        ),
-        sm: (
-                x: $spacer-sm,
-                y: $spacer-sm
-        ),
-        xs: (
-                x: $spacer-xs,
-                y: $spacer-xs
-        )
-);
+$spacer-1: $spacer * .25; // ~3.5px
+
+// 颜色
+$white: #fff;
+$black: #000;
+$red: #d9534f;
+$orange: #f0ad4e;
+$yellow: #ffd500;
+$green: #5cb85c;
+$blue: #0275d8;
+$teal: #5bc0de;
+$pink: #ff5b77;
+$purple: #613d7c;
+
+// 灰度颜色
+$gray-dark: #292b2c;
+$gray: #464a4c;
+$gray-light: #636c72;
+$gray-lighter: #eceeef;
+$gray-lightest: #f7f7f9;
+
+// 语义颜色
+$brand-primary: $blue;
+$brand-success: $green;
+$brand-info: $teal;
+$brand-warning: $orange;
+$brand-danger: $red;
+$brand-inverse: $gray-dark;
 
 // 背景透明度
 $bg-opacity: .5;
@@ -53,38 +53,39 @@ $bg-opacity-lighter: .7;
 // 背景透明度（最亮）
 $bg-opacity-lightest: .95;
 
+// 页面背景
+$body-bg: #fcfcfc;
+
 // 列表组背景
-$list-group-bg: rgba(#fff, $bg-opacity);
+$list-group-bg: rgba($white, $bg-opacity);
 // 列表组高亮背景
-$list-group-hover-bg: rgba(darken(#f5f5f5, 5%), $bg-opacity);
+$list-group-hover-bg: rgba(darken($gray-lightest, 5%), $bg-opacity);
 
 // 面包屑导航背景
-$breadcrumb-bg: rgba(darken(#eceeef, 5%), $bg-opacity);
+$breadcrumb-bg: rgba(darken($gray-lighter, 5%), $bg-opacity);
 
 // 选项卡背景（激活状态）
 $nav-tabs-active-link-hover-bg: rgba($body-bg, $bg-opacity-light);
 // 选项卡边框颜色（悬停状态）
-$nav-tabs-link-hover-border-color: darken(#eceeef, 3%);
+$nav-tabs-link-hover-border-color: darken($gray-lighter, 3%);
 
 // 卡片背景
-$card-bg: rgba(#fff, $bg-opacity);
+$card-bg: rgba($white, $bg-opacity);
 // 卡片头部背景
-$card-cap-bg: rgba(darken(#f5f5f5, 2%), $bg-opacity);
+$card-cap-bg: rgba(darken($gray-lightest, 2%), $bg-opacity);
 
 // 分页背景
-$pagination-bg: rgba(#fff, $bg-opacity-light);
+$pagination-bg: rgba($white, $bg-opacity-light);
 // 分页背景（禁用状态）
-$pagination-disabled-bg: rgba(#fff, $bg-opacity-light);
+$pagination-disabled-bg: rgba($white, $bg-opacity-light);
 
 // 输入框背景
-$input-bg: rgba(#fff, $bg-opacity-light);
+$input-bg: rgba($white, $bg-opacity-light);
 // 自定义选择框背景
-$custom-select-bg: rgba(#fff, $bg-opacity-light);
-// 自定义选择框指示物
-$custom-select-indicator: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+$custom-select-bg: rgba($white, $bg-opacity-light);
 
 // 模态框头部边框颜色
-$modal-header-border-color: darken(#e5e5e5, 1%);
+$modal-header-border-color: darken($gray-lighter, 5%);
 
 // 引用框背景
 $blockquote-bg: rgba(darken($body-bg, 7%), $bg-opacity-lighter);

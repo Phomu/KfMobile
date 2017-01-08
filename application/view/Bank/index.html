@@ -13,9 +13,9 @@
 </head>
 <body id="bankPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">银行</li>
   </ol>
@@ -44,9 +44,9 @@
   </div>
 
   <!-- 功能区 -->
-  <section class="mb-1">
+  <section class="mb-3">
     <!-- 功能区 Tab -->
-    <ul class="nav nav-tabs mb-1" role="tablist">
+    <ul class="nav nav-tabs mb-3" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#saveOrDrawKfbPanel" role="tab" aria-controls="saveOrDrawKfbPanel">存/取KFB</a>
       </li>
@@ -58,17 +58,21 @@
     <div class="tab-content">
       <!-- 存/取KFB -->
       <div class="tab-pane card active" id="saveOrDrawKfbPanel" role="tabpanel">
-        <h5 class="card-header mb-0">存/取KFB</h5>
-        <div class="card-block p-1">
+        <h5 class="card-header">存/取KFB</h5>
+        <div class="card-block p-3">
           <form action="{:url('Bank/service')}" method="post" autocomplete="off">
             <input name="action" type="hidden" value="save">
             <div class="form-group">
-              <label class="form-check-inline">
-                <input class="form-check-input" name="btype" type="radio" value="1" checked> 活期
-              </label>
-              <label class="form-check-inline">
-                <input class="form-check-input" name="btype" type="radio" value="2"> 定期
-              </label>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" name="btype" type="radio" value="1" checked> 活期
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" name="btype" type="radio" value="2"> 定期
+                </label>
+              </div>
             </div>
             <div class="input-group">
               <input class="form-control" name="savemoney" type="number" min="1" placeholder="存款金额" aria-label="存款金额" required>
@@ -84,12 +88,16 @@
           <form action="{:url('Bank/service')}" method="post" autocomplete="off">
             <input name="action" type="hidden" value="draw">
             <div class="form-group">
-              <label class="form-check-inline">
-                <input class="form-check-input" name="btype" type="radio" value="1" checked> 活期
-              </label>
-              <label class="form-check-inline">
-                <input class="form-check-input" name="btype" type="radio" value="2"> 定期
-              </label>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" name="btype" type="radio" value="1" checked> 活期
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" name="btype" type="radio" value="2"> 定期
+                </label>
+              </div>
             </div>
             <div class="input-group">
               <input class="form-control" name="drawmoney" type="number" min="1" placeholder="取款金额" aria-label="取款金额" required>
@@ -105,8 +113,8 @@
 
       <!-- 转账KFB -->
       <div class="tab-pane card" id="transferKfbPanel" role="tabpanel">
-        <h5 class="card-header mb-0">转账KFB</h5>
-        <div class="card-block p-1">
+        <h5 class="card-header">转账KFB</h5>
+        <div class="card-block p-3">
           <p>
             <span class="text-danger">可转账额度：<b>{$transferLimit|number_format}</b></span><br>
             <small class="text-muted">转账将消耗与KFB等量的额度，额度可通过发帖(每个主题帖200额度/回复帖10额度)和被评分(评分数x120%额度)获得</small>
@@ -143,7 +151,7 @@
   <!-- 存款排行 -->
   <section>
     <!-- 存款排行 Tab -->
-    <ul class="nav nav-tabs mb-1" role="tablist">
+    <ul class="nav nav-tabs mb-3" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#currentDepositRankListPanel" role="tab"
            aria-controls="currentDepositRankListPanel">活期存款排行</a>

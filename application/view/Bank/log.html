@@ -17,16 +17,16 @@
 </head>
 <body id="bankLogPage">
 {include file="Public/header" /}
-<main class="container pt-2 mb-0">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item"><a href="{:url('Bank/index')}">银行</a></li>
     <li class="breadcrumb-item active">银行日志</li>
   </ol>
 
   <!-- 分类导航 -->
-  <ul class="nav nav-pills">
+  <ul class="nav nav-pills flex-wrap mb-3">
     <li class="nav-item">
       <a class="nav-link {empty name='to'}active{/empty}" href="{:url('Bank/log')}">我的操作记录</a>
     </li>
@@ -36,8 +36,8 @@
   </ul>
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>
@@ -88,7 +88,7 @@
         <tr>
           <th>序号</th>
           <th>类型</th>
-          <th class="text-xs-left">描述</th>
+          <th class="text-left">描述</th>
           <th>操作日期</th>
           <th>IP</th>
         </tr>
@@ -116,8 +116,8 @@
   </section>
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>

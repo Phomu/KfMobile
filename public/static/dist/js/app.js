@@ -225,8 +225,8 @@ var show = exports.show = function show() {
   var dialogName = 'configDialog';
   if ($('#' + dialogName).length > 0) return;
   (0, _config.read)();
-  var bodyContent = '\n<fieldset class="fieldset mb-1 py-sm">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group">\n    <label>\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n    <select class="custom-select form-control" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-1 py-sm">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="form-group">\n    <label>\u9ED8\u8BA4\u6D88\u606F\u663E\u793A\u65F6\u95F4</label>\n    <span class="tips" data-toggle="tooltip" title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">[?]</span>\n    <input class="form-control" name="defShowMsgDuration" type="number" min="-1" required>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-1 py-sm">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-1" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-1" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-1" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
-  var footerContent = '\n<button class="btn btn-primary" type="button">\u786E\u5B9A</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+  var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group">\n    <label>\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n    <select class="custom-select form-control" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="form-group">\n    <label>\u9ED8\u8BA4\u6D88\u606F\u663E\u793A\u65F6\u95F4</label>\n    <span class="tips" data-toggle="tooltip" title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">[?]</span>\n    <input class="form-control" name="defShowMsgDuration" type="number" min="-1" required>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
+  var footerContent = '\n<button class="btn btn-primary" type="submit">\u786E\u5B9A</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
   var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
   Dialog.show(dialogName);
 };
@@ -280,7 +280,7 @@ var create = exports.create = function create(id, title, bodyContent) {
     var footerContent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
     var style = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
 
-    var html = '\n<div class="dialog-container" id="' + id + '" style="' + style + '" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="' + id + 'Title">\n  <div class="container" role="document">\n    <form>\n      <div class="dialog-header">\n        <button class="close" data-dismiss="dialog" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <h5 class="dialog-title" id="' + id + 'Title">' + title + '</h5>\n      </div>\n      <div class="dialog-body">' + bodyContent + '</div>\n      <div class="dialog-footer" ' + (!footerContent ? 'hidden' : '') + '>' + footerContent + '</div>\n    </form>\n  </div>\n</div>';
+    var html = '\n<div class="dialog-container" id="' + id + '" style="' + style + '" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="' + id + 'Title">\n  <div class="container" role="document">\n    <form>\n      <div class="dialog-header">\n        <h5 class="dialog-title" id="' + id + 'Title">' + title + '</h5>\n        <button class="close" data-dismiss="dialog" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n      </div>\n      <div class="dialog-body">' + bodyContent + '</div>\n      <div class="dialog-footer" ' + (!footerContent ? 'hidden' : '') + '>' + footerContent + '</div>\n    </form>\n  </div>\n</div>';
     var $dialog = $(html).appendTo('body');
     $dialog.on('click', '[data-dismiss="dialog"]', function () {
         return close(id);
@@ -320,12 +320,12 @@ var create = exports.create = function create(id, title, bodyContent) {
 var show = exports.show = function show(id) {
     var $dialog = $('#' + id);
     if (!$dialog.length) return;
-    $dialog.find('.dialog-body').css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight()).end().find('legend [type="checkbox"]').each(function () {
+    $dialog.find('legend [type="checkbox"]').each(function () {
         $(this).triggerHandler('click');
     }).end().find('input[data-disabled]').each(function () {
         $(this).triggerHandler('click');
     });
-    $dialog.fadeIn('fast').find('.close:first').focus();
+    $dialog.fadeIn('fast').find('.dialog-body').css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight()).end().find('.close:first').focus();
 };
 
 /**
@@ -488,9 +488,9 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
  * @param {boolean} [options.preventable=false] 是否阻止点击网页上的其它元素
  * @param {number} [duration] 消息显示时间（秒），-1为永久显示
  * @example
- * show('<span class="mr-1">使用道具</span><span class="text-item">神秘系数<em class="text-warning">+1</em></span>', -1);
+ * show('<span class="mr-3">使用道具</span><span class="text-item">神秘系数<em class="text-warning">+1</em></span>', -1);
  * show({
- *   msg: '<span class="mr-1">抽取神秘盒子</span><span class="text-item">KFB<em class="text-warning">+8</em></span>',
+ *   msg: '<span class="mr-3">抽取神秘盒子</span><span class="text-item">KFB<em class="text-warning">+8</em></span>',
  *   duration: 20,
  *   clickable: false,
  * });
@@ -1337,7 +1337,7 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
     var keywords = new Set();
     var content = '';
     if (type === 2) {
-        Msg.wait('<span class="mr-1">\u6B63\u5728\u83B7\u53D6\u5F15\u7528\u5185\u5BB9\u4E2D&hellip;</span>\u5269\u4F59\uFF1A<em class="text-warning countdown-num">' + list.length + '</em>');
+        Msg.wait('<span class="mr-3">\u6B63\u5728\u83B7\u53D6\u5F15\u7528\u5185\u5BB9\u4E2D&hellip;</span>\u5269\u4F59\uFF1A<em class="text-warning countdown-num">' + list.length + '</em>');
         $(document).clearQueue('MultiQuote');
     }
     var _iteratorNormalCompletion2 = true;
@@ -1433,6 +1433,10 @@ var Util = _interopRequireWildcard(_util);
 var _const = require('./const');
 
 var _const2 = _interopRequireDefault(_const);
+
+var _dialog = require('./dialog');
+
+var Dialog = _interopRequireWildcard(_dialog);
 
 var _config = require('./config');
 
@@ -1531,14 +1535,18 @@ var handleSearchDialog = exports.handleSearchDialog = function handleSearchDialo
     });
 
     var $current = $searchDialog.find('[name="searchRange"][value="current"]');
+    var $currentBox = $current.closest('.form-check-inline');
     $searchDialog.find('#searchType').change(function () {
         var searchType = $(this).val();
         if (!$current.data('enabled')) return;
-        $current.prop('disabled', searchType === 'gjc' || searchType === 'username');
+        var disabled = searchType === 'gjc' || searchType === 'username';
+        $current.prop('disabled', disabled);
+        if (disabled) $currentBox.addClass('disabled');else $currentBox.removeClass('disabled');
     });
 
     if (pageId === 'threadPage' || pageId === 'readPage') {
         $current.prop('disabled', false).data('enabled', true).click();
+        $currentBox.removeClass('disabled');
     }
 };
 
@@ -1578,6 +1586,8 @@ var bindFastSubmitShortcutKey = exports.bindFastSubmitShortcutKey = function bin
 var showEditCommonForumDialog = exports.showEditCommonForumDialog = function showEditCommonForumDialog() {
     $(document).on('click', '.edit-common-forum-btn', function (e) {
         e.preventDefault();
+        var dialogName = 'editCommonForumDialog';
+        if ($('#' + dialogName).length > 0) return;
         (0, _config.read)();
 
         var commonForumList = Config.commonForumList.length > 0 ? Config.commonForumList : _const2.default.commonForumList;
@@ -1646,7 +1656,9 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
             }
         }
 
-        var $dialog = $('\n<div class="modal fade" id="editCommonForumDialog" tabindex="-1" role="dialog" aria-labelledby="editCommonForumDialogTitle" aria-hidden="true">\n  <div class="modal-dialog" role="document">\n    <div class="modal-content">\n      <div class="modal-header">\n        <button class="close" data-dismiss="modal" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <h4 class="modal-title" id="editCommonForumDialogTitle">\u5E38\u7528\u7248\u5757</h4>\n      </div>\n      <div class="modal-body">\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u5E38\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editCommonForumList">' + commonForumListHtml + '</div>\n        </fieldset>\n        <fieldset class="fieldset mb-1 p-sm">\n          <legend>\u53EF\u7528\u7248\u5757</legend>\n          <div class="edit-forum-list" id="editAvailableForumList">' + availableForumListHtml + '</div>\n        </fieldset>\n      </div>\n      <div class="modal-footer">\n        <button class="btn btn-primary" data-action="save" type="button">\u4FDD\u5B58</button>\n        <button class="btn btn-secondary" data-dismiss="modal" type="button">\u53D6\u6D88</button>\n        <button class="btn btn-danger" data-action="reset" type="button">\u91CD\u7F6E</button>\n      </div>\n    </div>\n  </div>\n</div>\n').appendTo('body').modal('show');
+        var bodyContent = '\n<p class="font-size-sm text-muted">\n  \u8BF7\u5C06\u53EF\u7528\u7248\u5757\u5185\u7684\u7248\u5757\u6309\u94AE\u62D6\u62FD\u5230\u5E38\u7528\u7248\u5757\u5185\uFF08\u6216\u76F8\u53CD\uFF09\n</p>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5E38\u7528\u7248\u5757</legend>\n  <div class="edit-forum-list d-flex flex-wrap" id="editCommonForumList">' + commonForumListHtml + '</div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u53EF\u7528\u7248\u5757</legend>\n  <div class="edit-forum-list d-flex flex-wrap" id="editAvailableForumList">' + availableForumListHtml + '</div>\n</fieldset>';
+        var footerContent = '\n<button class="btn btn-primary" name="save" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
+        var $dialog = Dialog.create(dialogName, '编辑常用版块', bodyContent, footerContent);
 
         var $dragulaScriptPath = $('[name="dragulaScriptPath"]');
         var dragulaScriptPath = $dragulaScriptPath.val();
@@ -1657,9 +1669,7 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
             $dragulaScriptPath.val('');
         } else dragula($dialog.find('.edit-forum-list').get(), { revertOnSpill: true });
 
-        $dialog.on('hidden.bs.modal', function () {
-            $(this).remove();
-        }).find('[data-action="save"]').click(function () {
+        $dialog.find('[name="save"]').click(function () {
             Config.commonForumList = [];
             $('#editCommonForumList').children('.btn').each(function () {
                 var $this = $(this);
@@ -1670,16 +1680,18 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
             });
             (0, _config.write)();
             alert('设置已保存');
-            $dialog.modal('hide');
+            Dialog.close(dialogName);
             location.reload();
-        }).end().find('[data-action="reset"]').click(function () {
+        }).end().find('[name="reset"]').click(function () {
             if (!confirm('是否重置？')) return;
             Config.commonForumList = [];
             (0, _config.write)();
             alert('设置已重置');
-            $dialog.modal('hide');
+            Dialog.close(dialogName);
             location.reload();
         });
+
+        Dialog.show(dialogName);
     });
 };
 
@@ -1701,8 +1713,8 @@ var fillCommonForumPanel = exports.fillCommonForumPanel = function fillCommonFor
                 _fid = _step3$value$.fid,
                 name = _step3$value$.name;
 
-            if (index === 0 || index % 3 === 0) html += '<div class="row mb-1">';
-            html += '\n<div class="col-xs-4">\n  <a class="btn btn-outline-primary btn-block" href="' + Util.makeUrl('thread') + '/' + _fid + '">' + name + '</a>\n</div>\n';
+            if (index === 0 || index % 3 === 0) html += '<div class="row mb-3">';
+            html += '\n<div class="col-4">\n  <a class="btn btn-outline-primary btn-block" href="' + Util.makeUrl('thread') + '/' + _fid + '">' + name + '</a>\n</div>\n';
             if (index === commonForumList.length - 1 || index % 3 === 2) html += '</div>';
         }
     } catch (err) {
@@ -1736,7 +1748,7 @@ var preventCloseWindow = exports.preventCloseWindow = function preventCloseWindo
     });
 };
 
-},{"./config":2,"./configDialog":3,"./const":4,"./util":12}],11:[function(require,module,exports){
+},{"./config":2,"./configDialog":3,"./const":4,"./dialog":5,"./util":12}],11:[function(require,module,exports){
 /* 主题模块 */
 'use strict';
 

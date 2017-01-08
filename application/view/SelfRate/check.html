@@ -13,9 +13,9 @@
 </head>
 <body id="selfRateCheckPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助评分</a></li>
     <li class="breadcrumb-item active">自助评分检查</li>
@@ -25,8 +25,8 @@
 
   <!-- 自助评分奖励 -->
   <div class="card">
-    <h5 class="card-header mb-0">自助评分检查</h5>
-    <div class="card-block p-1">
+    <h5 class="card-header">自助评分检查</h5>
+    <div class="card-block p-3">
       <form action="{:url('SelfRate/rating')}" method="get">
         <input name="do" type="hidden" value="3">
         <input name="safeid" type="hidden" value="{$safeId}">

@@ -1,4 +1,4 @@
-<footer class="main-footer py-2">
+<footer class="main-footer py-4">
   <div class="container">
     <div>
       Powered by <a href="https://github.com/miaolapd/KfMobile" target="_blank">KfMobile</a>
@@ -16,12 +16,12 @@
 </div>
 {notempty name="Think.config.static_file_cdn"}
 <script src="https://cdn.css.net/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="https://cdn.css.net/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
-<input name="dragulaScriptPath" type="hidden" value="https://cdn.css.net/libs/dragula/3.7.2/dragula.min.js">
+<script src="https://cdn.css.net/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<input name="dragulaScriptPath" type="hidden" value="https://cdn.css.net/libs/dragula/3.7.2/dragula.min.js" autocomplete="off">
 {else/}
 <script src="__PUBLIC__{$Think.config.static_path}js/lib/tether.min.js?v=1.4.0"></script>
-<script src="__PUBLIC__{$Think.config.static_path}js/lib/bootstrap.min.js?v=4.0.0-alpha.5"></script>
-<input name="dragulaScriptPath" type="hidden" value="__PUBLIC__{$Think.config.static_path}js/lib/dragula.min.js?v=3.7.2">
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/bootstrap.min.js?v=4.0.0-alpha.6"></script>
+<input name="dragulaScriptPath" type="hidden" value="__PUBLIC__{$Think.config.static_path}js/lib/dragula.min.js?v=3.7.2" autocomplete="off">
 {/notempty}
 <script src="__PUBLIC__{$Think.config.static_path}js/app.min.js?ts={$Think.config.static_file_timestamp}"></script>
 {$Think.config.stat_script}

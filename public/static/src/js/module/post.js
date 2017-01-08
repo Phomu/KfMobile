@@ -355,7 +355,7 @@ export const handleMultiQuote = function (type = 1) {
     let keywords = new Set();
     let content = '';
     if (type === 2) {
-        Msg.wait(`<span class="mr-1">正在获取引用内容中&hellip;</span>剩余：<em class="text-warning countdown-num">${list.length}</em>`);
+        Msg.wait(`<span class="mr-3">正在获取引用内容中&hellip;</span>剩余：<em class="text-warning countdown-num">${list.length}</em>`);
         $(document).clearQueue('MultiQuote');
     }
     for (let [index, quote] of list.entries()) {

@@ -13,9 +13,9 @@
 </head>
 <body id="gameIntroMoonPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">本月新作</li>
   </ol>
@@ -59,17 +59,17 @@
   <hr>
 
   <!-- 标题 -->
-  <h5 class="mb-1">{$moonTitle}</h5>
+  <h5 class="mb-3">{$moonTitle}</h5>
 
   {notempty name="gameImgList"}
   <!-- 该月游戏图片 -->
-  <div class="row carousel carousel-sm slide mb-1" id="moonGameImagesCarousel" data-ride="carousel">
+  <div class="row carousel carousel-sm slide mb-3" id="moonGameImagesCarousel" data-ride="carousel">
     <ol class="carousel-indicators">
       {volist name="gameImgList" id="vo"}
       <li class="{eq name='i' value='1'}active{/eq}" data-target="#moonGameImagesCarousel" data-slide-to="{$i-1}"></li>
       {/volist}
     </ol>
-    <div class="carousel-inner text-xs-center" role="listbox">
+    <div class="carousel-inner" role="listbox">
       {volist name="gameImgList" id="vo"}
       <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{:url('GameIntro/game?id=' . $vo['id'])}">
         <img class="mx-auto" src="{$vo.img}" alt="游戏图片">
@@ -79,12 +79,12 @@
       </a>
       {/volist}
     </div>
-    <a class="left carousel-control" data-slide="prev" href="#moonGameImagesCarousel" role="button">
-      <span class="icon-prev" aria-hidden="true"></span>
+    <a class="carousel-control-prev" data-slide="prev" href="#moonGameImagesCarousel" role="button">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">上一幅</span>
     </a>
-    <a class="right carousel-control" data-slide="next" href="#moonGameImagesCarousel" role="button">
-      <span class="icon-next" aria-hidden="true"></span>
+    <a class="carousel-control-next" data-slide="next" href="#moonGameImagesCarousel" role="button">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">下一幅</span>
     </a>
   </div>
@@ -120,7 +120,7 @@
     </ul>
   </section>
   {else /}
-  <div class="alert alert-danger text-xs-center" role="alert">资料库内尚未添加该月数据</div>
+  <div class="alert alert-danger text-center" role="alert">资料库内尚未添加该月数据</div>
   {/notempty}
 </main>
 {include file="Public/footer" /}

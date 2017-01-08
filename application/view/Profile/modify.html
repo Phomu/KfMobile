@@ -13,9 +13,9 @@
 </head>
 <body id="modifyPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">账号设置</li>
   </ol>
@@ -88,11 +88,11 @@
       <input name="proday" type="hidden" value="{$proday|default=''}">
     </div>
 
-    <fieldset class="fieldset mb-1">
+    <fieldset class="fieldset mb-3">
       <legend style="font-weight: normal;">论坛头像</legend>
-      <img class="d-block rounded mb-sm" id="avatar" src="{$avatar|default=''}" width="{$avatarWidth|default=''}"
+      <img class="d-block rounded mb-2" id="avatar" src="{$avatar|default=''}" width="{$avatarWidth|default=''}"
            height="{$avatarHeight|default=''}" alt="论坛头像">
-      <label class="mb-sm">
+      <label class="mb-2">
         <input class="form-control-file" id="browseAvatar" name="upload" type="file" aria-label="选择头像">
       </label>
       <div class="form-group">

@@ -13,9 +13,9 @@
 </head>
 <body id="selfRateMyPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item active">自助评分</li>
   </ol>
@@ -46,7 +46,7 @@
     </ul>
   </section>
   {else /}
-  <div class="alert alert-danger text-xs-center" role="alert">暂无关于我的评分记录</div>
+  <div class="alert alert-danger text-center" role="alert">暂无关于我的评分记录</div>
   {/notempty}
 
 </main>

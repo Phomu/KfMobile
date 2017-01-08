@@ -2,6 +2,7 @@
 'use strict';
 import * as Util from './util';
 import Const from './const';
+import * as Dialog from './dialog';
 import {read as readConfig, write as writeConfig} from './config';
 import * as ConfigDialog from './configDialog';
 
@@ -95,14 +96,19 @@ export const handleSearchDialog = function () {
     });
 
     let $current = $searchDialog.find('[name="searchRange"][value="current"]');
+    let $currentBox = $current.closest('.form-check-inline');
     $searchDialog.find('#searchType').change(function () {
         let searchType = $(this).val();
         if (!$current.data('enabled')) return;
-        $current.prop('disabled', searchType === 'gjc' || searchType === 'username');
+        let disabled = searchType === 'gjc' || searchType === 'username';
+        $current.prop('disabled', disabled);
+        if (disabled) $currentBox.addClass('disabled');
+        else $currentBox.removeClass('disabled');
     });
 
     if (pageId === 'threadPage' || pageId === 'readPage') {
         $current.prop('disabled', false).data('enabled', true).click();
+        $currentBox.removeClass('disabled');
     }
 };
 
@@ -145,6 +151,8 @@ export const bindFastSubmitShortcutKey = function ($node) {
 export const showEditCommonForumDialog = function () {
     $(document).on('click', '.edit-common-forum-btn', function (e) {
         e.preventDefault();
+        const dialogName = 'editCommonForumDialog';
+        if ($('#' + dialogName).length > 0) return;
         readConfig();
 
         let commonForumList = Config.commonForumList.length > 0 ? Config.commonForumList : Const.commonForumList;
@@ -158,35 +166,23 @@ export const showEditCommonForumDialog = function () {
             availableForumListHtml += `<span class="btn btn-outline-primary" data-fid="${fid}">${name}</span>`;
         }
 
-        let $dialog = $(`
-<div class="modal fade" id="editCommonForumDialog" tabindex="-1" role="dialog" aria-labelledby="editCommonForumDialogTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal" type="button" aria-label="关闭">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="editCommonForumDialogTitle">常用版块</h4>
-      </div>
-      <div class="modal-body">
-        <fieldset class="fieldset mb-1 p-sm">
-          <legend>常用版块</legend>
-          <div class="edit-forum-list" id="editCommonForumList">${commonForumListHtml}</div>
-        </fieldset>
-        <fieldset class="fieldset mb-1 p-sm">
-          <legend>可用版块</legend>
-          <div class="edit-forum-list" id="editAvailableForumList">${availableForumListHtml}</div>
-        </fieldset>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-action="save" type="button">保存</button>
-        <button class="btn btn-secondary" data-dismiss="modal" type="button">取消</button>
-        <button class="btn btn-danger" data-action="reset" type="button">重置</button>
-      </div>
-    </div>
-  </div>
-</div>
-`).appendTo('body').modal('show');
+        let bodyContent = `
+<p class="font-size-sm text-muted">
+  请将可用版块内的版块按钮拖拽到常用版块内（或相反）
+</p>
+<fieldset class="fieldset mb-3 py-2">
+  <legend>常用版块</legend>
+  <div class="edit-forum-list d-flex flex-wrap" id="editCommonForumList">${commonForumListHtml}</div>
+</fieldset>
+<fieldset class="fieldset mb-3 py-2">
+  <legend>可用版块</legend>
+  <div class="edit-forum-list d-flex flex-wrap" id="editAvailableForumList">${availableForumListHtml}</div>
+</fieldset>`;
+        let footerContent = `
+<button class="btn btn-primary" name="save" type="submit">保存</button>
+<button class="btn btn-secondary" data-dismiss="dialog" type="button">取消</button>
+<button class="btn btn-danger" name="reset" type="button">重置</button>`;
+        let $dialog = Dialog.create(dialogName, '编辑常用版块', bodyContent, footerContent);
 
         let $dragulaScriptPath = $('[name="dragulaScriptPath"]');
         let dragulaScriptPath = $dragulaScriptPath.val();
@@ -196,9 +192,7 @@ export const showEditCommonForumDialog = function () {
         }
         else dragula($dialog.find('.edit-forum-list').get(), {revertOnSpill: true});
 
-        $dialog.on('hidden.bs.modal', function () {
-            $(this).remove();
-        }).find('[data-action="save"]').click(function () {
+        $dialog.find('[name="save"]').click(function () {
             Config.commonForumList = [];
             $('#editCommonForumList').children('.btn').each(function () {
                 let $this = $(this);
@@ -209,16 +203,18 @@ export const showEditCommonForumDialog = function () {
             });
             writeConfig();
             alert('设置已保存');
-            $dialog.modal('hide');
+            Dialog.close(dialogName);
             location.reload();
-        }).end().find('[data-action="reset"]').click(function () {
+        }).end().find('[name="reset"]').click(function () {
             if (!confirm('是否重置？')) return;
             Config.commonForumList = [];
             writeConfig();
             alert('设置已重置');
-            $dialog.modal('hide');
+            Dialog.close(dialogName);
             location.reload();
         });
+
+        Dialog.show(dialogName);
     });
 };
 
@@ -229,9 +225,9 @@ export const fillCommonForumPanel = function () {
     let commonForumList = Config.commonForumList.length > 0 ? Config.commonForumList : Const.commonForumList;
     let html = '';
     for (let [index, {fid, name}] of commonForumList.entries()) {
-        if (index === 0 || index % 3 === 0) html += '<div class="row mb-1">';
+        if (index === 0 || index % 3 === 0) html += '<div class="row mb-3">';
         html += `
-<div class="col-xs-4">
+<div class="col-4">
   <a class="btn btn-outline-primary btn-block" href="${Util.makeUrl('thread')}/${fid}">${name}</a>
 </div>
 `;

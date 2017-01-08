@@ -23,8 +23,8 @@
 .select-color-menu {
   min-width: 234px;
   padding: {
-    left: $spacer-sm;
-    right: $spacer-sm;
+    left: $spacer-2;
+    right: $spacer-2;
   }
   line-height: 1.6;
 
@@ -38,8 +38,8 @@
 
   hr {
     margin: {
-      top: $spacer-sm;
-      bottom: $spacer-sm;
+      top: $spacer-2;
+      bottom: $spacer-2;
     }
     border: none;
   }

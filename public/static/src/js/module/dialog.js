@@ -16,10 +16,10 @@ export const create = function (id, title, bodyContent, footerContent = '', styl
   <div class="container" role="document">
     <form>
       <div class="dialog-header">
+        <h5 class="dialog-title" id="${id}Title">${title}</h5>
         <button class="close" data-dismiss="dialog" type="button" aria-label="关闭">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="dialog-title" id="${id}Title">${title}</h5>
       </div>
       <div class="dialog-body">${bodyContent}</div>
       <div class="dialog-footer" ${!footerContent ? 'hidden' : ''}>${footerContent}</div>
@@ -66,16 +66,17 @@ export const create = function (id, title, bodyContent, footerContent = '', styl
 export const show = function (id) {
     let $dialog = $('#' + id);
     if (!$dialog.length) return;
-    $dialog.find('.dialog-body')
-        .css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight())
-        .end().find('legend [type="checkbox"]')
+    $dialog.find('legend [type="checkbox"]')
         .each(function () {
             $(this).triggerHandler('click');
         }).end().find('input[data-disabled]')
         .each(function () {
             $(this).triggerHandler('click');
         });
-    $dialog.fadeIn('fast').find('.close:first').focus();
+    $dialog.fadeIn('fast')
+        .find('.dialog-body')
+        .css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight())
+        .end().find('.close:first').focus();
 };
 
 /**

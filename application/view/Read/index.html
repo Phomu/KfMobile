@@ -7,11 +7,11 @@
   <title>{$title}</title>
   {include file="Public/head" /}
   <script>
-    pageInfo.fid = {$fid};
-    pageInfo.tid = {$tid};
-    pageInfo.floor = {$floor};
-    pageInfo.currentPageNum = {$currentPageNum};
-    pageInfo.maxPageNum = {$maxPageNum};
+      pageInfo.fid = {$fid};
+      pageInfo.tid = {$tid};
+      pageInfo.floor = {$floor};
+      pageInfo.currentPageNum = {$currentPageNum};
+      pageInfo.maxPageNum = {$maxPageNum};
   </script>
   {/* 编辑器提示用
   <link rel="stylesheet" href="../../public/static/src/css/app.css">
@@ -20,9 +20,9 @@
 </head>
 <body id="readPage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     {notempty name="parentForumName"}
     <li class="breadcrumb-item">
@@ -42,32 +42,37 @@
       <input name="voteaction" type="hidden" value="modify">
       {/eq}
       <input name="tid" type="hidden" value="{$tid}">
-      <h6 class="mb-1">{$voteTitle}</h6>
-      <ul class="list-group list-group-sm vote-group mb-1">
+      <h6 class="mb-3">{$voteTitle}</h6>
+      <ul class="list-group list-group-sm vote-group mb-3">
         {volist name="voteList" id="vo"}
         <li class="list-group-item">
-          <div class="form-check">
+          <div class="form-check mb-1">
+            {notempty name="vo.itemType"}
             <label class="form-check-label">
-              {notempty name="vo.itemType"}
-              <input name="voteid[]" type="{$vo.itemType}" value="{$vo.itemValue}">
-              {/notempty}
+              <input class="form-check-input" name="voteid[]" type="{$vo.itemType}" value="{$vo.itemValue}">
               <b>{$vo.itemName}</b>
             </label>
+            {else /}
+            <b>{$vo.itemName}</b>
+            {/notempty}
           </div>
           {eq name="vo.itemVoteCount" value="-1"}
           <div class="small text-muted">* 票</div>
           {else /}
-          <progress class="progress progress-striped progress-{:get_color_from_number($i-1)}" value="{$vo.itemVoteCount}"
-                    max="{$voteTotalCount}"></progress>
+          {assign name="itemVotePercent" value="$voteTotalCount > 0 ? $vo.itemVoteCount / $voteTotalCount * 100 : 0"}
+          <div class="progress w-100">
+            <div class="progress-bar progress-bar-striped bg-{:get_color_from_number($i-1)}" style="width: {$itemVotePercent|intval}%"
+                 role="progressbar" aria-valuenow="{$itemVotePercent|intval}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
           <div class="small text-{:get_color_from_number($i-1)}">
-            {$vo.itemVoteCount} 票 ({:number_format($vo.itemVoteCount / ($voteTotalCount > 0 ? $voteTotalCount : 1) * 100 , 2)}%)
+            {$vo.itemVoteCount} 票 ({:number_format($itemVotePercent, 2)}%)
           </div>
           {/eq}
         </li>
         {/volist}
       </ul>
       <footer class="form-group">
-        <div class="small text-muted mb-1">
+        <div class="small text-muted mb-3">
           {notempty name="voteTotalCount"}合计<b>{$voteTotalCount}</b>票{/notempty}
           {$votedInfo}
         </div>
@@ -94,7 +99,7 @@
   <h1 class="thread-title">{$threadTitle}</h1>
 
   <!-- 主题信息 -->
-  <section class="small text-muted mb-1 float-md-left">
+  <section class="small text-muted mb-3 float-md-left">
     <span data-toggle="tooltip" title="点击数" aria-label="点击数">
       <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
       {eq name="hitNum|is_numeric" value="true"}{$hitNum|number_format}{else /}{$hitNum}{/eq}
@@ -111,7 +116,7 @@
   </section>
 
   <!-- 功能区 -->
-  <section class="text-xs-right">
+  <section class="text-right">
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
       <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
     </a>
@@ -122,11 +127,11 @@
       <i class="fa fa-reply" aria-hidden="true"></i> 回帖
     </a>
   </section>
-  <hr class="mb-0">
+  <hr>
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>
@@ -178,13 +183,11 @@
     <!-- 楼层顶部 -->
     <header class="media">
       {notempty name="vo.avatar"}
-      <div class="media-left">
-        <img class="avatar rounded" src="{$vo.avatar}" alt="头像">
-      </div>
+      <img class="d-flex avatar rounded mr-2" src="{$vo.avatar}" alt="头像">
       {/notempty}
       <div class="media-body">
-        <div class="clearfix">
-          <div class="media-heading float-xs-left">
+        <div class="d-flex">
+          <div class="">
             <a class="font-size-sm text-muted floor-num" title="复制楼层链接"
                href="{:url('Read/index?tid=' . $tid . ($vo['pid'] !== 'tpc' ? '&spid=' . $vo['pid'] : ''))}" role="button">
               {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
@@ -193,13 +196,17 @@
               {$vo.userName}
             </a>
             {eq name="vo.smLevel" value="*"}
-            <span class="tag tag-default" title="该用户已被禁言">禁</span>
+            <span class="badge badge-default" title="该用户已被禁言">禁</span>
             {/eq}
           </div>
-          <div class="float-xs-right">
-            <label class="form-check-inline font-size-sm text-muted" title="多重引用" aria-label="多重引用">
-              <input class="form-check-input multi-quote-check" type="checkbox" autocomplete="off"> 引
-            </label>&nbsp;
+
+          <div class="ml-auto">
+            <div class="form-check-inline">
+              <label class="form-check-label font-size-sm text-muted" title="多重引用" aria-label="多重引用">
+                <input class="form-check-input form-check-input-sm multi-quote-check" type="checkbox" autocomplete="off"> 引
+              </label>
+            </div>
+            &nbsp;
             <a class="btn btn-outline-primary btn-sm"
                href="{:url('Post/index', 'action=quote&fid=' . $fid . '&tid=' . $tid . '&pid=' . $vo['pid'] . '&article=' . $vo['floorNum'])}">
               引用
@@ -230,16 +237,16 @@
     </div>
 
     <!-- 楼层底部 -->
-    <footer>
+    <footer class="d-flex">
       {if condition="$canBlockFloor AND $vo['pid'] !== 'tpc'"}
       {assign name="hasBlockFloor" value="true" /}
       {/if}
-      <div class="floor-sign {empty name='hasBlockFloor'}col-xs-9{else /}col-xs-6{/empty} px-0 small">
+      <div class="floor-sign pr-3 small">
         {notempty name="vo.sign"}
         <span data-toggle="tooltip" title="{$vo.sign}"><i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}</span>
         {/notempty}
       </div>
-      <div class="{empty name='hasBlockFloor'}col-xs-3{else /}col-xs-6{/empty} px-0 text-xs-right">
+      <div class="ml-auto">
         {notempty name="hasBlockFloor"}
         <a class="btn btn-outline-danger btn-sm block-floor"
            href="{:url('Read/blockFloor', ['safeid'=>$safeId, 'tid'=>$tid, 'pid'=>$vo['pid']])}" role="button">
@@ -253,8 +260,8 @@
   {/volist}
 
   <!-- 分页导航 -->
-  <nav class="text-xs-center">
-    <ul class="pagination">
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
       {eq name='currentPageNum' value='1'}
       <li class="page-item disabled">
         <span class="page-link">首页</span>
@@ -299,8 +306,8 @@
 
   {notempty name="postContentName"}
   <!-- 功能区 -->
-  <hr class="mt-0">
-  <section class="text-xs-right">
+  <hr>
+  <section class="mb-3 text-right">
     <button class="btn btn-danger clear-multi-quote-data-btn" title="清除在浏览器中保存的多重引用数据" aria-label="清除引用">
       <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
@@ -326,14 +333,14 @@
       <input name="atc_convert" type="hidden" value="1">
       <input name="atc_autourl" type="hidden" value="1">
 
-      <div class="form-group">
-        <div class="form-group col-xs-9 px-0">
+      <div class="form-group d-flex mb-0">
+        <div class="form-group col px-0">
           <label class="sr-only" for="postGjc">关键词</label>
           <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" placeholder="关键词"
                  title="最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英语逗号,隔开，不要包含英文单引号、双引号。如果关键词是别人的ID名，系统就会@提示此人查看本帖子。">
         </div>
 
-        <div class="form-group col-xs-3 px-0 text-xs-right">
+        <div class="form-group col-3 px-0 text-right">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
                     aria-label="表情" aria-haspopup="true" aria-expanded="false">
@@ -367,10 +374,10 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title" id="buyThreadListDialogTitle">购买人名单</h5>
         <button class="close" data-dismiss="modal" type="button" aria-label="关闭">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="buyThreadListDialogTitle">购买人名单</h5>
       </div>
 
       <div class="modal-body">

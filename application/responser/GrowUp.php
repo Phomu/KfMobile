@@ -35,7 +35,7 @@ class GrowUp extends Responser
         $expPercent = 0;
         $expRemain = 0;
         $expInfo = $pqArea->find('div:first')->html();
-        $expInfo = preg_replace('/神秘系数\s*(\d+)\s*\|\s*/', '神秘系数 [ <b>$1</b> ]<br>', $expInfo);
+        $expInfo = preg_replace('/神秘系数\s*(\d+)\s*\|\s*/', '神秘系数 [ <b>$1</b> ] | <br class="hidden-sm-up">', $expInfo);
         $pgExpProgress = $pqArea->find('> div:eq(1) > div:first');
         if (preg_match('/(\d+)成长/', $pgExpProgress->find('> div:first > span')->text(), $matches)) {
             $expRemain = intval($matches[1]);

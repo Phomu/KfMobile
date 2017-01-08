@@ -6,23 +6,22 @@
 
 // 导航栏
 .navbar {
-  padding-left: 0;
-
-  // 导航栏标志
-  .navbar-brand {
-    margin-right: 0;
-    padding: {
-      left: $spacer;
-      right: $spacer;
+  // 导航栏内部容器
+  @include media-breakpoint-down(xs) {
+    .container {
+      width: 100%;
     }
   }
 
   // 导航栏菜单按钮
   .navbar-toggler {
-    width: auto;
-    background: none;
     border-color: transparent;
     cursor: pointer;
+  }
+
+  .dropdown-toggle {
+    color: $gray-dark;
+    text-decoration: none;
   }
 }
 
@@ -47,6 +46,7 @@
 .page-item.active {
   .page-link {
     min-width: 40px;
+    text-align: center;
 
     &:hover {
       cursor: pointer;

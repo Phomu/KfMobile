@@ -8,7 +8,7 @@
 // 列表组（紧凑）
 .list-group-sm {
   .list-group-item {
-    padding: $spacer-sm;
+    padding: $spacer-2;
   }
 }
 
@@ -23,12 +23,16 @@
 // 图片轮播（紧凑）
 .carousel-sm {
   .carousel-caption {
-    bottom: 0;
-    padding-bottom: 10px;
+    bottom: 10px;
+    padding-bottom: 5px;
   }
   .carousel-indicators {
     bottom: 0;
-    margin-bottom: 5px;
+    padding: {
+     top: $spacer;
+      bottom: $spacer;
+    }
+    margin-bottom: 0;
   }
   .carousel-item {
     img {
@@ -97,8 +101,8 @@
     width: auto;
     margin-bottom: 0;
     padding: {
-      left: $spacer-sm;
-      right: $spacer-sm;
+      left: $spacer-2;
+      right: $spacer-2;
     }
     font-size: 1rem;
     font-weight: bolder;
@@ -120,4 +124,14 @@
   opacity: .65;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+// 复选框（小）
+.form-check-input-sm {
+  vertical-align: text-bottom;
+}
+@-moz-document url-prefix() {
+  .form-check-input-sm {
+    vertical-align: text-top;
+  }
 }

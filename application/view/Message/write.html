@@ -13,9 +13,9 @@
 </head>
 <body id="writeMessagePage">
 {include file="Public/header" /}
-<main class="container pt-2">
+<main class="container pt-3">
   <!-- 面包屑导航 -->
-  <ol class="breadcrumb mb-1">
+  <ol class="breadcrumb mb-3">
     <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
     <li class="breadcrumb-item"><a href="{:url('Message/index')}">短消息</a></li>
     <li class="breadcrumb-item active">发送消息</li>
@@ -25,8 +25,8 @@
 
   <!-- 发送消息 -->
   <div class="card">
-    <h5 class="card-header mb-0">发送消息</h5>
-    <div class="card-block p-1">
+    <h5 class="card-header">发送消息</h5>
+    <div class="card-block p-3">
       <form action="{:url('Message/job')}" method="post">
         <input name="action" type="hidden" value="write">
         <input name="step" type="hidden" value="2">
@@ -58,9 +58,9 @@
           <label class="sr-only" for="msgContent">内容</label>
           <textarea class="form-control" id="msgContent" name="atc_content" rows="8" placeholder="短消息内容" required>{$msgContent}</textarea>
         </div>
-        <div class="checkbox">
-          <label>
-            <input name="ifsave" type="checkbox" value="Y"> 保存到发件箱中
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" name="ifsave" type="checkbox" value="Y"> 保存到发件箱中
           </label>
         </div>
         <button class="btn btn-primary btn-block" type="submit">

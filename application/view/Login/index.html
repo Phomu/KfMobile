@@ -14,10 +14,10 @@
 </head>
 <body id="loginPage">
 <header class="container">
-  <h1 class="py-2">{$Think.config.site_name}</h1>
+  <h1 class="py-4">{$Think.config.site_name}</h1>
 </header>
 <main class="container">
-  <form class="mb-2" action="{:url('Login/login')}" method="post">
+  <form class="mb-4" action="{:url('Login/login')}" method="post">
     <input name="jumpurl" type="hidden" value="{$jumpUrl}">
     <input name="step" type="hidden" value="2">
     <input name="lgt" type="hidden" value="1">
@@ -30,7 +30,7 @@
       <input class="form-control" id="pwpwd" name="pwpwd" type="password" maxlength="16" placeholder="密码" required>
     </div>
     <div class="form-group">
-      <a href="{:url('Register/index')}">马上注册</a>
+      <a href="http://bbs.2dkf.com/register.php" target="_blank">马上注册</a>
     </div>
 
     <div class="form-group btn-group" data-toggle="buttons" aria-label="登录类型">
