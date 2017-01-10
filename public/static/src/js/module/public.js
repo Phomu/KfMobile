@@ -179,7 +179,7 @@ export const showEditCommonForumDialog = function () {
   <div class="edit-forum-list d-flex flex-wrap" id="editAvailableForumList">${availableForumListHtml}</div>
 </fieldset>`;
         let footerContent = `
-<button class="btn btn-primary" name="save" type="submit">保存</button>
+<button class="btn btn-primary" type="submit">保存</button>
 <button class="btn btn-secondary" data-dismiss="dialog" type="button">取消</button>
 <button class="btn btn-danger" name="reset" type="button">重置</button>`;
         let $dialog = Dialog.create(dialogName, '编辑常用版块', bodyContent, footerContent);
@@ -192,7 +192,8 @@ export const showEditCommonForumDialog = function () {
         }
         else dragula($dialog.find('.edit-forum-list').get(), {revertOnSpill: true});
 
-        $dialog.find('[name="save"]').click(function () {
+        $dialog.submit(function (e) {
+            e.preventDefault();
             Config.commonForumList = [];
             $('#editCommonForumList').children('.btn').each(function () {
                 let $this = $(this);
@@ -205,7 +206,7 @@ export const showEditCommonForumDialog = function () {
             alert('设置已保存');
             Dialog.close(dialogName);
             location.reload();
-        }).end().find('[name="reset"]').click(function () {
+        }).find('[name="reset"]').click(function () {
             if (!confirm('是否重置？')) return;
             Config.commonForumList = [];
             writeConfig();
@@ -229,8 +230,7 @@ export const fillCommonForumPanel = function () {
         html += `
 <div class="col-4">
   <a class="btn btn-outline-primary btn-block" href="${Util.makeUrl('thread')}/${fid}">${name}</a>
-</div>
-`;
+</div>`;
         if (index === commonForumList.length - 1 || index % 3 === 2) html += '</div>';
     }
     $('.common-forum-panel').html(html);
@@ -247,4 +247,249 @@ export const preventCloseWindow = function () {
             return msg;
         }
     });
+};
+
+/**
+ * 显示通用的导入/导出设置对话框
+ * @param {string} title 对话框标题
+ * @param {string} configName 设置名称
+ * @param {?function} [callback] 回调方法
+ * @param {?function} [callbackAfterSubmit] 在提交之后的回调方法
+ */
+export const showCommonImportOrExportConfigDialog = function (title, configName, callback, callbackAfterSubmit) {
+    const dialogName = 'pdCommonImOrExConfigDialog';
+    if ($('#' + dialogName).length > 0) return;
+    readConfig();
+    let bodyContent = `
+<p class="font-size-sm">
+  <b>导入设置：</b>将设置内容粘贴到文本框中并点击保存按钮即可<br>
+  <b>导出设置：</b>复制文本框里的内容并粘贴到别处即可
+</p>
+<div class="form-group">
+  <textarea class="form-control" name="commonConfig" rows="10" aria-label="设置内容" style="word-break: break-all;"></textarea>
+</div>`;
+    let footerContent = `
+<button class="btn btn-primary" type="submit">保存</button>
+<button class="btn btn-secondary" data-dismiss="dialog" type="button">取消</button>`;
+    let $dialog = Dialog.create(dialogName, `导入或导出${title}`, bodyContent, footerContent);
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        if (!confirm('是否导入文本框中的设置？')) return;
+        let options = $.trim($dialog.find('[name="commonConfig"]').val());
+        if (!options) return;
+        try {
+            options = JSON.parse(options);
+        }
+        catch (ex) {
+            alert('设置有错误');
+            return;
+        }
+        if (!options || $.type(options) !== $.type(Config[configName])) {
+            alert('设置有错误');
+            return;
+        }
+        Config[configName] = options;
+        writeConfig();
+        alert('设置已导入');
+        Dialog.close(dialogName);
+        if (typeof callbackAfterSubmit === 'function') callbackAfterSubmit();
+        else location.reload();
+    }).find('[name="cancel"]').click(() => Dialog.close(dialogName));
+    Dialog.show(dialogName);
+    $dialog.find('[name="commonConfig"]').val(JSON.stringify(Config[configName])).select().focus();
+    if (typeof callback === 'function') callback($dialog);
+};
+
+/**
+ * 关注用户
+ */
+export const followUsers = function () {
+    if (!Config.followUserList.length) return;
+    if (pageId === 'indexPage' && Config.highlightFollowUserThreadInHPEnabled) {
+        $('.thread-link').each(function () {
+            let $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
+                $this.addClass('text-danger');
+            }
+        });
+    }
+    else if (pageId === 'threadPage') {
+        $('.thread-link').each(function () {
+            let $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
+                $this.closest('.thread-list-item').find('.thread-item-footer a:first').addClass('text-danger');
+                //if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
+            }
+        });
+    }
+    else if (pageId === 'readPage') {
+        $('.read-floor').each(function () {
+            let $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('username'), Config.followUserList) > -1) {
+                $this.find('.floor-num').addClass('text-danger');
+            }
+        });
+    }
+    else if (pageId === 'gjcPage' || pageId === 'sharePage' || pageId === 'searchPage') {
+        $('.thread-list-group').find('a[data-author]').each(function () {
+            let $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
+                $this.addClass('text-danger');
+            }
+        });
+    }
+};
+
+/**
+ * 屏蔽用户
+ */
+export const blockUsers = function () {
+    if (!Config.blockUserList.length) return;
+    let num = 0;
+    if (pageId === 'indexPage') {
+        $('.thread-link').each(function () {
+            let $this = $(this);
+            let index = Util.inFollowOrBlockUserList($this.data('author'), Config.blockUserList);
+            if (index > -1 && Config.blockUserList[index].type <= 1) {
+                num++;
+                $this.closest('.thread-link-group').remove();
+            }
+        });
+    }
+    else if (pageId === 'threadPage') {
+        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(pageInfo.fid)) return;
+        else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(pageInfo.fid)) return;
+        $('.thread-link').each(function () {
+            let $this = $(this);
+            let index = Util.inFollowOrBlockUserList($this.data('author'), Config.blockUserList);
+            if (index > -1 && Config.blockUserList[index].type <= 1) {
+                num++;
+                $this.closest('.thread-list-item').remove();
+            }
+        });
+    }
+    else if (pageId === 'readPage') {
+        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(pageInfo.fid)) return;
+        else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(pageInfo.fid)) return;
+        $('.read-floor').each(function () {
+            let $this = $(this);
+            let index = Util.inFollowOrBlockUserList($this.data('username'), Config.blockUserList);
+            if (index > -1) {
+                let floor = parseInt($this.data('floor'));
+                if (Config.blockUserList[index].type === 2 && floor === 0) return;
+                else if (Config.blockUserList[index].type === 1 && floor > 0) return;
+                num++;
+                $this.closest('.read-floor').remove();
+            }
+        });
+        $('.read-content').find('.blockquote > p').each(function () {
+            let $this = $(this);
+            let content = $this.text().trim();
+            for (let data of Config.blockUserList) {
+                if (data.type === 1) continue;
+                try {
+                    let regex1 = new RegExp(`^引用(第\\d+楼|楼主)${data.name}于`, 'i');
+                    let regex2 = new RegExp(`^回\\s*\\d+楼\\(${data.name}\\)\\s*的帖子`, 'i');
+                    if (regex1.test(content) || regex2.test(content)) {
+                        $this.html(`<mark class="help" data-toggle="tooltip" title="被屏蔽用户：${data.name}">该用户已被屏蔽</mark>`);
+                    }
+                }
+                catch (ex) {
+                }
+            }
+        });
+    }
+    else if (pageId === 'gjcPage' && Config.blockUserAtTipsEnabled) {
+        $('.thread-list-group').find('a[data-author]').each(function () {
+            let $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.blockUserList) > -1) {
+                num++;
+                $this.closest('.thread-list-item').remove();
+            }
+        });
+    }
+    if (num > 0) console.log(`【屏蔽用户】共有${num}个主题或回复被屏蔽`);
+};
+
+/**
+ * 屏蔽主题
+ */
+export const blockThread = function () {
+    if (!Config.blockThreadList.length) return;
+
+    /**
+     * 是否屏蔽主题
+     * @param {string} title 主题标题
+     * @param {string} userName 用户名
+     * @param {number} fid 版块ID
+     * @returns {boolean} 是否屏蔽
+     */
+    const isBlock = function (title, userName, fid = 0) {
+        for (let {keyWord, includeUser, excludeUser, includeFid, excludeFid} of Config.blockThreadList) {
+            let regex = null;
+            if (/^\/.+\/[gimuy]*$/.test(keyWord)) {
+                try {
+                    regex = eval(keyWord);
+                }
+                catch (ex) {
+                    console.log(ex);
+                    continue;
+                }
+            }
+            if (userName) {
+                if (includeUser) {
+                    if (!includeUser.includes(userName)) continue;
+                }
+                else if (excludeUser) {
+                    if (excludeUser.includes(userName)) continue;
+                }
+            }
+            if (fid) {
+                if (includeFid) {
+                    if (!includeFid.includes(fid)) continue;
+                }
+                else if (excludeFid) {
+                    if (excludeFid.includes(fid)) continue;
+                }
+            }
+            if (regex) {
+                if (regex.test(title)) return true;
+            }
+            else {
+                if (title.toLowerCase().includes(keyWord.toLowerCase())) return true;
+            }
+        }
+        return false;
+    };
+
+    let num = 0;
+    if (pageId === 'indexPage') {
+        $('.thread-link').each(function () {
+            let $this = $(this);
+            if (isBlock($this.text().trim(), $this.data('author'))) {
+                num++;
+                $this.closest('.thread-link-group').remove();
+            }
+        });
+    }
+    else if (pageId === 'threadPage') {
+        $('.thread-link').each(function () {
+            let $this = $(this);
+            if (isBlock($this.text().trim(), $this.data('author'), pageInfo.fid)) {
+                num++;
+                $this.closest('.thread-list-item').remove();
+            }
+        });
+    }
+    else if (pageId === 'readPage') {
+        if (pageInfo.currentPageNum !== 1) return;
+        let $topFloor = $('.read-floor[data-floor="0"]');
+        if (!$topFloor.length) return;
+        if (isBlock($('.thread-title').text().trim(), $topFloor.data('username'), pageInfo.fid)) {
+            num++;
+            $topFloor.remove();
+        }
+    }
+    if (num > 0) console.log(`【屏蔽主题】共有${num}个主题被屏蔽`);
 };

@@ -7,25 +7,24 @@
  * @param {string} title 对话框标题
  * @param {string} bodyContent 对话框主体内容
  * @param {string} footerContent 对话框底部内容
- * @param {string} style 对话框样式
  * @returns {jQuery} 对话框的jQuery对象
  */
-export const create = function (id, title, bodyContent, footerContent = '', style = '') {
+export const create = function (id, title, bodyContent, footerContent = '') {
     let html = `
-<div class="dialog-container" id="${id}" style="${style}" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="${id}Title">
-  <div class="container" role="document">
-    <form>
-      <div class="dialog-header">
-        <h5 class="dialog-title" id="${id}Title">${title}</h5>
-        <button class="close" data-dismiss="dialog" type="button" aria-label="关闭">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="dialog-body">${bodyContent}</div>
-      <div class="dialog-footer" ${!footerContent ? 'hidden' : ''}>${footerContent}</div>
-    </form>
+<form>
+<div class="dialog" id="${id}" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="${id}Title">
+  <div class="container dialog-content" role="document">
+    <div class="dialog-header">
+      <h5 class="dialog-title" id="${id}Title">${title}</h5>
+      <button class="close" data-dismiss="dialog" type="button" aria-label="关闭">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="dialog-body">${bodyContent}</div>
+    <div class="dialog-footer" ${!footerContent ? 'hidden' : ''}>${footerContent}</div>
   </div>
-</div>`;
+</div>
+</form>`;
     let $dialog = $(html).appendTo('body');
     $dialog.on('click', '[data-dismiss="dialog"]', () => close(id))
         .on('click', '.tips', () => false)
@@ -55,12 +54,18 @@ export const create = function (id, title, bodyContent, footerContent = '', styl
                 }
             });
         }).end().find('[data-toggle="tooltip"]').tooltip({'container': 'body'});
-    $(window).on('resize.' + id, () => show(id));
+    $(window).on('resize.' + id, function () {
+        let $focus = $(':focus');
+        if ($focus.length > 0) {
+            if ($focus.is('input') && !['checkbox', 'radio'].includes($focus.attr('type')) || $focus.is('textarea')) return;
+        }
+        resize(id);
+    });
     return $dialog;
 };
 
 /**
- * 显示或调整对话框
+ * 显示对话框
  * @param {string} id 对话框ID
  */
 export const show = function (id) {
@@ -73,10 +78,18 @@ export const show = function (id) {
         .each(function () {
             $(this).triggerHandler('click');
         });
-    $dialog.fadeIn('fast')
-        .find('.dialog-body')
-        .css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight())
-        .end().find('.close:first').focus();
+    $dialog.fadeIn('fast').find('.close:first').focus();
+    resize(id);
+};
+
+/**
+ * 调整对话框大小
+ * @param {string} id 对话框ID
+ */
+export const resize = function (id) {
+    let $dialog = $('#' + id);
+    $dialog.find('.dialog-body')
+        .css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight());
 };
 
 /**
@@ -86,7 +99,7 @@ export const show = function (id) {
  */
 export const close = function (id) {
     $('#' + id).fadeOut('fast', function () {
-        $(this).remove();
+        $(this).parent().remove();
     });
     $(window).off('resize.' + id);
     return false;

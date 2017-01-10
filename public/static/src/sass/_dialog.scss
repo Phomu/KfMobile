@@ -1,12 +1,18 @@
-// 对话框容器
-.dialog-container {
+// 对话框
+.dialog {
   display: none;
   position: fixed;
   top: 0;
   width: 100%;
   height: 100%;
+  background-color: rgba($black, .5);
+  z-index: 1050;
+}
+
+// 对话框内容
+.dialog-content {
   background-color: $gray-lightest;
-  z-index: 1040;
+  border-radius: $border-radius;
 }
 
 // 对话框头部

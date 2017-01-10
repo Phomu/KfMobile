@@ -102,8 +102,8 @@ export const bindFavorPageBtnsClick = function () {
         if (action === 'selectAll') {
             Util.selectAll($('[name="delid[]"]'));
         }
-        else if (action === 'selectReverse') {
-            Util.selectReverse($('[name="delid[]"]'));
+        else if (action === 'selectInverse') {
+            Util.selectInverse($('[name="delid[]"]'));
         }
         else if (action === 'delete') {
             let $checked = $('[name="delid[]"]:checked');
@@ -135,8 +135,8 @@ export const bindFriendPageBtnsClick = function () {
         if (action === 'selectAll') {
             Util.selectAll($('[name="selid[]"]'));
         }
-        else if (action === 'selectReverse') {
-            Util.selectReverse($('[name="selid[]"]'));
+        else if (action === 'selectInverse') {
+            Util.selectInverse($('[name="selid[]"]'));
         }
     });
 };
@@ -219,14 +219,14 @@ export const transferKfbAlert = function () {
 export const bindMessageActionBtnsClick = function () {
     $('#messageActionBtns').on('click', 'button', function () {
         let $form = $('#messageListForm');
-        let action = $(this).data('action');
-        if (action === 'selectAll') {
+        let name = $(this).attr('name');
+        if (name === 'selectAll') {
             Util.selectAll($('[name="delid[]"]'));
         }
-        else if (action === 'selectReverse') {
-            Util.selectReverse($('[name="delid[]"]'));
+        else if (name === 'selectInverse') {
+            Util.selectInverse($('[name="delid[]"]'));
         }
-        else if (action === 'selectCustom') {
+        else if (name === 'selectCustom') {
             let title = $.trim(
                 prompt('请填写所要选择的包含指定字符串的短消息标题（可用|符号分隔多个标题）', '收到了他人转账的KFB|银行汇款通知|您的文章被评分|您的文章被删除')
             );
@@ -241,14 +241,14 @@ export const bindMessageActionBtnsClick = function () {
                 }
             });
         }
-        else if (action === 'download') {
+        else if (name === 'download') {
             let $checked = $('[name="delid[]"]:checked');
             if ($checked.length > 0 && confirm(`是否下载这${$checked.length}项？`)) {
                 $form.attr('action', '/message.php').find('[name="action"]').val('down');
                 $form.submit();
             }
         }
-        else if (action === 'delete') {
+        else if (name === 'delete') {
             let $checked = $('[name="delid[]"]:checked');
             if ($checked.length > 0 && confirm(`是否删除这${$checked.length}项？`)) {
                 $form.attr('action', Util.makeUrl('message/job')).find('[name="action"]').val('del');
@@ -299,6 +299,64 @@ export const validateRegisterField = function () {
         if ($(this).find('.has-danger').length > 0) {
             alert('请正确填写表单');
             return false;
+        }
+    });
+};
+
+/**
+ * 处理个人信息页面下的按钮
+ */
+export const handleUserPageBtns = function () {
+    let $area = $('#profileBtns');
+    let userName = $area.data('username');
+    $area.on('click', '[name="followUser"], [name="blockUser"]', function () {
+        readConfig();
+        let $this = $(this);
+        let str = '关注';
+        let userList = Config.followUserList;
+        if ($this.attr('name') === 'blockUser') {
+            str = '屏蔽';
+            userList = Config.blockUserList;
+            Config.blockUserEnabled = true;
+        }
+        else Config.followUserEnabled = true;
+        if ($this.text().includes('取消')) {
+            let index = Util.inFollowOrBlockUserList(userName, userList);
+            if (index > -1) {
+                userList.splice(index, 1);
+                writeConfig();
+            }
+            $this.removeClass('btn-outline-danger').addClass('btn-outline-primary').find('span').text(str + '用户');
+            alert('该用户已被取消' + str);
+        }
+        else {
+            if (Util.inFollowOrBlockUserList(userName, userList) === -1) {
+                if (str === '屏蔽') {
+                    let type = Config.blockUserDefaultType;
+                    type = prompt('请填写屏蔽类型，0：主题和回帖；1：主题；2：回帖', type);
+                    if (type === null) return;
+                    type = parseInt(type);
+                    if (isNaN(type) || type < 0 || type > 2) type = Config.blockUserDefaultType;
+                    userList.push({name: userName, type: type});
+                }
+                else {
+                    userList.push({name: userName});
+                }
+                writeConfig();
+            }
+            $this.removeClass('btn-outline-primary').addClass('btn-outline-danger').find('span').text('取消' + str);
+            alert('该用户已被' + str);
+        }
+    }).find('[name="followUser"], [name="blockUser"]').each(function () {
+        let $this = $(this);
+        let str = '关注';
+        let userList = Config.followUserList;
+        if ($this.attr('name') === 'blockUser') {
+            str = '屏蔽';
+            userList = Config.blockUserList;
+        }
+        if (Util.inFollowOrBlockUserList(userName, userList) > -1) {
+            $this.removeClass('btn-outline-primary').addClass('btn-outline-danger').find('span').text('取消' + str);
         }
     });
 };

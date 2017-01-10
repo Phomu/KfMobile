@@ -5,13 +5,25 @@ var _config = require('./module/config');
 
 var _public = require('./module/public');
 
+var Public = _interopRequireWildcard(_public);
+
 var _index = require('./module/index');
+
+var Index = _interopRequireWildcard(_index);
 
 var _read = require('./module/read');
 
+var Read = _interopRequireWildcard(_read);
+
 var _post = require('./module/post');
 
+var Post = _interopRequireWildcard(_post);
+
 var _other = require('./module/other');
+
+var Other = _interopRequireWildcard(_other);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 // 页面ID
 window.pageId = $('body').attr('id');
@@ -19,94 +31,101 @@ window.pageId = $('body').attr('id');
 /**
  * 初始化
  */
-$(function () {
+var init = function init() {
+    var startTime = new Date();
     if (pageId === 'loginPage') return;else if (pageId === 'registerPage') {
-        (0, _other.validateRegisterField)();
+        Other.validateRegisterField();
         return;
     }
     (0, _config.init)();
 
-    (0, _public.preventCloseWindow)();
-    (0, _public.handleMainMenu)();
-    (0, _public.handleMainMenuLink)();
-    (0, _public.handleRollToTopOrBottomBtn)();
-    (0, _public.handleSearchDialog)();
-    (0, _public.fillCommonForumPanel)();
-    (0, _public.showEditCommonForumDialog)();
+    Public.preventCloseWindow();
+    Public.handleMainMenu();
+    Public.handleMainMenuLink();
+    Public.handleRollToTopOrBottomBtn();
+    Public.handleSearchDialog();
+    Public.fillCommonForumPanel();
+    Public.showEditCommonForumDialog();
     if ($('.page-input').length > 0) {
-        (0, _public.handlePageInput)();
+        Public.handlePageInput();
     }
     if (pageId === 'indexPage') {
-        (0, _index.handleAtTipsBtn)();
-        (0, _index.handleIndexThreadPanel)();
-        (0, _index.handleSelectBgImage)();
-        (0, _index.handleSelectBgColor)();
-        (0, _index.handleCustomBgStyle)();
+        Index.handleAtTipsBtn();
+        Index.handleIndexThreadPanel();
+        Index.handleSelectBgImage();
+        Index.handleSelectBgColor();
+        Index.handleCustomBgStyle();
     } else if (pageId === 'readPage') {
-        (0, _read.gotoFloor)();
-        (0, _read.handleFastGotoFloorBtn)();
-        (0, _read.handleTuiThreadBtn)();
-        (0, _read.handleCopyFloorLinkBtn)();
-        (0, _read.handleFastReplyBtn)();
-        (0, _read.handleBlockFloorBtn)();
-        (0, _read.handleBuyThreadBtn)();
-        (0, _read.copyBuyThreadList)();
-        (0, _read.handleFloorImage)();
-        (0, _post.checkPostForm)();
-        (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
-        (0, _read.handleCopyCodeBtn)();
-        (0, _post.addSmileCode)($('#postContent'));
-        (0, _read.bindMultiQuoteCheckClick)();
-        (0, _post.handleClearMultiQuoteDataBtn)();
+        Read.gotoFloor();
+        Read.handleFastGotoFloorBtn();
+        Read.handleTuiThreadBtn();
+        Read.handleCopyFloorLinkBtn();
+        Read.handleFastReplyBtn();
+        Read.handleBlockFloorBtn();
+        Read.handleBuyThreadBtn();
+        Read.copyBuyThreadList();
+        Read.handleFloorImage();
+        Post.checkPostForm();
+        Public.bindFastSubmitShortcutKey($('#postContent'));
+        Read.handleCopyCodeBtn();
+        Post.addSmileCode($('#postContent'));
+        Read.bindMultiQuoteCheckClick();
+        Post.handleClearMultiQuoteDataBtn();
         $('.multi-reply-btn').click(function () {
-            (0, _post.handleMultiQuote)(1);
+            return Post.handleMultiQuote(1);
         });
     } else if (pageId === 'postPage') {
-        (0, _post.checkPostForm)();
-        (0, _public.bindFastSubmitShortcutKey)($('#postContent'));
-        (0, _post.handleEditorBtns)();
-        (0, _post.addSmileCode)($('#postContent'));
-        (0, _post.handleAttachBtns)();
-        (0, _post.handleClearMultiQuoteDataBtn)();
-        if (pageInfo.multiQuote) (0, _post.handleMultiQuote)(2);
+        Post.checkPostForm();
+        Public.bindFastSubmitShortcutKey($('#postContent'));
+        Post.handleEditorBtns();
+        Post.addSmileCode($('#postContent'));
+        Post.handleAttachBtns();
+        Post.handleClearMultiQuoteDataBtn();
+        if (pageInfo.multiQuote) Post.handleMultiQuote(2);
     } else if (pageId === 'gjcPage') {
-        (0, _other.highlightUnReadAtTipsMsg)();
+        Other.highlightUnReadAtTipsMsg();
+    } else if (pageId === 'userPage') {
+        Other.handleUserPageBtns();
     } else if (pageId === 'gameIntroSearchPage') {
-        (0, _other.handleGameIntroSearchArea)();
+        Other.handleGameIntroSearchArea();
     } else if (pageId === 'gameIntroPage') {
-        (0, _other.tuiGameIntro)('game');
+        Other.tuiGameIntro('game');
     } else if (pageId === 'gameIntroCompanyPage') {
-        (0, _other.tuiGameIntro)('company');
+        Other.tuiGameIntro('company');
     } else if (pageId === 'gameIntroTypePage') {
-        (0, _other.tuiGameIntro)('type');
+        Other.tuiGameIntro('type');
     } else if (pageId === 'gameIntroPropertyPage') {
-        (0, _other.tuiGameIntro)('property');
+        Other.tuiGameIntro('property');
     } else if (pageId === 'favorPage') {
-        (0, _other.bindFavorPageBtnsClick)();
+        Other.bindFavorPageBtnsClick();
     } else if (pageId === 'friendPage') {
-        (0, _other.bindFriendPageBtnsClick)();
+        Other.bindFriendPageBtnsClick();
     } else if (pageId === 'modifyPage') {
-        (0, _other.syncPerPageFloorNum)();
-        (0, _other.assignBirthdayField)();
-        (0, _other.handleUploadAvatarFileBtn)();
+        Other.syncPerPageFloorNum();
+        Other.assignBirthdayField();
+        Other.handleUploadAvatarFileBtn();
     } else if (pageId === 'bankPage') {
-        (0, _other.transferKfbAlert)();
+        Other.transferKfbAlert();
     } else if (pageId === 'messagePage') {
-        (0, _other.bindMessageActionBtnsClick)();
+        Other.bindMessageActionBtnsClick();
     } else if (pageId === 'readMessagePage') {
-        (0, _read.handleFloorImage)();
-        (0, _read.handleCopyCodeBtn)();
+        Read.handleFloorImage();
+        Read.handleCopyCodeBtn();
     } else if (pageId === 'writeMessagePage') {
-        (0, _public.bindFastSubmitShortcutKey)($('#msgContent'));
-        (0, _post.addSmileCode)($('#msgContent'));
+        Public.bindFastSubmitShortcutKey($('#msgContent'));
+        Post.addSmileCode($('#msgContent'));
     } else if (pageId === 'messageBannedPage') {
-        (0, _public.bindFastSubmitShortcutKey)($('[name="banidinfo"]'));
+        Public.bindFastSubmitShortcutKey($('[name="banidinfo"]'));
     }
+    if (Config.blockUserEnabled) Public.blockUsers();
+    if (Config.blockThreadEnabled) Public.blockThread();
+    if (Config.followUserEnabled) Public.followUsers();
 
-    //let tooltipStartTime = new Date();
     $('[data-toggle="tooltip"]').tooltip({ 'container': 'body' });
-    //console.log(`tooltip初始化耗时：${new Date() - tooltipStartTime}ms`);
-});
+    console.log('\u811A\u672C\u52A0\u8F7D\u5B8C\u6BD5\uFF0C\u8017\u65F6\uFF1A' + (new Date() - startTime) + 'ms');
+};
+
+$(document).ready(init);
 
 },{"./module/config":2,"./module/index":6,"./module/other":8,"./module/post":9,"./module/public":10,"./module/read":11}],2:[function(require,module,exports){
 /* 配置模块 */
@@ -115,7 +134,9 @@ $(function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.clear = exports.write = exports.read = exports.init = exports.Config = undefined;
+exports.normalize = exports.clear = exports.write = exports.read = exports.init = exports.Config = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _util = require('./util');
 
@@ -130,8 +151,6 @@ var name = 'kf_config';
  * 配置类
  */
 var Config = exports.Config = {
-    // 主题每页楼层数量
-    perPageFloorNum: 0,
     // 当前激活的最新回复面板
     activeNewReplyPanel: '#galgameNewReplyPanel',
     // 当前激活的当前推荐面板
@@ -142,8 +161,43 @@ var Config = exports.Config = {
     activeForumPanel2: '',
     // 常用版块列表
     commonForumList: [],
+
+    // 主题每页楼层数量
+    perPageFloorNum: 10,
+
     // 默认的消息显示时间（秒），设置为-1表示永久显示
-    defShowMsgDuration: -1
+    defShowMsgDuration: -1,
+
+    // 是否开启关注用户的功能，true：开启；false：关闭
+    followUserEnabled: false,
+    // 关注用户列表，格式：[{name:'用户名'}]，例：[{name:'张三'}, {name:'李四'}]
+    followUserList: [],
+    // 是否高亮所关注用户在首页下的主题链接，true：开启；false：关闭
+    highlightFollowUserThreadInHPEnabled: true,
+    // 是否高亮所关注用户在主题列表页面下的主题链接，true：开启；false：关闭
+    highlightFollowUserThreadLinkEnabled: true,
+    // 是否开启屏蔽用户的功能，true：开启；false：关闭
+    blockUserEnabled: false,
+    // 屏蔽用户的默认屏蔽类型，0：屏蔽主题和回贴；1：仅屏蔽主题；2：仅屏蔽回贴
+    blockUserDefaultType: 0,
+    // 是否屏蔽被屏蔽用户的@提醒，true：开启；false：关闭
+    blockUserAtTipsEnabled: true,
+    // 屏蔽用户的版块屏蔽范围，0：所有版块；1：包括指定的版块；2：排除指定的版块
+    blockUserForumType: 0,
+    // 屏蔽用户的版块ID列表，例：[16, 41, 67, 57, 84, 92, 127, 68, 163, 182, 9]
+    blockUserFidList: [],
+    // 屏蔽用户列表，格式：[{name:'用户名', type:屏蔽类型}]，例：[{name:'张三', type:0}, {name:'李四', type:1}]
+    blockUserList: [],
+    // 是否开启屏蔽标题包含指定关键字的主题的功能，true：开启；false：关闭
+    blockThreadEnabled: false,
+    // 屏蔽主题的默认版块屏蔽范围，0：所有版块；1：包括指定的版块；2：排除指定的版块
+    blockThreadDefForumType: 0,
+    // 屏蔽主题的默认版块ID列表，例：[16, 41, 67, 57, 84, 92, 127, 68, 163, 182, 9]
+    blockThreadDefFidList: [],
+    // 屏蔽主题的关键字列表，格式：[{keyWord:'关键字', includeUser:['包括的用户名'], excludeUser:['排除的用户名'], includeFid:[包括指定的版块ID], excludeFid:[排除指定的版块ID]}]
+    // 关键字可使用普通字符串或正则表达式（正则表达式请使用'/abc/'的格式），includeUser、excludeUser、includeFid和excludeFid这三项为可选
+    // 例：[{keyWord: '标题1'}, {keyWord: '标题2', includeUser:['用户名1', '用户名2'], includeFid: [5, 56]}, {keyWord: '/关键字A.*关键字B/i', excludeFid: [92, 127, 68]}]
+    blockThreadList: []
 };
 
 /**
@@ -190,14 +244,38 @@ var clear = exports.clear = function clear() {
  * @param {{}} options 待处理的Config对象
  * @returns {{}} 经过规范化的Config对象
  */
-var normalize = function normalize(options) {
+var normalize = exports.normalize = function normalize(options) {
     var settings = {};
     if ($.type(options) !== 'object') return settings;
-    $.each(options, function (key, value) {
-        if (key in Config && $.type(value) === $.type(Config[key])) {
-            settings[key] = value;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = Object.entries(options)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var _step$value = _slicedToArray(_step.value, 2),
+                key = _step$value[0],
+                value = _step$value[1];
+
+            if (key in Config && $.type(value) === $.type(Config[key])) {
+                settings[key] = value;
+            }
         }
-    });
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
     return settings;
 };
 
@@ -206,9 +284,13 @@ var normalize = function normalize(options) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.show = undefined;
+
+var _util = require('./util');
+
+var Util = _interopRequireWildcard(_util);
 
 var _dialog = require('./dialog');
 
@@ -216,22 +298,624 @@ var Dialog = _interopRequireWildcard(_dialog);
 
 var _config = require('./config');
 
+var _public = require('./public');
+
+var Public = _interopRequireWildcard(_public);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 /**
  * 显示设置对话框
  */
 var show = exports.show = function show() {
-  var dialogName = 'configDialog';
-  if ($('#' + dialogName).length > 0) return;
-  (0, _config.read)();
-  var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group">\n    <label>\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n    <select class="custom-select form-control" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="form-group">\n    <label>\u9ED8\u8BA4\u6D88\u606F\u663E\u793A\u65F6\u95F4</label>\n    <span class="tips" data-toggle="tooltip" title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">[?]</span>\n    <input class="form-control" name="defShowMsgDuration" type="number" min="-1" required>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
-  var footerContent = '\n<button class="btn btn-primary" type="submit">\u786E\u5B9A</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
-  var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
-  Dialog.show(dialogName);
+    var dialogName = 'configDialog';
+    if ($('#' + dialogName).length > 0) return;
+    (0, _config.read)();
+    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label>\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
+    var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImportOrExportSettingDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
+    var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        (0, _config.read)();
+        var options = getMainConfigValue($dialog);
+        options = (0, _config.normalize)(options);
+        $.extend(Config, options);
+        (0, _config.write)();
+        Dialog.close(dialogName);
+    }).on('click', 'a[data-name^="open"][href="#"]', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        if ($this.hasClass('pd_disabled_link')) return;
+        var name = $this.data('name');
+        if (name === 'openFollowUserDialog') showFollowUserDialog();else if (name === 'openBlockUserDialog') showBlockUserDialog();else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
+    }).find('[name="reset"]').click(function () {
+        if (confirm('是否重置所有设置？')) {
+            (0, _config.clear)();
+            alert('设置已重置');
+            Dialog.close(dialogName);
+            location.reload();
+        }
+    }).end().find('[name="openImportOrExportSettingDialog"]').click(showImportOrExportSettingDialog);
+
+    setMainConfigValue($dialog);
+    Dialog.show(dialogName);
 };
 
-},{"./config":2,"./dialog":5}],4:[function(require,module,exports){
+/**
+ * 设置主对话框中的字段值
+ * @param {jQuery} $dialog 助手设置对话框对象
+ */
+var setMainConfigValue = function setMainConfigValue($dialog) {
+    $dialog.find('input[name], select[name]').each(function () {
+        var $this = $(this);
+        var name = $this.attr('name');
+        if (name in Config) {
+            if ($this.is('[type="checkbox"]') && typeof Config[name] === 'boolean') $this.prop('checked', Config[name] === true);else $this.val(Config[name]);
+        }
+    });
+};
+
+/**
+ * 获取主对话框中字段值的Config对象
+ * @param {jQuery} $dialog 助手设置对话框对象
+ * @returns {{}} 字段值的Config对象
+ */
+var getMainConfigValue = function getMainConfigValue($dialog) {
+    var options = {};
+    $dialog.find('input[name], select[name]').each(function () {
+        var $this = $(this);
+        var name = $this.attr('name');
+        if (name in Config) {
+            if ($this.is('[type="checkbox"]') && typeof Config[name] === 'boolean') options[name] = Boolean($this.prop('checked'));else if (typeof Config[name] === 'number') {
+                options[name] = parseInt($this.val());
+            } else options[name] = $.trim($this.val());
+        }
+    });
+    return options;
+};
+
+/**
+ * 显示导入或导出设置对话框
+ */
+var showImportOrExportSettingDialog = function showImportOrExportSettingDialog() {
+    var dialogName = 'pdImOrExSettingDialog';
+    if ($('#' + dialogName).length > 0) return;
+    (0, _config.read)();
+    var bodyContent = '\n<p class="font-size-sm">\n  <b>\u5BFC\u5165\u8BBE\u7F6E\uFF1A</b>\u5C06\u8BBE\u7F6E\u5185\u5BB9\u7C98\u8D34\u5230\u6587\u672C\u6846\u4E2D\u5E76\u70B9\u51FB\u4FDD\u5B58\u6309\u94AE\u5373\u53EF<br>\n  <b>\u5BFC\u51FA\u8BBE\u7F6E\uFF1A</b>\u590D\u5236\u6587\u672C\u6846\u91CC\u7684\u5185\u5BB9\u5E76\u7C98\u8D34\u5230\u522B\u5904\u5373\u53EF\n</p>\n<div class="form-group">\n  <textarea class="form-control" name="setting" rows="10" aria-label="\u8BBE\u7F6E\u5185\u5BB9" style="word-break: break-all;"></textarea>\n</div>';
+    var footerContent = '\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+    var $dialog = Dialog.create(dialogName, '\u5BFC\u5165\u6216\u5BFC\u51FA\u8BBE\u7F6E', bodyContent, footerContent);
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        if (!confirm('是否导入文本框中的设置？')) return;
+        var options = $.trim($dialog.find('[name="setting"]').val());
+        if (!options) return;
+        try {
+            options = JSON.parse(options);
+        } catch (ex) {
+            alert('设置有错误');
+            return;
+        }
+        if (!options || $.type(options) !== 'object') {
+            alert('设置有错误');
+            return;
+        }
+        options = (0, _config.normalize)(options);
+        window.Config = $.extend(true, {}, _config.Config, options);
+        (0, _config.write)();
+        alert('设置已导入');
+        location.reload();
+    }).find('[name="cancel"]').click(function () {
+        return Dialog.close(dialogName);
+    });
+    Dialog.show(dialogName);
+    $dialog.find('[name="setting"]').val(JSON.stringify(Util.getDifferenceSetOfObject(_config.Config, Config))).select().focus();
+};
+
+/**
+ * 显示关注用户对话框
+ */
+var showFollowUserDialog = function showFollowUserDialog() {
+    var dialogName = 'followUserDialog';
+    if ($('#' + dialogName).length > 0) return;
+    var bodyContent = '\n<div class="form-check">\n  <label class="form-check-label">\n    <input class="form-check-input" name="highlightFollowUserThreadInHpEnabled" type="checkbox"> \u9AD8\u4EAE\u6240\u5173\u6CE8\u7528\u6237\u7684\u9996\u9875\u4E3B\u9898\u94FE\u63A5\n    <span class="tips" data-toggle="tooltip" title="\u9AD8\u4EAE\u6240\u5173\u6CE8\u7528\u6237\u5728\u9996\u9875\u4E0B\u7684\u4E3B\u9898\u94FE\u63A5">[?]</span>\n  </label>\n</div>\n<div class="form-check mb-3">\n  <label class="form-check-label">\n    <input class="form-check-input" name="highlightFollowUserThreadLinkEnabled" type="checkbox"> \u9AD8\u4EAE\u6240\u5173\u6CE8\u7528\u6237\u7684\u4E3B\u9898\u94FE\u63A5\n    <span class="tips" data-toggle="tooltip" title="\u9AD8\u4EAE\u6240\u5173\u6CE8\u7528\u6237\u5728\u7248\u5757\u9875\u9762\u4E0B\u7684\u4E3B\u9898\u94FE\u63A5">[?]</span>\n  </label>\n</div>\n<ul class="list-unstyled" id="followUserList"></ul>\n<div class="btn-group btn-group-sm mb-3" role="group">\n  <button class="btn btn-secondary" name="selectAll" type="button">\u5168\u9009</button>\n  <button class="btn btn-secondary" name="selectInverse" type="button">\u53CD\u9009</button>\n  <button class="btn btn-danger" name="deleteSelect" type="button">\u5220\u9664</button>\n</div>\n<div class="input-group mb-3">\n  <input class="form-control" name="addUser" data-toggle="tooltip" type="text" title="\u6DFB\u52A0\u591A\u4E2A\u7528\u6237\u8BF7\u7528\u82F1\u6587\u9017\u53F7\u5206\u9694" aria-label="\u6DFB\u52A0\u5173\u6CE8\u7528\u6237">\n  <span class="input-group-btn">\n    <button class="btn btn-success" name="add" type="button">\u6DFB\u52A0</button>\n  </span>\n</div>\n';
+    var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImOrExFollowUserListDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+    var $dialog = Dialog.create(dialogName, '关注用户', bodyContent, footerContent);
+    var $followUserList = $dialog.find('#followUserList');
+
+    /**
+     * 添加关注用户
+     * @param {string} name 用户名
+     */
+    var addFollowUser = function addFollowUser(name) {
+        $('\n<li class="input-group input-group-sm mb-2">\n  <span class="input-group-addon">\n    <input type="checkbox" aria-label="\u9009\u62E9\u7528\u6237">\n  </span>\n  <input class="form-control" name="userName" type="text" value="' + name + '" maxlength="12" aria-label="\u7F16\u8F91\u5173\u6CE8\u7528\u6237">\n  <span class="input-group-btn">\n    <button class="btn btn-danger" name="delete" type="button" aria-label="\u5220\u9664\u5173\u6CE8\u7528\u6237">\n      <i class="fa fa-trash" aria-hidden="true"></i>\n    </button>\n  </span>\n</li>\n').appendTo($followUserList);
+    };
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        Config.highlightFollowUserThreadInHPEnabled = $dialog.find('[name="highlightFollowUserThreadInHpEnabled"]').prop('checked');
+        Config.highlightFollowUserThreadLinkEnabled = $dialog.find('[name="highlightFollowUserThreadLinkEnabled"]').prop('checked');
+        Config.followUserList = [];
+        $followUserList.find('li').each(function () {
+            var $this = $(this);
+            var name = $.trim($this.find('[name="userName"]').val());
+            if (name !== '' && Util.inFollowOrBlockUserList(name, Config.followUserList) === -1) {
+                Config.followUserList.push({ name: name });
+            }
+        });
+        (0, _config.write)();
+        Dialog.close(dialogName);
+    }).find('[name="deleteSelect"]').click(function () {
+        var $checked = $followUserList.find('li:has([type="checkbox"]:checked)');
+        if (!$checked.length) return;
+        if (confirm('是否删除所选用户？')) $checked.remove();
+    }).end().find('[name="addUser"]').keydown(function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            $(this).next().find('button').click();
+        }
+    }).end().find('[name="add"]').click(function () {
+        var $addUser = $dialog.find('[name="addUser"]');
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = $.trim($addUser.val()).split(',')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var name = _step.value;
+
+                name = $.trim(name);
+                if (!name) continue;
+                if (Util.inFollowOrBlockUserList(name, Config.followUserList) === -1) addFollowUser(name);
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
+        $addUser.val('');
+    }).end().find('[name="openImOrExFollowUserListDialog"]').click(function (e) {
+        e.preventDefault();
+        Public.showCommonImportOrExportConfigDialog('关注用户', 'followUserList');
+    }).end().find('[name="selectAll"]').click(function () {
+        return Util.selectAll($followUserList.find('[type="checkbox"]'));
+    }).end().find('[name="selectInverse"]').click(function () {
+        return Util.selectInverse($followUserList.find('[type="checkbox"]'));
+    });
+
+    $followUserList.on('click', '[name="delete"]', function () {
+        $(this).closest('li').remove();
+    });
+
+    $dialog.find('[name="highlightFollowUserThreadInHpEnabled"]').prop('checked', Config.highlightFollowUserThreadInHPEnabled);
+    $dialog.find('[name="highlightFollowUserThreadLinkEnabled"]').prop('checked', Config.highlightFollowUserThreadLinkEnabled);
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+        for (var _iterator2 = Config.followUserList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var user = _step2.value;
+
+            addFollowUser(user.name);
+        }
+    } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+            }
+        } finally {
+            if (_didIteratorError2) {
+                throw _iteratorError2;
+            }
+        }
+    }
+
+    Dialog.show(dialogName);
+};
+
+/**
+ * 显示屏蔽用户对话框
+ */
+var showBlockUserDialog = function showBlockUserDialog() {
+    var dialogName = 'blockUserDialog';
+    if ($('#' + dialogName).length > 0) return;
+    var bodyContent = '\n<div class="form-group mb-2">\n  <label>\u9ED8\u8BA4\u5C4F\u853D\u7C7B\u578B</label>\n  <select class="custom-select custom-select-sm" name="blockUserDefaultType">\n    <option value="0">\u4E3B\u9898\u548C\u56DE\u5E16</option><option value="1">\u4E3B\u9898</option><option value="2">\u56DE\u5E16</option>\n  </select>\n  <div class="form-check form-check-inline ml-3">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserAtTipsEnabled" type="checkbox"> \u5C4F\u853D@\u63D0\u9192\n      <span class="tips" data-toggle="tooltip" title="\u5C4F\u853D\u88AB\u5C4F\u853D\u7528\u6237\u7684@\u63D0\u9192">[?]</span>\n    </label>\n  </div>\n</div>\n<div class="form-group mb-2">\n  <label>\u7248\u5757\u5C4F\u853D\u8303\u56F4</label>\n  <select class="custom-select custom-select-sm" name="blockUserForumType">\n    <option value="0">\u6240\u6709\u7248\u5757</option><option value="1">\u5305\u62EC\u6307\u5B9A\u7248\u5757</option><option value="2">\u6392\u9664\u6307\u5B9A\u7248\u5757</option>\n  </select>\n</div>\n<div class="form-group">\n  <label>\u7248\u5757ID\u5217\u8868</label>\n  <span class="tips" data-toggle="tooltip" title="\u7248\u5757URL\u4E2D\u7684fid\u53C2\u6570\uFF0C\u591A\u4E2AID\u8BF7\u7528\u82F1\u6587\u9017\u53F7\u5206\u9694">[?]</span>\n  <input class="form-control form-control-sm" name="blockUserFidList" type="text">\n</div>\n<ul class="list-unstyled" id="blockUserList"></ul>\n<div class="btn-group btn-group-sm mb-3" role="group">\n  <button class="btn btn-secondary" name="selectAll" type="button">\u5168\u9009</button>\n  <button class="btn btn-secondary" name="selectInverse" type="button">\u53CD\u9009</button>\n  <div class="btn-group btn-group-sm dropup">\n    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false">\n      \u4FEE\u6539\u4E3A\n    </button>\n    <div class="dropdown-menu" data-name="modifyMenu">\n      <a class="dropdown-item" data-value="0" href="#">\u4E3B\u9898\u548C\u56DE\u5E16</a>\n      <a class="dropdown-item" data-value="1" href="#">\u4E3B\u9898</a>\n      <a class="dropdown-item" data-value="2" href="#">\u56DE\u5E16</a>\n    </div>\n  </div>\n  <button class="btn btn-danger" name="deleteSelect" type="button">\u5220\u9664</button>\n</div>\n<div class="input-group mb-3">\n  <input class="form-control" name="addUser" data-toggle="tooltip" type="text" title="\u6DFB\u52A0\u591A\u4E2A\u7528\u6237\u8BF7\u7528\u82F1\u6587\u9017\u53F7\u5206\u9694" aria-label="\u6DFB\u52A0\u5C4F\u853D\u7528\u6237">\n  <span class="input-group-btn">\n    <button class="btn btn-success" name="add" type="button">\u6DFB\u52A0</button>\n  </span>\n</div>';
+    var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImOrExBlockUserListDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+    var $dialog = Dialog.create(dialogName, '屏蔽用户', bodyContent, footerContent);
+    var $blockUserList = $dialog.find('#blockUserList');
+
+    /**
+     * 添加屏蔽用户
+     * @param {string} name 用户名
+     * @param {number} type 屏蔽类型
+     */
+    var addBlockUser = function addBlockUser(name, type) {
+        $('\n<li class="form-group row no-gutters mb-2">\n  <div class="col-7 input-group input-group-sm">\n    <span class="input-group-addon">\n      <input type="checkbox" aria-label="\u9009\u62E9\u7528\u6237">\n    </span>\n    <input class="form-control" name="userName" type="text" value="' + name + '" maxlength="12" aria-label="\u7F16\u8F91\u5C4F\u853D\u7528\u6237">\n  </div>\n  <div class="col-5 input-group input-group-sm">\n    <select class="form-control" name="blockType">\n      <option value="0">\u4E3B\u9898\u548C\u56DE\u5E16</option><option value="1">\u4E3B\u9898</option><option value="2">\u56DE\u5E16</option>\n    </select>\n    <span class="input-group-btn">\n      <button class="btn btn-danger" name="delete" type="button" aria-label="\u5220\u9664\u5C4F\u853D\u7528\u6237">\n        <i class="fa fa-trash" aria-hidden="true"></i>\n      </button>\n    </span>\n  </div>\n</li>\n').appendTo($blockUserList).find('[name="blockType"]').val(type);
+    };
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        Config.blockUserDefaultType = parseInt($dialog.find('[name="blockUserDefaultType"]').val());
+        Config.blockUserAtTipsEnabled = $dialog.find('[name="blockUserAtTipsEnabled"]').prop('checked');
+        Config.blockUserForumType = parseInt($dialog.find('[name="blockUserForumType"]').val());
+        var blockUserFidList = new Set();
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
+
+        try {
+            for (var _iterator3 = $.trim($dialog.find('[name="blockUserFidList"]').val()).split(',')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var fid = _step3.value;
+
+                fid = parseInt(fid);
+                if (!isNaN(fid) && fid > 0) blockUserFidList.add(fid);
+            }
+        } catch (err) {
+            _didIteratorError3 = true;
+            _iteratorError3 = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                    _iterator3.return();
+                }
+            } finally {
+                if (_didIteratorError3) {
+                    throw _iteratorError3;
+                }
+            }
+        }
+
+        Config.blockUserFidList = [].concat(_toConsumableArray(blockUserFidList));
+        Config.blockUserList = [];
+        $blockUserList.find('li').each(function () {
+            var $this = $(this);
+            var name = $.trim($this.find('[name="userName"]').val());
+            if (name && Util.inFollowOrBlockUserList(name, Config.blockUserList) === -1) {
+                var type = parseInt($this.find('[name="blockType"]').val());
+                Config.blockUserList.push({ name: name, type: type });
+            }
+        });
+        (0, _config.write)();
+        Dialog.close(dialogName);
+    }).find('[data-name="modifyMenu"]').on('click', 'a', function (e) {
+        e.preventDefault();
+        var value = parseInt($(this).data('value'));
+        $blockUserList.find('li:has([type="checkbox"]:checked) select').val(value);
+    }).end().find('[name="deleteSelect"]').click(function () {
+        var $checked = $blockUserList.find('li:has([type="checkbox"]:checked)');
+        if (!$checked.length) return;
+        if (confirm('是否删除所选用户？')) $checked.remove();
+    }).end().find('[name="addUser"]').keydown(function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            $(this).next().find('button').click();
+        }
+    }).end().find('[name="add"]').click(function () {
+        var $addUser = $dialog.find('[name="addUser"]');
+        var type = parseInt($dialog.find('[name="blockUserDefaultType"]').val());
+        var _iteratorNormalCompletion4 = true;
+        var _didIteratorError4 = false;
+        var _iteratorError4 = undefined;
+
+        try {
+            for (var _iterator4 = $.trim($addUser.val()).split(',')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                var name = _step4.value;
+
+                name = $.trim(name);
+                if (!name) continue;
+                if (Util.inFollowOrBlockUserList(name, Config.blockUserList) === -1) addBlockUser(name, type);
+            }
+        } catch (err) {
+            _didIteratorError4 = true;
+            _iteratorError4 = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                    _iterator4.return();
+                }
+            } finally {
+                if (_didIteratorError4) {
+                    throw _iteratorError4;
+                }
+            }
+        }
+
+        $addUser.val('');
+    }).end().find('[name="blockUserForumType"]').change(function () {
+        $dialog.find('[name="blockUserFidList"]').prop('disabled', parseInt($(this).val()) === 0);
+    }).end().find('[name="openImOrExBlockUserListDialog"]').click(function (e) {
+        e.preventDefault();
+        Public.showCommonImportOrExportConfigDialog('屏蔽用户', 'blockUserList');
+    }).end().find('[name="selectAll"]').click(function () {
+        return Util.selectAll($blockUserList.find('[type="checkbox"]'));
+    }).end().find('[name="selectInverse"]').click(function () {
+        return Util.selectInverse($blockUserList.find('[type="checkbox"]'));
+    });
+
+    $blockUserList.on('click', '[name="delete"]', function () {
+        $(this).closest('li').remove();
+    });
+
+    $dialog.find('[name="blockUserDefaultType"]').val(Config.blockUserDefaultType);
+    $dialog.find('[name="blockUserAtTipsEnabled"]').prop('checked', Config.blockUserAtTipsEnabled);
+    $dialog.find('[name="blockUserForumType"]').val(Config.blockUserForumType).triggerHandler('change');
+    $dialog.find('[name="blockUserFidList"]').val(Config.blockUserFidList.join(','));
+    var _iteratorNormalCompletion5 = true;
+    var _didIteratorError5 = false;
+    var _iteratorError5 = undefined;
+
+    try {
+        for (var _iterator5 = Config.blockUserList[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var user = _step5.value;
+
+            addBlockUser(user.name, user.type);
+        }
+    } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                _iterator5.return();
+            }
+        } finally {
+            if (_didIteratorError5) {
+                throw _iteratorError5;
+            }
+        }
+    }
+
+    Dialog.show(dialogName);
+};
+
+/**
+ * 显示屏蔽主题对话框
+ */
+var showBlockThreadDialog = function showBlockThreadDialog() {
+    var dialogName = 'blockThreadDialog';
+    if ($('#' + dialogName).length > 0) return;
+    var bodyContent = '\n<p class="font-size-sm">\n  \u6807\u9898\u5173\u952E\u5B57\u53EF\u4F7F\u7528\u666E\u901A\u5B57\u7B26\u4E32\u6216\u6B63\u5219\u8868\u8FBE\u5F0F\uFF0C\u6B63\u5219\u8868\u8FBE\u5F0F\u8BF7\u4F7F\u7528<code>/abc/</code>\u7684\u683C\u5F0F\uFF0C\u4F8B\uFF1A<code>/\u5173\u952E\u5B57A.*\u5173\u952E\u5B57B/i</code><br>\n  \u7528\u6237\u540D\u548C\u7248\u5757ID\u4E3A\u53EF\u9009\u9879\uFF08\u591A\u4E2A\u7528\u6237\u540D\u6216\u7248\u5757ID\u8BF7\u7528\u82F1\u6587\u9017\u53F7\u5206\u9694\uFF09<br>\n</p>\n<div class="form-group mb-2">\n  <label>\u9ED8\u8BA4\u7248\u5757\u5C4F\u853D\u8303\u56F4</label>\n  <select class="custom-select custom-select-sm" name="blockThreadDefForumType">\n    <option value="0">\u6240\u6709\u7248\u5757</option><option value="1">\u5305\u62EC\u6307\u5B9A\u7248\u5757</option><option value="2">\u6392\u9664\u6307\u5B9A\u7248\u5757</option>\n  </select>\n</div>\n<div class="form-group">\n  <label>\u9ED8\u8BA4\u7248\u5757ID\u5217\u8868</label>\n  <input class="form-control form-control-sm" name="blockThreadDefFidList" type="text">\n</div>\n<div class="table-responsive">\n  <table class="table table-sm table-hover table-center text-nowrap">\n    <thead>\n      <tr>\n        <th>\u6807\u9898\u5173\u952E\u5B57(\u5FC5\u586B)</th>\n        <th>\u5C4F\u853D\u7528\u6237</th>\n        <th>\u7528\u6237\u540D</th>\n        <th>\u5C4F\u853D\u8303\u56F4</th>\n        <th>\u7248\u5757ID</th>\n        <th></th>\n      </tr>\n    </thead>\n    <tbody id="blockThreadList"></tbody>\n  </table>\n</div>\n<div class="btn-group btn-group-sm mb-3" role="group">\n  <button class="btn btn-success" name="add" type="button">\u589E\u52A0</button>\n  <button class="btn btn-danger" name="clear" type="button">\u6E05\u7A7A</button>\n</div>';
+    var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImOrExBlockThreadListDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+    var $dialog = Dialog.create(dialogName, '屏蔽主题', bodyContent, footerContent);
+    var $blockThreadList = $dialog.find('#blockThreadList');
+
+    /**
+     * 添加屏蔽主题
+     * @param {string} keyWord 标题关键字
+     * @param {number} userType 屏蔽用户，0：所有；1：包括；2：排除
+     * @param {string[]} userList 用户名
+     * @param {number} fidType 屏蔽范围，0：所有；1：包括；2：排除
+     * @param {number[]} fidList 版块ID列表
+     */
+    var addBlockThread = function addBlockThread(keyWord, userType, userList, fidType, fidList) {
+        $('\n<tr>\n  <td>\n    <input class="form-control form-control-sm" name="keyWord" type="text" value="' + keyWord + '" aria-label="\u6807\u9898\u5173\u952E\u5B57" style="min-width: 12rem;">\n  </td>\n  <td>\n    <select class="custom-select custom-select-sm w-100" name="userType" aria-label="\u5C4F\u853D\u7528\u6237\u7C7B\u578B">\n      <option value="0">\u6240\u6709</option><option value="1">\u5305\u62EC</option><option value="2">\u6392\u9664</option>\n    </select>\n  </td>\n  <td>\n    <input class="form-control form-control-sm" name="userList" type="text" value="' + userList.join(',') + '" aria-label="\u7528\u6237\u540D"\n           ' + (userType === 0 ? 'disabled' : '') + ' style="min-width: 12rem;">\n  </td>\n  <td>\n    <select class="custom-select custom-select-sm w-100" name="fidType" aria-label="\u5C4F\u853D\u8303\u56F4">\n      <option value="0">\u6240\u6709</option><option value="1">\u5305\u62EC</option><option value="2">\u6392\u9664</option>\n    </select>\n  </td>\n  <td>\n    <input class="form-control form-control-sm" name="fidList" type="text" value="' + fidList.join(',') + '" aria-label="\u7248\u5757ID\u5217\u8868"\n           ' + (fidType === 0 ? 'disabled' : '') + ' style="min-width: 8rem;">\n  </td>\n  <td class="text-left">\n    <button class="btn btn-danger btn-sm" name="delete" type="button" aria-label="\u5220\u9664">\n      <i class="fa fa-trash" aria-hidden="true"></i>\n    </button>\n  </td>\n</tr>\n').appendTo($blockThreadList).find('[name="userType"]').val(userType).end().find('[name="fidType"]').val(fidType);
+    };
+
+    /**
+     * 验证设置是否正确
+     * @returns {boolean} 是否验证通过
+     */
+    var verify = function verify() {
+        var flag = true;
+        $blockThreadList.find('tr').each(function () {
+            var $this = $(this);
+            var $txtKeyWord = $this.find('[name="keyWord"]');
+            var keyWord = $txtKeyWord.val();
+            if (!$.trim(keyWord)) return;
+            if (/^\/.+\/[gimuy]*$/.test(keyWord)) {
+                try {
+                    eval(keyWord);
+                } catch (ex) {
+                    alert('正则表达式不正确');
+                    $txtKeyWord.select().focus();
+                    flag = false;
+                    return false;
+                }
+            }
+        });
+        return flag;
+    };
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        if (!verify()) return;
+        Config.blockThreadDefForumType = parseInt($dialog.find('[name="blockThreadDefForumType"]').val());
+        var blockThreadDefFidList = new Set();
+        var _iteratorNormalCompletion6 = true;
+        var _didIteratorError6 = false;
+        var _iteratorError6 = undefined;
+
+        try {
+            for (var _iterator6 = $.trim($dialog.find('[name="blockThreadDefFidList"]').val()).split(',')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                var fid = _step6.value;
+
+                fid = parseInt(fid);
+                if (!isNaN(fid) && fid > 0) blockThreadDefFidList.add(fid);
+            }
+        } catch (err) {
+            _didIteratorError6 = true;
+            _iteratorError6 = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                    _iterator6.return();
+                }
+            } finally {
+                if (_didIteratorError6) {
+                    throw _iteratorError6;
+                }
+            }
+        }
+
+        Config.blockThreadDefFidList = [].concat(_toConsumableArray(blockThreadDefFidList));
+        Config.blockThreadList = [];
+        $blockThreadList.find('tr').each(function () {
+            var $this = $(this);
+            var keyWord = $this.find('[name="keyWord"]').val();
+            if (!$.trim(keyWord)) return;
+            var newObj = { keyWord: keyWord };
+
+            var userType = parseInt($this.find('[name="userType"]').val());
+            if (userType > 0) {
+                var userList = new Set();
+                var _iteratorNormalCompletion7 = true;
+                var _didIteratorError7 = false;
+                var _iteratorError7 = undefined;
+
+                try {
+                    for (var _iterator7 = $.trim($this.find('[name="userList"]').val()).split(',')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                        var user = _step7.value;
+
+                        user = $.trim(user);
+                        if (user) userList.add(user);
+                    }
+                } catch (err) {
+                    _didIteratorError7 = true;
+                    _iteratorError7 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                            _iterator7.return();
+                        }
+                    } finally {
+                        if (_didIteratorError7) {
+                            throw _iteratorError7;
+                        }
+                    }
+                }
+
+                if (userList.size > 0) newObj[userType === 2 ? 'excludeUser' : 'includeUser'] = [].concat(_toConsumableArray(userList));
+            }
+
+            var fidType = parseInt($this.find('[name="fidType"]').val());
+            if (fidType > 0) {
+                var fidList = new Set();
+                var _iteratorNormalCompletion8 = true;
+                var _didIteratorError8 = false;
+                var _iteratorError8 = undefined;
+
+                try {
+                    for (var _iterator8 = $.trim($this.find('[name="fidList"]').val()).split(',')[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+                        var fid = _step8.value;
+
+                        fid = parseInt(fid);
+                        if (!isNaN(fid) && fid > 0) fidList.add(fid);
+                    }
+                } catch (err) {
+                    _didIteratorError8 = true;
+                    _iteratorError8 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion8 && _iterator8.return) {
+                            _iterator8.return();
+                        }
+                    } finally {
+                        if (_didIteratorError8) {
+                            throw _iteratorError8;
+                        }
+                    }
+                }
+
+                if (fidList.size > 0) newObj[fidType === 2 ? 'excludeFid' : 'includeFid'] = [].concat(_toConsumableArray(fidList));
+            }
+            Config.blockThreadList.push(newObj);
+        });
+        (0, _config.write)();
+        Dialog.close(dialogName);
+    }).find('[name="clear"]').click(function () {
+        if (confirm('是否清除所有屏蔽关键字？')) $blockThreadList.html('');
+    }).end().find('[name="add"]').click(function () {
+        addBlockThread('', 0, [], parseInt($dialog.find('[name="blockThreadDefForumType"]').val()), $.trim($dialog.find('[name="blockThreadDefFidList"]').val()).split(','));
+    }).end().find('[name="blockThreadDefForumType"]').change(function () {
+        $dialog.find('[name="blockThreadDefFidList"]').prop('disabled', parseInt($(this).val()) === 0);
+    }).end().find('[name="openImOrExBlockThreadListDialog"]').click(function (e) {
+        e.preventDefault();
+        Public.showCommonImportOrExportConfigDialog('屏蔽主题', 'blockThreadList');
+    }).end().find('[name="selectAll"]').click(function () {
+        return Util.selectAll($blockThreadList.find('[type="checkbox"]'));
+    }).end().find('[name="selectInverse"]').click(function () {
+        return Util.selectInverse($blockThreadList.find('[type="checkbox"]'));
+    });
+
+    $blockThreadList.on('change', 'select', function () {
+        var $this = $(this);
+        $this.closest('td').next('td').find('input').prop('disabled', parseInt($this.val()) === 0);
+    }).on('click', '[name="delete"]', function () {
+        $(this).closest('tr').remove();
+    });
+
+    $dialog.find('[name="blockThreadDefForumType"]').val(Config.blockThreadDefForumType).triggerHandler('change');
+    $dialog.find('[name="blockThreadDefFidList"]').val(Config.blockThreadDefFidList.join(','));
+    var _iteratorNormalCompletion9 = true;
+    var _didIteratorError9 = false;
+    var _iteratorError9 = undefined;
+
+    try {
+        for (var _iterator9 = Config.blockThreadList[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+            var data = _step9.value;
+            var keyWord = data.keyWord,
+                includeUser = data.includeUser,
+                excludeUser = data.excludeUser,
+                includeFid = data.includeFid,
+                excludeFid = data.excludeFid;
+
+            var userType = 0;
+            var userList = [];
+            if (typeof includeUser !== 'undefined') {
+                userType = 1;
+                userList = includeUser;
+            } else if (typeof excludeUser !== 'undefined') {
+                userType = 2;
+                userList = excludeUser;
+            }
+
+            var fidType = 0;
+            var fidList = [];
+            if (typeof includeFid !== 'undefined') {
+                fidType = 1;
+                fidList = includeFid;
+            } else if (typeof excludeFid !== 'undefined') {
+                fidType = 2;
+                fidList = excludeFid;
+            }
+            addBlockThread(keyWord, userType, userList, fidType, fidList);
+        }
+    } catch (err) {
+        _didIteratorError9 = true;
+        _iteratorError9 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion9 && _iterator9.return) {
+                _iterator9.return();
+            }
+        } finally {
+            if (_didIteratorError9) {
+                throw _iteratorError9;
+            }
+        }
+    }
+
+    Dialog.show(dialogName);
+};
+
+},{"./config":2,"./dialog":5,"./public":10,"./util":12}],4:[function(require,module,exports){
 /* 常量模块 */
 'use strict';
 
@@ -269,7 +953,6 @@ exports.default = Const;
  * @param {string} title 对话框标题
  * @param {string} bodyContent 对话框主体内容
  * @param {string} footerContent 对话框底部内容
- * @param {string} style 对话框样式
  * @returns {jQuery} 对话框的jQuery对象
  */
 
@@ -278,9 +961,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var create = exports.create = function create(id, title, bodyContent) {
     var footerContent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-    var style = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
 
-    var html = '\n<div class="dialog-container" id="' + id + '" style="' + style + '" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="' + id + 'Title">\n  <div class="container" role="document">\n    <form>\n      <div class="dialog-header">\n        <h5 class="dialog-title" id="' + id + 'Title">' + title + '</h5>\n        <button class="close" data-dismiss="dialog" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n      </div>\n      <div class="dialog-body">' + bodyContent + '</div>\n      <div class="dialog-footer" ' + (!footerContent ? 'hidden' : '') + '>' + footerContent + '</div>\n    </form>\n  </div>\n</div>';
+    var html = '\n<form>\n<div class="dialog" id="' + id + '" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="' + id + 'Title">\n  <div class="container dialog-content" role="document">\n    <div class="dialog-header">\n      <h5 class="dialog-title" id="' + id + 'Title">' + title + '</h5>\n      <button class="close" data-dismiss="dialog" type="button" aria-label="\u5173\u95ED">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n    <div class="dialog-body">' + bodyContent + '</div>\n    <div class="dialog-footer" ' + (!footerContent ? 'hidden' : '') + '>' + footerContent + '</div>\n  </div>\n</div>\n</form>';
     var $dialog = $(html).appendTo('body');
     $dialog.on('click', '[data-dismiss="dialog"]', function () {
         return close(id);
@@ -308,13 +990,17 @@ var create = exports.create = function create(id, title, bodyContent) {
         });
     }).end().find('[data-toggle="tooltip"]').tooltip({ 'container': 'body' });
     $(window).on('resize.' + id, function () {
-        return show(id);
+        var $focus = $(':focus');
+        if ($focus.length > 0) {
+            if ($focus.is('input') && !['checkbox', 'radio'].includes($focus.attr('type')) || $focus.is('textarea')) return;
+        }
+        resize(id);
     });
     return $dialog;
 };
 
 /**
- * 显示或调整对话框
+ * 显示对话框
  * @param {string} id 对话框ID
  */
 var show = exports.show = function show(id) {
@@ -325,7 +1011,17 @@ var show = exports.show = function show(id) {
     }).end().find('input[data-disabled]').each(function () {
         $(this).triggerHandler('click');
     });
-    $dialog.fadeIn('fast').find('.dialog-body').css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight()).end().find('.close:first').focus();
+    $dialog.fadeIn('fast').find('.close:first').focus();
+    resize(id);
+};
+
+/**
+ * 调整对话框大小
+ * @param {string} id 对话框ID
+ */
+var resize = exports.resize = function resize(id) {
+    var $dialog = $('#' + id);
+    $dialog.find('.dialog-body').css('max-height', $(window).height() - $dialog.find('.dialog-header').outerHeight() - $dialog.find('.dialog-footer').outerHeight());
 };
 
 /**
@@ -335,7 +1031,7 @@ var show = exports.show = function show(id) {
  */
 var close = exports.close = function close(id) {
     $('#' + id).fadeOut('fast', function () {
-        $(this).remove();
+        $(this).parent().remove();
     });
     $(window).off('resize.' + id);
     return false;
@@ -451,7 +1147,7 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
         if (!value || parseInt(value)) value = '';
         value = prompt('请输入背景图片URL、颜色代码或CSS样式：\n（例：http://xxx.com/abc.jpg 或 #fcfcfc，留空表示恢复默认背景）\n' + '（注：建议选择简洁、不花哨、偏浅色系的背景图片或颜色）', value);
         if (value === null) return;
-        var $bg = $('body, .modal-content, .dialog-container');
+        var $bg = $('body, .modal-content, .dialog-content');
         if ($.trim(value) === '') {
             Util.setCookie(_const2.default.bgStyleCookieName, '', Util.getDate('-1d'));
             alert('背景已恢复默认');
@@ -603,7 +1299,7 @@ var destroy = exports.destroy = function destroy() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+exports.handleUserPageBtns = exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -716,8 +1412,8 @@ var bindFavorPageBtnsClick = exports.bindFavorPageBtnsClick = function bindFavor
         var action = $(this).data('action');
         if (action === 'selectAll') {
             Util.selectAll($('[name="delid[]"]'));
-        } else if (action === 'selectReverse') {
-            Util.selectReverse($('[name="delid[]"]'));
+        } else if (action === 'selectInverse') {
+            Util.selectInverse($('[name="delid[]"]'));
         } else if (action === 'delete') {
             var $checked = $('[name="delid[]"]:checked');
             if ($checked.length > 0 && confirm('\u662F\u5426\u5220\u9664\u8FD9' + $checked.length + '\u9879\uFF1F')) {
@@ -747,8 +1443,8 @@ var bindFriendPageBtnsClick = exports.bindFriendPageBtnsClick = function bindFri
         var action = $(this).data('action');
         if (action === 'selectAll') {
             Util.selectAll($('[name="selid[]"]'));
-        } else if (action === 'selectReverse') {
-            Util.selectReverse($('[name="selid[]"]'));
+        } else if (action === 'selectInverse') {
+            Util.selectInverse($('[name="selid[]"]'));
         }
     });
 };
@@ -833,12 +1529,12 @@ var transferKfbAlert = exports.transferKfbAlert = function transferKfbAlert() {
 var bindMessageActionBtnsClick = exports.bindMessageActionBtnsClick = function bindMessageActionBtnsClick() {
     $('#messageActionBtns').on('click', 'button', function () {
         var $form = $('#messageListForm');
-        var action = $(this).data('action');
-        if (action === 'selectAll') {
+        var name = $(this).attr('name');
+        if (name === 'selectAll') {
             Util.selectAll($('[name="delid[]"]'));
-        } else if (action === 'selectReverse') {
-            Util.selectReverse($('[name="delid[]"]'));
-        } else if (action === 'selectCustom') {
+        } else if (name === 'selectInverse') {
+            Util.selectInverse($('[name="delid[]"]'));
+        } else if (name === 'selectCustom') {
             var _ret = function () {
                 var title = $.trim(prompt('请填写所要选择的包含指定字符串的短消息标题（可用|符号分隔多个标题）', '收到了他人转账的KFB|银行汇款通知|您的文章被评分|您的文章被删除'));
                 if (!title) return {
@@ -877,13 +1573,13 @@ var bindMessageActionBtnsClick = exports.bindMessageActionBtnsClick = function b
             }();
 
             if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-        } else if (action === 'download') {
+        } else if (name === 'download') {
             var $checked = $('[name="delid[]"]:checked');
             if ($checked.length > 0 && confirm('\u662F\u5426\u4E0B\u8F7D\u8FD9' + $checked.length + '\u9879\uFF1F')) {
                 $form.attr('action', '/message.php').find('[name="action"]').val('down');
                 $form.submit();
             }
-        } else if (action === 'delete') {
+        } else if (name === 'delete') {
             var _$checked = $('[name="delid[]"]:checked');
             if (_$checked.length > 0 && confirm('\u662F\u5426\u5220\u9664\u8FD9' + _$checked.length + '\u9879\uFF1F')) {
                 $form.attr('action', Util.makeUrl('message/job')).find('[name="action"]').val('del');
@@ -934,6 +1630,61 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
         if ($(this).find('.has-danger').length > 0) {
             alert('请正确填写表单');
             return false;
+        }
+    });
+};
+
+/**
+ * 处理个人信息页面下的按钮
+ */
+var handleUserPageBtns = exports.handleUserPageBtns = function handleUserPageBtns() {
+    var $area = $('#profileBtns');
+    var userName = $area.data('username');
+    $area.on('click', '[name="followUser"], [name="blockUser"]', function () {
+        (0, _config.read)();
+        var $this = $(this);
+        var str = '关注';
+        var userList = Config.followUserList;
+        if ($this.attr('name') === 'blockUser') {
+            str = '屏蔽';
+            userList = Config.blockUserList;
+            Config.blockUserEnabled = true;
+        } else Config.followUserEnabled = true;
+        if ($this.text().includes('取消')) {
+            var index = Util.inFollowOrBlockUserList(userName, userList);
+            if (index > -1) {
+                userList.splice(index, 1);
+                (0, _config.write)();
+            }
+            $this.removeClass('btn-outline-danger').addClass('btn-outline-primary').find('span').text(str + '用户');
+            alert('该用户已被取消' + str);
+        } else {
+            if (Util.inFollowOrBlockUserList(userName, userList) === -1) {
+                if (str === '屏蔽') {
+                    var type = Config.blockUserDefaultType;
+                    type = prompt('请填写屏蔽类型，0：主题和回帖；1：主题；2：回帖', type);
+                    if (type === null) return;
+                    type = parseInt(type);
+                    if (isNaN(type) || type < 0 || type > 2) type = Config.blockUserDefaultType;
+                    userList.push({ name: userName, type: type });
+                } else {
+                    userList.push({ name: userName });
+                }
+                (0, _config.write)();
+            }
+            $this.removeClass('btn-outline-primary').addClass('btn-outline-danger').find('span').text('取消' + str);
+            alert('该用户已被' + str);
+        }
+    }).find('[name="followUser"], [name="blockUser"]').each(function () {
+        var $this = $(this);
+        var str = '关注';
+        var userList = Config.followUserList;
+        if ($this.attr('name') === 'blockUser') {
+            str = '屏蔽';
+            userList = Config.blockUserList;
+        }
+        if (Util.inFollowOrBlockUserList(userName, userList) > -1) {
+            $this.removeClass('btn-outline-primary').addClass('btn-outline-danger').find('span').text('取消' + str);
         }
     });
 };
@@ -1422,7 +2173,7 @@ var handleClearMultiQuoteDataBtn = exports.handleClearMultiQuoteDataBtn = functi
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.preventCloseWindow = exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenuLink = exports.handleMainMenu = undefined;
+exports.blockThread = exports.blockUsers = exports.followUsers = exports.showCommonImportOrExportConfigDialog = exports.preventCloseWindow = exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenuLink = exports.handleMainMenu = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1657,7 +2408,7 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
         }
 
         var bodyContent = '\n<p class="font-size-sm text-muted">\n  \u8BF7\u5C06\u53EF\u7528\u7248\u5757\u5185\u7684\u7248\u5757\u6309\u94AE\u62D6\u62FD\u5230\u5E38\u7528\u7248\u5757\u5185\uFF08\u6216\u76F8\u53CD\uFF09\n</p>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5E38\u7528\u7248\u5757</legend>\n  <div class="edit-forum-list d-flex flex-wrap" id="editCommonForumList">' + commonForumListHtml + '</div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u53EF\u7528\u7248\u5757</legend>\n  <div class="edit-forum-list d-flex flex-wrap" id="editAvailableForumList">' + availableForumListHtml + '</div>\n</fieldset>';
-        var footerContent = '\n<button class="btn btn-primary" name="save" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
+        var footerContent = '\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
         var $dialog = Dialog.create(dialogName, '编辑常用版块', bodyContent, footerContent);
 
         var $dragulaScriptPath = $('[name="dragulaScriptPath"]');
@@ -1669,7 +2420,8 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
             $dragulaScriptPath.val('');
         } else dragula($dialog.find('.edit-forum-list').get(), { revertOnSpill: true });
 
-        $dialog.find('[name="save"]').click(function () {
+        $dialog.submit(function (e) {
+            e.preventDefault();
             Config.commonForumList = [];
             $('#editCommonForumList').children('.btn').each(function () {
                 var $this = $(this);
@@ -1682,7 +2434,7 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
             alert('设置已保存');
             Dialog.close(dialogName);
             location.reload();
-        }).end().find('[name="reset"]').click(function () {
+        }).find('[name="reset"]').click(function () {
             if (!confirm('是否重置？')) return;
             Config.commonForumList = [];
             (0, _config.write)();
@@ -1714,7 +2466,7 @@ var fillCommonForumPanel = exports.fillCommonForumPanel = function fillCommonFor
                 name = _step3$value$.name;
 
             if (index === 0 || index % 3 === 0) html += '<div class="row mb-3">';
-            html += '\n<div class="col-4">\n  <a class="btn btn-outline-primary btn-block" href="' + Util.makeUrl('thread') + '/' + _fid + '">' + name + '</a>\n</div>\n';
+            html += '\n<div class="col-4">\n  <a class="btn btn-outline-primary btn-block" href="' + Util.makeUrl('thread') + '/' + _fid + '">' + name + '</a>\n</div>';
             if (index === commonForumList.length - 1 || index % 3 === 2) html += '</div>';
         }
     } catch (err) {
@@ -1746,6 +2498,274 @@ var preventCloseWindow = exports.preventCloseWindow = function preventCloseWindo
             return msg;
         }
     });
+};
+
+/**
+ * 显示通用的导入/导出设置对话框
+ * @param {string} title 对话框标题
+ * @param {string} configName 设置名称
+ * @param {?function} [callback] 回调方法
+ * @param {?function} [callbackAfterSubmit] 在提交之后的回调方法
+ */
+var showCommonImportOrExportConfigDialog = exports.showCommonImportOrExportConfigDialog = function showCommonImportOrExportConfigDialog(title, configName, callback, callbackAfterSubmit) {
+    var dialogName = 'pdCommonImOrExConfigDialog';
+    if ($('#' + dialogName).length > 0) return;
+    (0, _config.read)();
+    var bodyContent = '\n<p class="font-size-sm">\n  <b>\u5BFC\u5165\u8BBE\u7F6E\uFF1A</b>\u5C06\u8BBE\u7F6E\u5185\u5BB9\u7C98\u8D34\u5230\u6587\u672C\u6846\u4E2D\u5E76\u70B9\u51FB\u4FDD\u5B58\u6309\u94AE\u5373\u53EF<br>\n  <b>\u5BFC\u51FA\u8BBE\u7F6E\uFF1A</b>\u590D\u5236\u6587\u672C\u6846\u91CC\u7684\u5185\u5BB9\u5E76\u7C98\u8D34\u5230\u522B\u5904\u5373\u53EF\n</p>\n<div class="form-group">\n  <textarea class="form-control" name="commonConfig" rows="10" aria-label="\u8BBE\u7F6E\u5185\u5BB9" style="word-break: break-all;"></textarea>\n</div>';
+    var footerContent = '\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+    var $dialog = Dialog.create(dialogName, '\u5BFC\u5165\u6216\u5BFC\u51FA' + title, bodyContent, footerContent);
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        if (!confirm('是否导入文本框中的设置？')) return;
+        var options = $.trim($dialog.find('[name="commonConfig"]').val());
+        if (!options) return;
+        try {
+            options = JSON.parse(options);
+        } catch (ex) {
+            alert('设置有错误');
+            return;
+        }
+        if (!options || $.type(options) !== $.type(Config[configName])) {
+            alert('设置有错误');
+            return;
+        }
+        Config[configName] = options;
+        (0, _config.write)();
+        alert('设置已导入');
+        Dialog.close(dialogName);
+        if (typeof callbackAfterSubmit === 'function') callbackAfterSubmit();else location.reload();
+    }).find('[name="cancel"]').click(function () {
+        return Dialog.close(dialogName);
+    });
+    Dialog.show(dialogName);
+    $dialog.find('[name="commonConfig"]').val(JSON.stringify(Config[configName])).select().focus();
+    if (typeof callback === 'function') callback($dialog);
+};
+
+/**
+ * 关注用户
+ */
+var followUsers = exports.followUsers = function followUsers() {
+    if (!Config.followUserList.length) return;
+    if (pageId === 'indexPage' && Config.highlightFollowUserThreadInHPEnabled) {
+        $('.thread-link').each(function () {
+            var $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
+                $this.addClass('text-danger');
+            }
+        });
+    } else if (pageId === 'threadPage') {
+        $('.thread-link').each(function () {
+            var $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
+                $this.closest('.thread-list-item').find('.thread-item-footer a:first').addClass('text-danger');
+                //if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
+            }
+        });
+    } else if (pageId === 'readPage') {
+        $('.read-floor').each(function () {
+            var $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('username'), Config.followUserList) > -1) {
+                $this.find('.floor-num').addClass('text-danger');
+            }
+        });
+    } else if (pageId === 'gjcPage' || pageId === 'sharePage' || pageId === 'searchPage') {
+        $('.thread-list-group').find('a[data-author]').each(function () {
+            var $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
+                $this.addClass('text-danger');
+            }
+        });
+    }
+};
+
+/**
+ * 屏蔽用户
+ */
+var blockUsers = exports.blockUsers = function blockUsers() {
+    if (!Config.blockUserList.length) return;
+    var num = 0;
+    if (pageId === 'indexPage') {
+        $('.thread-link').each(function () {
+            var $this = $(this);
+            var index = Util.inFollowOrBlockUserList($this.data('author'), Config.blockUserList);
+            if (index > -1 && Config.blockUserList[index].type <= 1) {
+                num++;
+                $this.closest('.thread-link-group').remove();
+            }
+        });
+    } else if (pageId === 'threadPage') {
+        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(pageInfo.fid)) return;else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(pageInfo.fid)) return;
+        $('.thread-link').each(function () {
+            var $this = $(this);
+            var index = Util.inFollowOrBlockUserList($this.data('author'), Config.blockUserList);
+            if (index > -1 && Config.blockUserList[index].type <= 1) {
+                num++;
+                $this.closest('.thread-list-item').remove();
+            }
+        });
+    } else if (pageId === 'readPage') {
+        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(pageInfo.fid)) return;else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(pageInfo.fid)) return;
+        $('.read-floor').each(function () {
+            var $this = $(this);
+            var index = Util.inFollowOrBlockUserList($this.data('username'), Config.blockUserList);
+            if (index > -1) {
+                var floor = parseInt($this.data('floor'));
+                if (Config.blockUserList[index].type === 2 && floor === 0) return;else if (Config.blockUserList[index].type === 1 && floor > 0) return;
+                num++;
+                $this.closest('.read-floor').remove();
+            }
+        });
+        $('.read-content').find('.blockquote > p').each(function () {
+            var $this = $(this);
+            var content = $this.text().trim();
+            var _iteratorNormalCompletion4 = true;
+            var _didIteratorError4 = false;
+            var _iteratorError4 = undefined;
+
+            try {
+                for (var _iterator4 = Config.blockUserList[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                    var data = _step4.value;
+
+                    if (data.type === 1) continue;
+                    try {
+                        var regex1 = new RegExp('^\u5F15\u7528(\u7B2C\\d+\u697C|\u697C\u4E3B)' + data.name + '\u4E8E', 'i');
+                        var regex2 = new RegExp('^\u56DE\\s*\\d+\u697C\\(' + data.name + '\\)\\s*\u7684\u5E16\u5B50', 'i');
+                        if (regex1.test(content) || regex2.test(content)) {
+                            $this.html('<mark class="help" data-toggle="tooltip" title="\u88AB\u5C4F\u853D\u7528\u6237\uFF1A' + data.name + '">\u8BE5\u7528\u6237\u5DF2\u88AB\u5C4F\u853D</mark>');
+                        }
+                    } catch (ex) {}
+                }
+            } catch (err) {
+                _didIteratorError4 = true;
+                _iteratorError4 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                        _iterator4.return();
+                    }
+                } finally {
+                    if (_didIteratorError4) {
+                        throw _iteratorError4;
+                    }
+                }
+            }
+        });
+    } else if (pageId === 'gjcPage' && Config.blockUserAtTipsEnabled) {
+        $('.thread-list-group').find('a[data-author]').each(function () {
+            var $this = $(this);
+            if (Util.inFollowOrBlockUserList($this.data('author'), Config.blockUserList) > -1) {
+                num++;
+                $this.closest('.thread-list-item').remove();
+            }
+        });
+    }
+    if (num > 0) console.log('\u3010\u5C4F\u853D\u7528\u6237\u3011\u5171\u6709' + num + '\u4E2A\u4E3B\u9898\u6216\u56DE\u590D\u88AB\u5C4F\u853D');
+};
+
+/**
+ * 屏蔽主题
+ */
+var blockThread = exports.blockThread = function blockThread() {
+    if (!Config.blockThreadList.length) return;
+
+    /**
+     * 是否屏蔽主题
+     * @param {string} title 主题标题
+     * @param {string} userName 用户名
+     * @param {number} fid 版块ID
+     * @returns {boolean} 是否屏蔽
+     */
+    var isBlock = function isBlock(title, userName) {
+        var fid = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
+
+        try {
+            for (var _iterator5 = Config.blockThreadList[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                var _step5$value = _step5.value,
+                    keyWord = _step5$value.keyWord,
+                    includeUser = _step5$value.includeUser,
+                    excludeUser = _step5$value.excludeUser,
+                    includeFid = _step5$value.includeFid,
+                    excludeFid = _step5$value.excludeFid;
+
+                var regex = null;
+                if (/^\/.+\/[gimuy]*$/.test(keyWord)) {
+                    try {
+                        regex = eval(keyWord);
+                    } catch (ex) {
+                        console.log(ex);
+                        continue;
+                    }
+                }
+                if (userName) {
+                    if (includeUser) {
+                        if (!includeUser.includes(userName)) continue;
+                    } else if (excludeUser) {
+                        if (excludeUser.includes(userName)) continue;
+                    }
+                }
+                if (fid) {
+                    if (includeFid) {
+                        if (!includeFid.includes(fid)) continue;
+                    } else if (excludeFid) {
+                        if (excludeFid.includes(fid)) continue;
+                    }
+                }
+                if (regex) {
+                    if (regex.test(title)) return true;
+                } else {
+                    if (title.toLowerCase().includes(keyWord.toLowerCase())) return true;
+                }
+            }
+        } catch (err) {
+            _didIteratorError5 = true;
+            _iteratorError5 = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                    _iterator5.return();
+                }
+            } finally {
+                if (_didIteratorError5) {
+                    throw _iteratorError5;
+                }
+            }
+        }
+
+        return false;
+    };
+
+    var num = 0;
+    if (pageId === 'indexPage') {
+        $('.thread-link').each(function () {
+            var $this = $(this);
+            if (isBlock($this.text().trim(), $this.data('author'))) {
+                num++;
+                $this.closest('.thread-link-group').remove();
+            }
+        });
+    } else if (pageId === 'threadPage') {
+        $('.thread-link').each(function () {
+            var $this = $(this);
+            if (isBlock($this.text().trim(), $this.data('author'), pageInfo.fid)) {
+                num++;
+                $this.closest('.thread-list-item').remove();
+            }
+        });
+    } else if (pageId === 'readPage') {
+        if (pageInfo.currentPageNum !== 1) return;
+        var $topFloor = $('.read-floor[data-floor="0"]');
+        if (!$topFloor.length) return;
+        if (isBlock($('.thread-title').text().trim(), $topFloor.data('username'), pageInfo.fid)) {
+            num++;
+            $topFloor.remove();
+        }
+    }
+    if (num > 0) console.log('\u3010\u5C4F\u853D\u4E3B\u9898\u3011\u5171\u6709' + num + '\u4E2A\u4E3B\u9898\u88AB\u5C4F\u853D');
 };
 
 },{"./config":2,"./configDialog":3,"./const":4,"./dialog":5,"./util":12}],11:[function(require,module,exports){
@@ -1897,13 +2917,6 @@ var gotoFloor = exports.gotoFloor = function gotoFloor() {
 var handleFastGotoFloorBtn = exports.handleFastGotoFloorBtn = function handleFastGotoFloorBtn() {
     $('.fast-goto-floor').click(function (e) {
         e.preventDefault();
-        if (!Config.perPageFloorNum) {
-            var floorNum = parseInt(prompt('你的论坛设置里“文章列表每页个数”为多少（10、20、30）？\n注：如修改了论坛中的此项设置，请访问账号设置页面即可自动同步本地设置', 10));
-            if ([10, 20, 30].includes(floorNum)) {
-                Config.perPageFloorNum = floorNum;
-                (0, _config.write)();
-            } else return;
-        }
         var action = $(this).data('url');
         if (!action) return;
         var floor = parseInt(prompt('你要跳转到哪一层楼？'));
@@ -2318,7 +3331,7 @@ var selectAll = exports.selectAll = function selectAll($nodes) {
  * 反选
  * @param {jQuery} $nodes 想要反选的节点的jQuery对象
  */
-var selectReverse = exports.selectReverse = function selectReverse($nodes) {
+var selectInverse = exports.selectInverse = function selectInverse($nodes) {
     $nodes.each(function () {
         var $this = $(this);
         $this.prop('checked', !$this.prop('checked'));
@@ -2413,6 +3426,18 @@ var copyText = exports.copyText = function copyText($target) {
         }).tooltip('show');
     }
     return result;
+};
+
+/**
+ * 获取指定用户名在关注或屏蔽列表中的索引号
+ * @param {string} name 指定用户名
+ * @param {Array} list 指定列表
+ * @returns {number} 指定用户在列表中的索引号，-1表示不在该列表中
+ */
+var inFollowOrBlockUserList = exports.inFollowOrBlockUserList = function inFollowOrBlockUserList(name, list) {
+    return list.findIndex(function (data) {
+        return data.name && data.name === name;
+    });
 };
 
 },{}]},{},[1])

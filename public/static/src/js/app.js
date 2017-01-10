@@ -1,62 +1,10 @@
 'use strict';
 import {init as initConfig} from './module/config';
-
-import {
-    handleMainMenu,
-    handleMainMenuLink,
-    handleRollToTopOrBottomBtn,
-    handleSearchDialog,
-    handlePageInput,
-    bindFastSubmitShortcutKey,
-    showEditCommonForumDialog,
-    fillCommonForumPanel,
-    preventCloseWindow,
-} from './module/public';
-
-import {
-    handleAtTipsBtn,
-    handleIndexThreadPanel,
-    handleSelectBgImage,
-    handleSelectBgColor,
-    handleCustomBgStyle
-} from './module/index';
-
-import {
-    gotoFloor,
-    handleFastGotoFloorBtn,
-    handleTuiThreadBtn,
-    handleCopyFloorLinkBtn,
-    handleFastReplyBtn,
-    handleBlockFloorBtn,
-    handleBuyThreadBtn,
-    copyBuyThreadList,
-    handleFloorImage,
-    handleCopyCodeBtn,
-    bindMultiQuoteCheckClick,
-} from './module/read';
-
-import {
-    checkPostForm,
-    addSmileCode,
-    handleEditorBtns,
-    handleAttachBtns,
-    handleMultiQuote,
-    handleClearMultiQuoteDataBtn,
-} from './module/post';
-
-import {
-    highlightUnReadAtTipsMsg,
-    validateRegisterField,
-    handleGameIntroSearchArea,
-    tuiGameIntro,
-    bindFavorPageBtnsClick,
-    bindFriendPageBtnsClick,
-    syncPerPageFloorNum,
-    assignBirthdayField,
-    handleUploadAvatarFileBtn,
-    transferKfbAlert,
-    bindMessageActionBtnsClick,
-} from './module/other';
+import * as Public from './module/public';
+import * as Index from './module/index';
+import * as Read from './module/read';
+import * as Post from './module/post';
+import * as Other from './module/other';
 
 // 页面ID
 window.pageId = $('body').attr('id');
@@ -64,108 +12,114 @@ window.pageId = $('body').attr('id');
 /**
  * 初始化
  */
-$(function () {
+const init = function () {
+    let startTime = new Date();
     if (pageId === 'loginPage') return;
     else if (pageId === 'registerPage') {
-        validateRegisterField();
+        Other.validateRegisterField();
         return;
     }
     initConfig();
 
-    preventCloseWindow();
-    handleMainMenu();
-    handleMainMenuLink();
-    handleRollToTopOrBottomBtn();
-    handleSearchDialog();
-    fillCommonForumPanel();
-    showEditCommonForumDialog();
+    Public.preventCloseWindow();
+    Public.handleMainMenu();
+    Public.handleMainMenuLink();
+    Public.handleRollToTopOrBottomBtn();
+    Public.handleSearchDialog();
+    Public.fillCommonForumPanel();
+    Public.showEditCommonForumDialog();
     if ($('.page-input').length > 0) {
-        handlePageInput();
+        Public.handlePageInput();
     }
     if (pageId === 'indexPage') {
-        handleAtTipsBtn();
-        handleIndexThreadPanel();
-        handleSelectBgImage();
-        handleSelectBgColor();
-        handleCustomBgStyle();
+        Index.handleAtTipsBtn();
+        Index.handleIndexThreadPanel();
+        Index.handleSelectBgImage();
+        Index.handleSelectBgColor();
+        Index.handleCustomBgStyle();
     }
     else if (pageId === 'readPage') {
-        gotoFloor();
-        handleFastGotoFloorBtn();
-        handleTuiThreadBtn();
-        handleCopyFloorLinkBtn();
-        handleFastReplyBtn();
-        handleBlockFloorBtn();
-        handleBuyThreadBtn();
-        copyBuyThreadList();
-        handleFloorImage();
-        checkPostForm();
-        bindFastSubmitShortcutKey($('#postContent'));
-        handleCopyCodeBtn();
-        addSmileCode($('#postContent'));
-        bindMultiQuoteCheckClick();
-        handleClearMultiQuoteDataBtn();
-        $('.multi-reply-btn').click(() => {
-            handleMultiQuote(1);
-        });
+        Read.gotoFloor();
+        Read.handleFastGotoFloorBtn();
+        Read.handleTuiThreadBtn();
+        Read.handleCopyFloorLinkBtn();
+        Read.handleFastReplyBtn();
+        Read.handleBlockFloorBtn();
+        Read.handleBuyThreadBtn();
+        Read.copyBuyThreadList();
+        Read.handleFloorImage();
+        Post.checkPostForm();
+        Public.bindFastSubmitShortcutKey($('#postContent'));
+        Read.handleCopyCodeBtn();
+        Post.addSmileCode($('#postContent'));
+        Read.bindMultiQuoteCheckClick();
+        Post.handleClearMultiQuoteDataBtn();
+        $('.multi-reply-btn').click(() => Post.handleMultiQuote(1));
     }
     else if (pageId === 'postPage') {
-        checkPostForm();
-        bindFastSubmitShortcutKey($('#postContent'));
-        handleEditorBtns();
-        addSmileCode($('#postContent'));
-        handleAttachBtns();
-        handleClearMultiQuoteDataBtn();
-        if (pageInfo.multiQuote) handleMultiQuote(2);
+        Post.checkPostForm();
+        Public.bindFastSubmitShortcutKey($('#postContent'));
+        Post.handleEditorBtns();
+        Post.addSmileCode($('#postContent'));
+        Post.handleAttachBtns();
+        Post.handleClearMultiQuoteDataBtn();
+        if (pageInfo.multiQuote) Post.handleMultiQuote(2);
     }
     else if (pageId === 'gjcPage') {
-        highlightUnReadAtTipsMsg();
+        Other.highlightUnReadAtTipsMsg();
+    }
+    else if (pageId === 'userPage') {
+        Other.handleUserPageBtns();
     }
     else if (pageId === 'gameIntroSearchPage') {
-        handleGameIntroSearchArea();
+        Other.handleGameIntroSearchArea();
     }
     else if (pageId === 'gameIntroPage') {
-        tuiGameIntro('game');
+        Other.tuiGameIntro('game');
     }
     else if (pageId === 'gameIntroCompanyPage') {
-        tuiGameIntro('company');
+        Other.tuiGameIntro('company');
     }
     else if (pageId === 'gameIntroTypePage') {
-        tuiGameIntro('type');
+        Other.tuiGameIntro('type');
     }
     else if (pageId === 'gameIntroPropertyPage') {
-        tuiGameIntro('property');
+        Other.tuiGameIntro('property');
     }
     else if (pageId === 'favorPage') {
-        bindFavorPageBtnsClick();
+        Other.bindFavorPageBtnsClick();
     }
     else if (pageId === 'friendPage') {
-        bindFriendPageBtnsClick();
+        Other.bindFriendPageBtnsClick();
     }
     else if (pageId === 'modifyPage') {
-        syncPerPageFloorNum();
-        assignBirthdayField();
-        handleUploadAvatarFileBtn();
+        Other.syncPerPageFloorNum();
+        Other.assignBirthdayField();
+        Other.handleUploadAvatarFileBtn();
     }
     else if (pageId === 'bankPage') {
-        transferKfbAlert();
+        Other.transferKfbAlert();
     }
     else if (pageId === 'messagePage') {
-        bindMessageActionBtnsClick();
+        Other.bindMessageActionBtnsClick();
     }
     else if (pageId === 'readMessagePage') {
-        handleFloorImage();
-        handleCopyCodeBtn();
+        Read.handleFloorImage();
+        Read.handleCopyCodeBtn();
     }
     else if (pageId === 'writeMessagePage') {
-        bindFastSubmitShortcutKey($('#msgContent'));
-        addSmileCode($('#msgContent'));
+        Public.bindFastSubmitShortcutKey($('#msgContent'));
+        Post.addSmileCode($('#msgContent'));
     }
     else if (pageId === 'messageBannedPage') {
-        bindFastSubmitShortcutKey($('[name="banidinfo"]'));
+        Public.bindFastSubmitShortcutKey($('[name="banidinfo"]'));
     }
+    if (Config.blockUserEnabled) Public.blockUsers();
+    if (Config.blockThreadEnabled) Public.blockThread();
+    if (Config.followUserEnabled) Public.followUsers();
 
-    //let tooltipStartTime = new Date();
     $('[data-toggle="tooltip"]').tooltip({'container': 'body'});
-    //console.log(`tooltip初始化耗时：${new Date() - tooltipStartTime}ms`);
-});
+    console.log(`脚本加载完毕，耗时：${new Date() - startTime}ms`);
+};
+
+$(document).ready(init);

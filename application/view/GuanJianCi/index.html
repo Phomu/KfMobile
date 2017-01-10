@@ -7,7 +7,7 @@
   <title>{$gjc} - 关键词 - {$Think.config.site_name}</title>
   {include file="Public/head" /}
   <script>
-    pageInfo.gjc = '{$gjc}';
+      pageInfo.gjc = '{$gjc}';
   </script>
   {/* 编辑器提示用
   <link rel="stylesheet" href="../../public/static/src/css/app.css">
@@ -44,7 +44,8 @@
             </time>
           </small>
           <small class="col-6 text-right">
-            <a href="{:url('Profile/show?username=' . $vo['publisher'])}" target="_blank" title="发表人" aria-label="发表人">
+            <a data-author="{$vo.publisher}" href="{:url('Profile/show?username=' . $vo['publisher'])}" target="_blank" title="发表人"
+               aria-label="发表人">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.publisher}
             </a>

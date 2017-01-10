@@ -87,7 +87,7 @@
               <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadType}
             </span>&nbsp;
-            <a href="{:url('Profile/show?username=' . $vo['author'])}" title="发布者" aria-label="发布者">
+            <a data-author="{$vo.author}" href="{:url('Profile/show?username=' . $vo['author'])}" title="发布者" aria-label="发布者">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
             </a>&nbsp;

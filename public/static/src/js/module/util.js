@@ -234,7 +234,7 @@ export const selectAll = function ($nodes) {
  * 反选
  * @param {jQuery} $nodes 想要反选的节点的jQuery对象
  */
-export const selectReverse = function ($nodes) {
+export const selectInverse = function ($nodes) {
     $nodes.each(function () {
         let $this = $(this);
         $this.prop('checked', !$this.prop('checked'));
@@ -327,3 +327,11 @@ export const copyText = function ($target, $source = null) {
     }
     return result;
 };
+
+/**
+ * 获取指定用户名在关注或屏蔽列表中的索引号
+ * @param {string} name 指定用户名
+ * @param {Array} list 指定列表
+ * @returns {number} 指定用户在列表中的索引号，-1表示不在该列表中
+ */
+export const inFollowOrBlockUserList = (name, list) => list.findIndex(data => data.name && data.name === name);

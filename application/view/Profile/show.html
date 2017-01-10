@@ -21,16 +21,29 @@
   </ol>
 
   <!-- 头像 -->
-  <section class="text-center mb-3">
+  <section class="text-center" id="profileBtns" data-username="{$profileUserName}">
     {notempty name="profileAvatar"}
     <img class="img-thumbnail user-avatar d-block mx-auto mb-3" src="{$profileAvatar}" alt="头像">
     {/notempty}
-    <a class="btn btn-outline-primary" href="{:url('Message/write?touid=' . $profileUid)}">
-      <i class="fa fa-send" aria-hidden="true"></i> 发送短信
-    </a>&nbsp;
-    <a class="btn btn-outline-primary" href="{:url('search/index?authorid=' . $profileUid)}">
-      <i class="fa fa-search" aria-hidden="true"></i> 用户主题
-    </a>
+    <div class="mb-3">
+      <a class="btn btn-outline-primary" href="{:url('Message/write?touid=' . $profileUid)}">
+        <i class="fa fa-send" aria-hidden="true"></i> 发送短信
+      </a>&nbsp;
+      <a class="btn btn-outline-primary" href="{:url('search/index?authorid=' . $profileUid)}">
+        <i class="fa fa-search" aria-hidden="true"></i> 用户主题
+      </a>
+    </div>
+    <div class="mb-3">
+      <button class="btn btn-outline-primary" name="followUser" type="button">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        <span>关注用户</span>
+      </button>
+      &nbsp;
+      <button class="btn btn-outline-primary" name="blockUser" type="button">
+        <i class="fa fa-ban" aria-hidden="true"></i>
+        <span>屏蔽用户</span>
+      </button>
+    </div>
   </section>
 
   <!-- 详细信息 -->

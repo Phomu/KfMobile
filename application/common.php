@@ -295,6 +295,6 @@ function set_bg_style($bgStyle)
         $style = 'background: ' . $bgStyle;
     }
     if (!empty($style)) {
-        config('bg_style', '<style>body, .modal-content, .dialog-container { ' . $style . '; }</style>');
+        config('bg_style', '<style>body, .modal-content, .dialog-content { ' . $style . '; }</style>');
     }
 }

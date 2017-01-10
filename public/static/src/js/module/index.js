@@ -97,7 +97,7 @@ export const handleCustomBgStyle = function () {
             value
         );
         if (value === null) return;
-        let $bg = $('body, .modal-content, .dialog-container');
+        let $bg = $('body, .modal-content, .dialog-content');
         if ($.trim(value) === '') {
             Util.setCookie(Const.bgStyleCookieName, '', Util.getDate('-1d'));
             alert('背景已恢复默认');

@@ -93,7 +93,7 @@
               {$vo.threadForum}
             </span>&nbsp;
             {/notempty}
-            <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
+            <a data-author="{$vo.author}" href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
             </a>&nbsp;

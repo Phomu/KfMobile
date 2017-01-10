@@ -127,16 +127,6 @@ export const gotoFloor = function () {
 export const handleFastGotoFloorBtn = function () {
     $('.fast-goto-floor').click(function (e) {
         e.preventDefault();
-        if (!Config.perPageFloorNum) {
-            let floorNum = parseInt(
-                prompt('你的论坛设置里“文章列表每页个数”为多少（10、20、30）？\n注：如修改了论坛中的此项设置，请访问账号设置页面即可自动同步本地设置', 10)
-            );
-            if ([10, 20, 30].includes(floorNum)) {
-                Config.perPageFloorNum = floorNum;
-                writeConfig();
-            }
-            else return;
-        }
         let action = $(this).data('url');
         if (!action) return;
         let floor = parseInt(prompt('你要跳转到哪一层楼？'));

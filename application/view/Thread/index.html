@@ -176,7 +176,7 @@
           <small style="color: {$vo.typeColor}">[{$vo.typeName}]</small>
           {/notempty}
           <a class="thread-link" href="{:url('Read/index?tid=' . $vo['tid'] . ($currentPageNum > 1 ? '&fpage=' . $currentPageNum : ''))}"
-             title="{$vo.threadName}" style="{$vo.threadNameStyle}">
+             data-author="{$vo.author}" title="{$vo.threadName}" style="{$vo.threadNameStyle}">
             {$vo.threadName}
           </a>
         </div>

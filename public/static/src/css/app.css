@@ -1,4 +1,3 @@
-@charset "UTF-8";
 html {
   font-size: 14px; }
 
@@ -3615,7 +3614,7 @@ button.close {
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  border-bottom: 1px solid #dee2e3; }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
 
 .modal-title, .dialog-title {
   margin-bottom: 0;
@@ -3631,7 +3630,7 @@ button.close {
   align-items: center;
   justify-content: flex-end;
   padding: 15px;
-  border-top: 1px solid #dee2e3; }
+  border-top: 1px solid rgba(0, 0, 0, 0.125); }
   .modal-footer > :not(:first-child), .dialog-footer > :not(:first-child) {
     margin-left: .25rem; }
   .modal-footer > :not(:last-child), .dialog-footer > :not(:last-child) {
@@ -6088,6 +6087,9 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     font-size: 1rem;
     font-weight: bolder; }
 
+.help {
+  cursor: help; }
+
 .tips {
   color: #0275d8;
   cursor: help; }
@@ -6148,6 +6150,11 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 .blockquote {
   background-color: rgba(234, 234, 234, 0.7); }
 
+.custom-select-sm {
+  height: calc(1.6875rem + 2px);
+  padding: 0.28125rem 1.5625rem 0.28125rem 0.5625rem;
+  line-height: 0.9375; }
+
 .mask {
   position: fixed;
   width: 100%;
@@ -6200,14 +6207,18 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     font-weight: bolder;
     font-style: normal; }
 
-.dialog-container {
+.dialog {
   display: none;
   position: fixed;
   top: 0;
   width: 100%;
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1050; }
+
+.dialog-content {
   background-color: #f7f7f9;
-  z-index: 1040; }
+  border-radius: 0.25rem; }
 
 .dialog-header {
   padding-left: 0;
@@ -6226,7 +6237,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 body {
   padding-top: 3rem; }
 
-body, .modal-content, .dialog-container {
+body, .modal-content, .dialog-content {
   background-image: url("../img/bg/1.jpg"); }
 
 #successPage, #errorPage, #loginPage, #registerPage {
@@ -6499,21 +6510,7 @@ main {
 
 .vote-group {
   max-height: 370px;
-  overflow-y: auto;
-  /*// 投票项
-  .list-group-item {
-    .form-check {
-      margin-bottom: $spacer-1;
-
-      .form-check-label {
-        padding-left: 0;
-      }
-    }
-
-    .progress {
-      margin-bottom: 0;
-    }
-  }*/ }
+  overflow-y: auto; }
 
 #postPage .breadcrumb li:nth-child(2) {
   max-width: 190px; }
@@ -6589,13 +6586,12 @@ main {
   .id-color-item span {
     font-size: 0.875rem; }
 
-#rankList, #bankLogList {
-  white-space: nowrap; }
-  #rankList th, #rankList td, #bankLogList th, #bankLogList td {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem; }
-  #rankList thead th, #bankLogList thead th {
-    padding: 1rem; }
+#rankList th, #rankList td, #bankLogList th, #bankLogList td {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem; }
+
+#rankList thead th, #bankLogList thead th {
+  padding: 1rem; }
 
 #bankLogList tbody th, #bankLogList tbody td {
   vertical-align: middle; }

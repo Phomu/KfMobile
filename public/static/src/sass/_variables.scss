@@ -85,7 +85,7 @@ $input-bg: rgba($white, $bg-opacity-light);
 $custom-select-bg: rgba($white, $bg-opacity-light);
 
 // 模态框头部边框颜色
-$modal-header-border-color: darken($gray-lighter, 5%);
+$modal-header-border-color: rgba($black, .125);
 
 // 引用框背景
 $blockquote-bg: rgba(darken($body-bg, 7%), $bg-opacity-lighter);
