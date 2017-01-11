@@ -22,11 +22,17 @@ export const show = function () {
 <fieldset class="fieldset mb-3 py-2">
   <legend>主题页面相关</legend>
   <div class="form-group mb-2">
-    <label>主题每页楼层数量</label>
-    <select class="custom-select custom-select-sm" name="perPageFloorNum">
+    <label for="perPageFloorNum">主题每页楼层数量</label>
+    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">
       <option value="10">10</option><option value="20">20</option><option value="30">30</option>
     </select>
     <span class="tips" data-toggle="tooltip" title="主题页面中每页的楼层数量（用于电梯直达等功能），如果修改了论坛设置里的“文章列表每页个数”，请在此修改成相同的数目">[?]</span>
+  </div>
+  <div class="input-group mb-2">
+    <span class="input-group-addon">主题内容字体大小</span>
+    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"
+           title="主题内容字体大小，留空表示使用默认大小，默认值：14px">
+    <span class="input-group-addon">px</span>
   </div>
 </fieldset>
 <fieldset class="fieldset mb-3 py-2">
@@ -111,6 +117,7 @@ const setMainConfigValue = function ($dialog) {
             else $this.val(Config[name]);
         }
     });
+    $dialog.find('[name="threadContentFontSize"]').val(Config.threadContentFontSize > 0 ? Config.threadContentFontSize : '');
 };
 
 /**
@@ -128,6 +135,7 @@ const getMainConfigValue = function ($dialog) {
                 options[name] = Boolean($this.prop('checked'));
             else if (typeof Config[name] === 'number') {
                 options[name] = parseInt($this.val());
+                if (name === 'threadContentFontSize' && isNaN(options[name])) options[name] = 0;
             }
             else options[name] = $.trim($this.val());
         }
@@ -145,7 +153,8 @@ const showImportOrExportSettingDialog = function () {
     let bodyContent = `
 <p class="font-size-sm">
   <b>导入设置：</b>将设置内容粘贴到文本框中并点击保存按钮即可<br>
-  <b>导出设置：</b>复制文本框里的内容并粘贴到别处即可
+  <b>导出设置：</b>复制文本框里的内容并粘贴到别处即可<br>
+  <span class="text-danger">注：本设置与电脑版的KFOL助手并不完全通用</span>
 </p>
 <div class="form-group">
   <textarea class="form-control" name="setting" rows="10" aria-label="设置内容" style="word-break: break-all;"></textarea>
@@ -297,8 +306,8 @@ const showBlockUserDialog = function () {
     if ($('#' + dialogName).length > 0) return;
     let bodyContent = `
 <div class="form-group mb-2">
-  <label>默认屏蔽类型</label>
-  <select class="custom-select custom-select-sm" name="blockUserDefaultType">
+  <label for="blockUserDefaultType">默认屏蔽类型</label>
+  <select class="custom-select custom-select-sm" id="blockUserDefaultType" name="blockUserDefaultType">
     <option value="0">主题和回帖</option><option value="1">主题</option><option value="2">回帖</option>
   </select>
   <div class="form-check form-check-inline ml-3">
@@ -309,8 +318,8 @@ const showBlockUserDialog = function () {
   </div>
 </div>
 <div class="form-group mb-2">
-  <label>版块屏蔽范围</label>
-  <select class="custom-select custom-select-sm" name="blockUserForumType">
+  <label for="blockUserForumType">版块屏蔽范围</label>
+  <select class="custom-select custom-select-sm" id="blockUserForumType" name="blockUserForumType">
     <option value="0">所有版块</option><option value="1">包括指定版块</option><option value="2">排除指定版块</option>
   </select>
 </div>
@@ -454,14 +463,14 @@ const showBlockThreadDialog = function () {
   用户名和版块ID为可选项（多个用户名或版块ID请用英文逗号分隔）<br>
 </p>
 <div class="form-group mb-2">
-  <label>默认版块屏蔽范围</label>
-  <select class="custom-select custom-select-sm" name="blockThreadDefForumType">
+  <label for="blockThreadDefForumType">默认版块屏蔽范围</label>
+  <select class="custom-select custom-select-sm" id="blockThreadDefForumType" name="blockThreadDefForumType">
     <option value="0">所有版块</option><option value="1">包括指定版块</option><option value="2">排除指定版块</option>
   </select>
 </div>
 <div class="form-group">
-  <label>默认版块ID列表</label>
-  <input class="form-control form-control-sm" name="blockThreadDefFidList" type="text">
+  <label for="blockThreadDefFidList">默认版块ID列表</label>
+  <input class="form-control form-control-sm" id="blockThreadDefFidList" name="blockThreadDefFidList" type="text">
 </div>
 <div class="table-responsive">
   <table class="table table-sm table-hover table-center text-nowrap">

@@ -20,8 +20,10 @@ export const Config = {
     // 常用版块列表
     commonForumList: [],
 
-    // 主题每页楼层数量
+    // 主题每页楼层数量，用于电梯直达等功能，如果修改了论坛设置里的“文章列表每页个数”，请在此修改成相同的数目
     perPageFloorNum: 10,
+    // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
+    threadContentFontSize: 0,
 
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,

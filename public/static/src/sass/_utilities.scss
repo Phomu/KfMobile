@@ -140,3 +140,10 @@
     vertical-align: text-top;
   }
 }
+
+// 自定义选择框（小）
+.custom-select-sm {
+  height: calc(#{$input-height * .75} + #{$border-width * 2});
+  padding: $custom-select-padding-y * .75 ($custom-select-padding-x * .75 + $custom-select-indicator-padding) $custom-select-padding-y * .75 $custom-select-padding-x * .75;
+  line-height: $custom-select-line-height * .75;
+}

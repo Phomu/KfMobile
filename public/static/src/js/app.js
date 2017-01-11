@@ -40,6 +40,9 @@ const init = function () {
     }
     else if (pageId === 'readPage') {
         Read.gotoFloor();
+        if (Config.threadContentFontSize > 0) {
+            $('head').append(`<style>.read-content { font-size: ${Config.threadContentFontSize}px; }</style>`);
+        }
         Read.handleFastGotoFloorBtn();
         Read.handleTuiThreadBtn();
         Read.handleCopyFloorLinkBtn();
