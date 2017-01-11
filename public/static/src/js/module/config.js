@@ -13,10 +13,6 @@ export const Config = {
     activeNewReplyPanel: '#galgameNewReplyPanel',
     // 当前激活的当前推荐面板
     activeTopRecommendPanel: '#galgameTopRecommendPanel',
-    // 当前激活的版块列表面板1
-    activeForumPanel1: '',
-    // 当前激活的版块列表面板2
-    activeForumPanel2: '',
     // 常用版块列表
     commonForumList: [],
 
@@ -38,6 +34,10 @@ export const Config = {
 
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,
+    // 是否为页面添加自定义的CSS内容，true：开启；false：关闭
+    customCssEnabled: false,
+    // 自定义CSS的内容
+    customCssContent: '',
 
     // 是否开启关注用户的功能，true：开启；false：关闭
     followUserEnabled: false,

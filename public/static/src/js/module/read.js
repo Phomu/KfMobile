@@ -82,21 +82,40 @@ export const copyBuyThreadList = function () {
         if ($this.val() !== 'copyList') return;
         let list = $this.find('option').map(function (index) {
             let name = $(this).text();
-            if (index === 0 || index === 1 || name === '-'.repeat(11)) return null;
+            if (index === 0 || index === 1 || name.includes('-'.repeat(11))) return null;
             else return name;
         }).get().join('\n');
+        $this.get(0).selectedIndex = 0;
         if (!list) {
             alert('暂时无人购买');
-            $this.get(0).selectedIndex = 0;
             return;
         }
-        $('#buyThreadListContent').val(list);
-        $('#buyThreadListDialog').modal('show');
-        $this.get(0).selectedIndex = 0;
-    });
 
-    $('#buyThreadListDialog').on('shown.bs.modal', function () {
-        $('#buyThreadListContent').select().focus();
+        let $dialog = $(`
+<div class="modal fade" id="buyThreadListDialog" tabindex="-1" role="dialog" aria-labelledby="buyThreadListDialogTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="buyThreadListDialogTitle">购买人名单</h5>
+        <button class="close" data-dismiss="modal" type="button" aria-label="关闭">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <textarea class="form-control" name="buyThreadListContent" rows="14" aria-label="购买人名单">${list}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`).appendTo('body');
+        $dialog.on('shown.bs.modal', function () {
+            $dialog.find('[name="buyThreadListContent"]').select().focus();
+        }).on('hidden.bs.modal', function () {
+            $dialog.remove();
+        }).modal('show');
     });
 };
 

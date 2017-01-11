@@ -307,7 +307,7 @@ export const showCommonImportOrExportConfigDialog = function (title, configName,
         Dialog.close(dialogName);
         if (typeof callbackAfterSubmit === 'function') callbackAfterSubmit();
         else location.reload();
-    }).find('[name="cancel"]').click(() => Dialog.close(dialogName));
+    });
     Dialog.show(dialogName);
     $dialog.find('[name="commonConfig"]').val(JSON.stringify(Config[configName])).select().focus();
     if (typeof callback === 'function') callback($dialog);
@@ -331,7 +331,7 @@ export const followUsers = function () {
             let $this = $(this);
             if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
                 $this.closest('.thread-list-item').find('.thread-item-footer a:first').addClass('text-danger');
-                //if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
+                if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
             }
         });
     }

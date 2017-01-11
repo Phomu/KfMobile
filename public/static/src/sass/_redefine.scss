@@ -64,3 +64,10 @@
 .form-check.form-check-inline {
   margin-bottom: 0;
 }
+
+// 自定义选择框（小）
+.custom-select-sm {
+  height: calc(#{$input-height * .95} + #{$border-width * 2});
+  padding: 0 ($custom-select-padding-x * .9 + $custom-select-indicator-padding) 0 $custom-select-padding-x * .9;
+  line-height: $custom-select-line-height * .95;
+}

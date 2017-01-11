@@ -39,6 +39,7 @@ var init = function init() {
     }
     (0, _config.init)();
 
+    if (Config.customCssEnabled && Config.customCssContent) $('head').append('<style>' + Config.customCssContent + '</style>');
     Public.preventCloseWindow();
     Public.handleMainMenu();
     Public.handleMainMenuLink();
@@ -58,9 +59,7 @@ var init = function init() {
         Index.handleCustomBgStyle();
     } else if (pageId === 'readPage') {
         Read.gotoFloor();
-        if (Config.threadContentFontSize > 0) {
-            $('head').append('<style>.read-content { font-size: ' + Config.threadContentFontSize + 'px; }</style>');
-        }
+        if (Config.threadContentFontSize > 0) $('head').append('<style>.read-content { font-size: ' + Config.threadContentFontSize + 'px; }</style>');
         Read.handleFastGotoFloorBtn();
         Read.handleTuiThreadBtn();
         Read.handleCopyFloorLinkBtn();
@@ -159,10 +158,6 @@ var Config = exports.Config = {
     activeNewReplyPanel: '#galgameNewReplyPanel',
     // 当前激活的当前推荐面板
     activeTopRecommendPanel: '#galgameTopRecommendPanel',
-    // 当前激活的版块列表面板1
-    activeForumPanel1: '',
-    // 当前激活的版块列表面板2
-    activeForumPanel2: '',
     // 常用版块列表
     commonForumList: [],
 
@@ -184,6 +179,10 @@ var Config = exports.Config = {
 
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,
+    // 是否为页面添加自定义的CSS内容，true：开启；false：关闭
+    customCssEnabled: false,
+    // 自定义CSS的内容
+    customCssContent: '',
 
     // 是否开启关注用户的功能，true：开启；false：关闭
     followUserEnabled: false,
@@ -330,7 +329,7 @@ var show = exports.show = function show() {
     var dialogName = 'configDialog';
     if ($('#' + dialogName).length > 0) return;
     (0, _config.read)();
-    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> \u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\n    </label>\n  </legend>\n  <div class="mb-2">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> \u6EDA\u52A8\u5230\u9875\u9876/\u9875\u5E95\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> \u4E3B\u83DC\u5355\u6309\u94AE\n      </label>\n    </div>\n  </div>\n  <div class="mb-2">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> \u7248\u5757\u5217\u8868\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> \u641C\u7D22\u6309\u94AE\n      </label>\n    </div>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
+    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> \u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\n      <span class="tips" data-toggle="tooltip" title="\u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\uFF0C\u53EF\u5728\u4E0B\u65B9\u8BBE\u7F6E\u8981\u663E\u793A\u7684\u6309\u94AE">[?]</span>\n    </label>\n  </legend>\n  <div class="mb-2 d-sm-inline-block">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> \u6EDA\u52A8\u5230\u9875\u9876/\u9875\u5E95\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> \u4E3B\u83DC\u5355\u6309\u94AE\n      </label>\n    </div>\n  </div>\n  <div class="mb-2 d-sm-inline-block ml-sm-3">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> \u7248\u5757\u5217\u8868\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> \u641C\u7D22\u6309\u94AE\n      </label>\n    </div>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]"> \u6DFB\u52A0\u81EA\u5B9A\u4E49CSS\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3A\u9875\u9762\u6DFB\u52A0\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u586B\u5199\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9">[?]</span>\n    <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
     var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImportOrExportSettingDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
     var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
 
@@ -345,9 +344,9 @@ var show = exports.show = function show() {
     }).on('click', 'a[data-name^="open"][href="#"]', function (e) {
         e.preventDefault();
         var $this = $(this);
-        if ($this.hasClass('pd_disabled_link')) return;
+        if ($this.hasClass('disabled-link')) return;
         var name = $this.data('name');
-        if (name === 'openFollowUserDialog') showFollowUserDialog();else if (name === 'openBlockUserDialog') showBlockUserDialog();else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
+        if (name === 'openCustomCssDialog') showCustomCssDialog();else if (name === 'openFollowUserDialog') showFollowUserDialog();else if (name === 'openBlockUserDialog') showBlockUserDialog();else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
     }).find('[name="reset"]').click(function () {
         if (confirm('是否重置所有设置？')) {
             (0, _config.clear)();
@@ -400,7 +399,7 @@ var getMainConfigValue = function getMainConfigValue($dialog) {
  * 显示导入或导出设置对话框
  */
 var showImportOrExportSettingDialog = function showImportOrExportSettingDialog() {
-    var dialogName = 'pdImOrExSettingDialog';
+    var dialogName = 'imOrExSettingDialog';
     if ($('#' + dialogName).length > 0) return;
     (0, _config.read)();
     var bodyContent = '\n<p class="font-size-sm">\n  <b>\u5BFC\u5165\u8BBE\u7F6E\uFF1A</b>\u5C06\u8BBE\u7F6E\u5185\u5BB9\u7C98\u8D34\u5230\u6587\u672C\u6846\u4E2D\u5E76\u70B9\u51FB\u4FDD\u5B58\u6309\u94AE\u5373\u53EF<br>\n  <b>\u5BFC\u51FA\u8BBE\u7F6E\uFF1A</b>\u590D\u5236\u6587\u672C\u6846\u91CC\u7684\u5185\u5BB9\u5E76\u7C98\u8D34\u5230\u522B\u5904\u5373\u53EF<br>\n  <span class="text-danger">\u6CE8\uFF1A\u672C\u8BBE\u7F6E\u4E0E\u7535\u8111\u7248\u7684KFOL\u52A9\u624B\u5E76\u4E0D\u5B8C\u5168\u901A\u7528</span>\n</p>\n<div class="form-group">\n  <textarea class="form-control" name="setting" rows="10" aria-label="\u8BBE\u7F6E\u5185\u5BB9" style="word-break: break-all;"></textarea>\n</div>';
@@ -427,11 +426,32 @@ var showImportOrExportSettingDialog = function showImportOrExportSettingDialog()
         (0, _config.write)();
         alert('设置已导入');
         location.reload();
-    }).find('[name="cancel"]').click(function () {
-        return Dialog.close(dialogName);
     });
     Dialog.show(dialogName);
     $dialog.find('[name="setting"]').val(JSON.stringify(Util.getDifferenceSetOfObject(_config.Config, Config))).select().focus();
+};
+
+/**
+ * 显示自定义CSS对话框
+ */
+var showCustomCssDialog = function showCustomCssDialog() {
+    var dialogName = 'customCssDialog';
+    if ($('#' + dialogName).length > 0) return;
+    (0, _config.read)();
+    var bodyContent = '\n<div class="form-group">\n  <textarea class="form-control" name="customCssContent" rows="15" wrap="off" aria-label="\u81EA\u5B9A\u4E49CSS\u5185\u5BB9" style="white-space: pre;"></textarea>\n</div>';
+    var footerContent = '\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+    var $dialog = Dialog.create(dialogName, '\u81EA\u5B9A\u4E49CSS', bodyContent, footerContent);
+    var $content = $dialog.find('[name="customCssContent"]');
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        Config.customCssContent = $.trim($content.val());
+        (0, _config.write)();
+        Dialog.close(dialogName);
+        alert('自定义CSS修改成功（需刷新页面后才可生效）');
+    });
+    Dialog.show(dialogName);
+    $content.val(Config.customCssContent).focus();
 };
 
 /**
@@ -724,7 +744,7 @@ var showBlockThreadDialog = function showBlockThreadDialog() {
      * @param {number[]} fidList 版块ID列表
      */
     var addBlockThread = function addBlockThread(keyWord, userType, userList, fidType, fidList) {
-        $('\n<tr>\n  <td>\n    <input class="form-control form-control-sm" name="keyWord" type="text" value="' + keyWord + '" aria-label="\u6807\u9898\u5173\u952E\u5B57" style="min-width: 12rem;">\n  </td>\n  <td>\n    <select class="custom-select custom-select-sm w-100" name="userType" aria-label="\u5C4F\u853D\u7528\u6237\u7C7B\u578B">\n      <option value="0">\u6240\u6709</option><option value="1">\u5305\u62EC</option><option value="2">\u6392\u9664</option>\n    </select>\n  </td>\n  <td>\n    <input class="form-control form-control-sm" name="userList" type="text" value="' + userList.join(',') + '" aria-label="\u7528\u6237\u540D"\n           ' + (userType === 0 ? 'disabled' : '') + ' style="min-width: 12rem;">\n  </td>\n  <td>\n    <select class="custom-select custom-select-sm w-100" name="fidType" aria-label="\u5C4F\u853D\u8303\u56F4">\n      <option value="0">\u6240\u6709</option><option value="1">\u5305\u62EC</option><option value="2">\u6392\u9664</option>\n    </select>\n  </td>\n  <td>\n    <input class="form-control form-control-sm" name="fidList" type="text" value="' + fidList.join(',') + '" aria-label="\u7248\u5757ID\u5217\u8868"\n           ' + (fidType === 0 ? 'disabled' : '') + ' style="min-width: 8rem;">\n  </td>\n  <td class="text-left">\n    <button class="btn btn-danger btn-sm" name="delete" type="button" aria-label="\u5220\u9664">\n      <i class="fa fa-trash" aria-hidden="true"></i>\n    </button>\n  </td>\n</tr>\n').appendTo($blockThreadList).find('[name="userType"]').val(userType).end().find('[name="fidType"]').val(fidType);
+        $('\n<tr>\n  <td>\n    <input class="form-control form-control-sm" name="keyWord" type="text" value="' + keyWord + '" aria-label="\u6807\u9898\u5173\u952E\u5B57" style="min-width: 12rem;">\n  </td>\n  <td>\n    <select class="form-control form-control-sm" name="userType" aria-label="\u5C4F\u853D\u7528\u6237\u7C7B\u578B" style="min-width: 4.5rem;">\n      <option value="0">\u6240\u6709</option><option value="1">\u5305\u62EC</option><option value="2">\u6392\u9664</option>\n    </select>\n  </td>\n  <td>\n    <input class="form-control form-control-sm" name="userList" type="text" value="' + userList.join(',') + '" aria-label="\u7528\u6237\u540D"\n           ' + (userType === 0 ? 'disabled' : '') + ' style="min-width: 12rem;">\n  </td>\n  <td>\n    <select class="form-control form-control-sm" name="fidType" aria-label="\u5C4F\u853D\u8303\u56F4" style="min-width: 4.5rem;">\n      <option value="0">\u6240\u6709</option><option value="1">\u5305\u62EC</option><option value="2">\u6392\u9664</option>\n    </select>\n  </td>\n  <td>\n    <input class="form-control form-control-sm" name="fidList" type="text" value="' + fidList.join(',') + '" aria-label="\u7248\u5757ID\u5217\u8868"\n           ' + (fidType === 0 ? 'disabled' : '') + ' style="min-width: 9rem;">\n  </td>\n  <td class="text-left">\n    <button class="btn btn-danger btn-sm" name="delete" type="button" aria-label="\u5220\u9664">\n      <i class="fa fa-trash" aria-hidden="true"></i>\n    </button>\n  </td>\n</tr>\n').appendTo($blockThreadList).find('[name="userType"]').val(userType).end().find('[name="fidType"]').val(fidType);
     };
 
     /**
@@ -2576,8 +2596,6 @@ var showCommonImportOrExportConfigDialog = exports.showCommonImportOrExportConfi
         alert('设置已导入');
         Dialog.close(dialogName);
         if (typeof callbackAfterSubmit === 'function') callbackAfterSubmit();else location.reload();
-    }).find('[name="cancel"]').click(function () {
-        return Dialog.close(dialogName);
     });
     Dialog.show(dialogName);
     $dialog.find('[name="commonConfig"]').val(JSON.stringify(Config[configName])).select().focus();
@@ -2601,7 +2619,7 @@ var followUsers = exports.followUsers = function followUsers() {
             var $this = $(this);
             if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
                 $this.closest('.thread-list-item').find('.thread-item-footer a:first').addClass('text-danger');
-                //if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
+                if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
             }
         });
     } else if (pageId === 'readPage') {
@@ -2914,20 +2932,20 @@ var copyBuyThreadList = exports.copyBuyThreadList = function copyBuyThreadList()
         if ($this.val() !== 'copyList') return;
         var list = $this.find('option').map(function (index) {
             var name = $(this).text();
-            if (index === 0 || index === 1 || name === '-'.repeat(11)) return null;else return name;
+            if (index === 0 || index === 1 || name.includes('-'.repeat(11))) return null;else return name;
         }).get().join('\n');
+        $this.get(0).selectedIndex = 0;
         if (!list) {
             alert('暂时无人购买');
-            $this.get(0).selectedIndex = 0;
             return;
         }
-        $('#buyThreadListContent').val(list);
-        $('#buyThreadListDialog').modal('show');
-        $this.get(0).selectedIndex = 0;
-    });
 
-    $('#buyThreadListDialog').on('shown.bs.modal', function () {
-        $('#buyThreadListContent').select().focus();
+        var $dialog = $('\n<div class="modal fade" id="buyThreadListDialog" tabindex="-1" role="dialog" aria-labelledby="buyThreadListDialogTitle"\n     aria-hidden="true">\n  <div class="modal-dialog modal-sm" role="document">\n    <div class="modal-content">\n      <div class="modal-header">\n        <h5 class="modal-title" id="buyThreadListDialogTitle">\u8D2D\u4E70\u4EBA\u540D\u5355</h5>\n        <button class="close" data-dismiss="modal" type="button" aria-label="\u5173\u95ED">\n          <span aria-hidden="true">&times;</span>\n        </button>\n      </div>\n      <div class="modal-body">\n        <div class="form-group">\n          <textarea class="form-control" name="buyThreadListContent" rows="14" aria-label="\u8D2D\u4E70\u4EBA\u540D\u5355">' + list + '</textarea>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n').appendTo('body');
+        $dialog.on('shown.bs.modal', function () {
+            $dialog.find('[name="buyThreadListContent"]').select().focus();
+        }).on('hidden.bs.modal', function () {
+            $dialog.remove();
+        }).modal('show');
     });
 };
 

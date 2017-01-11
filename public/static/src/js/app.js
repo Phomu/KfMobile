@@ -21,6 +21,7 @@ const init = function () {
     }
     initConfig();
 
+    if (Config.customCssEnabled && Config.customCssContent) $('head').append(`<style>${Config.customCssContent}</style>`);
     Public.preventCloseWindow();
     Public.handleMainMenu();
     Public.handleMainMenuLink();
@@ -41,9 +42,8 @@ const init = function () {
     }
     else if (pageId === 'readPage') {
         Read.gotoFloor();
-        if (Config.threadContentFontSize > 0) {
+        if (Config.threadContentFontSize > 0)
             $('head').append(`<style>.read-content { font-size: ${Config.threadContentFontSize}px; }</style>`);
-        }
         Read.handleFastGotoFloorBtn();
         Read.handleTuiThreadBtn();
         Read.handleCopyFloorLinkBtn();

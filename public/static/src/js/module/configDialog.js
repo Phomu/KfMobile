@@ -39,9 +39,10 @@ export const show = function () {
   <legend class="form-check">
     <label class="form-check-label">
       <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> 显示侧边栏按钮组
+      <span class="tips" data-toggle="tooltip" title="显示侧边栏按钮组，可在下方设置要显示的按钮">[?]</span>
     </label>
   </legend>
-  <div class="mb-2">
+  <div class="mb-2 d-sm-inline-block">
     <div class="form-check form-check-inline">
       <label class="form-check-label">
         <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> 滚动到页顶/页底按钮
@@ -53,7 +54,7 @@ export const show = function () {
       </label>
     </div>
   </div>
-  <div class="mb-2">
+  <div class="mb-2 d-sm-inline-block ml-sm-3">
     <div class="form-check form-check-inline">
       <label class="form-check-label">
         <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> 版块列表按钮
@@ -73,6 +74,13 @@ export const show = function () {
     <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required
            title="默认的消息显示时间（秒），设置为-1表示永久显示，例：15">
     <span class="input-group-addon">秒</span>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]"> 添加自定义CSS
+    </label>
+    <span class="tips" data-toggle="tooltip" title="为页面添加自定义的CSS内容，请点击详细设置填写自定义的CSS内容">[?]</span>
+    <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
 </fieldset>
 <fieldset class="fieldset mb-3 py-2">
@@ -117,9 +125,10 @@ export const show = function () {
     }).on('click', 'a[data-name^="open"][href="#"]', function (e) {
         e.preventDefault();
         let $this = $(this);
-        if ($this.hasClass('pd_disabled_link')) return;
+        if ($this.hasClass('disabled-link')) return;
         let name = $this.data('name');
-        if (name === 'openFollowUserDialog') showFollowUserDialog();
+        if (name === 'openCustomCssDialog') showCustomCssDialog();
+        else if (name === 'openFollowUserDialog') showFollowUserDialog();
         else if (name === 'openBlockUserDialog') showBlockUserDialog();
         else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
     }).find('[name="reset"]').click(function () {
@@ -178,7 +187,7 @@ const getMainConfigValue = function ($dialog) {
  * 显示导入或导出设置对话框
  */
 const showImportOrExportSettingDialog = function () {
-    const dialogName = 'pdImOrExSettingDialog';
+    const dialogName = 'imOrExSettingDialog';
     if ($('#' + dialogName).length > 0) return;
     readConfig();
     let bodyContent = `
@@ -216,9 +225,37 @@ const showImportOrExportSettingDialog = function () {
         writeConfig();
         alert('设置已导入');
         location.reload();
-    }).find('[name="cancel"]').click(() => Dialog.close(dialogName));
+    });
     Dialog.show(dialogName);
     $dialog.find('[name="setting"]').val(JSON.stringify(Util.getDifferenceSetOfObject(defConfig, Config))).select().focus();
+};
+
+/**
+ * 显示自定义CSS对话框
+ */
+const showCustomCssDialog = function () {
+    const dialogName = 'customCssDialog';
+    if ($('#' + dialogName).length > 0) return;
+    readConfig();
+    let bodyContent = `
+<div class="form-group">
+  <textarea class="form-control" name="customCssContent" rows="15" wrap="off" aria-label="自定义CSS内容" style="white-space: pre;"></textarea>
+</div>`;
+    let footerContent = `
+<button class="btn btn-primary" type="submit">保存</button>
+<button class="btn btn-secondary" data-dismiss="dialog" type="button">取消</button>`;
+    let $dialog = Dialog.create(dialogName, `自定义CSS`, bodyContent, footerContent);
+    let $content = $dialog.find('[name="customCssContent"]');
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        Config.customCssContent = $.trim($content.val());
+        writeConfig();
+        Dialog.close(dialogName);
+        alert('自定义CSS修改成功（需刷新页面后才可生效）');
+    });
+    Dialog.show(dialogName);
+    $content.val(Config.customCssContent).focus();
 };
 
 /**
@@ -544,7 +581,7 @@ const showBlockThreadDialog = function () {
     <input class="form-control form-control-sm" name="keyWord" type="text" value="${keyWord}" aria-label="标题关键字" style="min-width: 12rem;">
   </td>
   <td>
-    <select class="custom-select custom-select-sm w-100" name="userType" aria-label="屏蔽用户类型">
+    <select class="form-control form-control-sm" name="userType" aria-label="屏蔽用户类型" style="min-width: 4.5rem;">
       <option value="0">所有</option><option value="1">包括</option><option value="2">排除</option>
     </select>
   </td>
@@ -553,13 +590,13 @@ const showBlockThreadDialog = function () {
            ${userType === 0 ? 'disabled' : ''} style="min-width: 12rem;">
   </td>
   <td>
-    <select class="custom-select custom-select-sm w-100" name="fidType" aria-label="屏蔽范围">
+    <select class="form-control form-control-sm" name="fidType" aria-label="屏蔽范围" style="min-width: 4.5rem;">
       <option value="0">所有</option><option value="1">包括</option><option value="2">排除</option>
     </select>
   </td>
   <td>
     <input class="form-control form-control-sm" name="fidList" type="text" value="${fidList.join(',')}" aria-label="版块ID列表"
-           ${fidType === 0 ? 'disabled' : ''} style="min-width: 8rem;">
+           ${fidType === 0 ? 'disabled' : ''} style="min-width: 9rem;">
   </td>
   <td class="text-left">
     <button class="btn btn-danger btn-sm" name="delete" type="button" aria-label="删除">

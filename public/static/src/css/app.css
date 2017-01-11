@@ -6108,11 +6108,6 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   .form-check-input-sm {
     vertical-align: text-top; } }
 
-.custom-select-sm {
-  height: calc(1.6875rem + 2px);
-  padding: 0.28125rem 1.5625rem 0.28125rem 0.5625rem;
-  line-height: 0.9375; }
-
 .alert-success {
   background-color: rgba(223, 240, 216, 0.95); }
 
@@ -6157,6 +6152,11 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 
 .form-check.form-check-inline {
   margin-bottom: 0; }
+
+.custom-select-sm {
+  height: calc(2.1375rem + 2px);
+  padding: 0 1.675rem 0 0.675rem;
+  line-height: 1.1875; }
 
 .mask {
   position: fixed;
