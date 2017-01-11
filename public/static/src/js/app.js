@@ -24,7 +24,8 @@ const init = function () {
     Public.preventCloseWindow();
     Public.handleMainMenu();
     Public.handleMainMenuLink();
-    Public.handleRollToTopOrBottomBtn();
+    if (Config.showSidebarBtnGroupEnabled) Public.showSidebarBtnGroup();
+    Public.handleSidebarRollBtn();
     Public.handleSearchDialog();
     Public.fillCommonForumPanel();
     Public.showEditCommonForumDialog();

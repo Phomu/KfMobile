@@ -335,3 +335,15 @@ export const copyText = function ($target, $source = null) {
  * @returns {number} 指定用户在列表中的索引号，-1表示不在该列表中
  */
 export const inFollowOrBlockUserList = (name, list) => list.findIndex(data => data.name && data.name === name);
+
+/**
+ * 检测浏览器是否为Opera
+ * @returns {boolean} 是否为Opera
+ */
+export const isOpera = () => typeof window.opera !== 'undefined';
+
+/**
+ * 检测浏览器是否为Edge
+ * @returns {boolean} 是否为Edge
+ */
+export const isEdge = () => navigator.appVersion && navigator.appVersion.includes('Edge');

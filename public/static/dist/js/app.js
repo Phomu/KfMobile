@@ -42,7 +42,8 @@ var init = function init() {
     Public.preventCloseWindow();
     Public.handleMainMenu();
     Public.handleMainMenuLink();
-    Public.handleRollToTopOrBottomBtn();
+    if (Config.showSidebarBtnGroupEnabled) Public.showSidebarBtnGroup();
+    Public.handleSidebarRollBtn();
     Public.handleSearchDialog();
     Public.fillCommonForumPanel();
     Public.showEditCommonForumDialog();
@@ -169,6 +170,17 @@ var Config = exports.Config = {
     perPageFloorNum: 10,
     // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
     threadContentFontSize: 0,
+
+    // 是否显示侧边栏按钮组，true：开启；false：关闭
+    showSidebarBtnGroupEnabled: true,
+    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
+    showSidebarRollBtnEnabled: true,
+    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
+    showSidebarMainMenuBtnEnabled: false,
+    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
+    showSidebarForumListBtnEnabled: false,
+    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
+    showSidebarSearchBtnEnabled: false,
 
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,
@@ -318,7 +330,7 @@ var show = exports.show = function show() {
     var dialogName = 'configDialog';
     if ($('#' + dialogName).length > 0) return;
     (0, _config.read)();
-    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
+    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> \u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\n    </label>\n  </legend>\n  <div class="mb-2">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> \u6EDA\u52A8\u5230\u9875\u9876/\u9875\u5E95\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> \u4E3B\u83DC\u5355\u6309\u94AE\n      </label>\n    </div>\n  </div>\n  <div class="mb-2">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> \u7248\u5757\u5217\u8868\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> \u641C\u7D22\u6309\u94AE\n      </label>\n    </div>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
     var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImportOrExportSettingDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
     var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
 
@@ -954,6 +966,17 @@ exports.default = Const;
 /* 对话框模块 */
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.close = exports.resize = exports.show = exports.create = undefined;
+
+var _util = require('./util');
+
+var Util = _interopRequireWildcard(_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 /**
  * 创建对话框
  * @param {string} id 对话框ID
@@ -962,10 +985,6 @@ exports.default = Const;
  * @param {string} footerContent 对话框底部内容
  * @returns {jQuery} 对话框的jQuery对象
  */
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var create = exports.create = function create(id, title, bodyContent) {
     var footerContent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
@@ -983,7 +1002,8 @@ var create = exports.create = function create(id, title, bodyContent) {
         }
     }).find('legend [type="checkbox"]').click(function () {
         var $this = $(this);
-        $this.closest('fieldset').prop('disabled', !$this.prop('checked'));
+        var checked = $this.prop('checked');
+        if (Util.isOpera() || Util.isEdge()) $this.closest('fieldset').find('input, select, textarea, button').not('legend input').prop('disabled', !checked);else $this.closest('fieldset').prop('disabled', !checked);
     }).end().find('input[data-disabled]').click(function () {
         var $this = $(this);
         var checked = $this.prop('checked');
@@ -1044,7 +1064,7 @@ var close = exports.close = function close(id) {
     return false;
 };
 
-},{}],6:[function(require,module,exports){
+},{"./util":12}],6:[function(require,module,exports){
 /* 首页模块 */
 'use strict';
 
@@ -2180,7 +2200,7 @@ var handleClearMultiQuoteDataBtn = exports.handleClearMultiQuoteDataBtn = functi
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.blockThread = exports.blockUsers = exports.followUsers = exports.showCommonImportOrExportConfigDialog = exports.preventCloseWindow = exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleRollToTopOrBottomBtn = exports.handleMainMenuLink = exports.handleMainMenu = undefined;
+exports.blockThread = exports.blockUsers = exports.followUsers = exports.showCommonImportOrExportConfigDialog = exports.preventCloseWindow = exports.fillCommonForumPanel = exports.showEditCommonForumDialog = exports.bindFastSubmitShortcutKey = exports.handlePageInput = exports.handleSearchDialog = exports.handleSidebarRollBtn = exports.showSidebarBtnGroup = exports.handleMainMenuLink = exports.handleMainMenu = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -2216,6 +2236,9 @@ var handleMainMenu = exports.handleMainMenu = function handleMainMenu() {
             $('#mainMenu').css('max-height', maxHeight + 'px');
         }
     });
+    $('#sidebarMainMenuBtn').click(function () {
+        return $('#mainMenuTogglerBtn').click();
+    });
 };
 
 /**
@@ -2230,11 +2253,22 @@ var handleMainMenuLink = exports.handleMainMenuLink = function handleMainMenuLin
 };
 
 /**
- * 处理滚动到页顶/页底按钮
+ * 显示侧边栏按钮组
  */
-var handleRollToTopOrBottomBtn = exports.handleRollToTopOrBottomBtn = function handleRollToTopOrBottomBtn() {
+var showSidebarBtnGroup = exports.showSidebarBtnGroup = function showSidebarBtnGroup() {
+    $('.sidebar-btn-group').prop('hidden', false);
+    if (Config.showSidebarRollBtnEnabled) $('#sidebarRollBtn').prop('hidden', false);
+    if (Config.showSidebarMainMenuBtnEnabled) $('#sidebarMainMenuBtn').prop('hidden', false);
+    if (Config.showSidebarForumListBtnEnabled) $('#sidebarForumListBtn').prop('hidden', false);
+    if (Config.showSidebarSearchBtnEnabled) $('#sidebarSearchBtn').prop('hidden', false);
+};
+
+/**
+ * 处理侧边栏的滚动到页顶/页底按钮
+ */
+var handleSidebarRollBtn = exports.handleSidebarRollBtn = function handleSidebarRollBtn() {
     $(window).scroll(function () {
-        var $btn = $('#rollToTopOrBottom');
+        var $btn = $('#sidebarRollBtn');
         if ($(window).scrollTop() > 640) {
             if ($btn.data('direction') === 'top') return;
             $btn.data('direction', 'top').attr('aria-label', '滚动到页顶').find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
@@ -2244,7 +2278,7 @@ var handleRollToTopOrBottomBtn = exports.handleRollToTopOrBottomBtn = function h
         }
     });
 
-    $('#rollToTopOrBottom').click(function () {
+    $('#sidebarRollBtn').click(function () {
         var scrollTop = $(this).data('direction') === 'bottom' ? $('body').height() : 0;
         $('body, html').animate({ scrollTop: scrollTop });
     });
@@ -3445,6 +3479,22 @@ var inFollowOrBlockUserList = exports.inFollowOrBlockUserList = function inFollo
     return list.findIndex(function (data) {
         return data.name && data.name === name;
     });
+};
+
+/**
+ * 检测浏览器是否为Opera
+ * @returns {boolean} 是否为Opera
+ */
+var isOpera = exports.isOpera = function isOpera() {
+    return typeof window.opera !== 'undefined';
+};
+
+/**
+ * 检测浏览器是否为Edge
+ * @returns {boolean} 是否为Edge
+ */
+var isEdge = exports.isEdge = function isEdge() {
+    return navigator.appVersion && navigator.appVersion.includes('Edge');
 };
 
 },{}]},{},[1])

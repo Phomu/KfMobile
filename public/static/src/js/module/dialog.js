@@ -1,5 +1,6 @@
 /* 对话框模块 */
 'use strict';
+import * as Util from './util';
 
 /**
  * 创建对话框
@@ -37,7 +38,10 @@ export const create = function (id, title, bodyContent, footerContent = '') {
         .find('legend [type="checkbox"]')
         .click(function () {
             let $this = $(this);
-            $this.closest('fieldset').prop('disabled', !$this.prop('checked'));
+            let checked = $this.prop('checked');
+            if (Util.isOpera() || Util.isEdge())
+                $this.closest('fieldset').find('input, select, textarea, button').not('legend input').prop('disabled', !checked);
+            else $this.closest('fieldset').prop('disabled', !checked);
         }).end()
         .find('input[data-disabled]')
         .click(function () {

@@ -16,6 +16,7 @@ export const handleMainMenu = function () {
             $('#mainMenu').css('max-height', maxHeight + 'px');
         }
     });
+    $('#sidebarMainMenuBtn').click(() => $('#mainMenuTogglerBtn').click());
 };
 
 /**
@@ -30,11 +31,22 @@ export const handleMainMenuLink = function () {
 };
 
 /**
- * 处理滚动到页顶/页底按钮
+ * 显示侧边栏按钮组
  */
-export const handleRollToTopOrBottomBtn = function () {
+export const showSidebarBtnGroup = function () {
+    $('.sidebar-btn-group').prop('hidden', false);
+    if (Config.showSidebarRollBtnEnabled) $('#sidebarRollBtn').prop('hidden', false);
+    if (Config.showSidebarMainMenuBtnEnabled) $('#sidebarMainMenuBtn').prop('hidden', false);
+    if (Config.showSidebarForumListBtnEnabled) $('#sidebarForumListBtn').prop('hidden', false);
+    if (Config.showSidebarSearchBtnEnabled) $('#sidebarSearchBtn').prop('hidden', false);
+};
+
+/**
+ * 处理侧边栏的滚动到页顶/页底按钮
+ */
+export const handleSidebarRollBtn = function () {
     $(window).scroll(function () {
-        let $btn = $('#rollToTopOrBottom');
+        let $btn = $('#sidebarRollBtn');
         if ($(window).scrollTop() > 640) {
             if ($btn.data('direction') === 'top') return;
             $btn.data('direction', 'top').attr('aria-label', '滚动到页顶')
@@ -47,7 +59,7 @@ export const handleRollToTopOrBottomBtn = function () {
         }
     });
 
-    $('#rollToTopOrBottom').click(function () {
+    $('#sidebarRollBtn').click(function () {
         let scrollTop = $(this).data('direction') === 'bottom' ? $('body').height() : 0;
         $('body, html').animate({scrollTop: scrollTop});
     });

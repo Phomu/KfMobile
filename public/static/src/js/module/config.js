@@ -25,6 +25,17 @@ export const Config = {
     // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
     threadContentFontSize: 0,
 
+    // 是否显示侧边栏按钮组，true：开启；false：关闭
+    showSidebarBtnGroupEnabled: true,
+    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
+    showSidebarRollBtnEnabled: true,
+    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
+    showSidebarMainMenuBtnEnabled: false,
+    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
+    showSidebarForumListBtnEnabled: false,
+    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
+    showSidebarSearchBtnEnabled: false,
+
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,
 

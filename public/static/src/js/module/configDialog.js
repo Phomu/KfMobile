@@ -36,6 +36,37 @@ export const show = function () {
   </div>
 </fieldset>
 <fieldset class="fieldset mb-3 py-2">
+  <legend class="form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> 显示侧边栏按钮组
+    </label>
+  </legend>
+  <div class="mb-2">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> 滚动到页顶/页底按钮
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> 主菜单按钮
+      </label>
+    </div>
+  </div>
+  <div class="mb-2">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> 版块列表按钮
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> 搜索按钮
+      </label>
+    </div>
+  </div>
+</fieldset>
+<fieldset class="fieldset mb-3 py-2">
   <legend>其它设置</legend>
   <div class="input-group mb-2">
     <span class="input-group-addon">消息显示时间</span>
