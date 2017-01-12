@@ -97,7 +97,7 @@ const init = function () {
         Post.addSmileCode($('#postContent'));
         Post.handleAttachBtns();
         Post.handleClearMultiQuoteDataBtn();
-        if (pageInfo.multiQuote) Post.handleMultiQuote(2);
+        if (Info.multiQuote) Post.handleMultiQuote(2);
     }
     else if (pageId === 'gjcPage') {
         Other.highlightUnReadAtTipsMsg();

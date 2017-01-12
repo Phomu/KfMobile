@@ -201,7 +201,7 @@ export const checkPostForm = function () {
         }
 
         let $postGjc = $('#postGjc');
-        if ($postGjc.length > 0 && pageInfo.action === 'new' && !$postGjc.val().trim()) {
+        if ($postGjc.length > 0 && Info.action === 'new' && !$postGjc.val().trim()) {
             alert('请在内容文本框的下方填写关键词，以方便搜索，也可以在标题中选择任意一个词填入');
             $postGjc.focus();
             return false;
@@ -338,11 +338,11 @@ export const handleMultiQuote = function (type = 1) {
     }
     if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) return;
     let {tid, quoteList} = data;
-    if (!pageInfo.tid || tid !== pageInfo.tid || $.type(quoteList) !== 'object') return;
-    if (type === 2 && !pageInfo.fid) return;
+    if (!Info.tid || tid !== Info.tid || $.type(quoteList) !== 'object') return;
+    if (type === 2 && !Info.fid) return;
     let list = [];
     for (let data of Object.values(quoteList)) {
-        if ($.type(data) !== 'array') continue;
+        if (!Array.isArray(data)) continue;
         for (let quote of data) {
             list.push(quote);
         }
@@ -358,14 +358,14 @@ export const handleMultiQuote = function (type = 1) {
         Msg.wait(`<span class="mr-3">正在获取引用内容中&hellip;</span>剩余：<em class="text-warning countdown-num">${list.length}</em>`);
         $(document).clearQueue('MultiQuote');
     }
-    for (let [index, quote] of list.entries()) {
-        if (!('floor' in quote) || !('pid' in quote)) continue;
-        keywords.add(quote.userName);
+    $.each(list, function (index, data) {
+        if (typeof data.floor === 'undefined' || typeof data.pid === 'undefined') return;
+        keywords.add(data.userName);
         if (type === 2) {
             $(document).queue('MultiQuote', function () {
                 $.get(Util.makeUrl(
                     'post/index',
-                    `action=quote&fid=${pageInfo.fid}&tid=${tid}&pid=${quote.pid}&article=${quote.floor}&t=${new Date().getTime()}`
+                    `action=quote&fid=${Info.fid}&tid=${tid}&pid=${data.pid}&article=${data.floor}&t=${new Date().getTime()}`
                 ), function ({postContent}) {
                     content += postContent ? postContent + (index === list.length - 1 ? '' : '\n') : '';
                     let $countdownNum = $('.countdown-num:last');
@@ -375,16 +375,16 @@ export const handleMultiQuote = function (type = 1) {
                         $('#postContent').val(content).focus();
                     }
                     else {
-                        setTimeout(function () {
-                            $(document).dequeue('MultiQuote');
-                        }, 100);
+                        setTimeout(() => $(document).dequeue('MultiQuote'), 100);
                     }
                 });
             });
         }
         else {
-            content += `[quote]回 ${quote.floor}楼(${quote.userName}) 的帖子[/quote]\n`;
+            content += `[quote]回 ${data.floor}楼(${data.userName}) 的帖子[/quote]\n`;
         }
+    });
+    for (let [index, quote] of list.entries()) {
     }
     $('[name="diy_guanjianci"]').val([...keywords].join(','));
     $('#postForm').submit(function () {

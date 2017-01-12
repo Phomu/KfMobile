@@ -8,7 +8,7 @@
  * @param {?Date} date Cookie有效期，留空则表示有效期为浏览器进程
  * @param {string} prefix Cookie名称前缀
  */
-export const setCookie = function (name, value, date = null, prefix = pageInfo.cookiePrefix) {
+export const setCookie = function (name, value, date = null, prefix = Info.cookiePrefix) {
     document.cookie = `${prefix}${name}=${encodeURI(value)}${!date ? '' : ';expires=' + date.toUTCString()};path=/;`;
 };
 
@@ -18,7 +18,7 @@ export const setCookie = function (name, value, date = null, prefix = pageInfo.c
  * @param {string} prefix Cookie名称前缀
  * @returns {?string} Cookie值
  */
-export const getCookie = function (name, prefix = pageInfo.cookiePrefix) {
+export const getCookie = function (name, prefix = Info.cookiePrefix) {
     let regex = new RegExp(`(^| )${prefix}${name}=([^;]*)(;|$)`);
     let matches = document.cookie.match(regex);
     if (!matches) return null;
@@ -30,7 +30,7 @@ export const getCookie = function (name, prefix = pageInfo.cookiePrefix) {
  * @param {string} name Cookie名称
  * @param {string} prefix Cookie名称前缀
  */
-export const deleteCookie = function (name, prefix = pageInfo.cookiePrefix) {
+export const deleteCookie = function (name, prefix = Info.cookiePrefix) {
     document.cookie = `${prefix}${name}=;expires=${getDate('-1d').toUTCString()};path=/;`;
 };
 
@@ -156,7 +156,7 @@ export const extractQueryStr = function (str) {
 export const buildQueryStr = function (map) {
     let queryStr = '';
     for (let [key, value] of map) {
-        if (pageInfo.urlType === 2) {
+        if (Info.urlType === 2) {
             queryStr += (queryStr ? '&' : '') + key + '=' + value;
         }
         else {
@@ -178,20 +178,20 @@ export const makeUrl = function (action, param = '', includeOtherParam = false, 
     let url = '';
     let paramList = extractQueryStr(param);
     if (includeOtherParam) {
-        paramList = new Map([...extractQueryStr(pageInfo.urlParam).entries(), ...paramList.entries()]);
+        paramList = new Map([...extractQueryStr(Info.urlParam).entries(), ...paramList.entries()]);
         for (let i in excludeParams) {
             paramList.delete(excludeParams[i]);
         }
     }
     if (!action.startsWith('/')) {
-        if (location.pathname.startsWith(pageInfo.baseFile)) url = pageInfo.baseFile + '/';
-        else url = pageInfo.rootPath;
+        if (location.pathname.startsWith(Info.baseFile)) url = Info.baseFile + '/';
+        else url = Info.rootPath;
     }
     url += action;
     if (paramList.size > 0) {
         let queryStr = buildQueryStr(paramList);
         if (queryStr) {
-            url += (pageInfo.urlType === 2 ? '?' : '/') + queryStr;
+            url += (Info.urlType === 2 ? '?' : '/') + queryStr;
         }
     }
     return url;
@@ -203,7 +203,7 @@ export const makeUrl = function (action, param = '', includeOtherParam = false, 
  * @returns {?string} 参数值
  */
 export const getQueryParam = function (name) {
-    return extractQueryStr(pageInfo.urlParam).get(name);
+    return extractQueryStr(Info.urlParam).get(name);
 };
 
 /**

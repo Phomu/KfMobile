@@ -8,7 +8,7 @@ import {read as readConfig, write as writeConfig} from './config';
  * 高亮关键词页面中未读的消息
  */
 export const highlightUnReadAtTipsMsg = function () {
-    if (pageInfo.gjc !== pageInfo.userName) return;
+    if (Info.gjc !== Info.userName) return;
     let timeString = Util.getCookie(Const.prevAtTipsTimeCookieName);
     if (!timeString || !/^\d+日\d+时\d+分$/.test(timeString)) return;
     let prevString = '';
@@ -32,8 +32,8 @@ export const highlightUnReadAtTipsMsg = function () {
  * 处理游戏搜索区域
  */
 export const handleGameIntroSearchArea = function () {
-    $('#gameSearchKeyword').val(pageInfo.keyword);
-    $('#gameSearchType').val(pageInfo.searchType);
+    $('#gameSearchKeyword').val(Info.keyword);
+    $('#gameSearchType').val(Info.searchType);
 };
 
 /**
@@ -46,8 +46,8 @@ export const tuiGameIntro = function (type) {
     else if (type === 'type') cookieName = 'g_intro_adv_tui_';
     else if (type === 'property') cookieName = 'g_intro_moe_tui_';
     else cookieName = 'g_intro_tui_';
-    cookieName += pageInfo.id;
-    let url = Util.makeUrl('game_intro/' + type, `id=${pageInfo.id}&tui=1`);
+    cookieName += Info.id;
+    let url = Util.makeUrl('game_intro/' + type, `id=${Info.id}&tui=1`);
 
     $('.tui-btn').click(function (e) {
         e.preventDefault();

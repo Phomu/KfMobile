@@ -77,6 +77,7 @@ export const show = function (options, duration) {
  * @returns {jQuery} 消息框对象
  */
 export const wait = function (msg, preventable = true) {
+    msg += '<i class="fa fa-spinner fa-spin fa-lg fa-fw ml-3" aria-label="等待中" aria-hidden="true"></i>';
     return show({msg, duration: -1, clickable: false, preventable});
 };
 

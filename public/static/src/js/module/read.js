@@ -56,7 +56,7 @@ export const handleBuyThreadBtn = function () {
         let price = $this.data('price');
         if (price > 5 && !confirm(`此贴售价${price}KFB，是否购买？`)) return;
         let $wait = Msg.wait('正在购买帖子&hellip;');
-        $.get(Util.makeUrl('job/buytopic', `tid=${pageInfo.tid}&pid=${pid}&verify=${pageInfo.verify}`),
+        $.get(Util.makeUrl('job/buytopic', `tid=${Info.tid}&pid=${pid}&verify=${Info.verify}`),
             function ({msg}) {
                 Msg.remove($wait);
                 if (msg === '操作完成') {
@@ -134,8 +134,8 @@ export const handleFloorImage = function () {
  * 跳转到指定楼层
  */
 export const gotoFloor = function () {
-    if (pageInfo.floor && pageInfo.floor > 0) {
-        let hashName = $(`article[data-floor="${pageInfo.floor}"]`).prev('a').attr('name');
+    if (Info.floor && Info.floor > 0) {
+        let hashName = $(`article[data-floor="${Info.floor}"]`).prev('a').attr('name');
         if (hashName) location.hash = '#' + hashName;
     }
 };
@@ -166,7 +166,7 @@ export const handleTuiThreadBtn = function () {
         $.ajax({
             type: 'POST',
             url: '/diy_read_tui.php',
-            data: `tid=${pageInfo.tid}&safeid=${pageInfo.safeId}`,
+            data: `tid=${Info.tid}&safeid=${Info.safeId}`,
             success: function (msg) {
                 let matches = /<span.+?\+\d+!<\/span>\s*(\d+)/i.exec(msg);
                 if (matches) {
@@ -246,7 +246,7 @@ export const bindMultiQuoteCheckClick = function () {
             try {
                 data = JSON.parse(data);
                 if (!data || $.type(data) !== 'object' || $.isEmptyObject(data)) data = null;
-                else if (!('tid' in data) || data.tid !== pageInfo.tid || $.type(data.quoteList) !== 'object') data = null;
+                else if (!('tid' in data) || data.tid !== Info.tid || $.type(data.quoteList) !== 'object') data = null;
             }
             catch (ex) {
                 data = null;
@@ -258,10 +258,10 @@ export const bindMultiQuoteCheckClick = function () {
         let quoteList = getCheckedMultiQuoteData();
         if (!data) {
             localStorage.removeItem(Const.multiQuoteStorageName);
-            data = {tid: pageInfo.tid, quoteList: {}};
+            data = {tid: Info.tid, quoteList: {}};
         }
-        if (quoteList.length > 0) data.quoteList[pageInfo.currentPageNum] = quoteList;
-        else delete data.quoteList[pageInfo.currentPageNum];
+        if (quoteList.length > 0) data.quoteList[Info.currentPageNum] = quoteList;
+        else delete data.quoteList[Info.currentPageNum];
         localStorage[Const.multiQuoteStorageName] = JSON.stringify(data);
     });
 };

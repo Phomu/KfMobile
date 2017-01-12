@@ -103,7 +103,7 @@ export const handleSearchDialog = function () {
 
     $searchDialog.find('[name="searchRange"]').on('click', function () {
         let value = 'all';
-        if ($(this).val() === 'current') value = pageInfo.fid;
+        if ($(this).val() === 'current') value = Info.fid;
         $searchDialog.find('[name="f_fid"]').val(value);
     });
 
@@ -130,14 +130,14 @@ export const handleSearchDialog = function () {
 export const handlePageInput = function () {
     $(document).on('click', '.page-input', function (e) {
         e.preventDefault();
-        if (pageInfo.maxPageNum && pageInfo.maxPageNum <= 1) return;
+        if (Info.maxPageNum && Info.maxPageNum <= 1) return;
         let action = $(this).data('url');
         if (!action) return;
         let excludeParams = $(this).data('exclude');
         if (excludeParams) excludeParams = excludeParams.split(',');
         else excludeParams = [];
         let num = parseInt(
-            prompt(`要跳转到第几页？${pageInfo.maxPageNum ? `（共${pageInfo.maxPageNum}页）` : ''}`, pageInfo.currentPageNum)
+            prompt(`要跳转到第几页？${Info.maxPageNum ? `（共${Info.maxPageNum}页）` : ''}`, Info.currentPageNum)
         );
         if (num && num > 0) {
             location.href = Util.makeUrl(action, 'page=' + num, true, excludeParams);
@@ -370,8 +370,8 @@ export const blockUsers = function () {
         });
     }
     else if (pageId === 'threadPage') {
-        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(pageInfo.fid)) return;
-        else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(pageInfo.fid)) return;
+        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(Info.fid)) return;
+        else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(Info.fid)) return;
         $('.thread-link').each(function () {
             let $this = $(this);
             let index = Util.inFollowOrBlockUserList($this.data('author'), Config.blockUserList);
@@ -382,8 +382,8 @@ export const blockUsers = function () {
         });
     }
     else if (pageId === 'readPage') {
-        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(pageInfo.fid)) return;
-        else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(pageInfo.fid)) return;
+        if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(Info.fid)) return;
+        else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(Info.fid)) return;
         $('.read-floor').each(function () {
             let $this = $(this);
             let index = Util.inFollowOrBlockUserList($this.data('username'), Config.blockUserList);
@@ -488,17 +488,17 @@ export const blockThread = function () {
     else if (pageId === 'threadPage') {
         $('.thread-link').each(function () {
             let $this = $(this);
-            if (isBlock($this.text().trim(), $this.data('author'), pageInfo.fid)) {
+            if (isBlock($this.text().trim(), $this.data('author'), Info.fid)) {
                 num++;
                 $this.closest('.thread-list-item').remove();
             }
         });
     }
     else if (pageId === 'readPage') {
-        if (pageInfo.currentPageNum !== 1) return;
+        if (Info.currentPageNum !== 1) return;
         let $topFloor = $('.read-floor[data-floor="0"]');
         if (!$topFloor.length) return;
-        if (isBlock($('.thread-title').text().trim(), $topFloor.data('username'), pageInfo.fid)) {
+        if (isBlock($('.thread-title').text().trim(), $topFloor.data('username'), Info.fid)) {
             num++;
             $topFloor.remove();
         }
