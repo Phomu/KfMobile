@@ -45,6 +45,8 @@ return [
     'site_close_msg' => '网站维护中……',
     // 登录页面提示信息
     'login_page_msg' => '',
+    // 顶部公告
+    'top_announcement' => '',
     // 网站统计脚本
     'stat_script' => '',
     // 存放游戏介绍图片的域名
