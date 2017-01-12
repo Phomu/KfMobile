@@ -1,21 +1,50 @@
 'use strict';
-import {init as initConfig} from './module/config';
+import {init as initConfig} from './module/Config';
+import * as Util from './module/util';
+import Const from './module/const';
+import * as Msg from './module/msg';
+import * as Dialog from './module/dialog';
 import * as Public from './module/public';
 import * as Index from './module/index';
 import * as Read from './module/read';
 import * as Post from './module/post';
 import * as Other from './module/other';
+import * as ConfigDialog from './module/configDialog';
 
 // 页面ID
 window.pageId = $('body').attr('id');
 
 /**
+ * 导出模块
+ */
+const exportModule = function () {
+    try {
+        window.Util = require('./module/Util');
+        window.Const = require('./module/Const').default;
+        window.Msg = require('./module/Msg');
+        window.Dialog = require('./module/Dialog');
+        window.Public = require('./module/Public');
+        window.Index = require('./module/Index');
+        window.Read = require('./module/Read');
+        window.Post = require('./module/Post');
+        window.Other = require('./module/Other');
+        const Conf = require('./module/Config');
+        window.readConfig = Conf.read;
+        window.writeConfig = Conf.write;
+    }
+    catch (ex) {
+        console.log(ex);
+    }
+};
+
+/**
  * 初始化
  */
 const init = function () {
-    let startTime = new Date();
     if (pageId === 'loginPage') return;
-    else if (pageId === 'registerPage') {
+    let startTime = new Date();
+    exportModule();
+    if (pageId === 'registerPage') {
         Other.validateRegisterField();
         return;
     }
