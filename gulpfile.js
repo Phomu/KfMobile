@@ -1,47 +1,60 @@
 'use strict';
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var sourcemaps = require('gulp-sourcemaps');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var browserify = require('browserify');
-var babelify = require('babelify');
-var watchify = require('watchify');
-var uglify = require('gulp-uglify');
-var minifycss = require('gulp-minify-css');
-var autoprefixer = require('gulp-autoprefixer');
-var sass = require('gulp-sass');
-var del = require('del');
-var rename = require('gulp-rename');
-var runSequence = require('run-sequence');
+/* 导入模块 */
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const sourcemaps = require('gulp-sourcemaps');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
+const babelify = require('babelify');
+const watchify = require('watchify');
+const uglify = require('gulp-uglify');
+const minifycss = require('gulp-minify-css');
+const autoprefixer = require('gulp-autoprefixer');
+const sass = require('gulp-sass');
+const del = require('del');
+const rename = require('gulp-rename');
+const replace = require('gulp-replace');
+const runSequence = require('run-sequence');
 
-// Path definition
-var staticPath = 'public/static/';
+/* 路径、文件名常量定义 */
+const staticPath = 'public/static/';
+const appJsFileName = 'app.js';
 
-var srcPath = staticPath + 'src/';
-var jsSrcPath = srcPath + 'js/';
-var jsLibSrcPath = jsSrcPath + 'lib/';
-var sassSrcPath = srcPath + 'sass/';
-var cssSrcPath = srcPath + 'css/';
-var fontSrcPath = srcPath + 'fonts/';
-var imgSrcPath = srcPath + 'img/';
+const srcPath = staticPath + 'src/';
+const jsSrcPath = srcPath + 'js/';
+const jsLibSrcPath = jsSrcPath + 'lib/';
+const sassSrcPath = srcPath + 'sass/';
+const cssSrcPath = srcPath + 'css/';
+const fontSrcPath = srcPath + 'fonts/';
+const imgSrcPath = srcPath + 'img/';
 
-var distPath = staticPath + 'dist/';
-var jsDistPath = distPath + 'js/';
-var jsLibDistPath = jsDistPath + 'lib/';
-var cssDistPath = distPath + 'css/';
-var fontDistPath = distPath + 'fonts/';
-var imgDistPath = distPath + 'img/';
+const distPath = staticPath + 'dist/';
+const jsDistPath = distPath + 'js/';
+const jsLibDistPath = jsDistPath + 'lib/';
+const cssDistPath = distPath + 'css/';
+const fontDistPath = distPath + 'fonts/';
+const imgDistPath = distPath + 'img/';
 
-var getBrowserify = function () {
+/**
+ * 打包模块
+ * @returns {*}
+ */
+const getBundler = function () {
     return browserify({entries: [jsSrcPath + 'app.js'], debug: true})
         .transform(babelify, {presets: ['es2015', 'es2016', 'es2017']});
 };
 
-var compileScript = function (bundler) {
+/**
+ * 编译脚本
+ * @param bundler
+ * @returns {*}
+ */
+const compileScript = function (bundler) {
     return bundler.bundle()
         .on('error', gutil.log.bind(gutil, 'Compile Script Error:\n'))
-        .pipe(source('app.js'))
+        .pipe(source(appJsFileName))
+        .pipe(replace(/\r\n/g, '\n'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(gulp.dest(jsDistPath))
@@ -53,10 +66,12 @@ var compileScript = function (bundler) {
         .pipe(gulp.dest(jsDistPath));
 };
 
+// 编译脚本的任务
 gulp.task('script', function () {
-    return compileScript(getBrowserify());
+    return compileScript(getBundler());
 });
 
+// 编译Sass的任务
 gulp.task('sass', function () {
     gulp.src(sassSrcPath + '*.scss')
         .pipe(sourcemaps.init())
@@ -73,7 +88,8 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(cssDistPath));
 });
 
-var bundler = watchify(getBrowserify());
+const bundler = watchify(getBundler());
+// 监视任务
 gulp.task('watch', function () {
     gulp.watch(sassSrcPath + '*.scss', ['sass']);
 
@@ -85,10 +101,12 @@ gulp.task('watch', function () {
     return compileScript(bundler);
 });
 
+// 清除编译文件夹的任务
 gulp.task('clean', function (cb) {
     return del([cssSrcPath, distPath], cb);
 });
 
+// 将源文件夹的文件复制到编译文件夹的任务
 gulp.task('copy', function () {
     gulp.src(jsLibSrcPath + '*.js')
         .pipe(gulp.dest(jsLibDistPath));
@@ -100,8 +118,10 @@ gulp.task('copy', function () {
         .pipe(gulp.dest(imgDistPath));
 });
 
+// 生成所有文件的任务
 gulp.task('build', function (cb) {
     runSequence('clean', ['sass', 'script', 'copy'], cb);
 });
 
-gulp.task('default', ['build', 'watch']);
+// 默认任务
+gulp.task('default', ['build']);
