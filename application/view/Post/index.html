@@ -75,7 +75,7 @@
 
     {notempty name="vote"}
     <!-- 投票信息 -->
-    <div class="card">
+    <div class="card mb-3">
       {eq name="action" value="modify"}
       {assign name="voteDisabled" value="disabled" /}
       {else /}
@@ -148,7 +148,7 @@
           {/volist}
         </div>
         {else /}
-        <div class="form-group">
+        <div class="form-group mb-0">
           <label for="voteItemContent">投票选项</label>
           <textarea class="form-control" id="voteItemContent" name="vt_select" rows="7" aria-describedby="voteItemContentHelp"></textarea>
           <small class="form-text text-muted" id="voteItemContentHelp">每行写一个投票选项，最多可以有<b>50</b>个选项</small>

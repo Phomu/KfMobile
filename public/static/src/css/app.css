@@ -6470,7 +6470,7 @@ main {
   .read-content .fieldset {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem 0.5rem;
     text-align: left !important;
     font-weight: normal !important;
     font-style: normal !important;
@@ -6486,7 +6486,6 @@ main {
     .read-content .fieldset .custom-select {
       font-size: .714rem; }
   .read-content .fieldset-alert {
-    margin-bottom: 1rem;
     font-size: 0.875rem;
     border-color: #d9534f; }
     .read-content .fieldset-alert legend {

@@ -82,7 +82,7 @@ export const show = function (id) {
         .each(function () {
             $(this).triggerHandler('click');
         });
-    $dialog.fadeIn('fast').find('.close:first').focus();
+    $dialog.fadeIn('normal').find('.close:first').focus();
     resize(id);
 };
 
@@ -102,7 +102,7 @@ export const resize = function (id) {
  * @returns {boolean} 返回false
  */
 export const close = function (id) {
-    $('#' + id).fadeOut('fast', function () {
+    $('#' + id).fadeOut('normal', function () {
         $(this).parent().remove();
     });
     $(window).off('resize.' + id);

@@ -34,6 +34,13 @@ export const show = function () {
            title="主题内容字体大小，留空表示使用默认大小，默认值：14px">
     <span class="input-group-addon">px</span>
   </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" name="userMemoEnabled" type="checkbox" data-disabled="[data-name=openUserMemoDialog]"> 显示用户备注
+    </label>
+    <span class="tips" data-toggle="tooltip" title="在楼层内的用户名旁显示该用户的自定义备注">[?]</span>
+    <a class="ml-3" data-name="openUserMemoDialog" href="#" role="button">详细设置&raquo;</a>
+  </div>
 </fieldset>
 <fieldset class="fieldset mb-3 py-2">
   <legend class="form-check">
@@ -127,7 +134,8 @@ export const show = function () {
         let $this = $(this);
         if ($this.hasClass('disabled-link')) return;
         let name = $this.data('name');
-        if (name === 'openCustomCssDialog') showCustomCssDialog();
+        if (name === 'openUserMemoDialog') showUserMemoDialog();
+        else if (name === 'openCustomCssDialog') showCustomCssDialog();
         else if (name === 'openFollowUserDialog') showFollowUserDialog();
         else if (name === 'openBlockUserDialog') showBlockUserDialog();
         else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
@@ -231,6 +239,52 @@ const showImportOrExportSettingDialog = function () {
 };
 
 /**
+ * 显示用户备注对话框
+ */
+const showUserMemoDialog = function () {
+    const dialogName = 'userMemoDialog';
+    if ($('#' + dialogName).length > 0) return;
+    readConfig();
+    let bodyContent = `
+<p class="font-size-sm">按照<code>用户名:备注</code>的格式（注意是英文冒号），每行一个</p>
+<div class="form-group">
+  <textarea class="form-control" name="userMemoList" rows="13" wrap="off" aria-label="用户备注" style="white-space: pre;"></textarea>
+</div>`;
+    let footerContent = `
+<button class="btn btn-primary" type="submit">保存</button>
+<button class="btn btn-secondary" data-dismiss="dialog" type="button">取消</button>`;
+    let $dialog = Dialog.create(dialogName, '用户备注', bodyContent, footerContent);
+    let $userMemoList = $dialog.find('[name="userMemoList"]');
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        let content = $.trim($userMemoList.val());
+        Config.userMemoList = {};
+        for (let line of content.split('\n')) {
+            line = $.trim(line);
+            if (!line) continue;
+            if (!/.+?:.+/.test(line)) {
+                alert('格式不正确');
+                $userMemoList.focus();
+                return;
+            }
+            let [user, memo = ''] = line.split(':');
+            if (!memo) continue;
+            Config.userMemoList[user.trim()] = memo.trim();
+        }
+        writeConfig();
+        Dialog.close(dialogName);
+    });
+
+    let content = '';
+    for (let [user, memo] of Object.entries(Config.userMemoList)) {
+        content += `${user}:${memo}\n`;
+    }
+    Dialog.show(dialogName);
+    $userMemoList.val(content).focus();
+};
+
+/**
  * 显示自定义CSS对话框
  */
 const showCustomCssDialog = function () {
@@ -244,7 +298,7 @@ const showCustomCssDialog = function () {
     let footerContent = `
 <button class="btn btn-primary" type="submit">保存</button>
 <button class="btn btn-secondary" data-dismiss="dialog" type="button">取消</button>`;
-    let $dialog = Dialog.create(dialogName, `自定义CSS`, bodyContent, footerContent);
+    let $dialog = Dialog.create(dialogName, '自定义CSS', bodyContent, footerContent);
     let $content = $dialog.find('[name="customCssContent"]');
 
     $dialog.submit(function (e) {
@@ -348,6 +402,7 @@ const showFollowUserDialog = function () {
             if (Util.inFollowOrBlockUserList(name, Config.followUserList) === -1) addFollowUser(name);
         }
         $addUser.val('');
+        $followUserList.find('li:last-child [type="checkbox"]').focus();
     }).end().find('[name="openImOrExFollowUserListDialog"]').click(function (e) {
         e.preventDefault();
         Public.showCommonImportOrExportConfigDialog('关注用户', 'followUserList');
@@ -497,6 +552,7 @@ const showBlockUserDialog = function () {
             if (Util.inFollowOrBlockUserList(name, Config.blockUserList) === -1) addBlockUser(name, type);
         }
         $addUser.val('');
+        $blockUserList.find('li:last-child [type="checkbox"]').focus();
     }).end().find('[name="blockUserForumType"]').change(function () {
         $dialog.find('[name="blockUserFidList"]').prop('disabled', parseInt($(this).val()) === 0);
     }).end().find('[name="openImOrExBlockUserListDialog"]').click(function (e) {

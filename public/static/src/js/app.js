@@ -59,6 +59,7 @@ const init = function () {
         Read.bindMultiQuoteCheckClick();
         Post.handleClearMultiQuoteDataBtn();
         $('.multi-reply-btn').click(() => Post.handleMultiQuote(1));
+        if (Config.userMemoEnabled) Read.addUserMemo();
     }
     else if (pageId === 'postPage') {
         Post.checkPostForm();

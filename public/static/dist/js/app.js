@@ -77,6 +77,7 @@ var init = function init() {
         $('.multi-reply-btn').click(function () {
             return Post.handleMultiQuote(1);
         });
+        if (Config.userMemoEnabled) Read.addUserMemo();
     } else if (pageId === 'postPage') {
         Post.checkPostForm();
         Public.bindFastSubmitShortcutKey($('#postContent'));
@@ -165,6 +166,10 @@ var Config = exports.Config = {
     perPageFloorNum: 10,
     // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
     threadContentFontSize: 0,
+    // 是否在楼层内的用户名旁显示该用户的自定义备注，true：开启；false：关闭
+    userMemoEnabled: false,
+    // 用户自定义备注列表，格式：{'用户名':'备注'}，例：{'李四':'张三的马甲','王五':'张三的另一个马甲'}
+    userMemoList: {},
 
     // 是否显示侧边栏按钮组，true：开启；false：关闭
     showSidebarBtnGroupEnabled: true,
@@ -304,6 +309,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.show = undefined;
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _util = require('./util');
 
 var Util = _interopRequireWildcard(_util);
@@ -329,7 +336,7 @@ var show = exports.show = function show() {
     var dialogName = 'configDialog';
     if ($('#' + dialogName).length > 0) return;
     (0, _config.read)();
-    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> \u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\n      <span class="tips" data-toggle="tooltip" title="\u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\uFF0C\u53EF\u5728\u4E0B\u65B9\u8BBE\u7F6E\u8981\u663E\u793A\u7684\u6309\u94AE">[?]</span>\n    </label>\n  </legend>\n  <div class="mb-2 d-sm-inline-block">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> \u6EDA\u52A8\u5230\u9875\u9876/\u9875\u5E95\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> \u4E3B\u83DC\u5355\u6309\u94AE\n      </label>\n    </div>\n  </div>\n  <div class="mb-2 d-sm-inline-block ml-sm-3">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> \u7248\u5757\u5217\u8868\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> \u641C\u7D22\u6309\u94AE\n      </label>\n    </div>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]"> \u6DFB\u52A0\u81EA\u5B9A\u4E49CSS\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3A\u9875\u9762\u6DFB\u52A0\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u586B\u5199\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9">[?]</span>\n    <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
+    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="userMemoEnabled" type="checkbox" data-disabled="[data-name=openUserMemoDialog]"> \u663E\u793A\u7528\u6237\u5907\u6CE8\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5728\u697C\u5C42\u5185\u7684\u7528\u6237\u540D\u65C1\u663E\u793A\u8BE5\u7528\u6237\u7684\u81EA\u5B9A\u4E49\u5907\u6CE8">[?]</span>\n    <a class="ml-3" data-name="openUserMemoDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> \u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\n      <span class="tips" data-toggle="tooltip" title="\u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\uFF0C\u53EF\u5728\u4E0B\u65B9\u8BBE\u7F6E\u8981\u663E\u793A\u7684\u6309\u94AE">[?]</span>\n    </label>\n  </legend>\n  <div class="mb-2 d-sm-inline-block">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> \u6EDA\u52A8\u5230\u9875\u9876/\u9875\u5E95\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> \u4E3B\u83DC\u5355\u6309\u94AE\n      </label>\n    </div>\n  </div>\n  <div class="mb-2 d-sm-inline-block ml-sm-3">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> \u7248\u5757\u5217\u8868\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> \u641C\u7D22\u6309\u94AE\n      </label>\n    </div>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]"> \u6DFB\u52A0\u81EA\u5B9A\u4E49CSS\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3A\u9875\u9762\u6DFB\u52A0\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u586B\u5199\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9">[?]</span>\n    <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
     var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImportOrExportSettingDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
     var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
 
@@ -346,7 +353,7 @@ var show = exports.show = function show() {
         var $this = $(this);
         if ($this.hasClass('disabled-link')) return;
         var name = $this.data('name');
-        if (name === 'openCustomCssDialog') showCustomCssDialog();else if (name === 'openFollowUserDialog') showFollowUserDialog();else if (name === 'openBlockUserDialog') showBlockUserDialog();else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
+        if (name === 'openUserMemoDialog') showUserMemoDialog();else if (name === 'openCustomCssDialog') showCustomCssDialog();else if (name === 'openFollowUserDialog') showFollowUserDialog();else if (name === 'openBlockUserDialog') showBlockUserDialog();else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
     }).find('[name="reset"]').click(function () {
         if (confirm('是否重置所有设置？')) {
             (0, _config.clear)();
@@ -432,6 +439,98 @@ var showImportOrExportSettingDialog = function showImportOrExportSettingDialog()
 };
 
 /**
+ * 显示用户备注对话框
+ */
+var showUserMemoDialog = function showUserMemoDialog() {
+    var dialogName = 'userMemoDialog';
+    if ($('#' + dialogName).length > 0) return;
+    (0, _config.read)();
+    var bodyContent = '\n<p class="font-size-sm">\u6309\u7167<code>\u7528\u6237\u540D:\u5907\u6CE8</code>\u7684\u683C\u5F0F\uFF08\u6CE8\u610F\u662F\u82F1\u6587\u5192\u53F7\uFF09\uFF0C\u6BCF\u884C\u4E00\u4E2A</p>\n<div class="form-group">\n  <textarea class="form-control" name="userMemoList" rows="13" wrap="off" aria-label="\u7528\u6237\u5907\u6CE8" style="white-space: pre;"></textarea>\n</div>';
+    var footerContent = '\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
+    var $dialog = Dialog.create(dialogName, '用户备注', bodyContent, footerContent);
+    var $userMemoList = $dialog.find('[name="userMemoList"]');
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        var content = $.trim($userMemoList.val());
+        Config.userMemoList = {};
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = content.split('\n')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var line = _step.value;
+
+                line = $.trim(line);
+                if (!line) continue;
+                if (!/.+?:.+/.test(line)) {
+                    alert('格式不正确');
+                    $userMemoList.focus();
+                    return;
+                }
+
+                var _line$split = line.split(':'),
+                    _line$split2 = _slicedToArray(_line$split, 2),
+                    user = _line$split2[0],
+                    _line$split2$ = _line$split2[1],
+                    memo = _line$split2$ === undefined ? '' : _line$split2$;
+
+                if (!memo) continue;
+                Config.userMemoList[user.trim()] = memo.trim();
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
+        (0, _config.write)();
+        Dialog.close(dialogName);
+    });
+
+    var content = '';
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+        for (var _iterator2 = Object.entries(Config.userMemoList)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var _step2$value = _slicedToArray(_step2.value, 2),
+                user = _step2$value[0],
+                memo = _step2$value[1];
+
+            content += user + ':' + memo + '\n';
+        }
+    } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+            }
+        } finally {
+            if (_didIteratorError2) {
+                throw _iteratorError2;
+            }
+        }
+    }
+
+    Dialog.show(dialogName);
+    $userMemoList.val(content).focus();
+};
+
+/**
  * 显示自定义CSS对话框
  */
 var showCustomCssDialog = function showCustomCssDialog() {
@@ -440,7 +539,7 @@ var showCustomCssDialog = function showCustomCssDialog() {
     (0, _config.read)();
     var bodyContent = '\n<div class="form-group">\n  <textarea class="form-control" name="customCssContent" rows="15" wrap="off" aria-label="\u81EA\u5B9A\u4E49CSS\u5185\u5BB9" style="white-space: pre;"></textarea>\n</div>';
     var footerContent = '\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>';
-    var $dialog = Dialog.create(dialogName, '\u81EA\u5B9A\u4E49CSS', bodyContent, footerContent);
+    var $dialog = Dialog.create(dialogName, '自定义CSS', bodyContent, footerContent);
     var $content = $dialog.find('[name="customCssContent"]');
 
     $dialog.submit(function (e) {
@@ -498,34 +597,35 @@ var showFollowUserDialog = function showFollowUserDialog() {
         }
     }).end().find('[name="add"]').click(function () {
         var $addUser = $dialog.find('[name="addUser"]');
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
 
         try {
-            for (var _iterator = $.trim($addUser.val()).split(',')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var name = _step.value;
+            for (var _iterator3 = $.trim($addUser.val()).split(',')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var name = _step3.value;
 
                 name = $.trim(name);
                 if (!name) continue;
                 if (Util.inFollowOrBlockUserList(name, Config.followUserList) === -1) addFollowUser(name);
             }
         } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
+            _didIteratorError3 = true;
+            _iteratorError3 = err;
         } finally {
             try {
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                    _iterator.return();
+                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                    _iterator3.return();
                 }
             } finally {
-                if (_didIteratorError) {
-                    throw _iteratorError;
+                if (_didIteratorError3) {
+                    throw _iteratorError3;
                 }
             }
         }
 
         $addUser.val('');
+        $followUserList.find('li:last-child [type="checkbox"]').focus();
     }).end().find('[name="openImOrExFollowUserListDialog"]').click(function (e) {
         e.preventDefault();
         Public.showCommonImportOrExportConfigDialog('关注用户', 'followUserList');
@@ -541,27 +641,27 @@ var showFollowUserDialog = function showFollowUserDialog() {
 
     $dialog.find('[name="highlightFollowUserThreadInHpEnabled"]').prop('checked', Config.highlightFollowUserThreadInHPEnabled);
     $dialog.find('[name="highlightFollowUserThreadLinkEnabled"]').prop('checked', Config.highlightFollowUserThreadLinkEnabled);
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
+    var _iteratorNormalCompletion4 = true;
+    var _didIteratorError4 = false;
+    var _iteratorError4 = undefined;
 
     try {
-        for (var _iterator2 = Config.followUserList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var user = _step2.value;
+        for (var _iterator4 = Config.followUserList[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+            var user = _step4.value;
 
             addFollowUser(user.name);
         }
     } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
     } finally {
         try {
-            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
+            if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                _iterator4.return();
             }
         } finally {
-            if (_didIteratorError2) {
-                throw _iteratorError2;
+            if (_didIteratorError4) {
+                throw _iteratorError4;
             }
         }
     }
@@ -595,28 +695,28 @@ var showBlockUserDialog = function showBlockUserDialog() {
         Config.blockUserAtTipsEnabled = $dialog.find('[name="blockUserAtTipsEnabled"]').prop('checked');
         Config.blockUserForumType = parseInt($dialog.find('[name="blockUserForumType"]').val());
         var blockUserFidList = new Set();
-        var _iteratorNormalCompletion3 = true;
-        var _didIteratorError3 = false;
-        var _iteratorError3 = undefined;
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
 
         try {
-            for (var _iterator3 = $.trim($dialog.find('[name="blockUserFidList"]').val()).split(',')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                var fid = _step3.value;
+            for (var _iterator5 = $.trim($dialog.find('[name="blockUserFidList"]').val()).split(',')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                var fid = _step5.value;
 
                 fid = parseInt(fid);
                 if (!isNaN(fid) && fid > 0) blockUserFidList.add(fid);
             }
         } catch (err) {
-            _didIteratorError3 = true;
-            _iteratorError3 = err;
+            _didIteratorError5 = true;
+            _iteratorError5 = err;
         } finally {
             try {
-                if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                    _iterator3.return();
+                if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                    _iterator5.return();
                 }
             } finally {
-                if (_didIteratorError3) {
-                    throw _iteratorError3;
+                if (_didIteratorError5) {
+                    throw _iteratorError5;
                 }
             }
         }
@@ -649,34 +749,35 @@ var showBlockUserDialog = function showBlockUserDialog() {
     }).end().find('[name="add"]').click(function () {
         var $addUser = $dialog.find('[name="addUser"]');
         var type = parseInt($dialog.find('[name="blockUserDefaultType"]').val());
-        var _iteratorNormalCompletion4 = true;
-        var _didIteratorError4 = false;
-        var _iteratorError4 = undefined;
+        var _iteratorNormalCompletion6 = true;
+        var _didIteratorError6 = false;
+        var _iteratorError6 = undefined;
 
         try {
-            for (var _iterator4 = $.trim($addUser.val()).split(',')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                var name = _step4.value;
+            for (var _iterator6 = $.trim($addUser.val()).split(',')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                var name = _step6.value;
 
                 name = $.trim(name);
                 if (!name) continue;
                 if (Util.inFollowOrBlockUserList(name, Config.blockUserList) === -1) addBlockUser(name, type);
             }
         } catch (err) {
-            _didIteratorError4 = true;
-            _iteratorError4 = err;
+            _didIteratorError6 = true;
+            _iteratorError6 = err;
         } finally {
             try {
-                if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                    _iterator4.return();
+                if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                    _iterator6.return();
                 }
             } finally {
-                if (_didIteratorError4) {
-                    throw _iteratorError4;
+                if (_didIteratorError6) {
+                    throw _iteratorError6;
                 }
             }
         }
 
         $addUser.val('');
+        $blockUserList.find('li:last-child [type="checkbox"]').focus();
     }).end().find('[name="blockUserForumType"]').change(function () {
         $dialog.find('[name="blockUserFidList"]').prop('disabled', parseInt($(this).val()) === 0);
     }).end().find('[name="openImOrExBlockUserListDialog"]').click(function (e) {
@@ -696,27 +797,27 @@ var showBlockUserDialog = function showBlockUserDialog() {
     $dialog.find('[name="blockUserAtTipsEnabled"]').prop('checked', Config.blockUserAtTipsEnabled);
     $dialog.find('[name="blockUserForumType"]').val(Config.blockUserForumType).triggerHandler('change');
     $dialog.find('[name="blockUserFidList"]').val(Config.blockUserFidList.join(','));
-    var _iteratorNormalCompletion5 = true;
-    var _didIteratorError5 = false;
-    var _iteratorError5 = undefined;
+    var _iteratorNormalCompletion7 = true;
+    var _didIteratorError7 = false;
+    var _iteratorError7 = undefined;
 
     try {
-        for (var _iterator5 = Config.blockUserList[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-            var user = _step5.value;
+        for (var _iterator7 = Config.blockUserList[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+            var user = _step7.value;
 
             addBlockUser(user.name, user.type);
         }
     } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
     } finally {
         try {
-            if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                _iterator5.return();
+            if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                _iterator7.return();
             }
         } finally {
-            if (_didIteratorError5) {
-                throw _iteratorError5;
+            if (_didIteratorError7) {
+                throw _iteratorError7;
             }
         }
     }
@@ -777,28 +878,28 @@ var showBlockThreadDialog = function showBlockThreadDialog() {
         if (!verify()) return;
         Config.blockThreadDefForumType = parseInt($dialog.find('[name="blockThreadDefForumType"]').val());
         var blockThreadDefFidList = new Set();
-        var _iteratorNormalCompletion6 = true;
-        var _didIteratorError6 = false;
-        var _iteratorError6 = undefined;
+        var _iteratorNormalCompletion8 = true;
+        var _didIteratorError8 = false;
+        var _iteratorError8 = undefined;
 
         try {
-            for (var _iterator6 = $.trim($dialog.find('[name="blockThreadDefFidList"]').val()).split(',')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                var fid = _step6.value;
+            for (var _iterator8 = $.trim($dialog.find('[name="blockThreadDefFidList"]').val()).split(',')[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+                var fid = _step8.value;
 
                 fid = parseInt(fid);
                 if (!isNaN(fid) && fid > 0) blockThreadDefFidList.add(fid);
             }
         } catch (err) {
-            _didIteratorError6 = true;
-            _iteratorError6 = err;
+            _didIteratorError8 = true;
+            _iteratorError8 = err;
         } finally {
             try {
-                if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                    _iterator6.return();
+                if (!_iteratorNormalCompletion8 && _iterator8.return) {
+                    _iterator8.return();
                 }
             } finally {
-                if (_didIteratorError6) {
-                    throw _iteratorError6;
+                if (_didIteratorError8) {
+                    throw _iteratorError8;
                 }
             }
         }
@@ -814,28 +915,28 @@ var showBlockThreadDialog = function showBlockThreadDialog() {
             var userType = parseInt($this.find('[name="userType"]').val());
             if (userType > 0) {
                 var userList = new Set();
-                var _iteratorNormalCompletion7 = true;
-                var _didIteratorError7 = false;
-                var _iteratorError7 = undefined;
+                var _iteratorNormalCompletion9 = true;
+                var _didIteratorError9 = false;
+                var _iteratorError9 = undefined;
 
                 try {
-                    for (var _iterator7 = $.trim($this.find('[name="userList"]').val()).split(',')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                        var user = _step7.value;
+                    for (var _iterator9 = $.trim($this.find('[name="userList"]').val()).split(',')[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+                        var user = _step9.value;
 
                         user = $.trim(user);
                         if (user) userList.add(user);
                     }
                 } catch (err) {
-                    _didIteratorError7 = true;
-                    _iteratorError7 = err;
+                    _didIteratorError9 = true;
+                    _iteratorError9 = err;
                 } finally {
                     try {
-                        if (!_iteratorNormalCompletion7 && _iterator7.return) {
-                            _iterator7.return();
+                        if (!_iteratorNormalCompletion9 && _iterator9.return) {
+                            _iterator9.return();
                         }
                     } finally {
-                        if (_didIteratorError7) {
-                            throw _iteratorError7;
+                        if (_didIteratorError9) {
+                            throw _iteratorError9;
                         }
                     }
                 }
@@ -846,28 +947,28 @@ var showBlockThreadDialog = function showBlockThreadDialog() {
             var fidType = parseInt($this.find('[name="fidType"]').val());
             if (fidType > 0) {
                 var fidList = new Set();
-                var _iteratorNormalCompletion8 = true;
-                var _didIteratorError8 = false;
-                var _iteratorError8 = undefined;
+                var _iteratorNormalCompletion10 = true;
+                var _didIteratorError10 = false;
+                var _iteratorError10 = undefined;
 
                 try {
-                    for (var _iterator8 = $.trim($this.find('[name="fidList"]').val()).split(',')[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-                        var fid = _step8.value;
+                    for (var _iterator10 = $.trim($this.find('[name="fidList"]').val()).split(',')[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+                        var fid = _step10.value;
 
                         fid = parseInt(fid);
                         if (!isNaN(fid) && fid > 0) fidList.add(fid);
                     }
                 } catch (err) {
-                    _didIteratorError8 = true;
-                    _iteratorError8 = err;
+                    _didIteratorError10 = true;
+                    _iteratorError10 = err;
                 } finally {
                     try {
-                        if (!_iteratorNormalCompletion8 && _iterator8.return) {
-                            _iterator8.return();
+                        if (!_iteratorNormalCompletion10 && _iterator10.return) {
+                            _iterator10.return();
                         }
                     } finally {
-                        if (_didIteratorError8) {
-                            throw _iteratorError8;
+                        if (_didIteratorError10) {
+                            throw _iteratorError10;
                         }
                     }
                 }
@@ -902,13 +1003,13 @@ var showBlockThreadDialog = function showBlockThreadDialog() {
 
     $dialog.find('[name="blockThreadDefForumType"]').val(Config.blockThreadDefForumType).triggerHandler('change');
     $dialog.find('[name="blockThreadDefFidList"]').val(Config.blockThreadDefFidList.join(','));
-    var _iteratorNormalCompletion9 = true;
-    var _didIteratorError9 = false;
-    var _iteratorError9 = undefined;
+    var _iteratorNormalCompletion11 = true;
+    var _didIteratorError11 = false;
+    var _iteratorError11 = undefined;
 
     try {
-        for (var _iterator9 = Config.blockThreadList[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-            var data = _step9.value;
+        for (var _iterator11 = Config.blockThreadList[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+            var data = _step11.value;
             var keyWord = data.keyWord,
                 includeUser = data.includeUser,
                 excludeUser = data.excludeUser,
@@ -937,16 +1038,16 @@ var showBlockThreadDialog = function showBlockThreadDialog() {
             addBlockThread(keyWord, userType, userList, fidType, fidList);
         }
     } catch (err) {
-        _didIteratorError9 = true;
-        _iteratorError9 = err;
+        _didIteratorError11 = true;
+        _iteratorError11 = err;
     } finally {
         try {
-            if (!_iteratorNormalCompletion9 && _iterator9.return) {
-                _iterator9.return();
+            if (!_iteratorNormalCompletion11 && _iterator11.return) {
+                _iterator11.return();
             }
         } finally {
-            if (_didIteratorError9) {
-                throw _iteratorError9;
+            if (_didIteratorError11) {
+                throw _iteratorError11;
             }
         }
     }
@@ -1058,7 +1159,7 @@ var show = exports.show = function show(id) {
     }).end().find('input[data-disabled]').each(function () {
         $(this).triggerHandler('click');
     });
-    $dialog.fadeIn('fast').find('.close:first').focus();
+    $dialog.fadeIn('normal').find('.close:first').focus();
     resize(id);
 };
 
@@ -1077,7 +1178,7 @@ var resize = exports.resize = function resize(id) {
  * @returns {boolean} 返回false
  */
 var close = exports.close = function close(id) {
-    $('#' + id).fadeOut('fast', function () {
+    $('#' + id).fadeOut('normal', function () {
         $(this).parent().remove();
     });
     $(window).off('resize.' + id);
@@ -2834,7 +2935,7 @@ var blockThread = exports.blockThread = function blockThread() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
+exports.addUserMemo = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
 
 var _util = require('./util');
 
@@ -3087,6 +3188,22 @@ var bindMultiQuoteCheckClick = exports.bindMultiQuoteCheckClick = function bindM
         }
         if (quoteList.length > 0) data.quoteList[pageInfo.currentPageNum] = quoteList;else delete data.quoteList[pageInfo.currentPageNum];
         localStorage[_const2.default.multiQuoteStorageName] = JSON.stringify(data);
+    });
+};
+
+/**
+ * 添加用户自定义备注
+ */
+var addUserMemo = exports.addUserMemo = function addUserMemo() {
+    if ($.isEmptyObject(Config.userMemoList)) return;
+    $('.read-floor').each(function () {
+        var $this = $(this);
+        var userName = $this.data('username');
+        var key = Object.keys(Config.userMemoList).find(function (name) {
+            return name === userName;
+        });
+        if (!key) return;
+        $this.find('.floor-user').after('<span class="tips font-size-sm" data-toggle="tooltip" title="\u5907\u6CE8\uFF1A' + Config.userMemoList[key] + '">[?]</span>');
     });
 };
 

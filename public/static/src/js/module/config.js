@@ -20,6 +20,10 @@ export const Config = {
     perPageFloorNum: 10,
     // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
     threadContentFontSize: 0,
+    // 是否在楼层内的用户名旁显示该用户的自定义备注，true：开启；false：关闭
+    userMemoEnabled: false,
+    // 用户自定义备注列表，格式：{'用户名':'备注'}，例：{'李四':'张三的马甲','王五':'张三的另一个马甲'}
+    userMemoList: {},
 
     // 是否显示侧边栏按钮组，true：开启；false：关闭
     showSidebarBtnGroupEnabled: true,

@@ -265,3 +265,19 @@ export const bindMultiQuoteCheckClick = function () {
         localStorage[Const.multiQuoteStorageName] = JSON.stringify(data);
     });
 };
+
+/**
+ * 添加用户自定义备注
+ */
+export const addUserMemo = function () {
+    if ($.isEmptyObject(Config.userMemoList)) return;
+    $('.read-floor').each(function () {
+        let $this = $(this);
+        let userName = $this.data('username');
+        let key = Object.keys(Config.userMemoList).find(name => name === userName);
+        if (!key) return;
+        $this.find('.floor-user').after(
+            `<span class="tips font-size-sm" data-toggle="tooltip" title="备注：${Config.userMemoList[key]}">[?]</span>`
+        );
+    });
+};
