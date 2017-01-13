@@ -170,6 +170,9 @@ var init = function init() {
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();
+    if (Config.kfSmileEnhanceExtensionEnabled && ['readPage', 'postPage', 'writeMessagePage'].includes(pageId)) {
+        $('body').append('<script src="/KfEmotion.min.user.js' + (Info.resTimestamp ? '?ts=' + Info.resTimestamp : '') + '"></script>');
+    }
 
     $('[data-toggle="tooltip"]').tooltip({ 'container': 'body' });
     console.log('\u811A\u672C\u52A0\u8F7D\u5B8C\u6BD5\uFF0C\u8017\u65F6\uFF1A' + (new Date() - startTime) + 'ms');
@@ -208,6 +211,19 @@ var Config = exports.Config = {
     // 常用版块列表
     commonForumList: [],
 
+    // 是否显示侧边栏按钮组，true：开启；false：关闭
+    showSidebarBtnGroupEnabled: true,
+    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
+    showSidebarRollBtnEnabled: true,
+    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
+    showSidebarMainMenuBtnEnabled: false,
+    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
+    showSidebarForumListBtnEnabled: true,
+    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
+    showSidebarSearchBtnEnabled: false,
+    // 是否显示侧边栏的首页按钮，true：开启；false：关闭
+    showSidebarHomePageBtnEnabled: true,
+
     // 主题每页楼层数量，用于电梯直达等功能，如果修改了论坛设置里的“文章列表每页个数”，请在此修改成相同的数目
     perPageFloorNum: 10,
     // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
@@ -216,17 +232,8 @@ var Config = exports.Config = {
     userMemoEnabled: false,
     // 用户自定义备注列表，格式：{'用户名':'备注'}，例：{'李四':'张三的马甲','王五':'张三的另一个马甲'}
     userMemoList: {},
-
-    // 是否显示侧边栏按钮组，true：开启；false：关闭
-    showSidebarBtnGroupEnabled: true,
-    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
-    showSidebarRollBtnEnabled: true,
-    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
-    showSidebarMainMenuBtnEnabled: false,
-    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
-    showSidebarForumListBtnEnabled: false,
-    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
-    showSidebarSearchBtnEnabled: false,
+    // 是否在发帖框上显示绯月表情增强插件，true：开启；false：关闭
+    kfSmileEnhanceExtensionEnabled: false,
 
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,
@@ -1669,6 +1676,7 @@ var showSidebarBtnGroup = exports.showSidebarBtnGroup = function showSidebarBtnG
     if (Config.showSidebarMainMenuBtnEnabled) $('#sidebarMainMenuBtn').prop('hidden', false);
     if (Config.showSidebarForumListBtnEnabled) $('#sidebarForumListBtn').prop('hidden', false);
     if (Config.showSidebarSearchBtnEnabled) $('#sidebarSearchBtn').prop('hidden', false);
+    if (Config.showSidebarHomePageBtnEnabled) $('#sidebarHomePageBtn').prop('hidden', false);
 };
 
 /**
@@ -2261,8 +2269,7 @@ var handleCopyFloorLinkBtn = exports.handleCopyFloorLinkBtn = function handleCop
  * 处理快速回复按钮
  */
 var handleFastReplyBtn = exports.handleFastReplyBtn = function handleFastReplyBtn() {
-    $(document).on('click', '.fast-reply-btn', function (e) {
-        e.preventDefault();
+    $(document).on('click', '.fast-reply-btn', function () {
         var $article = $(this).closest('article');
         var floor = $article.data('floor');
         var userName = $article.data('username');
@@ -2950,6 +2957,19 @@ var Config = exports.Config = {
     // 常用版块列表
     commonForumList: [],
 
+    // 是否显示侧边栏按钮组，true：开启；false：关闭
+    showSidebarBtnGroupEnabled: true,
+    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
+    showSidebarRollBtnEnabled: true,
+    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
+    showSidebarMainMenuBtnEnabled: false,
+    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
+    showSidebarForumListBtnEnabled: true,
+    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
+    showSidebarSearchBtnEnabled: false,
+    // 是否显示侧边栏的首页按钮，true：开启；false：关闭
+    showSidebarHomePageBtnEnabled: true,
+
     // 主题每页楼层数量，用于电梯直达等功能，如果修改了论坛设置里的“文章列表每页个数”，请在此修改成相同的数目
     perPageFloorNum: 10,
     // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
@@ -2958,17 +2978,8 @@ var Config = exports.Config = {
     userMemoEnabled: false,
     // 用户自定义备注列表，格式：{'用户名':'备注'}，例：{'李四':'张三的马甲','王五':'张三的另一个马甲'}
     userMemoList: {},
-
-    // 是否显示侧边栏按钮组，true：开启；false：关闭
-    showSidebarBtnGroupEnabled: true,
-    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
-    showSidebarRollBtnEnabled: true,
-    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
-    showSidebarMainMenuBtnEnabled: false,
-    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
-    showSidebarForumListBtnEnabled: false,
-    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
-    showSidebarSearchBtnEnabled: false,
+    // 是否在发帖框上显示绯月表情增强插件，true：开启；false：关闭
+    kfSmileEnhanceExtensionEnabled: false,
 
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,
@@ -3124,7 +3135,7 @@ var show = exports.show = function show() {
     var dialogName = 'configDialog';
     if ($('#' + dialogName).length > 0) return;
     (0, _config.read)();
-    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="userMemoEnabled" type="checkbox" data-disabled="[data-name=openUserMemoDialog]"> \u663E\u793A\u7528\u6237\u5907\u6CE8\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5728\u697C\u5C42\u5185\u7684\u7528\u6237\u540D\u65C1\u663E\u793A\u8BE5\u7528\u6237\u7684\u81EA\u5B9A\u4E49\u5907\u6CE8">[?]</span>\n    <a class="ml-3" data-name="openUserMemoDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> \u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\n      <span class="tips" data-toggle="tooltip" title="\u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\uFF0C\u53EF\u5728\u4E0B\u65B9\u8BBE\u7F6E\u8981\u663E\u793A\u7684\u6309\u94AE">[?]</span>\n    </label>\n  </legend>\n  <div class="mb-2 d-sm-inline-block">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> \u6EDA\u52A8\u5230\u9875\u9876/\u9875\u5E95\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> \u4E3B\u83DC\u5355\u6309\u94AE\n      </label>\n    </div>\n  </div>\n  <div class="mb-2 d-sm-inline-block ml-sm-3">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> \u7248\u5757\u5217\u8868\u6309\u94AE\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> \u641C\u7D22\u6309\u94AE\n      </label>\n    </div>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]"> \u6DFB\u52A0\u81EA\u5B9A\u4E49CSS\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3A\u9875\u9762\u6DFB\u52A0\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u586B\u5199\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9">[?]</span>\n    <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
+    var bodyContent = '\n<fieldset class="fieldset mb-3 py-2">\n  <legend class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> \u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\n      <span class="tips" data-toggle="tooltip" title="\u663E\u793A\u4FA7\u8FB9\u680F\u6309\u94AE\u7EC4\uFF0C\u53EF\u5728\u4E0B\u65B9\u8BBE\u7F6E\u8981\u663E\u793A\u7684\u6309\u94AE">[?]</span>\n    </label>\n  </legend>\n  <div class="mb-2 d-sm-inline-block">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> \u6EDA\u52A8\u5230\u9875\u9876/\u9875\u5E95\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> \u4E3B\u83DC\u5355\n      </label>\n    </div>\n  </div>\n  <div class="mb-2 d-sm-inline-block ml-sm-3">\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> \u7248\u5757\u5217\u8868\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> \u641C\u7D22\n      </label>\n    </div>\n    <div class="form-check form-check-inline">\n      <label class="form-check-label">\n        <input class="form-check-input" name="showSidebarHomePageBtnEnabled" type="checkbox"> \u9996\u9875\n      </label>\n    </div>\n  </div>\n</fieldset>\n\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u4E3B\u9898\u9875\u9762\u76F8\u5173</legend>\n  <div class="form-group mb-2">\n    <label for="perPageFloorNum">\u4E3B\u9898\u6BCF\u9875\u697C\u5C42\u6570\u91CF</label>\n    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">\n      <option value="10">10</option><option value="20">20</option><option value="30">30</option>\n    </select>\n    <span class="tips" data-toggle="tooltip" title="\u4E3B\u9898\u9875\u9762\u4E2D\u6BCF\u9875\u7684\u697C\u5C42\u6570\u91CF\uFF08\u7528\u4E8E\u7535\u68AF\u76F4\u8FBE\u7B49\u529F\u80FD\uFF09\uFF0C\u5982\u679C\u4FEE\u6539\u4E86\u8BBA\u575B\u8BBE\u7F6E\u91CC\u7684\u201C\u6587\u7AE0\u5217\u8868\u6BCF\u9875\u4E2A\u6570\u201D\uFF0C\u8BF7\u5728\u6B64\u4FEE\u6539\u6210\u76F8\u540C\u7684\u6570\u76EE">[?]</span>\n  </div>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F</span>\n    <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"\n           title="\u4E3B\u9898\u5185\u5BB9\u5B57\u4F53\u5927\u5C0F\uFF0C\u7559\u7A7A\u8868\u793A\u4F7F\u7528\u9ED8\u8BA4\u5927\u5C0F\uFF0C\u9ED8\u8BA4\u503C\uFF1A14px">\n    <span class="input-group-addon">px</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="userMemoEnabled" type="checkbox" data-disabled="[data-name=openUserMemoDialog]"> \u663E\u793A\u7528\u6237\u5907\u6CE8\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5728\u697C\u5C42\u5185\u7684\u7528\u6237\u540D\u65C1\u663E\u793A\u8BE5\u7528\u6237\u7684\u81EA\u5B9A\u4E49\u5907\u6CE8">[?]</span>\n    <a class="ml-3" data-name="openUserMemoDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="kfSmileEnhanceExtensionEnabled" type="checkbox"> \u5F00\u542F\u7EEF\u6708\u8868\u60C5\u589E\u5F3A\u63D2\u4EF6\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5728\u53D1\u5E16\u6846\u4E0A\u663E\u793A\u7EEF\u6708\u8868\u60C5\u589E\u5F3A\u63D2\u4EF6\uFF0C\u8BE5\u63D2\u4EF6\u7531eddie32\u5F00\u53D1">[?]</span>\n  </div>\n</fieldset>\n\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5176\u5B83\u8BBE\u7F6E</legend>\n  <div class="input-group mb-2">\n    <span class="input-group-addon">\u6D88\u606F\u663E\u793A\u65F6\u95F4</span>\n    <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required\n           title="\u9ED8\u8BA4\u7684\u6D88\u606F\u663E\u793A\u65F6\u95F4\uFF08\u79D2\uFF09\uFF0C\u8BBE\u7F6E\u4E3A-1\u8868\u793A\u6C38\u4E45\u663E\u793A\uFF0C\u4F8B\uFF1A15">\n    <span class="input-group-addon">\u79D2</span>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]"> \u6DFB\u52A0\u81EA\u5B9A\u4E49CSS\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u4E3A\u9875\u9762\u6DFB\u52A0\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u586B\u5199\u81EA\u5B9A\u4E49\u7684CSS\u5185\u5BB9">[?]</span>\n    <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>\n\n<fieldset class="fieldset mb-3 py-2">\n  <legend>\u5173\u6CE8\u548C\u5C4F\u853D</legend>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> \u5173\u6CE8\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5173\u6CE8\u7528\u6237\u7684\u529F\u80FD\uFF0C\u6240\u5173\u6CE8\u7684\u7528\u6237\u5C06\u88AB\u52A0\u6CE8\u8BB0\u53F7\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5173\u6CE8\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> \u5C4F\u853D\u7528\u6237\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u7528\u6237\u7684\u529F\u80FD\uFF0C\u4F60\u5C06\u770B\u4E0D\u89C1\u6240\u5C4F\u853D\u7528\u6237\u7684\u53D1\u8A00\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u7528\u6237">[?]</span>\n    <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n  <div class="form-check">\n    <label class="form-check-label">\n      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> \u5C4F\u853D\u4E3B\u9898\n    </label>\n    <span class="tips" data-toggle="tooltip" title="\u5F00\u542F\u5C4F\u853D\u6807\u9898\u4E2D\u5305\u542B\u6307\u5B9A\u5173\u952E\u5B57\u7684\u4E3B\u9898\u7684\u529F\u80FD\uFF0C\u8BF7\u70B9\u51FB\u8BE6\u7EC6\u8BBE\u7F6E\u7BA1\u7406\u5C4F\u853D\u5173\u952E\u5B57">[?]</span>\n    <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">\u8BE6\u7EC6\u8BBE\u7F6E&raquo;</a>\n  </div>\n</fieldset>';
     var footerContent = '\n<button class="btn btn-warning mr-auto" name="openImportOrExportSettingDialog" type="button">\u5BFC\u5165/\u5BFC\u51FA</button>\n<button class="btn btn-primary" type="submit">\u4FDD\u5B58</button>\n<button class="btn btn-secondary" data-dismiss="dialog" type="button">\u53D6\u6D88</button>\n<button class="btn btn-danger" name="reset" type="button">\u91CD\u7F6E</button>';
     var $dialog = Dialog.create(dialogName, '助手设置', bodyContent, footerContent);
 
@@ -5166,6 +5177,7 @@ var showSidebarBtnGroup = exports.showSidebarBtnGroup = function showSidebarBtnG
     if (Config.showSidebarMainMenuBtnEnabled) $('#sidebarMainMenuBtn').prop('hidden', false);
     if (Config.showSidebarForumListBtnEnabled) $('#sidebarForumListBtn').prop('hidden', false);
     if (Config.showSidebarSearchBtnEnabled) $('#sidebarSearchBtn').prop('hidden', false);
+    if (Config.showSidebarHomePageBtnEnabled) $('#sidebarHomePageBtn').prop('hidden', false);
 };
 
 /**
@@ -5758,8 +5770,7 @@ var handleCopyFloorLinkBtn = exports.handleCopyFloorLinkBtn = function handleCop
  * 处理快速回复按钮
  */
 var handleFastReplyBtn = exports.handleFastReplyBtn = function handleFastReplyBtn() {
-    $(document).on('click', '.fast-reply-btn', function (e) {
-        e.preventDefault();
+    $(document).on('click', '.fast-reply-btn', function () {
         var $article = $(this).closest('article');
         var floor = $article.data('floor');
         var userName = $article.data('username');

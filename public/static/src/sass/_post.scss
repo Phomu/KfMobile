@@ -69,3 +69,8 @@
     cursor: pointer;
   }
 }
+
+// 发帖框和发短信息框
+#postContent, #msgContent {
+  word-break: break-all;
+}

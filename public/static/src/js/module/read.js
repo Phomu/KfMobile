@@ -24,8 +24,7 @@ export const handleCopyFloorLinkBtn = function () {
  * 处理快速回复按钮
  */
 export const handleFastReplyBtn = function () {
-    $(document).on('click', '.fast-reply-btn', function (e) {
-        e.preventDefault();
+    $(document).on('click', '.fast-reply-btn', function () {
         let $article = $(this).closest('article');
         let floor = $article.data('floor');
         let userName = $article.data('username');

@@ -39,6 +39,7 @@ export const showSidebarBtnGroup = function () {
     if (Config.showSidebarMainMenuBtnEnabled) $('#sidebarMainMenuBtn').prop('hidden', false);
     if (Config.showSidebarForumListBtnEnabled) $('#sidebarForumListBtn').prop('hidden', false);
     if (Config.showSidebarSearchBtnEnabled) $('#sidebarSearchBtn').prop('hidden', false);
+    if (Config.showSidebarHomePageBtnEnabled) $('#sidebarHomePageBtn').prop('hidden', false);
 };
 
 /**

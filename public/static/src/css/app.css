@@ -6439,7 +6439,7 @@ main {
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1rem;
-  word-wrap: break-word; }
+  word-break: break-all; }
   .read-content .blockquote {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -6462,7 +6462,7 @@ main {
     .read-content .code-area pre {
       padding-bottom: 0.5rem;
       font-size: inherit;
-      word-wrap: normal;
+      word-break: normal;
       overflow-y: auto; }
     .read-content .code-area .code-textarea {
       height: 340px;
@@ -6482,7 +6482,7 @@ main {
         width: 5rem;
         margin-left: 0.5rem;
         margin-right: 0.5rem;
-        word-wrap: normal; }
+        word-break: normal; }
     .read-content .fieldset .custom-select {
       font-size: .714rem; }
   .read-content .fieldset-alert {
@@ -6559,6 +6559,9 @@ main {
     margin: 3px;
     cursor: pointer; }
 
+#postContent, #msgContent {
+  word-break: break-all; }
+
 #indexForumPanel {
   padding-left: 15px;
   padding-right: 15px; }
@@ -6608,7 +6611,7 @@ main {
   width: 448px;
   text-align: left;
   white-space: normal;
-  word-wrap: break-word; }
+  word-break: break-all; }
 
 .game-search-list .media {
   padding: 0.5rem;

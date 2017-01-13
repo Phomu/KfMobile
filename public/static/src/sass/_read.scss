@@ -53,7 +53,7 @@
     bottom: $spacer;
   }
   font-size: 1rem; // ~14px
-  word-wrap: break-word;
+  word-break: break-all;
 
   // 引用框
   .blockquote {
@@ -92,7 +92,7 @@
     pre {
       padding-bottom: $spacer-2;
       font-size: inherit;
-      word-wrap: normal;
+      word-break: normal;
       overflow-y: auto;
     }
 
@@ -124,7 +124,7 @@
           left: $spacer-2;
           right: $spacer-2;
         }
-        word-wrap: normal;
+        word-break: normal;
       }
     }
 

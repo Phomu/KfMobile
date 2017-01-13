@@ -151,6 +151,11 @@ const init = function () {
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();
+    if (Config.kfSmileEnhanceExtensionEnabled && ['readPage', 'postPage', 'writeMessagePage'].includes(pageId)) {
+        $('body').append(
+            `<script src="/KfEmotion.min.user.js${Info.resTimestamp ? '?ts=' + Info.resTimestamp : ''}"></script>`
+        );
+    }
 
     $('[data-toggle="tooltip"]').tooltip({'container': 'body'});
     console.log(`脚本加载完毕，耗时：${new Date() - startTime}ms`);

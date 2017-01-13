@@ -20,6 +20,44 @@ export const show = function () {
     readConfig();
     let bodyContent = `
 <fieldset class="fieldset mb-3 py-2">
+  <legend class="form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> 显示侧边栏按钮组
+      <span class="tips" data-toggle="tooltip" title="显示侧边栏按钮组，可在下方设置要显示的按钮">[?]</span>
+    </label>
+  </legend>
+  <div class="mb-2 d-sm-inline-block">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> 滚动到页顶/页底
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> 主菜单
+      </label>
+    </div>
+  </div>
+  <div class="mb-2 d-sm-inline-block ml-sm-3">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> 版块列表
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> 搜索
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" name="showSidebarHomePageBtnEnabled" type="checkbox"> 首页
+      </label>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="fieldset mb-3 py-2">
   <legend>主题页面相关</legend>
   <div class="form-group mb-2">
     <label for="perPageFloorNum">主题每页楼层数量</label>
@@ -41,39 +79,14 @@ export const show = function () {
     <span class="tips" data-toggle="tooltip" title="在楼层内的用户名旁显示该用户的自定义备注">[?]</span>
     <a class="ml-3" data-name="openUserMemoDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
-</fieldset>
-<fieldset class="fieldset mb-3 py-2">
-  <legend class="form-check">
+  <div class="form-check">
     <label class="form-check-label">
-      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> 显示侧边栏按钮组
-      <span class="tips" data-toggle="tooltip" title="显示侧边栏按钮组，可在下方设置要显示的按钮">[?]</span>
+      <input class="form-check-input" name="kfSmileEnhanceExtensionEnabled" type="checkbox"> 开启绯月表情增强插件
     </label>
-  </legend>
-  <div class="mb-2 d-sm-inline-block">
-    <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> 滚动到页顶/页底按钮
-      </label>
-    </div>
-    <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> 主菜单按钮
-      </label>
-    </div>
-  </div>
-  <div class="mb-2 d-sm-inline-block ml-sm-3">
-    <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> 版块列表按钮
-      </label>
-    </div>
-    <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> 搜索按钮
-      </label>
-    </div>
+    <span class="tips" data-toggle="tooltip" title="在发帖框上显示绯月表情增强插件，该插件由eddie32开发">[?]</span>
   </div>
 </fieldset>
+
 <fieldset class="fieldset mb-3 py-2">
   <legend>其它设置</legend>
   <div class="input-group mb-2">
@@ -90,6 +103,7 @@ export const show = function () {
     <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
 </fieldset>
+
 <fieldset class="fieldset mb-3 py-2">
   <legend>关注和屏蔽</legend>
   <div class="form-check">

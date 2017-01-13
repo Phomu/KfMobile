@@ -16,6 +16,19 @@ export const Config = {
     // 常用版块列表
     commonForumList: [],
 
+    // 是否显示侧边栏按钮组，true：开启；false：关闭
+    showSidebarBtnGroupEnabled: true,
+    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
+    showSidebarRollBtnEnabled: true,
+    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
+    showSidebarMainMenuBtnEnabled: false,
+    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
+    showSidebarForumListBtnEnabled: true,
+    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
+    showSidebarSearchBtnEnabled: false,
+    // 是否显示侧边栏的首页按钮，true：开启；false：关闭
+    showSidebarHomePageBtnEnabled: true,
+
     // 主题每页楼层数量，用于电梯直达等功能，如果修改了论坛设置里的“文章列表每页个数”，请在此修改成相同的数目
     perPageFloorNum: 10,
     // 主题内容字体大小，设为0表示使用默认大小，默认值：14px
@@ -24,17 +37,8 @@ export const Config = {
     userMemoEnabled: false,
     // 用户自定义备注列表，格式：{'用户名':'备注'}，例：{'李四':'张三的马甲','王五':'张三的另一个马甲'}
     userMemoList: {},
-
-    // 是否显示侧边栏按钮组，true：开启；false：关闭
-    showSidebarBtnGroupEnabled: true,
-    // 是否显示侧边栏的滚动到页顶/页底按钮，true：开启；false：关闭
-    showSidebarRollBtnEnabled: true,
-    // 是否显示侧边栏的主菜单按钮，true：开启；false：关闭
-    showSidebarMainMenuBtnEnabled: false,
-    // 是否显示侧边栏的版块列表按钮，true：开启；false：关闭
-    showSidebarForumListBtnEnabled: false,
-    // 是否显示侧边栏的搜索按钮，true：开启；false：关闭
-    showSidebarSearchBtnEnabled: false,
+    // 是否在发帖框上显示绯月表情增强插件，true：开启；false：关闭
+    kfSmileEnhanceExtensionEnabled: false,
 
     // 默认的消息显示时间（秒），设置为-1表示永久显示
     defShowMsgDuration: -1,

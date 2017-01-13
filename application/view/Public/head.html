@@ -18,9 +18,7 @@
 <script src="__PUBLIC__{$Think.config.static_path}js/lib/jquery.min.js?v=3.1.1"></script>
 {/notempty}
 
-{notempty name="Think.config.bg_style"}
-{$Think.config.bg_style}
-{/notempty}
+{notempty name="Think.config.bg_style"}{$Think.config.bg_style}{/notempty}
 
 {empty name="noInfo"}
 <script>
@@ -36,6 +34,7 @@
     'urlType': {$urlType},
     'urlParam': '{$urlParam}',
     'cookiePrefix': '{$Think.config.cookie.prefix}',
+    'resTimestamp': '{$Think.config.static_file_timestamp}'
   }
 </script>
 {/empty}
