@@ -43,7 +43,7 @@ class Msg extends Controller
 
         $type = $this->getResponseType();
         if ('html' == strtolower($type)) {
-            $result = $this->fetch('Msg/success', array_merge($result, ['noPageInfo' => true]));
+            $result = $this->fetch('Msg/success', array_merge($result, ['noInfo' => true]));
         }
         $response = Response::create($result, $type);
         throw new HttpResponseException($response);
@@ -59,7 +59,7 @@ class Msg extends Controller
         $result = ['msg' => $msg];
         $type = $this->getResponseType();
         if ('html' == strtolower($type)) {
-            $result = $this->fetch('Msg/error', array_merge($result, ['noPageInfo' => true]));
+            $result = $this->fetch('Msg/error', array_merge($result, ['noInfo' => true]));
         }
         $response = Response::create($result, $type);
         throw new HttpResponseException($response);
