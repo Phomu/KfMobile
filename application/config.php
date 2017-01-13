@@ -50,7 +50,7 @@ return [
     // 网站统计脚本
     'stat_script' => '',
     // 存放游戏介绍图片的域名
-    'game_image_domain' => 'http://www.9gal.com/',
+    'game_image_domain' => 'http://www.kfer.online/',
     // 缩略图最大宽度（游戏介绍图片）
     'thumb_max_width' => 360,
     // 缩略图最大高度（游戏介绍图片）
