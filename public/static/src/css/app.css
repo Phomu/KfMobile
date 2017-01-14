@@ -6168,7 +6168,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 
 .msg-container {
   position: fixed;
-  top: 4.6rem;
+  top: 12rem;
   left: 50%;
   z-index: 1001; }
   @media (max-width: 575px) {
@@ -6561,6 +6561,9 @@ main {
 
 #postContent, #msgContent {
   word-break: break-all; }
+  @media (max-width: 991px) {
+    #postContent, #msgContent {
+      font-size: .875rem; } }
 
 #indexForumPanel {
   padding-left: 15px;
@@ -6583,9 +6586,6 @@ main {
 .user-avatar {
   max-width: 140px;
   max-height: 200px; }
-
-#expProgress {
-  height: 1.428rem; }
 
 .id-color-item {
   height: 3.571rem;

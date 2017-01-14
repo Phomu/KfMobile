@@ -73,4 +73,10 @@
 // 发帖框和发短信息框
 #postContent, #msgContent {
   word-break: break-all;
+
+  @include media-breakpoint-down(md) {
+    & {
+      font-size: .875rem; // ~12.25px
+    }
+  }
 }

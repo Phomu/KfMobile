@@ -1,6 +1,7 @@
 /* 设置对话框模块 */
 'use strict';
 import * as Util from './util';
+import Const from './const';
 import * as Dialog from './dialog';
 import {
     read as readConfig,
@@ -9,6 +10,7 @@ import {
     normalize as normalizeConfig,
     Config as defConfig,
 } from './config';
+import * as Script from './script';
 import * as Public from './public';
 
 /**
@@ -19,6 +21,10 @@ export const show = function () {
     if ($('#' + dialogName).length > 0) return;
     readConfig();
     let bodyContent = `
+<div class="btn-group-sm text-right mb-1">
+  <a class="btn btn-link text-danger" data-name="clearTmpData" href="#">清除临时数据</a>
+  <a class="btn btn-link" data-name="openRunCommandDialog" href="#">运行命令</a>
+</div>
 <fieldset class="fieldset mb-3 py-2">
   <legend class="form-check">
     <label class="form-check-label">
@@ -148,12 +154,24 @@ export const show = function () {
         let $this = $(this);
         if ($this.hasClass('disabled-link')) return;
         let name = $this.data('name');
-        if (name === 'openUserMemoDialog') showUserMemoDialog();
+        if (name === 'openRunCommandDialog') showRunCommandDialog();
+        else if (name === 'openUserMemoDialog') showUserMemoDialog();
         else if (name === 'openCustomCssDialog') showCustomCssDialog();
         else if (name === 'openFollowUserDialog') showFollowUserDialog();
         else if (name === 'openBlockUserDialog') showBlockUserDialog();
         else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
-    }).find('[name="reset"]').click(function () {
+    }).find('[data-name="clearTmpData"]').click(function (e) {
+        e.preventDefault();
+        let type = prompt(
+            '可清除与助手有关的Cookies和本地临时数据（不包括助手设置和日志）\n请填写清除类型，0：全部清除；1：清除Cookies；2：清除本地临时数据', 0
+        );
+        if (type === null) return;
+        type = parseInt(type);
+        if (!isNaN(type) && type >= 0) {
+            clearTmpData(type);
+            alert('缓存已清除');
+        }
+    }).end().find('[name="reset"]').click(function () {
         if (confirm('是否重置所有设置？')) {
             clearConfig();
             alert('设置已重置');
@@ -206,6 +224,73 @@ const getMainConfigValue = function ($dialog) {
 };
 
 /**
+ * 清除临时数据
+ * @param {number} type 清除类别，0：全部清除；1：清除Cookies；2：清除本地临时数据
+ */
+const clearTmpData = function (type = 0) {
+    if (type === 0 || type === 1) {
+        for (let key in Const) {
+            if (/CookieName$/.test(key)) {
+                Util.deleteCookie(Const[key]);
+            }
+        }
+    }
+    if (type === 0 || type === 2) {
+        //TmpLog.clear();
+        localStorage.removeItem(Const.multiQuoteStorageName);
+    }
+};
+
+/**
+ * 显示运行命令对话框
+ */
+const showRunCommandDialog = function () {
+    const dialogName = 'runCommandDialog';
+    if ($('#' + dialogName).length > 0) return;
+    let bodyContent = `
+<p class="font-size-sm">
+  运行命令快捷键：<kbd>Ctrl+Enter</kbd>；清除命令快捷键：<kbd>Ctrl+退格键</kbd>
+</p>
+<div class="form-group">
+  <label for="cfgCmd">命令内容：</label>
+  <textarea class="form-control" name="cmd" id="cfgCmd" rows="6" wrap="off" aria-label="命令内容" style="white-space: pre;"></textarea>
+</div>
+<div class="form-group">
+  <label for="cfgResult">运行结果：</label>
+  <textarea class="form-control" name="result" id="cfgResult" rows="6" wrap="off" aria-label="运行结果" style="white-space: pre;"></textarea>
+</div>`;
+    let footerContent = `
+<button class="btn btn-primary" type="submit">运行</button>
+<button class="btn btn-danger" name="clear" type="button">清除</button>
+<button class="btn btn-secondary" data-dismiss="dialog" type="button">关闭</button>`;
+    let $dialog = Dialog.create(dialogName, '运行命令', bodyContent, footerContent);
+    let $cmd = $dialog.find('[name="cmd"]');
+    let $result = $dialog.find('[name="result"]');
+
+    $dialog.submit(function (e) {
+        e.preventDefault();
+        let content = $cmd.val();
+        if (!$.trim(content)) return;
+        let {response} = Script.runCmd(content, true);
+        $result.val(response);
+    }).end().find('[name="clear"]').click(function () {
+        $cmd.val('').focus();
+    });
+
+    $cmd.keydown(function (e) {
+        if (e.ctrlKey && e.keyCode === 13) {
+            $dialog.submit();
+        }
+        else if (e.ctrlKey && e.keyCode === 8) {
+            $dialog.find('[name="clear"]').click();
+        }
+    });
+
+    Dialog.show(dialogName);
+    $cmd.focus();
+};
+
+/**
  * 显示导入或导出设置对话框
  */
 const showImportOrExportSettingDialog = function () {
@@ -224,7 +309,7 @@ const showImportOrExportSettingDialog = function () {
     let footerContent = `
 <button class="btn btn-primary" type="submit">保存</button>
 <button class="btn btn-secondary" data-dismiss="dialog" type="button">取消</button>`;
-    let $dialog = Dialog.create(dialogName, `导入或导出设置`, bodyContent, footerContent);
+    let $dialog = Dialog.create(dialogName, '导入或导出设置', bodyContent, footerContent);
 
     $dialog.submit(function (e) {
         e.preventDefault();

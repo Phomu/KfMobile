@@ -1,9 +1,10 @@
 'use strict';
-import {init as initConfig} from './module/Config';
+import {init as initConfig} from './module/config';
 import * as Util from './module/util';
 import Const from './module/const';
 import * as Msg from './module/msg';
 import * as Dialog from './module/dialog';
+import * as Script from './module/script';
 import * as Public from './module/public';
 import * as Index from './module/index';
 import * as Read from './module/read';
@@ -19,16 +20,17 @@ window.pageId = $('body').attr('id');
  */
 const exportModule = function () {
     try {
-        window.Util = require('./module/Util');
-        window.Const = require('./module/Const').default;
-        window.Msg = require('./module/Msg');
-        window.Dialog = require('./module/Dialog');
-        window.Public = require('./module/Public');
-        window.Index = require('./module/Index');
-        window.Read = require('./module/Read');
-        window.Post = require('./module/Post');
-        window.Other = require('./module/Other');
-        const Conf = require('./module/Config');
+        window.Util = require('./module/util');
+        window.Const = require('./module/const').default;
+        window.Msg = require('./module/msg');
+        window.Dialog = require('./module/dialog');
+        window.Script = require('./module/script');
+        window.Public = require('./module/public');
+        window.Index = require('./module/index');
+        window.Read = require('./module/read');
+        window.Post = require('./module/post');
+        window.Other = require('./module/other');
+        const Conf = require('./module/config');
         window.readConfig = Conf.read;
         window.writeConfig = Conf.write;
     }
