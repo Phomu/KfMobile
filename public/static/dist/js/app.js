@@ -1193,22 +1193,27 @@ var showBlockThreadDialog = function showBlockThreadDialog() {
 /* 常量模块 */
 'use strict';
 
-/**
- * 常量类
- */
+// 通用存储数据名称前缀
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var storagePrefix = 'kf_';
+
+/**
+ * 常量类
+ */
 var Const = {
+    // 通用存储数据名称前缀
+    storagePrefix: storagePrefix,
     // 存储多重引用数据的LocalStorage名称
-    multiQuoteStorageName: 'kf_multi_quote',
+    multiQuoteStorageName: storagePrefix + 'multiQuote',
     // at提醒时间的Cookie名称
-    atTipsTimeCookieName: 'at_tips_time',
+    atTipsTimeCookieName: 'atTipsTime',
     // 上一次at提醒时间的Cookie名称
-    prevAtTipsTimeCookieName: 'prev_at_tips_time',
+    prevAtTipsTimeCookieName: 'prevAtTipsTime',
     // 背景样式的Cookie名称
-    bgStyleCookieName: 'bg_style',
+    bgStyleCookieName: 'bgStyle',
     // 常用版块列表
     commonForumList: [{ fid: 106, name: '新作动态' }, { fid: 41, name: '网盘下载' }, { fid: 16, name: '种子下载' }, { fid: 52, name: '游戏讨论' }, { fid: 84, name: '动漫讨论' }, { fid: 67, name: 'CG下载' }, { fid: 5, name: '自由讨论' }, { fid: 56, name: '个人日记' }, { fid: 57, name: '同人漫本' }],
     // 可用版块列表
@@ -1346,7 +1351,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * 处理首页的@提醒按钮
  */
 var handleAtTipsBtn = exports.handleAtTipsBtn = function handleAtTipsBtn() {
-    $('#atTips').click(function () {
+    var $atTips = $('#atTips');
+    if ($atTips.data('time') === Util.getCookie(_const2.default.atTipsTimeCookieName)) {
+        $atTips.removeClass('btn-outline-danger').addClass('btn-outline-primary');
+    }
+
+    $atTips.click(function () {
         var $this = $(this);
         var time = $this.data('time');
         var cookieValue = Util.getCookie(_const2.default.atTipsTimeCookieName);
@@ -1397,7 +1407,7 @@ var handleSelectBgImage = exports.handleSelectBgImage = function handleSelectBgI
         var path = $this.parent().data('path');
         if (!id || !fileName || !path) return;
         if (confirm('是否选择此背景图片？')) {
-            Util.setCookie(_const2.default.bgStyleCookieName, id, Util.getDate('+1y'));
+            Util.setCookie(_const2.default.bgStyleCookieName, id, Util.getDate('+1y'), _const2.default.storagePrefix);
             $('body, .modal-content').css('background-image', 'url("' + path + fileName + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         }
@@ -1413,7 +1423,7 @@ var handleSelectBgColor = exports.handleSelectBgColor = function handleSelectBgC
         var color = $this.data('color');
         if (!color) return;
         if (confirm('是否选择此背景颜色？')) {
-            Util.setCookie(_const2.default.bgStyleCookieName, color, Util.getDate('+1y'));
+            Util.setCookie(_const2.default.bgStyleCookieName, color, Util.getDate('+1y'), _const2.default.storagePrefix);
             $('body, .modal-content').css('background', color);
             alert('背景已更换');
         }
@@ -1425,26 +1435,26 @@ var handleSelectBgColor = exports.handleSelectBgColor = function handleSelectBgC
  */
 var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgStyle() {
     $('#customBgStyle').click(function () {
-        var value = Util.getCookie(_const2.default.bgStyleCookieName);
+        var value = Util.getCookie(_const2.default.bgStyleCookieName, _const2.default.storagePrefix);
         if (!value || parseInt(value)) value = '';
         value = prompt('请输入背景图片URL、颜色代码或CSS样式：\n（例：http://xxx.com/abc.jpg 或 #fcfcfc，留空表示恢复默认背景）\n' + '（注：建议选择简洁、不花哨、偏浅色系的背景图片或颜色）', value);
         if (value === null) return;
         var $bg = $('body, .modal-content, .dialog-content');
         if ($.trim(value) === '') {
-            Util.setCookie(_const2.default.bgStyleCookieName, '', Util.getDate('-1d'));
+            Util.deleteCookie(_const2.default.bgStyleCookieName, _const2.default.storagePrefix);
             alert('背景已恢复默认');
             location.reload();
         } else if (/^https?:\/\/[^"']+/.test(value)) {
-            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
+            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'), _const2.default.storagePrefix);
             $bg.css('background-image', 'url("' + value + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         } else if (/^#[0-9a-f]{6}$/i.test(value)) {
-            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
+            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'), _const2.default.storagePrefix);
             $bg.css('background', value.toLowerCase());
             alert('背景已更换');
         } else if (!/[<>{}]/.test(value)) {
             value = value.replace(';', '');
-            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'));
+            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'), _const2.default.storagePrefix);
             $bg.css('background', value);
             alert('背景已更换（图片可能需要一定时间加载）');
         } else {
@@ -3389,7 +3399,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var setCookie = exports.setCookie = function setCookie(name, value) {
     var date = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    var prefix = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Info.cookiePrefix;
+    var prefix = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Info.uid + '_' + Const.storagePrefix;
 
     document.cookie = '' + prefix + name + '=' + encodeURI(value) + (!date ? '' : ';expires=' + date.toUTCString()) + ';path=/;';
 };
@@ -3401,7 +3411,7 @@ var setCookie = exports.setCookie = function setCookie(name, value) {
  * @returns {?string} Cookie值
  */
 var getCookie = exports.getCookie = function getCookie(name) {
-    var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Info.cookiePrefix;
+    var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Info.uid + '_' + Const.storagePrefix;
 
     var regex = new RegExp('(^| )' + prefix + name + '=([^;]*)(;|$)');
     var matches = document.cookie.match(regex);
@@ -3414,7 +3424,7 @@ var getCookie = exports.getCookie = function getCookie(name) {
  * @param {string} prefix Cookie名称前缀
  */
 var deleteCookie = exports.deleteCookie = function deleteCookie(name) {
-    var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Info.cookiePrefix;
+    var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Info.uid + '_' + Const.storagePrefix;
 
     document.cookie = '' + prefix + name + '=;expires=' + getDate('-1d').toUTCString() + ';path=/;';
 };

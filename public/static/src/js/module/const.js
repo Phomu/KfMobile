@@ -1,18 +1,23 @@
 /* 常量模块 */
 'use strict';
 
+// 通用存储数据名称前缀
+const storagePrefix = 'kf_';
+
 /**
  * 常量类
  */
 const Const = {
+    // 通用存储数据名称前缀
+    storagePrefix: storagePrefix,
     // 存储多重引用数据的LocalStorage名称
-    multiQuoteStorageName: 'kf_multi_quote',
+    multiQuoteStorageName: storagePrefix + 'multiQuote',
     // at提醒时间的Cookie名称
-    atTipsTimeCookieName: 'at_tips_time',
+    atTipsTimeCookieName: 'atTipsTime',
     // 上一次at提醒时间的Cookie名称
-    prevAtTipsTimeCookieName: 'prev_at_tips_time',
+    prevAtTipsTimeCookieName: 'prevAtTipsTime',
     // 背景样式的Cookie名称
-    bgStyleCookieName: 'bg_style',
+    bgStyleCookieName: 'bgStyle',
     // 常用版块列表
     commonForumList: [
         {fid: 106, name: '新作动态'},

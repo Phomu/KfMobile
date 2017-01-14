@@ -25,7 +25,7 @@ class Base extends Controller
             $response = Response::create($result, 'html');
             throw new HttpResponseException($response);
         }
-        set_bg_style(cookie('bg_style'));
+        set_bg_style(cookie('bgStyle'));
     }
 
     /**
