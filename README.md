@@ -11,6 +11,9 @@ https://m.miaola.info/
 ## 讨论帖
 http://bbs.2dkf.com/read.php?tid=564787
 
+## 更新日志
+[详细日志请参见此页面&raquo;](https://github.com/miaolapd/KfMobile/releases)
+
 ## 环境要求
 本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
 
@@ -77,7 +80,7 @@ Nginx虚拟主机配置参考：
     
         location ^~ /static/ {
             index   index.html;
-            expires 3d;
+            expires 7d;
             charset utf-8;
         }
     

@@ -6168,7 +6168,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 
 .msg-container {
   position: fixed;
-  top: 12rem;
+  top: 11rem;
   left: 50%;
   z-index: 1001; }
   @media (max-width: 575px) {
