@@ -155,7 +155,7 @@ const init = function () {
     if (Config.followUserEnabled) Public.followUsers();
     if (Config.kfSmileEnhanceExtensionEnabled && ['readPage', 'postPage', 'writeMessagePage'].includes(pageId)) {
         $('body').append(
-            `<script src="/KfEmotion.min.user.js${Info.resTimestamp ? '?ts=' + Info.resTimestamp : ''}"></script>`
+            `<script src="/static/dist/js/userScript/KfEmotion.min.user.js?ts=${Info.resTimestamp}"></script>`
         );
     }
 

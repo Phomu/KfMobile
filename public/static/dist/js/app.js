@@ -176,7 +176,7 @@ var init = function init() {
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();
     if (Config.kfSmileEnhanceExtensionEnabled && ['readPage', 'postPage', 'writeMessagePage'].includes(pageId)) {
-        $('body').append('<script src="/KfEmotion.min.user.js' + (Info.resTimestamp ? '?ts=' + Info.resTimestamp : '') + '"></script>');
+        $('body').append('<script src="/static/dist/js/userScript/KfEmotion.min.user.js?ts=' + Info.resTimestamp + '"></script>');
     }
 
     $('[data-toggle="tooltip"]').tooltip({ 'container': 'body' });

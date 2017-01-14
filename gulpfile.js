@@ -24,6 +24,7 @@ const appJsFileName = 'app.js';
 const srcPath = staticPath + 'src/';
 const jsSrcPath = srcPath + 'js/';
 const jsLibSrcPath = jsSrcPath + 'lib/';
+const jsUserScriptSrcPath = jsSrcPath + 'userScript/';
 const sassSrcPath = srcPath + 'sass/';
 const cssSrcPath = srcPath + 'css/';
 const fontSrcPath = srcPath + 'fonts/';
@@ -32,6 +33,7 @@ const imgSrcPath = srcPath + 'img/';
 const distPath = staticPath + 'dist/';
 const jsDistPath = distPath + 'js/';
 const jsLibDistPath = jsDistPath + 'lib/';
+const jsUserScriptDistPath = jsDistPath + 'userScript/';
 const cssDistPath = distPath + 'css/';
 const fontDistPath = distPath + 'fonts/';
 const imgDistPath = distPath + 'img/';
@@ -110,6 +112,9 @@ gulp.task('clean', function (cb) {
 gulp.task('copy', function () {
     gulp.src(jsLibSrcPath + '*.js')
         .pipe(gulp.dest(jsLibDistPath));
+
+    gulp.src(jsUserScriptSrcPath + '*.js')
+        .pipe(gulp.dest(jsUserScriptDistPath));
 
     gulp.src(fontSrcPath + '**/*.*')
         .pipe(gulp.dest(fontDistPath));
