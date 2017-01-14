@@ -6290,7 +6290,8 @@ main {
   min-height: 43.5px; }
   .edit-forum-list .btn {
     margin: 5px;
-    min-width: 6.143rem; }
+    min-width: 6.143rem;
+    cursor: pointer; }
 
 .thread-link-group {
   display: flex;
