@@ -25,7 +25,7 @@
             <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> 短消息
             {eq name="hasNewMsg" value="true"}<span class="badge badge-danger">New</span>{/eq}
           </a>
-          <a class="dropdown-item" href="{:url('GuanJianCi/index?gjc=' . $userName)}">
+          <a class="dropdown-item" href="{:url('GuanJianCi/index', 'gjc=' . $userName)}">
             <i class="fa fa-at fa-fw" aria-hidden="true"></i> 提醒
           </a>
           <a class="dropdown-item" href="{:url('Personal/topic')}">
