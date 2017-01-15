@@ -81,8 +81,8 @@
             {$vo.threadTitle}
           </a>
         </div>
-        <footer class="thread-item-footer">
-          <small>
+        <footer class="thread-footer">
+          <div class="thread-footer-column">
             <span style="color: {$vo.threadTypeColor}" title="类型" aria-label="类型">
               <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadType}
@@ -95,7 +95,7 @@
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.publishTime}</time>
             </span>&nbsp;
-          </small>
+          </div>
         </footer>
       </li>
       {/volist}

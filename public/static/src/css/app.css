@@ -6271,7 +6271,7 @@ main {
 .sidebar-btn {
   width: 3rem;
   height: 3rem;
-  margin-top: 0.25rem;
+  margin-top: 2px;
   font-size: 1.25rem;
   line-height: 3rem;
   text-align: center;
@@ -6359,22 +6359,23 @@ main {
     .thread-list-group .thread-list-item .thread-link-item-full {
       max-height: none;
       overflow: visible; }
-    .thread-list-group .thread-list-item .thread-item-footer {
+    .thread-list-group .thread-list-item .thread-footer {
       flex: 0 0 100%;
       max-width: 100%;
       display: flex;
       padding-left: 0.5rem;
       padding-right: 0.5rem; }
-      .thread-list-group .thread-list-item .thread-item-footer small {
+      .thread-list-group .thread-list-item .thread-footer .thread-footer-column {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         padding-left: 0;
         padding-right: 0;
+        font-size: 80%;
         color: #636c72;
         line-height: 2.2; }
 
-#threadPage .thread-link::after {
+#threadPage .thread-link::after, #searchPage .thread-link::after {
   padding-right: 2rem;
   content: " "; }
 
@@ -6440,7 +6441,8 @@ main {
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1rem;
-  word-break: break-all; }
+  word-break: break-all;
+  word-wrap: break-word; }
   .read-content .blockquote {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -6612,7 +6614,8 @@ main {
   width: 448px;
   text-align: left;
   white-space: normal;
-  word-break: break-all; }
+  word-break: break-all;
+  word-wrap: break-word; }
 
 .game-search-list .media {
   padding: 0.5rem;

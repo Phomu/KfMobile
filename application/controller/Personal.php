@@ -20,8 +20,9 @@ class Personal extends Base
     {
         $response = Proxy::get('personal.php', $request->param());
         $personal = new responser\Personal($response);
-        $this->assign($personal->topic());
-        return $this->fetch('Personal/topic');
+        $data = $personal->topic();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Personal/topic', $data);
     }
 
     /**
@@ -33,7 +34,8 @@ class Personal extends Base
     {
         $response = Proxy::get('personal.php?action=post&ptable=1', $request->param());
         $personal = new responser\Personal($response);
-        $this->assign($personal->reply());
-        return $this->fetch('Personal/reply');
+        $data = $personal->reply();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Personal/reply', $data);
     }
 }

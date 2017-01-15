@@ -1,6 +1,8 @@
 <?php
 namespace app\lib;
 
+use think\App;
+
 /**
  * 反向代理类
  * @package app\lib
@@ -42,7 +44,7 @@ class Proxy
             mb_convert_encoding($url, $remoteEncoding, $siteEncoding);
 
         $cookies = input('cookie.', []);
-        unset($cookies[config('kf_cookie_prefix') . 'ipfrom']);
+        unset($cookies[config('const.kfCookiePrefix') . 'ipfrom']);
         $clientIp = input('server.REMOTE_ADDR');
         $headers = [
             'Cookie: ' . serialize_cookies($cookies, config('cookie.prefix')),
@@ -167,7 +169,7 @@ class Proxy
      */
     public static function post($url, $data, $uploads = null, $extraData = [])
     {
-        if (config('app_debug') && !preg_match('/login\.php|profile\.php\?action=modify/', $url))
+        if (App::$debug && !preg_match('/login\.php|profile\.php\?action=modify/', $url))
             trace('POST请求：' . $url . '，请求数据：' . (is_string($data) ? $data : http_build_query($data)));
         else trace('POST请求：' . $url);
         return self::request($url, $data, $uploads, $extraData);

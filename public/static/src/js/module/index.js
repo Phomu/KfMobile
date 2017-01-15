@@ -8,24 +8,19 @@ import {read as readConfig, write as writeConfig} from './config';
  * 处理首页的@提醒按钮
  */
 export const handleAtTipsBtn = function () {
-    let $atTips = $('#atTips');
-    if ($atTips.data('time') === Util.getCookie(Const.atTipsTimeCookieName)) {
-        $atTips.removeClass('btn-outline-danger').addClass('btn-outline-primary');
-    }
-
-    $atTips.click(function () {
+    $('#atTips').click(function () {
         let $this = $(this);
         let time = $this.data('time');
         let cookieValue = Util.getCookie(Const.atTipsTimeCookieName);
         if (!time || time === cookieValue) return;
         if (!cookieValue) {
-            let currentDate = (new Date()).getDate();
-            Util.setCookie(Const.prevAtTipsTimeCookieName, (currentDate < 10 ? '0' + currentDate : currentDate) + '日00时00分');
+            let curDate = new Date().getDate().toString();
+            Util.setCookie(Const.prevAtTipsTimeCookieName, curDate.padStart(2, '0') + '日00时00分');
         }
         else if (cookieValue !== time) {
             Util.setCookie(Const.prevAtTipsTimeCookieName, cookieValue);
         }
-        Util.setCookie(Const.atTipsTimeCookieName, time, Util.getDate('+3d'));
+        Util.setCookie(Const.atTipsTimeCookieName, time, Util.getDate(`+${Const.atTipsTimeExpires}d`));
         $this.removeClass('btn-outline-danger').addClass('btn-outline-primary');
     });
 };
@@ -34,14 +29,10 @@ export const handleAtTipsBtn = function () {
  * 处理首页主题链接面板
  */
 export const handleIndexThreadPanel = function () {
-    if (Config.activeNewReplyPanel) {
-        $(`a[data-toggle="tab"][href="${Config.activeNewReplyPanel}"]`).tab('show');
-    }
-    if (Config.activeTopRecommendPanel) {
-        $(`a[data-toggle="tab"][href="${Config.activeTopRecommendPanel}"]`).tab('show');
-    }
+    if (Config.activeNewReplyPanel) $(`a[data-toggle="tab"][href="${Config.activeNewReplyPanel}"]`).tab('show');
+    if (Config.activeTopRecommendPanel) $(`a[data-toggle="tab"][href="${Config.activeTopRecommendPanel}"]`).tab('show');
 
-    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+    $(document).on('shown.bs.tab', '[data-toggle="tab"]', function (e) {
         let $target = $(e.target);
         let targetPanel = $target.attr('href');
         let typeName = '';
@@ -56,9 +47,9 @@ export const handleIndexThreadPanel = function () {
 };
 
 /**
- * 处理选择页面背景图片
+ * 处理选择页面背景
  */
-export const handleSelectBgImage = function () {
+export const handleSelectBg = function () {
     $('#selectBgImage').on('click', '[data-id]', function () {
         let $this = $(this);
         let id = $this.data('id');
@@ -66,33 +57,21 @@ export const handleSelectBgImage = function () {
         let path = $this.parent().data('path');
         if (!id || !fileName || !path) return;
         if (confirm('是否选择此背景图片？')) {
-            Util.setCookie(Const.bgStyleCookieName, id, Util.getDate('+1y'), Const.storagePrefix);
+            Util.setCookie(Const.bgStyleCookieName, id, Util.getDate(`+${Const.bgStyleExpires}d`), Const.storagePrefix);
             $('body, .modal-content').css('background-image', 'url("' + path + fileName + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         }
-    });
-};
-
-/**
- * 处理选择页面背景颜色
- */
-export const handleSelectBgColor = function () {
-    $('#selectBgImage').on('click', '[data-color]', function () {
+    }).on('click', '[data-color]', function () {
         let $this = $(this);
         let color = $this.data('color');
         if (!color) return;
         if (confirm('是否选择此背景颜色？')) {
-            Util.setCookie(Const.bgStyleCookieName, color, Util.getDate('+1y'), Const.storagePrefix);
+            Util.setCookie(Const.bgStyleCookieName, color, Util.getDate(`+${Const.bgStyleExpires}d`), Const.storagePrefix);
             $('body, .modal-content').css('background', color);
             alert('背景已更换');
         }
     });
-};
 
-/**
- * 处理自定义背景样式
- */
-export const handleCustomBgStyle = function () {
     $('#customBgStyle').click(function () {
         let value = Util.getCookie(Const.bgStyleCookieName, Const.storagePrefix);
         if (!value || parseInt(value)) value = '';
@@ -109,18 +88,18 @@ export const handleCustomBgStyle = function () {
             location.reload();
         }
         else if (/^https?:\/\/[^"']+/.test(value)) {
-            Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'), Const.storagePrefix);
+            Util.setCookie(Const.bgStyleCookieName, value, Util.getDate(`+${Const.bgStyleExpires}d`), Const.storagePrefix);
             $bg.css('background-image', 'url("' + value + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         }
         else if (/^#[0-9a-f]{6}$/i.test(value)) {
-            Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'), Const.storagePrefix);
+            Util.setCookie(Const.bgStyleCookieName, value, Util.getDate(`+${Const.bgStyleExpires}d`), Const.storagePrefix);
             $bg.css('background', value.toLowerCase());
             alert('背景已更换');
         }
         else if (!/[<>{}]/.test(value)) {
             value = value.replace(';', '');
-            Util.setCookie(Const.bgStyleCookieName, value, Util.getDate('+1y'), Const.storagePrefix);
+            Util.setCookie(Const.bgStyleCookieName, value, Util.getDate(`+${Const.bgStyleExpires}d`), Const.storagePrefix);
             $bg.css('background', value);
             alert('背景已更换（图片可能需要一定时间加载）');
         }

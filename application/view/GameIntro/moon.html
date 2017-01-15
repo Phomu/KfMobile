@@ -101,8 +101,8 @@
             {$vo.name}
           </a>
         </div>
-        <footer class="thread-item-footer">
-          <small>
+        <footer class="thread-footer">
+          <div class="thread-footer-column">
             <span title="发售时间" aria-label="发售时间">
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.sellTime}</time>
@@ -113,7 +113,7 @@
               {$vo.property}
             </span>
             {/notempty}
-          </small>
+          </div>
         </footer>
       </li>
       {/volist}

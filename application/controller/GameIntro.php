@@ -20,8 +20,9 @@ class GameIntro extends Base
     {
         $response = Proxy::get('g_intro_index.php', $request->param());
         $gameIntro = new responser\GameIntro($response);
-        $this->assign($gameIntro->index());
-        return $this->fetch('GameIntro/index');
+        $data = $gameIntro->index();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GameIntro/index', $data);
     }
 
     /**
@@ -35,8 +36,9 @@ class GameIntro extends Base
         $param['s'] = input('k', '');
         $response = Proxy::get('g_intro_s.php', $param);
         $gameIntro = new responser\GameIntro($response);
-        $this->assign($gameIntro->search());
-        return $this->fetch('GameIntro/search');
+        $data = $gameIntro->search();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GameIntro/search', $data);
     }
 
     /**
@@ -51,8 +53,9 @@ class GameIntro extends Base
         $param['g_moon_m'] = input('month/d', '');
         $response = Proxy::get('g_intro_moon.php', $param);
         $gameIntro = new responser\GameIntro($response);
-        $this->assign($gameIntro->moon());
-        return $this->fetch('GameIntro/moon');
+        $data = $gameIntro->moon();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GameIntro/moon', $data);
     }
 
     /**
@@ -64,8 +67,9 @@ class GameIntro extends Base
     {
         $response = Proxy::get('g_intro.php', $request->param());
         $gameIntro = new responser\GameIntro($response);
-        $this->assign($gameIntro->game());
-        return $this->fetch('GameIntro/game');
+        $data = $gameIntro->game();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GameIntro/game', $data);
     }
 
     /**
@@ -119,8 +123,9 @@ class GameIntro extends Base
     {
         $response = Proxy::get('g_intro_inc.php', $request->param());
         $gameIntro = new responser\GameIntro($response);
-        $this->assign($gameIntro->company());
-        return $this->fetch('GameIntro/company');
+        $data = $gameIntro->company();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GameIntro/company', $data);
     }
 
     /**
@@ -132,8 +137,9 @@ class GameIntro extends Base
     {
         $response = Proxy::get('g_intro_adv.php', $request->param());
         $gameIntro = new responser\GameIntro($response);
-        $this->assign($gameIntro->type());
-        return $this->fetch('GameIntro/type');
+        $data = $gameIntro->type();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GameIntro/type', $data);
     }
 
     /**
@@ -145,7 +151,8 @@ class GameIntro extends Base
     {
         $response = Proxy::get('g_intro_moe.php', $request->param());
         $gameIntro = new responser\GameIntro($response);
-        $this->assign($gameIntro->property());
-        return $this->fetch('GameIntro/property');
+        $data = $gameIntro->property();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GameIntro/property', $data);
     }
 }

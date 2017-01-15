@@ -6,39 +6,32 @@ return [
 
     // 应用版本号
     'app_version' => '2.0',
-    // 反向代理的目标域名
+    // 反向代理的KF目标域名
     'proxy_domain' => 'http://www.9moe.com/',
-    // 注册页面反向代理的目标域名
+    // 注册页面反向代理的KF目标域名
     'register_page_proxy_domain' => 'http://bbs.2dkf.com/',
-    // 反向代理在尝试连接时的超时时间（秒)
-    'proxy_connection_timeout' => 15,
-    // 反向代理执行的超时时间（秒)
-    'proxy_timeout' => 25,
-    // 网站名称
-    'site_name' => '绯月Galgame',
     // 电脑版的域名
     'pc_version_domain' => 'https://kf.miaola.info/',
+    // 游戏介绍图片的域名
+    'game_image_domain' => 'http://www.kfer.online/',
+    // 网站名称
+    'site_name' => '绯月Galgame',
     // 静态资源目录的路径
     'static_path' => 'static/dist/',
     // 是否使用CDN传输部分静态资源文件（如jQuery、Bootstrap脚本及Font Awesome字体文件等）
     'static_file_cdn' => false,
     // 静态资源文件时间戳
     'static_file_timestamp' => '',
-    // KF cookie的前缀
-    'kf_cookie_prefix' => '2ed4e_',
     // 本站编码
     'site_encoding' => 'utf-8',
     // 远端网站编码
     'remote_site_encoding' => 'gbk',
+    // 反向代理在尝试连接时的超时时间（秒)
+    'proxy_connection_timeout' => 15,
+    // 反向代理执行的超时时间（秒)
+    'proxy_timeout' => 25,
     // 成功提示信息的等待时间
     'success_msg_wait' => 3,
-    // 页面背景样式
-    'bg_style' => '',
-    // 页面背景图片列表
-    'bg_image_list' => [
-        '1.jpg', '2.jpg', '3.png', '4.png', '5.png', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg',
-        '11.jpg', '12.jpg', '13.png', '14.png', '15.jpg'
-    ],
     // 是否关闭网站
     'site_close' => false,
     // 关闭网站的提示消息
@@ -49,12 +42,8 @@ return [
     'top_announcement' => '',
     // 网站统计脚本
     'stat_script' => '',
-    // 存放游戏介绍图片的域名
-    'game_image_domain' => 'http://www.kfer.online/',
-    // 缩略图最大宽度（游戏介绍图片）
-    'thumb_max_width' => 360,
-    // 缩略图最大高度（游戏介绍图片）
-    'thumb_max_height' => 203,
+    // 页面背景样式
+    'bg_style' => '',
 
     // +----------------------------------------------------------------------
     // | 应用设置

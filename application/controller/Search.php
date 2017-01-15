@@ -20,7 +20,8 @@ class Search extends Base
     {
         $response = Proxy::post('search.php', $request->param());
         $search = new responser\Search($response);
-        $this->assign($search->index());
-        return $this->fetch('Search/index');
+        $data = $search->index();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Search/index', $data);
     }
 }

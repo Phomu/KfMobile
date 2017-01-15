@@ -76,11 +76,12 @@ class Responser
      */
     protected function setResponseCookies($cookies, $expire = 0)
     {
+        $userAccountCookieName = config('const.kfCookiePrefix') . config('const.userAccountCookieName');
         foreach ($cookies as $key => $value) {
             if (strpos($value, 'deleted') === 0) {
                 Cookie::delete($key, '');
             } else {
-                if ($key === config('kf_cookie_prefix') . 'winduser') {
+                if ($key === $userAccountCookieName) {
                     continue;
                 } elseif (strpos($key, 'g_intro_') === 0) {
                     Cookie::set($key, $value, ['prefix' => '', 'expire' => 60 * 60 * 48, 'httponly' => '']);

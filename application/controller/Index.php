@@ -20,7 +20,8 @@ class Index extends Base
     {
         $response = Proxy::get('index.php', $request->param());
         $index = new responser\Index($response);
-        $this->assign($index->index());
-        return $this->fetch('Index/index');
+        $data = $index->index();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Index/index', $data);
     }
 }

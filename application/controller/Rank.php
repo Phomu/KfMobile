@@ -22,7 +22,8 @@ class Rank extends Base
         if (!in_array($type, ['sm', 'cz', 'gz', 'ft', 'gx'])) $type = 'sm';
         $response = Proxy::get('kf_no1.php', $request->param());
         $rank = new responser\Rank($response);
-        $this->assign($rank->index(['type' => $type]));
-        return $this->fetch('Rank/index');
+        $data = $rank->index(['type' => $type]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Rank/index', $data);
     }
 }

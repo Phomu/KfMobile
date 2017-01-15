@@ -39,8 +39,8 @@
             {$vo.threadTitle}
           </a>
         </div>
-        <footer class="thread-item-footer">
-          <small>
+        <footer class="thread-footer">
+          <div class="thread-footer-column">
             <span title="剩余时间" aria-label="剩余时间">
               <i class="fa fa-clock-o" aria-hidden="true"></i> {$vo.remainingTime}
             </span>&nbsp;
@@ -57,7 +57,7 @@
             <a class="text-danger" href="{:url('SelfRate/check', 'safeid=' . $safeId . '&id=' . $vo['id'])}" target="_blank">
               <i class="fa fa-check-square" aria-hidden="true"></i> 检查详细/纠错
             </a>&nbsp;
-          </small>
+          </div>
         </footer>
       </li>
       {/volist}

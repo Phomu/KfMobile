@@ -20,8 +20,9 @@ class Bank extends Base
     {
         $response = Proxy::get('hack.php?H_name=bank', $request->param());
         $bank = new responser\Bank($response);
-        $this->assign($bank->index());
-        return $this->fetch('Bank/index');
+        $data = $bank->index();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Bank/index', $data);
     }
 
     /**
@@ -46,7 +47,8 @@ class Bank extends Base
         $to = empty(input('to', '')) ? 0 : 1;
         $response = Proxy::get('hack.php?H_name=bank&action=log', $request->param());
         $bank = new responser\Bank($response);
-        $this->assign($bank->log(['to' => $to]));
-        return $this->fetch('Bank/log');
+        $data = $bank->log(['to' => $to]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Bank/log', $data);
     }
 }

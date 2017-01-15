@@ -56,7 +56,7 @@ class Register extends Controller
             );
         }
         $cookies = $response['cookies'];
-        $userCookieName = config('kf_cookie_prefix') . 'winduser';
+        $userCookieName = config('const.kfCookiePrefix') . config('const.userAccountCookieName');
         if (isset($cookies[$userCookieName])) {
             cookie($userCookieName, $cookies[$userCookieName], ['prefix' => '', 'expire' => 60 * 60 * 24 * 356, 'httponly' => 'true']);
         }

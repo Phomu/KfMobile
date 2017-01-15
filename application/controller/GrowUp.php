@@ -20,8 +20,9 @@ class GrowUp extends Base
     {
         $response = Proxy::get('kf_growup.php', $request->param());
         $growUp = new responser\GrowUp($response);
-        $this->assign($growUp->index());
-        return $this->fetch('GrowUp/index');
+        $data = $growUp->index();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GrowUp/index', $data);
     }
 
     /**

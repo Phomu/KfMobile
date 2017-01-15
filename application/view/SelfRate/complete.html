@@ -74,8 +74,8 @@
             {$vo.threadTitle}
           </a>
         </div>
-        <footer class="thread-item-footer">
-          <small>
+        <footer class="thread-footer">
+          <div class="thread-footer-column">
             <span title="评分时间" aria-label="评分时间">
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.rateTime}</time>
@@ -93,7 +93,7 @@
             <a class="text-danger" href="{:url('SelfRate/check', 'safeid=' . $safeId . '&id=' . $vo['id'])}" target="_blank">
               <i class="fa fa-check-square" aria-hidden="true"></i> 查看详细
             </a>&nbsp;
-          </small>
+          </div>
         </footer>
       </li>
       {/volist}

@@ -243,8 +243,8 @@ function make_thumb($path, $thumbPath)
         if (!file_exists(CACHE_PATH) && !mkdir(CACHE_PATH, 0755, true)) {
             exception('创建缩略图缓存目录失败');
         }
-        $maxWidth = config('thumb_max_width');
-        $maxHeight = config('thumb_max_height');
+        $maxWidth = config('const.thumbMaxWidth');
+        $maxHeight = config('const.thumbMaxHeight');
         if ($image->width() <= $maxWidth && $image->height() <= $maxHeight) {
             $image->save(CACHE_PATH . $thumbPath, null, 90);
         } else {
@@ -277,13 +277,13 @@ function convert_array_encoding(&$arr, $toEncoding, $fromEncoding)
 
 /**
  * 设置页面背景样式
- * @param number|string $bgStyle 背景样式
+ * @param int|string $bgStyle 背景图片ID或样式
  */
 function set_bg_style($bgStyle)
 {
     if (empty($bgStyle)) return;
     $style = '';
-    $bgImageList = config('bg_image_list');
+    $bgImageList = config('const.bgImageList');
     if (preg_match('/[<>{}\r\n]/', trim($bgStyle))) return;
     if (is_numeric(intval($bgStyle)) && $bgStyle >= 1 && $bgStyle <= count($bgImageList)) {
         $style = 'background-image: url("' . PUBLIC_PATH . config('static_path') . 'img/bg/' . $bgImageList[$bgStyle - 1] . '")';
@@ -296,5 +296,25 @@ function set_bg_style($bgStyle)
     }
     if (!empty($style)) {
         config('bg_style', '<style>body, .modal-content, .dialog-content { ' . $style . '; }</style>');
+    }
+}
+
+/**
+ * 获取或设置用户Cookie
+ * @param int $uid 用户ID
+ * @param string $name Cookie名称
+ * @param string|null $value Cookie值（设为null表示删除该Cookie）
+ * @param int $expire Cookie有效期
+ * @return mixed
+ */
+function user_cookie($uid, $name, $value = '', $expire = 0)
+{
+    $prefix = $uid . '_' . config('cookie.prefix');
+    if ($value === '') {
+        return \think\Cookie::get($name, $prefix);
+    } elseif (is_null($value)) {
+        \think\Cookie::delete($name, $prefix);
+    } else {
+        \think\Cookie::set($name, $value, ['prefix' => $prefix, 'expire' => $expire, 'httponly' => '']);
     }
 }

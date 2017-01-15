@@ -21,12 +21,8 @@ class Post extends Base
         $response = Proxy::get('post.php', $request->param());
         $post = new responser\Post($response);
         $data = $post->index();
-        if ($request->isAjax()) {
-            return $data;
-        } else {
-            $this->assign(array_merge($data, ['multiQuote' => input('multiquote', 0)]));
-            return $this->fetch('Post/index');
-        }
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Post/index', array_merge($data, ['multiQuote' => input('multiquote', 0)]));
     }
 
     /**

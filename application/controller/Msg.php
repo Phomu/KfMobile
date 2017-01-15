@@ -17,7 +17,7 @@ class Msg extends Controller
      */
     protected function _initialize()
     {
-        set_bg_style(cookie('bgStyle'));
+        set_bg_style(cookie(config('const.bgStyleCookieName')));
     }
 
     /**

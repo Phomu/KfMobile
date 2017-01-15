@@ -23,12 +23,8 @@ class Read extends Base
         $response = Proxy::get('read.php', $request->param());
         $read = new responser\Read($response);
         $data = $read->index();
-        if ($request->isAjax()) {
-            return $data;
-        } else {
-            $this->assign(array_merge($data, ['fpage' => $fpage, 'floor' => $floor]));
-            return $this->fetch('Read/index');
-        }
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Read/index', array_merge($data, ['fpage' => $fpage, 'floor' => $floor]));
     }
 
     /**

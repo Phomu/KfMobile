@@ -22,7 +22,8 @@ class Share extends Base
         if (!in_array($type, ['16', '41', '67', '68', '92', '127', 'cn'])) $type = 'all';
         $response = Proxy::get('kf_share.php', $request->param());
         $share = new responser\Share($response);
-        $this->assign($share->index(['type' => $type]));
-        return $this->fetch('Share/index');
+        $data = $share->index(['type' => $type]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Share/index', $data);
     }
 }

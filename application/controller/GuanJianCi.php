@@ -20,7 +20,8 @@ class GuanJianCi extends Base
     {
         $response = Proxy::get('guanjianci.php', $request->param());
         $gjc = new responser\GuanJianCi($response);
-        $this->assign($gjc->index());
-        return $this->fetch('GuanJianCi/index');
+        $data = $gjc->index();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('GuanJianCi/index', $data);
     }
 }

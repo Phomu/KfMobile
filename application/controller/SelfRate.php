@@ -20,8 +20,9 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=1', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->latest(['action' => $request->action(), 'showRateIntro' => true]));
-        return $this->fetch('SelfRate/latest');
+        $data = $selfRate->latest(['action' => $request->action(), 'showRateIntro' => true]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/latest', $data);
     }
 
     /**
@@ -33,8 +34,9 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=2', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->waitCheck(['action' => $request->action(), 'showRateIntro' => true]));
-        return $this->fetch('SelfRate/waitCheck');
+        $data = $selfRate->waitCheck(['action' => $request->action(), 'showRateIntro' => true]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/waitCheck', $data);
     }
 
     /**
@@ -46,8 +48,9 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=3', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->my(['action' => $request->action(), 'showRateIntro' => true]));
-        return $this->fetch('SelfRate/my');
+        $data = $selfRate->my(['action' => $request->action(), 'showRateIntro' => true]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/my', $data);
     }
 
     /**
@@ -59,8 +62,9 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=4', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->complete(['action' => $request->action(), 'showRateIntro' => true]));
-        return $this->fetch('SelfRate/complete');
+        $data = $selfRate->complete(['action' => $request->action(), 'showRateIntro' => true]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/complete', $data);
     }
 
     /**
@@ -72,8 +76,9 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?do=1', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->rating(['action' => $request->action()]));
-        return $this->fetch('SelfRate/rating');
+        $data = $selfRate->rating(['action' => $request->action()]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/rating', $data);
     }
 
     /**
@@ -87,7 +92,8 @@ class SelfRate extends Base
         $do = intval($do) === 3 ? 3 : 2;
         $response = Proxy::get('kf_fw_1wkfb.php?do=' . $do, $request->param());
         $selfRate = new responser\SelfRate($response);
-        $this->assign($selfRate->check(['action' => $request->action()]));
-        return $this->fetch('SelfRate/check');
+        $data = $selfRate->check(['action' => $request->action()]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/check', $data);
     }
 }

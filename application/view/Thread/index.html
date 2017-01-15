@@ -180,8 +180,8 @@
             {$vo.threadName}
           </a>
         </div>
-        <footer class="thread-item-footer">
-          <small class="col-4">
+        <footer class="thread-footer">
+          <div class="col-4 thread-footer-column">
             <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
               <i class="fa fa-user" aria-hidden="true"></i> {$vo.author}
             </a>
@@ -191,8 +191,8 @@
               <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
               <time>{$vo.publishTime}</time>
             </span>
-          </small>
-          <small class="col-4 text-center">
+          </div>
+          <div class="col-4 thread-footer-column text-center">
             <span data-toggle="{gt name='vo.replyNum' value='100000'}tooltip{/gt}" title="回复数：{$vo.replyNum}" aria-label="回复数">
               <i class="fa fa-commenting-o" aria-hidden="true"></i> {$vo.replyNum}
             </span>
@@ -200,8 +200,8 @@
             <span data-toggle="{gt name='vo.hitNum' value='100000'}tooltip{/gt}" title="点击数：{$vo.hitNum}" aria-label="点击数">
               <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> {$vo.hitNum}
             </span>
-          </small>
-          <small class="col-4 text-right">
+          </div>
+          <div class="col-4 thread-footer-column text-right">
             <a href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}" title="最后回复者" aria-label="最后回复者">
               <i class="fa fa-reply" aria-hidden="true"></i> {$vo.lastReplier}
             </a>
@@ -210,7 +210,7 @@
               <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
               <time>{$vo.lastReplyTime}</time>
             </span>
-          </small>
+          </div>
         </footer>
       </li>
       {/volist}

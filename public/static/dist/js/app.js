@@ -105,9 +105,7 @@ var init = function init() {
     if (pageId === 'indexPage') {
         Index.handleAtTipsBtn();
         Index.handleIndexThreadPanel();
-        Index.handleSelectBgImage();
-        Index.handleSelectBgColor();
-        Index.handleCustomBgStyle();
+        Index.handleSelectBg();
     } else if (pageId === 'readPage') {
         Read.gotoFloor();
         if (Config.threadContentFontSize > 0) $('head').append('<style>.read-content { font-size: ' + Config.threadContentFontSize + 'px; }</style>');
@@ -176,7 +174,7 @@ var init = function init() {
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();
     if (Config.kfSmileEnhanceExtensionEnabled && ['readPage', 'postPage', 'writeMessagePage'].includes(pageId)) {
-        $('body').append('<script src="/static/dist/js/userScript/KfEmotion.min.user.js?ts=' + Info.resTimestamp + '"></script>');
+        $('body').append('<script src="' + Info.rootPath + Info.staticPath + 'js/userScript/KfEmotion.min.user.js?ts=' + Info.resTimestamp + '"></script>');
     }
 
     $('[data-toggle="tooltip"]').tooltip({ 'container': 'body' });
@@ -1204,6 +1202,11 @@ var storagePrefix = 'kf_';
  * 常量类
  */
 var Const = {
+    // at提醒时间的Cookie有效期（天）
+    atTipsTimeExpires: 3,
+    // 页面背景样式的Cookie有效期（天）
+    bgStyleExpires: 365,
+
     // 通用存储数据名称前缀
     storagePrefix: storagePrefix,
     // 存储多重引用数据的LocalStorage名称
@@ -1212,8 +1215,9 @@ var Const = {
     atTipsTimeCookieName: 'atTipsTime',
     // 上一次at提醒时间的Cookie名称
     prevAtTipsTimeCookieName: 'prevAtTipsTime',
-    // 背景样式的Cookie名称
+    // 页面背景样式的Cookie名称
     bgStyleCookieName: 'bgStyle',
+
     // 常用版块列表
     commonForumList: [{ fid: 106, name: '新作动态' }, { fid: 41, name: '网盘下载' }, { fid: 16, name: '种子下载' }, { fid: 52, name: '游戏讨论' }, { fid: 84, name: '动漫讨论' }, { fid: 67, name: 'CG下载' }, { fid: 5, name: '自由讨论' }, { fid: 56, name: '个人日记' }, { fid: 57, name: '同人漫本' }],
     // 可用版块列表
@@ -1331,7 +1335,7 @@ var close = exports.close = function close(id) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleCustomBgStyle = exports.handleSelectBgColor = exports.handleSelectBgImage = exports.handleIndexThreadPanel = exports.handleAtTipsBtn = undefined;
+exports.handleSelectBg = exports.handleIndexThreadPanel = exports.handleAtTipsBtn = undefined;
 
 var _util = require('./util');
 
@@ -1351,23 +1355,18 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * 处理首页的@提醒按钮
  */
 var handleAtTipsBtn = exports.handleAtTipsBtn = function handleAtTipsBtn() {
-    var $atTips = $('#atTips');
-    if ($atTips.data('time') === Util.getCookie(_const2.default.atTipsTimeCookieName)) {
-        $atTips.removeClass('btn-outline-danger').addClass('btn-outline-primary');
-    }
-
-    $atTips.click(function () {
+    $('#atTips').click(function () {
         var $this = $(this);
         var time = $this.data('time');
         var cookieValue = Util.getCookie(_const2.default.atTipsTimeCookieName);
         if (!time || time === cookieValue) return;
         if (!cookieValue) {
-            var currentDate = new Date().getDate();
-            Util.setCookie(_const2.default.prevAtTipsTimeCookieName, (currentDate < 10 ? '0' + currentDate : currentDate) + '日00时00分');
+            var curDate = new Date().getDate().toString();
+            Util.setCookie(_const2.default.prevAtTipsTimeCookieName, curDate.padStart(2, '0') + '日00时00分');
         } else if (cookieValue !== time) {
             Util.setCookie(_const2.default.prevAtTipsTimeCookieName, cookieValue);
         }
-        Util.setCookie(_const2.default.atTipsTimeCookieName, time, Util.getDate('+3d'));
+        Util.setCookie(_const2.default.atTipsTimeCookieName, time, Util.getDate('+' + _const2.default.atTipsTimeExpires + 'd'));
         $this.removeClass('btn-outline-danger').addClass('btn-outline-primary');
     });
 };
@@ -1376,14 +1375,10 @@ var handleAtTipsBtn = exports.handleAtTipsBtn = function handleAtTipsBtn() {
  * 处理首页主题链接面板
  */
 var handleIndexThreadPanel = exports.handleIndexThreadPanel = function handleIndexThreadPanel() {
-    if (Config.activeNewReplyPanel) {
-        $('a[data-toggle="tab"][href="' + Config.activeNewReplyPanel + '"]').tab('show');
-    }
-    if (Config.activeTopRecommendPanel) {
-        $('a[data-toggle="tab"][href="' + Config.activeTopRecommendPanel + '"]').tab('show');
-    }
+    if (Config.activeNewReplyPanel) $('a[data-toggle="tab"][href="' + Config.activeNewReplyPanel + '"]').tab('show');
+    if (Config.activeTopRecommendPanel) $('a[data-toggle="tab"][href="' + Config.activeTopRecommendPanel + '"]').tab('show');
 
-    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+    $(document).on('shown.bs.tab', '[data-toggle="tab"]', function (e) {
         var $target = $(e.target);
         var targetPanel = $target.attr('href');
         var typeName = '';
@@ -1397,9 +1392,9 @@ var handleIndexThreadPanel = exports.handleIndexThreadPanel = function handleInd
 };
 
 /**
- * 处理选择页面背景图片
+ * 处理选择页面背景
  */
-var handleSelectBgImage = exports.handleSelectBgImage = function handleSelectBgImage() {
+var handleSelectBg = exports.handleSelectBg = function handleSelectBg() {
     $('#selectBgImage').on('click', '[data-id]', function () {
         var $this = $(this);
         var id = $this.data('id');
@@ -1407,33 +1402,21 @@ var handleSelectBgImage = exports.handleSelectBgImage = function handleSelectBgI
         var path = $this.parent().data('path');
         if (!id || !fileName || !path) return;
         if (confirm('是否选择此背景图片？')) {
-            Util.setCookie(_const2.default.bgStyleCookieName, id, Util.getDate('+1y'), _const2.default.storagePrefix);
+            Util.setCookie(_const2.default.bgStyleCookieName, id, Util.getDate('+' + _const2.default.bgStyleExpires + 'd'), _const2.default.storagePrefix);
             $('body, .modal-content').css('background-image', 'url("' + path + fileName + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         }
-    });
-};
-
-/**
- * 处理选择页面背景颜色
- */
-var handleSelectBgColor = exports.handleSelectBgColor = function handleSelectBgColor() {
-    $('#selectBgImage').on('click', '[data-color]', function () {
+    }).on('click', '[data-color]', function () {
         var $this = $(this);
         var color = $this.data('color');
         if (!color) return;
         if (confirm('是否选择此背景颜色？')) {
-            Util.setCookie(_const2.default.bgStyleCookieName, color, Util.getDate('+1y'), _const2.default.storagePrefix);
+            Util.setCookie(_const2.default.bgStyleCookieName, color, Util.getDate('+' + _const2.default.bgStyleExpires + 'd'), _const2.default.storagePrefix);
             $('body, .modal-content').css('background', color);
             alert('背景已更换');
         }
     });
-};
 
-/**
- * 处理自定义背景样式
- */
-var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgStyle() {
     $('#customBgStyle').click(function () {
         var value = Util.getCookie(_const2.default.bgStyleCookieName, _const2.default.storagePrefix);
         if (!value || parseInt(value)) value = '';
@@ -1445,16 +1428,16 @@ var handleCustomBgStyle = exports.handleCustomBgStyle = function handleCustomBgS
             alert('背景已恢复默认');
             location.reload();
         } else if (/^https?:\/\/[^"']+/.test(value)) {
-            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'), _const2.default.storagePrefix);
+            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+' + _const2.default.bgStyleExpires + 'd'), _const2.default.storagePrefix);
             $bg.css('background-image', 'url("' + value + '")');
             alert('背景已更换（图片可能需要一定时间加载）');
         } else if (/^#[0-9a-f]{6}$/i.test(value)) {
-            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'), _const2.default.storagePrefix);
+            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+' + _const2.default.bgStyleExpires + 'd'), _const2.default.storagePrefix);
             $bg.css('background', value.toLowerCase());
             alert('背景已更换');
         } else if (!/[<>{}]/.test(value)) {
             value = value.replace(';', '');
-            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+1y'), _const2.default.storagePrefix);
+            Util.setCookie(_const2.default.bgStyleCookieName, value, Util.getDate('+' + _const2.default.bgStyleExpires + 'd'), _const2.default.storagePrefix);
             $bg.css('background', value);
             alert('背景已更换（图片可能需要一定时间加载）');
         } else {

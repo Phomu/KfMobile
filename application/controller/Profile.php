@@ -20,8 +20,9 @@ class Profile extends Base
     {
         $response = Proxy::get('profile.php?action=show', $request->param());
         $profile = new responser\Profile($response);
-        $this->assign($profile->show());
-        return $this->fetch('Profile/show');
+        $data = $profile->show();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Profile/show', $data);
     }
 
     /**
@@ -36,8 +37,9 @@ class Profile extends Base
         if ($request->isPost()) $func = 'post';
         $response = Proxy::$func('profile.php?action=favor', $request->param());
         $profile = new responser\Profile($response);
-        $this->assign($profile->favor(['type' => $type]));
-        return $this->fetch('Profile/favor');
+        $data = $profile->favor(['type' => $type]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Profile/favor', $data);
     }
 
     /**
@@ -51,8 +53,9 @@ class Profile extends Base
         if ($request->isPost()) $func = 'post';
         $response = Proxy::$func('profile.php?action=friend', $request->param());
         $profile = new responser\Profile($response);
-        $this->assign($profile->friend());
-        return $this->fetch('Profile/friend');
+        $data = $profile->friend();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Profile/friend', $data);
     }
 
     /**
@@ -89,7 +92,8 @@ class Profile extends Base
             $response = Proxy::get('profile.php?action=modify', $request->param());
         }
         $profile = new responser\Profile($response);
-        $this->assign($profile->modify());
-        return $this->fetch('Profile/modify');
+        $data = $profile->modify();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Profile/modify', $data);
     }
 }

@@ -58,7 +58,7 @@ class Login extends Controller
             );
         }
         $cookies = $response['cookies'];
-        $userCookieName = config('kf_cookie_prefix') . 'winduser';
+        $userCookieName = config('const.kfCookiePrefix') . config('const.userAccountCookieName');
         if (isset($cookies[$userCookieName])) {
             $expire = input('cktime', 0) ? 60 * 60 * 24 * 356 : 0;
             cookie($userCookieName, $cookies[$userCookieName], ['prefix' => '', 'expire' => $expire, 'httponly' => 'true']);

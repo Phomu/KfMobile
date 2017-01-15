@@ -74,7 +74,7 @@
     }
 
     // 主题列表项底部
-    .thread-item-footer {
+    .thread-footer {
       @include make-col(12);
       display: flex;
       padding: {
@@ -82,12 +82,14 @@
         right: $spacer-2;
       }
 
-      small {
+      // 主题列表项底部分栏
+      .thread-footer-column {
         @include text-truncate;
         padding: {
           left: 0;
           right: 0;
         }
+        font-size: $small-font-size;
         color: $text-muted;
         line-height: 2.2;
       }
@@ -95,8 +97,8 @@
   }
 }
 
-#threadPage {
-  // 主题页面中的主题列表尾部增加补白
+// 个别页面中的主题链接末尾增加补白
+#threadPage, #searchPage {
   .thread-link::after {
     padding-right: $spacer * 2;
     content: " ";

@@ -67,9 +67,7 @@ const init = function () {
     if (pageId === 'indexPage') {
         Index.handleAtTipsBtn();
         Index.handleIndexThreadPanel();
-        Index.handleSelectBgImage();
-        Index.handleSelectBgColor();
-        Index.handleCustomBgStyle();
+        Index.handleSelectBg();
     }
     else if (pageId === 'readPage') {
         Read.gotoFloor();
@@ -155,7 +153,7 @@ const init = function () {
     if (Config.followUserEnabled) Public.followUsers();
     if (Config.kfSmileEnhanceExtensionEnabled && ['readPage', 'postPage', 'writeMessagePage'].includes(pageId)) {
         $('body').append(
-            `<script src="/static/dist/js/userScript/KfEmotion.min.user.js?ts=${Info.resTimestamp}"></script>`
+            `<script src="${Info.rootPath}${Info.staticPath}js/userScript/KfEmotion.min.user.js?ts=${Info.resTimestamp}"></script>`
         );
     }
 

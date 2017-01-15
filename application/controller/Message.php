@@ -24,8 +24,9 @@ class Message extends Base
         $param['action'] = $action;
         $response = Proxy::get('message.php', $param);
         $message = new responser\Message($response);
-        $this->assign($message->index(['action' => $action]));
-        return $this->fetch('Message/index');
+        $data = $message->index(['action' => $action]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Message/index', $data);
     }
 
     /**
@@ -51,8 +52,9 @@ class Message extends Base
     {
         $response = Proxy::get('message.php?action=banned', $request->param());
         $message = new responser\Message($response);
-        $this->assign($message->banned(['action' => 'banned']));
-        return $this->fetch('Message/banned');
+        $data = $message->banned(['action' => 'banned']);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Message/banned', $data);
     }
 
     /**
@@ -68,8 +70,9 @@ class Message extends Base
         $param['action'] = $action;
         $response = Proxy::get('message.php', $param);
         $message = new responser\Message($response);
-        $this->assign($message->read(['action' => $action]));
-        return $this->fetch('Message/read');
+        $data = $message->read(['action' => $action]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Message/read', $data);
     }
 
     /**
@@ -81,7 +84,8 @@ class Message extends Base
     {
         $response = Proxy::get('message.php?action=write', $request->param());
         $message = new responser\Message($response);
-        $this->assign($message->write(['action' => 'write']));
-        return $this->fetch('Message/write');
+        $data = $message->write(['action' => 'write']);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Message/write', $data);
     }
 }

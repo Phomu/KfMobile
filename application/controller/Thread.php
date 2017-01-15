@@ -25,7 +25,8 @@ class Thread extends Base
             'type' => input('type/d', 0),
             'orderway' => input('orderway', ''),
         ];
-        $this->assign($thread->index($extraData));
-        return $this->fetch($extraData['jpn'] ? 'Thread/jpn' : 'Thread/index');
+        $data = $thread->index($extraData);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch($extraData['jpn'] ? 'Thread/jpn' : 'Thread/index', $data);
     }
 }

@@ -8,6 +8,11 @@ const storagePrefix = 'kf_';
  * 常量类
  */
 const Const = {
+    // at提醒时间的Cookie有效期（天）
+    atTipsTimeExpires: 3,
+    // 页面背景样式的Cookie有效期（天）
+    bgStyleExpires: 365,
+
     // 通用存储数据名称前缀
     storagePrefix: storagePrefix,
     // 存储多重引用数据的LocalStorage名称
@@ -16,8 +21,9 @@ const Const = {
     atTipsTimeCookieName: 'atTipsTime',
     // 上一次at提醒时间的Cookie名称
     prevAtTipsTimeCookieName: 'prevAtTipsTime',
-    // 背景样式的Cookie名称
+    // 页面背景样式的Cookie名称
     bgStyleCookieName: 'bgStyle',
+
     // 常用版块列表
     commonForumList: [
         {fid: 106, name: '新作动态'},

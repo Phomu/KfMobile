@@ -19,8 +19,13 @@
     {empty name="atTipsTime"}
     <a class="btn btn-outline-primary btn-block" href="{:url('GuanJianCi/index', 'gjc=' . $userName)}" target="_blank">最近无人@你</a>
     {else /}
-    <a class="btn btn-outline-danger btn-block" id="atTips" data-time="{$atTipsTime}" href="{:url('GuanJianCi/index', 'gjc=' . $userName)}"
-       target="_blank">
+    {eq name="atTipsTime" value=":user_cookie($uid, 'atTipsTime')"}
+    {assign name="atTipsTimeColor" value="primary" /}
+    {else /}
+    {assign name="atTipsTimeColor" value="danger" /}
+    {/eq}
+    <a class="btn btn-outline-{$atTipsTimeColor} btn-block" id="atTips" data-time="{$atTipsTime}"
+       href="{:url('GuanJianCi/index', 'gjc=' . $userName)}" target="_blank">
       有人@你 ({$atTipsTime})
     </a>
     {/empty}
@@ -386,7 +391,7 @@
       <i class="fa fa-signal" aria-hidden="true"></i> 选择背景
     </h4>
     <div class="col-12 card-block p-2" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
-      {volist name="Think.config.bg_image_list" id="vo"}
+      {volist name="Think.config.const.bgImageList" id="vo"}
       <span class="img-thumbnail bg-sprite bg-sprite-{$i}" data-id="{$i}" data-filename="{$vo}"></span>
       {/volist}
       <span class="img-thumbnail" data-color="#f6f4ec" style="background-color: #f6f4ec;"></span>

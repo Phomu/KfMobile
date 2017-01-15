@@ -103,8 +103,8 @@
               {$vo.msgTitle}
             </a>
           </div>
-          <footer class="thread-item-footer">
-            <small>
+          <footer class="thread-footer">
+            <div class="thread-footer-column">
               {eq name="action" value="receivebox"}
               <a class="{empty name='vo.sendUid'}text-gray-dark{/empty}" href="{:url('Profile/show?uid=' . $vo['sendUid'])}" title="发件人"
                  aria-label="发件人">
@@ -125,7 +125,7 @@
                 <i class="fa fa-pencil" aria-hidden="true"></i> 编辑
               </a>&nbsp;
               {/eq}
-            </small>
+            </div>
           </footer>
         </li>
         {/volist}

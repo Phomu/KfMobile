@@ -21,7 +21,8 @@ class Faq extends Base
         $id = intval($id);
         $response = Proxy::get('faq.php', 'id=' . $id);
         $faq = new responser\Faq($response);
-        $this->assign($faq->index(['id' => $id]));
-        return $this->fetch('Faq/index');
+        $data = $faq->index(['id' => $id]);
+        if ($this->request->isAjax()) return $data;
+        else return $this->fetch('Faq/index', $data);
     }
 }
