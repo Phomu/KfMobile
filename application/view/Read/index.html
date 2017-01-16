@@ -246,7 +246,7 @@
         <span data-toggle="tooltip" title="{$vo.sign}"><i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}</span>
         {/notempty}
       </div>
-      <div class="ml-auto">
+      <div class="ml-auto text-nowrap">
         {notempty name="hasBlockFloor"}
         <a class="btn btn-outline-danger btn-sm block-floor"
            href="{:url('Read/blockFloor', ['safeid'=>$safeId, 'tid'=>$tid, 'pid'=>$vo['pid']])}" role="button">
