@@ -360,3 +360,18 @@ export const handleUserPageBtns = function () {
         }
     });
 };
+
+/**
+ * 处理个人信息页面上的元素
+ */
+export const handleProfilePage = function () {
+    let $registerDate = $('#registerDate');
+    let matches = /(\d{4})-(\d{2})-(\d{2})/.exec($registerDate.text());
+    if (matches) {
+        let now = new Date();
+        let [, year, month, day] = matches;
+        if (parseInt(month) === now.getMonth() + 1 && parseInt(day) === now.getDate() && parseInt(year) <= now.getFullYear()) {
+            $registerDate.attr('title', `今天是该用户注册${now.getFullYear() - parseInt(year)}周年纪念日`).addClass('text-danger help');
+        }
+    }
+};

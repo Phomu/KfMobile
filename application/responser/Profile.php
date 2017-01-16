@@ -53,12 +53,25 @@ class Profile extends Responser
             $line = str_replace("\r\n", "", $line);
             $line = str_replace("\t", "", $line);
             $line = preg_replace('/([^<>]+?)：/', '<strong>$1：</strong>', trim($line), 1);
-            $line = preg_replace_callback('/\(\s*<b>(在线|离线)<\/b>\s*\)/i',
+            $line = preg_replace_callback(
+                '/\(\s*<b>(在线|离线)<\/b>\s*\)/',
                 function ($matches) {
                     $isOnline = false;
                     if (trim($matches[1]) === '在线') $isOnline = true;
                     return sprintf('<span class="badge badge-%s ml-1">%s</span>', $isOnline ? 'success' : 'default', $isOnline ? '在线' : '离线');
                 },
+                $line
+            );
+            $line = preg_replace_callback(
+                '/(-?\d+)\s*(帖|KFB|小时)/',
+                function ($matches) {
+                    return sprintf('<span data-num="%d">%s</span>&nbsp;%s', $matches[1], number_format($matches[1]), $matches[2]);
+                },
+                $line
+            );
+            $line = preg_replace(
+                '/(注册时间：<\/strong>)(\d+-\d+-\d+)/',
+                '$1<span id="registerDate" data-toggle="tooltip">$2</span>',
                 $line
             );
         }

@@ -139,6 +139,7 @@ var init = function init() {
         Other.highlightUnReadAtTipsMsg();
     } else if (pageId === 'userPage') {
         Other.handleUserPageBtns();
+        Other.handleProfilePage();
     } else if (pageId === 'gameIntroSearchPage') {
         Other.handleGameIntroSearchArea();
     } else if (pageId === 'gameIntroPage') {
@@ -1575,7 +1576,9 @@ var destroy = exports.destroy = function destroy() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleUserPageBtns = exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+exports.handleProfilePage = exports.handleUserPageBtns = exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -1963,6 +1966,26 @@ var handleUserPageBtns = exports.handleUserPageBtns = function handleUserPageBtn
             $this.removeClass('btn-outline-primary').addClass('btn-outline-danger').find('span').text('取消' + str);
         }
     });
+};
+
+/**
+ * 处理个人信息页面上的元素
+ */
+var handleProfilePage = exports.handleProfilePage = function handleProfilePage() {
+    var $registerDate = $('#registerDate');
+    var matches = /(\d{4})-(\d{2})-(\d{2})/.exec($registerDate.text());
+    if (matches) {
+        var now = new Date();
+
+        var _matches = _slicedToArray(matches, 4),
+            year = _matches[1],
+            month = _matches[2],
+            day = _matches[3];
+
+        if (parseInt(month) === now.getMonth() + 1 && parseInt(day) === now.getDate() && parseInt(year) <= now.getFullYear()) {
+            $registerDate.attr('title', '\u4ECA\u5929\u662F\u8BE5\u7528\u6237\u6CE8\u518C' + (now.getFullYear() - parseInt(year)) + '\u5468\u5E74\u7EAA\u5FF5\u65E5').addClass('text-danger help');
+        }
+    }
 };
 
 },{"./config":2,"./const":4,"./util":13}],9:[function(require,module,exports){

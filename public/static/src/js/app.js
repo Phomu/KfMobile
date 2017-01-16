@@ -104,6 +104,7 @@ const init = function () {
     }
     else if (pageId === 'userPage') {
         Other.handleUserPageBtns();
+        Other.handleProfilePage();
     }
     else if (pageId === 'gameIntroSearchPage') {
         Other.handleGameIntroSearchArea();
