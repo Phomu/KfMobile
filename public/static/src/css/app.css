@@ -6291,7 +6291,7 @@ main {
   .edit-forum-list .btn {
     margin: 5px;
     min-width: 6.143rem;
-    cursor: pointer; }
+    cursor: move; }
 
 .thread-link-group {
   display: flex;

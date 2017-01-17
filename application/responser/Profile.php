@@ -62,16 +62,21 @@ class Profile extends Responser
                 },
                 $line
             );
-            $line = preg_replace_callback(
-                '/(-?\d+)\s*(帖|KFB|小时)/',
-                function ($matches) {
-                    return sprintf('<span data-num="%d">%s</span>&nbsp;%s', $matches[1], number_format($matches[1]), $matches[2]);
-                },
+            $line = preg_replace(
+                '/(系统等级：<\/strong>)(\S+)/',
+                '$1<span class="text-danger">$2</span>',
                 $line
             );
             $line = preg_replace(
                 '/(注册时间：<\/strong>)(\d+-\d+-\d+)/',
                 '$1<span id="registerDate" data-toggle="tooltip">$2</span>',
+                $line
+            );
+            $line = preg_replace_callback(
+                '/(-?\d+)\s*(帖|KFB|小时)/',
+                function ($matches) {
+                    return sprintf('<span data-num="%d">%s</span>&nbsp;%s', $matches[1], number_format($matches[1]), $matches[2]);
+                },
                 $line
             );
         }
