@@ -53,7 +53,6 @@
     bottom: $spacer;
   }
   font-size: 1rem; // ~14px
-  word-break: break-all;
   word-wrap: break-word;
 
   // 引用框
@@ -93,7 +92,7 @@
     pre {
       padding-bottom: $spacer-2;
       font-size: inherit;
-      word-break: normal;
+      word-wrap: normal;
       overflow-y: auto;
     }
 
@@ -125,7 +124,7 @@
           left: $spacer-2;
           right: $spacer-2;
         }
-        word-break: normal;
+        word-wrap: normal;
       }
     }
 
