@@ -489,7 +489,7 @@ export const blockThread = function () {
     else if (pageId === 'threadPage') {
         $('.thread-link').each(function () {
             let $this = $(this);
-            if (isBlock($this.text().trim(), $this.data('author'), Info.fid)) {
+            if (isBlock($this.attr('title'), $this.data('author'), Info.fid)) {
                 num++;
                 $this.closest('.thread-list-item').remove();
             }
