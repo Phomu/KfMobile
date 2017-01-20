@@ -80,6 +80,7 @@ const init = function () {
         Read.handleBlockFloorBtn();
         Read.handleBuyThreadBtn();
         Read.copyBuyThreadList();
+        Read.replaceAttachLabel();
         Read.handleFloorImage();
         Post.checkPostForm();
         Public.bindFastSubmitShortcutKey($('#postContent'));

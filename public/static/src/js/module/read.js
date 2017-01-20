@@ -280,3 +280,16 @@ export const addUserMemo = function () {
         );
     });
 };
+
+/**
+ * 替换附件标签
+ */
+export const replaceAttachLabel = function () {
+    $('.attach-label').each(function () {
+        let $this = $(this);
+        if ($this.closest('.blockquote').length > 0) return;
+        let aid = $this.data('aid');
+        let pid = $this.closest('.read-floor').data('pid');
+        $this.replaceWith(`<img class="img" src="/job.php?action=download&pid=${pid}&tid=${Info.tid}&aid=${aid}" alt="[附件图片]">`);
+    });
+};

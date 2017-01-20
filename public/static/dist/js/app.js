@@ -116,6 +116,7 @@ var init = function init() {
         Read.handleBlockFloorBtn();
         Read.handleBuyThreadBtn();
         Read.copyBuyThreadList();
+        Read.replaceAttachLabel();
         Read.handleFloorImage();
         Post.checkPostForm();
         Public.bindFastSubmitShortcutKey($('#postContent'));
@@ -3082,7 +3083,7 @@ var blockThread = exports.blockThread = function blockThread() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.addUserMemo = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
+exports.replaceAttachLabel = exports.addUserMemo = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
 
 var _util = require('./util');
 
@@ -3350,6 +3351,19 @@ var addUserMemo = exports.addUserMemo = function addUserMemo() {
         });
         if (!key) return;
         $this.find('.floor-user').after('<span class="tips font-size-sm" data-toggle="tooltip" title="\u5907\u6CE8\uFF1A' + Config.userMemoList[key] + '">[?]</span>');
+    });
+};
+
+/**
+ * 替换附件标签
+ */
+var replaceAttachLabel = exports.replaceAttachLabel = function replaceAttachLabel() {
+    $('.attach-label').each(function () {
+        var $this = $(this);
+        if ($this.closest('.blockquote').length > 0) return;
+        var aid = $this.data('aid');
+        var pid = $this.closest('.read-floor').data('pid');
+        $this.replaceWith('<img class="img" src="/job.php?action=download&pid=' + pid + '&tid=' + Info.tid + '&aid=' + aid + '" alt="[\u9644\u4EF6\u56FE\u7247]">');
     });
 };
 
