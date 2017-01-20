@@ -2866,7 +2866,7 @@ var followUsers = exports.followUsers = function followUsers() {
         $('.thread-link').each(function () {
             var $this = $(this);
             if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
-                $this.closest('.thread-list-item').find('.thread-item-footer a:first').addClass('text-danger');
+                $this.closest('.thread-list-item').find('.thread-footer-column a:first').addClass('text-danger');
                 if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
             }
         });
@@ -3154,7 +3154,7 @@ var handleBuyThreadBtn = exports.handleBuyThreadBtn = function handleBuyThreadBt
         var price = $this.data('price');
         if (price > 5 && !confirm('\u6B64\u8D34\u552E\u4EF7' + price + 'KFB\uFF0C\u662F\u5426\u8D2D\u4E70\uFF1F')) return;
         var $wait = Msg.wait('正在购买帖子&hellip;');
-        $.get(Util.makeUrl('job/buytopic', 'tid=' + Info.tid + '&pid=' + pid + '&verify=' + Info.verify), function (_ref) {
+        $.get(Util.makeUrl('job/buytopic', 'tid=' + Info.tid + '&pid=' + pid + '&verify=' + Info.verify + '&t=' + new Date().getTime()), function (_ref) {
             var msg = _ref.msg;
 
             Msg.remove($wait);

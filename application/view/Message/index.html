@@ -90,16 +90,16 @@
             </div>
             {/eq}
             <span class="font-size-sm text-muted">{$vo.no}.</span>
-            {eq name="vo.unRead" value="true"}
-            <span class="badge badge-danger">未读</span>
-            {/eq}
             {switch name="action"}
             {case value="sendbox"}{assign name="readAction" value="readsnd" /}{/case}
             {case value="scout"}{assign name="readAction" value="readscout" /}{/case}
             {default /}{assign name="readAction" value="read" /}
             {/switch}
             <a href="{:url('Message/read', ($readAction !== 'read' ? 'action=' . $readAction . '&' : '') . 'mid=' . $vo['mid'])}"
-               class="thread-link">
+               class="thread-link d-inline">
+              {eq name="vo.unRead" value="true"}
+              <span class="badge badge-danger">未读</span>
+              {/eq}
               {$vo.msgTitle}
             </a>
           </div>

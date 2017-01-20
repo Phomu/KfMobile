@@ -55,7 +55,7 @@ export const handleBuyThreadBtn = function () {
         let price = $this.data('price');
         if (price > 5 && !confirm(`此贴售价${price}KFB，是否购买？`)) return;
         let $wait = Msg.wait('正在购买帖子&hellip;');
-        $.get(Util.makeUrl('job/buytopic', `tid=${Info.tid}&pid=${pid}&verify=${Info.verify}`),
+        $.get(Util.makeUrl('job/buytopic', `tid=${Info.tid}&pid=${pid}&verify=${Info.verify}&t=${new Date().getTime()}`),
             function ({msg}) {
                 Msg.remove($wait);
                 if (msg === '操作完成') {

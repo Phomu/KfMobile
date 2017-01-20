@@ -55,7 +55,8 @@
       @include make-col(12);
       max-height: 3.357rem;
       padding: {
-        top: $spacer-1;
+        top: $spacer-2;
+        bottom: $spacer-1;
         left: $spacer-2;
         right: $spacer-2;
       }
@@ -63,6 +64,8 @@
 
       // 主题链接
       .thread-link {
+        display: inline-block;
+        width: 100%;
         text-decoration: none;
       }
     }
@@ -94,14 +97,6 @@
         line-height: 2.2;
       }
     }
-  }
-}
-
-// 个别页面中的主题链接末尾增加补白
-#threadPage, #searchPage {
-  .thread-link::after {
-    padding-right: $spacer * 2;
-    content: " ";
   }
 }
 

@@ -97,9 +97,7 @@
       {volist name="moonGameList" id="vo"}
       <li class="list-group-item thread-list-item">
         <div class="thread-link-item">
-          <a class="thread-link" href="{:url('GameIntro/game?id=' . $vo['id'])}">
-            {$vo.name}
-          </a>
+          <a class="thread-link" href="{:url('GameIntro/game?id=' . $vo['id'])}">{$vo.name}</a>
         </div>
         <footer class="thread-footer">
           <div class="thread-footer-column">

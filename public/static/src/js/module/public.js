@@ -331,7 +331,7 @@ export const followUsers = function () {
         $('.thread-link').each(function () {
             let $this = $(this);
             if (Util.inFollowOrBlockUserList($this.data('author'), Config.followUserList) > -1) {
-                $this.closest('.thread-list-item').find('.thread-item-footer a:first').addClass('text-danger');
+                $this.closest('.thread-list-item').find('.thread-footer-column a:first').addClass('text-danger');
                 if (Config.highlightFollowUserThreadLinkEnabled) $this.addClass('text-danger');
             }
         });

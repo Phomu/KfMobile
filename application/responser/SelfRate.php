@@ -172,7 +172,7 @@ class SelfRate extends Responser
             if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
                 $tid = intval($matches[1]);
             }
-            $pqThreadLink->attr('href', url('Read/index?tid=' . $tid))->addClass('thread-link font-size-base');
+            $pqThreadLink->attr('href', url('Read/index?tid=' . $tid))->addClass('thread-link d-inline font-size-base');
             $rateInfo = trim($pqRateCell->html());
             $rateInfo = preg_replace('/\[(<a.+?<\/a>)\]/i', ' $1 ', $rateInfo);
 
