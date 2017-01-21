@@ -24,4 +24,18 @@ class Loot extends Base
         if ($request->isAjax()) return $data;
         else return $this->fetch('Loot/rank', $data);
     }
+
+    /**
+     * 展示争夺帮助说明页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function readme(Request $request)
+    {
+        $response = Proxy::get('kf_fw_ig_readme.php');
+        $loot = new responser\Loot($response);
+        $data = $loot->readme();
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('Loot/readme', $data);
+    }
 }
