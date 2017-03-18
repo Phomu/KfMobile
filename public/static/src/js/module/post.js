@@ -28,10 +28,10 @@ export const handleEditorBtns = function () {
                 value = prompt('请输入神秘等级：', 1);
                 break;
             case 'audio': {
-                value = prompt('请输入HTML5音频实际地址：\n（可直接输入网易云音乐或虾米的单曲地址，将自动转换为外链地址）', 'http://');
+                value = prompt('请输入HTML5音频实际地址：\n（可直接输入网易云音乐的单曲地址，将自动转换为外链地址）', 'http://');
                 let matches = /^https?:\/\/music\.163\.com\/(?:#\/)?song\?id=(\d+)/i.exec(value);
                 if (matches) value = `http://music.miaola.info/163/${matches[1]}.mp3`;
-                matches = /^https?:\/\/www\.xiami\.com\/song\/(\d+)/i.exec(value);
+                matches = /^https?:\/\/www\.xiami\.com\/song\/(\w+)/i.exec(value);
                 if (matches) value = `http://music.miaola.info/xiami/${matches[1]}.mp3`;
             }
                 break;

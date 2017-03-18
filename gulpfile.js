@@ -44,7 +44,7 @@ const imgDistPath = distPath + 'img/';
  */
 const getBundler = function () {
     return browserify({entries: [jsSrcPath + 'app.js'], debug: true})
-        .transform(babelify, {presets: ['es2015', 'es2016', 'es2017']});
+        .transform(babelify, {presets: ['es2015']});
 };
 
 /**

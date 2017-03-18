@@ -1581,8 +1581,6 @@ exports.handleProfilePage = exports.handleUserPageBtns = exports.validateRegiste
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _util = require('./util');
 
 var Util = _interopRequireWildcard(_util);
@@ -1815,44 +1813,38 @@ var bindMessageActionBtnsClick = exports.bindMessageActionBtnsClick = function b
         } else if (name === 'selectInverse') {
             Util.selectInverse($('[name="delid[]"]'));
         } else if (name === 'selectCustom') {
-            var _ret = function () {
-                var title = $.trim(prompt('请填写所要选择的包含指定字符串的短消息标题（可用|符号分隔多个标题）', '收到了他人转账的KFB|银行汇款通知|您的文章被评分|您的文章被删除'));
-                if (!title) return {
-                        v: void 0
-                    };
-                $('[name="delid[]"]').prop('checked', false);
-                $('a.thread-link').each(function () {
-                    var $this = $(this);
-                    var _iteratorNormalCompletion = true;
-                    var _didIteratorError = false;
-                    var _iteratorError = undefined;
+            var title = $.trim(prompt('请填写所要选择的包含指定字符串的短消息标题（可用|符号分隔多个标题）', '收到了他人转账的KFB|银行汇款通知|您的文章被评分|您的文章被删除'));
+            if (!title) return;
+            $('[name="delid[]"]').prop('checked', false);
+            $('a.thread-link').each(function () {
+                var $this = $(this);
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
 
-                    try {
-                        for (var _iterator = title.split('|')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                            var key = _step.value;
+                try {
+                    for (var _iterator = title.split('|')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var key = _step.value;
 
-                            if ($this.text().toLowerCase().includes(key.toLowerCase())) {
-                                $this.parent().find('[name="delid[]"]').prop('checked', true);
-                            }
-                        }
-                    } catch (err) {
-                        _didIteratorError = true;
-                        _iteratorError = err;
-                    } finally {
-                        try {
-                            if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
-                            }
-                        } finally {
-                            if (_didIteratorError) {
-                                throw _iteratorError;
-                            }
+                        if ($this.text().toLowerCase().includes(key.toLowerCase())) {
+                            $this.parent().find('[name="delid[]"]').prop('checked', true);
                         }
                     }
-                });
-            }();
-
-            if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            });
         } else if (name === 'download') {
             var $checked = $('[name="delid[]"]:checked');
             if ($checked.length > 0 && confirm('\u662F\u5426\u4E0B\u8F7D\u8FD9' + $checked.length + '\u9879\uFF1F')) {
@@ -2043,10 +2035,10 @@ var handleEditorBtns = exports.handleEditorBtns = function handleEditorBtns() {
                 break;
             case 'audio':
                 {
-                    value = prompt('请输入HTML5音频实际地址：\n（可直接输入网易云音乐或虾米的单曲地址，将自动转换为外链地址）', 'http://');
+                    value = prompt('请输入HTML5音频实际地址：\n（可直接输入网易云音乐的单曲地址，将自动转换为外链地址）', 'http://');
                     var matches = /^https?:\/\/music\.163\.com\/(?:#\/)?song\?id=(\d+)/i.exec(value);
                     if (matches) value = 'http://music.miaola.info/163/' + matches[1] + '.mp3';
-                    matches = /^https?:\/\/www\.xiami\.com\/song\/(\d+)/i.exec(value);
+                    matches = /^https?:\/\/www\.xiami\.com\/song\/(\w+)/i.exec(value);
                     if (matches) value = 'http://music.miaola.info/xiami/' + matches[1] + '.mp3';
                 }
                 break;
@@ -2575,15 +2567,13 @@ var handleSearchDialog = exports.handleSearchDialog = function handleSearchDialo
             $searchKeyword.attr('name', searchType === 'author' ? 'pwuser' : 'keyword');
             if (searchType === 'title') {
                 if (keyword.length && Util.getStrByteLen(keyword) <= 2) {
-                    (function () {
-                        var $method = $this.find('[name="method"]');
-                        $method.val('OR');
-                        $searchKeyword.val(keyword + ' ' + Math.floor(new Date().getTime() / 1000));
-                        setTimeout(function () {
-                            $searchKeyword.val(keyword);
-                            $method.val('AND');
-                        }, 200);
-                    })();
+                    var $method = $this.find('[name="method"]');
+                    $method.val('OR');
+                    $searchKeyword.val(keyword + ' ' + Math.floor(new Date().getTime() / 1000));
+                    setTimeout(function () {
+                        $searchKeyword.val(keyword);
+                        $method.val('AND');
+                    }, 200);
                 }
             }
         }
@@ -2698,9 +2688,9 @@ var showEditCommonForumDialog = exports.showEditCommonForumDialog = function sho
             };
 
             for (var _iterator2 = _const2.default.availableForumList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var _ret2 = _loop();
+                var _ret = _loop();
 
-                if (_ret2 === 'continue') continue;
+                if (_ret === 'continue') continue;
             }
         } catch (err) {
             _didIteratorError2 = true;
@@ -3248,13 +3238,11 @@ var handleTuiThreadBtn = exports.handleTuiThreadBtn = function handleTuiThreadBt
             success: function success(msg) {
                 var matches = /<span.+?\+\d+!<\/span>\s*(\d+)/i.exec(msg);
                 if (matches) {
-                    (function () {
-                        var $num = $this.find('span:first');
-                        $num.text('+1');
-                        setTimeout(function () {
-                            $num.text(matches[1]);
-                        }, 1000);
-                    })();
+                    var $num = $this.find('span:first');
+                    $num.text('+1');
+                    setTimeout(function () {
+                        $num.text(matches[1]);
+                    }, 1000);
                 } else if (/已推过/.test(msg)) {
                     alert('已推过');
                 } else {
