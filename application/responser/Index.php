@@ -43,7 +43,7 @@ class Index extends Responser
             $smLevel = intval($matches[1]);
             $smRank = $matches[2];
         }
-        $hasRatingBonus = pq('a[href^="kf_fw_1wkfb.php?ping=3"]')->length > 0;
+        $hasRatingBonus = pq('a.indbox5[href^="kf_fw_1wkfb.php?ping=3"]')->length > 0;
 
         // 最新回复帖子
         $galgameNewReplyList = [];

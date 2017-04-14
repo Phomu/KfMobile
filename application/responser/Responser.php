@@ -1,4 +1,5 @@
 <?php
+
 namespace app\responser;
 
 use think\Cookie;
@@ -106,19 +107,22 @@ class Responser
         $keywords = trim_strip(pq('meta[name="keywords"]', $doc)->attr('content'));
         $description = trim_strip(pq('meta[name="description"]', $doc)->attr('content'));
 
-        $pqUser = pq('.topright > a[href^="profile.php?action=show&uid="]', $doc);
+        $pqUserMenu = pq('.topmenuo1 > .topmenuo3:last-child > .topmenuo2', $doc);
+
+        $pqUser = $pqUserMenu->find('a[href^="profile.php?action=show&uid="]', $doc);
         $uid = 0;
         if (preg_match('/&uid=(\d+)/i', $pqUser->attr('href'), $matches)) $uid = intval($matches[1]);
-        $userName = trim_strip($pqUser->text());
+        $userName = '';
+        if ($pqUser->length > 0) $userName = trim_strip($pqUser->contents()->get(0)->textContent);
         $userTitle = trim_strip($pqUser->attr('title'));
         if (!$userName && !$this->noCheckLogin) {
             success('请登录', 'login/index');
         }
 
-        $hasNewMsg = trim(pq('.topright > a[href="message.php"]', $doc)->text()) === '新消息';
+        $hasNewMsg = trim($pqUserMenu->find('a[href="message.php"]', $doc)->text()) === '有新消息';
 
         $verify = '';
-        if (preg_match('/&verify=(\w+)/i', pq('.topright > a[href^="login.php?action=quit&verify="]', $doc)->attr('href'), $matches)) {
+        if (preg_match('/&verify=(\w+)/i', $pqUserMenu->find('a[href^="login.php?action=quit&verify="]', $doc)->attr('href'), $matches)) {
             $verify = $matches[1];
         }
         $safeId = '';
