@@ -1634,7 +1634,6 @@ var tuiGameIntro = exports.tuiGameIntro = function tuiGameIntro(type) {
     var cookieName = '';
     if (type === 'company') cookieName = 'g_intro_inc_tui_';else if (type === 'type') cookieName = 'g_intro_adv_tui_';else if (type === 'property') cookieName = 'g_intro_moe_tui_';else cookieName = 'g_intro_tui_';
     cookieName += Info.id;
-    var url = Util.makeUrl('game_intro/' + type, 'id=' + Info.id + '&tui=1');
 
     $('.tui-btn').click(function (e) {
         e.preventDefault();
@@ -1647,7 +1646,7 @@ var tuiGameIntro = exports.tuiGameIntro = function tuiGameIntro(type) {
         $this.data('wait', true);
         $.ajax({
             type: 'GET',
-            url: url,
+            url: $this.data('url'),
             success: function success() {
                 var $num = $this.find('span:first');
                 var num = parseInt($num.text());

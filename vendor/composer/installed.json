@@ -10,14 +10,20 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/jae-jae/phpQuery-single/4b1dc2b2625a4a142f21a0b85a4254c327dfc5c4.zip",
+            "url": "https://api.github.com/repos/jae-jae/phpQuery-single/zipball/4b1dc2b2625a4a142f21a0b85a4254c327dfc5c4",
             "reference": "4b1dc2b2625a4a142f21a0b85a4254c327dfc5c4",
-            "shasum": ""
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-01-02 17:34:12",
+        "time": "2016-01-02T17:34:12+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -55,9 +61,15 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/think-image/8586cf47f117481c6d415b20f7dedf62e79d5512.zip",
+            "url": "https://api.github.com/repos/top-think/think-image/zipball/8586cf47f117481c6d415b20f7dedf62e79d5512",
             "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512",
-            "shasum": ""
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
         },
         "require": {
             "ext-gd": "*"
@@ -66,7 +78,7 @@
             "phpunit/phpunit": "4.8.*",
             "topthink/framework": "^5.0"
         },
-        "time": "2016-09-29 06:05:43",
+        "time": "2016-09-29T06:05:43+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -97,9 +109,15 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/top-think/think-installer/4c6e1ebecd1afce3f4ccc47e147d61bbe1bf641d.zip",
+            "url": "https://api.github.com/repos/top-think/think-installer/zipball/4c6e1ebecd1afce3f4ccc47e147d61bbe1bf641d",
             "reference": "4c6e1ebecd1afce3f4ccc47e147d61bbe1bf641d",
-            "shasum": ""
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
         },
         "require": {
             "composer-plugin-api": "^1.0"
@@ -107,7 +125,7 @@
         "require-dev": {
             "composer/composer": "1.0.*@dev"
         },
-        "time": "2016-12-01 09:08:45",
+        "time": "2016-12-01T09:08:45+00:00",
         "type": "composer-plugin",
         "extra": {
             "class": "think\\composer\\Plugin"
@@ -131,18 +149,24 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.0.7",
-        "version_normalized": "5.0.7.0",
+        "version": "v5.0.8",
+        "version_normalized": "5.0.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "bcf64f19f4fadbff6c8503891689ff7e6f2fe9a3"
+            "reference": "02f8e8a9099c534d1b2c38385fcf1fa5404694d4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/top-think/framework/bcf64f19f4fadbff6c8503891689ff7e6f2fe9a3.zip",
-            "reference": "bcf64f19f4fadbff6c8503891689ff7e6f2fe9a3",
-            "shasum": ""
+            "url": "https://api.github.com/repos/top-think/framework/zipball/02f8e8a9099c534d1b2c38385fcf1fa5404694d4",
+            "reference": "02f8e8a9099c534d1b2c38385fcf1fa5404694d4",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
         },
         "require": {
             "php": ">=5.4.0",
@@ -156,7 +180,7 @@
             "phpunit/phpunit": "4.8.*",
             "sebastian/phpcpd": "2.*"
         },
-        "time": "2017-02-25 02:51:57",
+        "time": "2017-04-28T09:33:15+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "autoload": {

@@ -47,7 +47,6 @@ export const tuiGameIntro = function (type) {
     else if (type === 'property') cookieName = 'g_intro_moe_tui_';
     else cookieName = 'g_intro_tui_';
     cookieName += Info.id;
-    let url = Util.makeUrl('game_intro/' + type, `id=${Info.id}&tui=1`);
 
     $('.tui-btn').click(function (e) {
         e.preventDefault();
@@ -60,7 +59,7 @@ export const tuiGameIntro = function (type) {
         $this.data('wait', true);
         $.ajax({
             type: 'GET',
-            url: url,
+            url: $this.data('url'),
             success: function () {
                 let $num = $this.find('span:first');
                 let num = parseInt($num.text());

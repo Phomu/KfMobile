@@ -1,7 +1,9 @@
 <?php
+
 namespace app\lib;
 
 use think\App;
+use think\Cookie;
 
 /**
  * 反向代理类
@@ -43,7 +45,7 @@ class Proxy
         $url = (!empty($extraData['proxyDomain']) ? $extraData['proxyDomain'] : config('proxy_domain')) .
             mb_convert_encoding($url, $remoteEncoding, $siteEncoding);
 
-        $cookies = input('cookie.', []);
+        $cookies = Cookie::get('', '');
         unset($cookies[config('const.kfCookiePrefix') . 'ipfrom']);
         $clientIp = input('server.REMOTE_ADDR');
         $headers = [
