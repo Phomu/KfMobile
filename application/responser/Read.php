@@ -187,7 +187,7 @@ class Read extends Responser
         $floorNum = 0;
         $publishTime = '';
         $sign = '';
-        $pqFloorTop = $pqFloor->prev('.readlou');
+        $pqFloorTop = $pqFloor->prev('div')->prev('.readlou');
         $pid = $pqFloorTop->prev('a')->attr('name');
         $pqFloorTopInfo = $pqFloorTop->find('> div:nth-child(2)');
         if (preg_match('/(\d+)楼/', $pqFloorTopInfo->find('span:first-child')->text(), $matches)) {

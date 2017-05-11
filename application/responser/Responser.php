@@ -109,12 +109,14 @@ class Responser
 
         $pqUserMenu = pq('.topmenuo1 > .topmenuo3:last-child > .topmenuo2', $doc);
 
-        $pqUser = $pqUserMenu->find('a[href^="profile.php?action=show&uid="]', $doc);
-        $uid = 0;
-        if (preg_match('/&uid=(\d+)/i', $pqUser->attr('href'), $matches)) $uid = intval($matches[1]);
+        $pqUserName = pq('.topmenuo1 > .topmenuo3:last-child > a[href="javascript:;"]', $doc);
         $userName = '';
-        if ($pqUser->length > 0) $userName = trim_strip($pqUser->contents()->get(0)->textContent);
-        $userTitle = trim_strip($pqUser->attr('title'));
+        if ($pqUserName->length > 0) $userName = trim_strip($pqUserName->contents()->get(0)->textContent);
+        $userTitle = trim_strip($pqUserName->attr('title'));
+
+        $pqUid = $pqUserMenu->find('a[href^="profile.php?action=show&uid="]:contains("我的信息")', $doc);
+        $uid = 0;
+        if (preg_match('/&uid=(\d+)/i', $pqUid->attr('href'), $matches)) $uid = intval($matches[1]);
         if (!$userName && !$this->noCheckLogin) {
             success('请登录', 'login/index');
         }
