@@ -20,7 +20,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=1', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $data = $selfRate->latest(['action' => $request->action(), 'showRateIntro' => true]);
+        $data = $selfRate->latest(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
         else return $this->fetch('SelfRate/latest', $data);
     }
@@ -34,7 +34,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=2', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $data = $selfRate->waitCheck(['action' => $request->action(), 'showRateIntro' => true]);
+        $data = $selfRate->waitCheck(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
         else return $this->fetch('SelfRate/waitCheck', $data);
     }
@@ -48,7 +48,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=3', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $data = $selfRate->my(['action' => $request->action(), 'showRateIntro' => true]);
+        $data = $selfRate->my(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
         else return $this->fetch('SelfRate/my', $data);
     }
@@ -62,7 +62,7 @@ class SelfRate extends Base
     {
         $response = Proxy::get('kf_fw_1wkfb.php?ping=4', $request->param());
         $selfRate = new responser\SelfRate($response);
-        $data = $selfRate->complete(['action' => $request->action(), 'showRateIntro' => true]);
+        $data = $selfRate->complete(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
         else return $this->fetch('SelfRate/complete', $data);
     }
@@ -95,5 +95,33 @@ class SelfRate extends Base
         $data = $selfRate->check(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
         else return $this->fetch('SelfRate/check', $data);
+    }
+
+    /**
+     * 展示待检查的优秀帖页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function waitCheckGoodPost(Request $request)
+    {
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=5', $request->param());
+        $selfRate = new responser\SelfRate($response);
+        $data = $selfRate->waitCheckGoodPost(['action' => $request->action()]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/waitCheckGoodPost', $data);
+    }
+
+    /**
+     * 展示已完成的优秀帖页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function completeGoodPost(Request $request)
+    {
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=6', $request->param());
+        $selfRate = new responser\SelfRate($response);
+        $data = $selfRate->completeGoodPost(['action' => $request->action()]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/completeGoodPost', $data);
     }
 }
