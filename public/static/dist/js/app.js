@@ -113,6 +113,7 @@ var init = function init() {
         Read.handleTuiThreadBtn();
         Read.handleCopyFloorLinkBtn();
         Read.handleFastReplyBtn();
+        Read.handleGoodPostBtn();
         Read.handleBlockFloorBtn();
         Read.handleBuyThreadBtn();
         Read.copyBuyThreadList();
@@ -3072,7 +3073,7 @@ var blockThread = exports.blockThread = function blockThread() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.replaceAttachLabel = exports.addUserMemo = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
+exports.replaceAttachLabel = exports.addUserMemo = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleGoodPostBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
 
 var _util = require('./util');
 
@@ -3121,6 +3122,24 @@ var handleFastReplyBtn = exports.handleFastReplyBtn = function handleFastReplyBt
         postContent.selectionStart = postContent.value.length;
         postContent.selectionEnd = postContent.value.length;
         postContent.focus();
+    });
+};
+
+/**
+ * 处理提交优秀帖按钮
+ */
+var handleGoodPostBtn = exports.handleGoodPostBtn = function handleGoodPostBtn() {
+    $(document).on('click', '.handle-post-btn', function () {
+        var $this = $(this);
+        if (!Info.goodPostTips || $this.data('wait')) return;
+        var pid = $(this).closest('.read-floor').data('pid');
+        if (!confirm('\u662F\u5426\u63D0\u4EA4\u672C\u697C\u5C42\u4E3A\u4F18\u79C0\u5E16\u5B50\uFF1F\n\uFF08' + Info.goodPostTips + '\uFF09')) return;
+        $this.data('wait', true);
+        $.post('/diy_read_cztz.php', 'tid=' + Info.tid + '&pid=' + pid + '&safeid=' + Info.safeId).done(function (html) {
+            return alert(html);
+        }).always(function () {
+            return $this.removeData('wait');
+        });
     });
 };
 

@@ -77,6 +77,7 @@ const init = function () {
         Read.handleTuiThreadBtn();
         Read.handleCopyFloorLinkBtn();
         Read.handleFastReplyBtn();
+        Read.handleGoodPostBtn();
         Read.handleBlockFloorBtn();
         Read.handleBuyThreadBtn();
         Read.copyBuyThreadList();

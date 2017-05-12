@@ -38,6 +38,22 @@ export const handleFastReplyBtn = function () {
 };
 
 /**
+ * 处理提交优秀帖按钮
+ */
+export const handleGoodPostBtn = function () {
+    $(document).on('click', '.handle-post-btn', function () {
+        let $this = $(this);
+        if (!Info.goodPostTips || $this.data('wait')) return;
+        let pid = $(this).closest('.read-floor').data('pid');
+        if (!confirm(`是否提交本楼层为优秀帖子？\n（${Info.goodPostTips}）`)) return;
+        $this.data('wait', true);
+        $.post('/diy_read_cztz.php', `tid=${Info.tid}&pid=${pid}&safeid=${Info.safeId}`)
+            .done(html => alert(html))
+            .always(() => $this.removeData('wait'));
+    });
+};
+
+/**
  * 处理屏蔽回帖按钮
  */
 export const handleBlockFloorBtn = function () {

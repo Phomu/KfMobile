@@ -1,4 +1,5 @@
 <?php
+
 namespace app\responser;
 
 /**
@@ -80,6 +81,9 @@ class Read extends Responser
         foreach (pq('.readtext') as $floor) {
             $floorList[] = $this->floor(pq($floor));
         }
+        $goodPostTips = '';
+        $pqGoodPostTips = pq('a[id^="cztz"]:first')->parent()->contents()->eq(3);
+        if ($pqGoodPostTips->length > 0) $goodPostTips = trim($pqGoodPostTips->get(0)->textContent);
 
         // 回帖表单
         $postContentName = pq('[name="atc_content"]')->attr('name');
@@ -158,6 +162,7 @@ class Read extends Responser
             'pageParam' => $pageParam,
             'canBlockFloor' => $canBlockFloor,
             'floorList' => $floorList,
+            'goodPostTips' => $goodPostTips,
             'postContentName' => $postContentName,
             'postVerify' => $postVerify,
             'voteTitle' => $voteTitle,
