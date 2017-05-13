@@ -22,4 +22,8 @@ return [
     'game/:id' => ['GameIntro/game', [], ['id' => '\d+']],
     // 帮助页面
     'faq/:id' => ['Faq/index', [], ['id' => '\d+']],
+    // 待检查的优秀帖页面
+    'good_post/waitcheck' => 'SelfRate/waitCheckGoodPost',
+    // 已完成的优秀帖记录
+    'good_post/complete' => 'SelfRate/completeGoodPost',
 ];

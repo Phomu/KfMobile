@@ -119,6 +119,10 @@ function convert_url($url)
                         return url('SelfRate/my', $params);
                     case 4:
                         return url('SelfRate/complete', $params);
+                    case 5:
+                        return url('SelfRate/waitCheckGoodPost', $params);
+                    case 6:
+                        return url('SelfRate/completeGoodPost', $params);
                     default:
                         return url('SelfRate/latest', $params);
                 }
