@@ -14,7 +14,9 @@
         <a class="dropdown-toggle d-inline-block align-middle py-0" id="userMenuDropdownBtn" data-toggle="dropdown" href="#"
            title="{$userTitle}" role="button" aria-haspopup="true" aria-expanded="false">
           {$userName}
-          {eq name="hasNewMsg" value="true"}&nbsp;<span class="badge badge-danger">New</span>{/eq}
+          {if condition="$hasNewMsg OR $hasNewRateMsg"}
+          <span class="badge badge-{eq name='hasNewMsg' value='true'}danger{else /}success{/eq}">New</span>
+          {/if}
         </a>
         <div class="dropdown-menu" aria-labelledby="userMenuDropdownBtn">
           <a class="dropdown-item" href="{:url('Profile/show?uid=' . $uid)}">
@@ -36,6 +38,7 @@
           </a>
           <a class="dropdown-item" href="{:url('SelfRate/my')}">
             <i class="fa fa-star fa-fw" aria-hidden="true"></i> 我的评分
+            {eq name="hasNewRateMsg" value="true"}<span class="badge badge-success">New</span>{/eq}
           </a>
           <div class="dropdown-divider" role="separator"></div>
           <a class="dropdown-item" href="{:url('Profile/favor')}">

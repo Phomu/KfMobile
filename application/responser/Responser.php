@@ -114,17 +114,18 @@ class Responser
         if ($pqUserName->length > 0) $userName = trim_strip($pqUserName->contents()->get(0)->textContent);
         $userTitle = trim_strip($pqUserName->attr('title'));
 
-        $pqUid = $pqUserMenu->find('a[href^="profile.php?action=show&uid="]:contains("我的信息")', $doc);
+        $pqUid = $pqUserMenu->find('a[href^="profile.php?action=show&uid="]:contains("我的信息")');
         $uid = 0;
         if (preg_match('/&uid=(\d+)/i', $pqUid->attr('href'), $matches)) $uid = intval($matches[1]);
         if (!$userName && !$this->noCheckLogin) {
             success('请登录', 'login/index');
         }
 
-        $hasNewMsg = trim($pqUserMenu->find('a[href="message.php"]', $doc)->text()) === '有新消息';
+        $hasNewMsg = trim($pqUserMenu->find('a[href="message.php"]')->text()) === '有新消息';
+        $hasNewRateMsg = trim($pqUserMenu->find('a[href^="kf_fw_1wkfb.php"]')->text()) === '有新的评分';
 
         $verify = '';
-        if (preg_match('/&verify=(\w+)/i', $pqUserMenu->find('a[href^="login.php?action=quit&verify="]', $doc)->attr('href'), $matches)) {
+        if (preg_match('/&verify=(\w+)/i', $pqUserMenu->find('a[href^="login.php?action=quit&verify="]')->attr('href'), $matches)) {
             $verify = $matches[1];
         }
         $safeId = '';
@@ -147,6 +148,7 @@ class Responser
             'userName' => $userName,
             'userTitle' => $userTitle,
             'hasNewMsg' => $hasNewMsg,
+            'hasNewRateMsg' => $hasNewRateMsg,
             'verify' => $verify,
             'safeId' => $safeId,
             'imgPath' => $imgPath,
