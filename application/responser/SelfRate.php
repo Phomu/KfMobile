@@ -307,13 +307,13 @@ class SelfRate extends Responser
 
         // 自助评分奖励信息
         $pqArea = pq('.adp1');
-        $pqThreadLink = $pqArea->find('tr:eq(3) > td:last-child > a');
+        $pqThreadLink = $pqArea->find('tr:eq(2) > td:last-child > a');
         $tid = 0;
         if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
             $tid = intval($matches[1]);
         }
         $threadTitle = trim_strip($pqThreadLink->text());
-        $forumName = trim_strip($pqArea->find('tr:eq(4) > td:last-child')->text());
+        $forumName = trim_strip($pqArea->find('tr:eq(3) > td:last-child')->text());
 
         $data = [
             'tid' => $tid,
@@ -350,21 +350,21 @@ class SelfRate extends Responser
         // 自助评分奖励信息
         $pqArea = pq('.adp1');
         $id = intval($pqArea->find('input[name="pfid"]')->val());
-        $pqThreadLink = $pqArea->find('tr:eq(3) > td:last-child > a');
+        $pqThreadLink = $pqArea->find('tr:eq(2) > td:last-child > a');
         $tid = 0;
         if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
             $tid = intval($matches[1]);
         }
         $threadTitle = trim_strip($pqThreadLink->text());
-        $rateUserName = trim_strip($pqArea->find('tr:eq(4) > td:last-child')->text());
+        $rateUserName = trim_strip($pqArea->find('tr:eq(3) > td:last-child')->text());
         $rateSize = 0;
-        if (preg_match('/(\d+)\s*MB/i', $pqArea->find('tr:eq(5) > td:last-child')->html(), $matches)) {
+        if (preg_match('/(\d+)\s*MB/i', $pqArea->find('tr:eq(4) > td:last-child')->html(), $matches)) {
             $rateSize = intval($matches[1]);
         }
-        $isNew = strpos(trim($pqArea->find('tr:eq(6) > td:last-child')->html()), '是') === 0;
-        $isSelfBuy = strpos(trim($pqArea->find('tr:eq(7) > td:last-child')->html()), '是') === 0;
-        $isFake = strpos(trim($pqArea->find('tr:eq(8) > td:last-child')->html()), '是') === 0;
-        $rateMsg = trim($pqArea->find('tr:eq(9) > td:last-child')->html());
+        $isNew = strpos(trim($pqArea->find('tr:eq(5) > td:last-child')->html()), '是') === 0;
+        $isSelfBuy = strpos(trim($pqArea->find('tr:eq(6) > td:last-child')->html()), '是') === 0;
+        $isFake = strpos(trim($pqArea->find('tr:eq(7) > td:last-child')->html()), '是') === 0;
+        $rateMsg = trim($pqArea->find('tr:eq(8) > td:last-child')->html());
         $rateMsg = trim(preg_replace('/<span style="color:#ff0000;">.+?<\/span>/i', '', $rateMsg));
         if ($rateMsg === '0') $rateMsg = '';
 
