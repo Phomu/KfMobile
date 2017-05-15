@@ -6520,6 +6520,8 @@ main {
 .vote-group {
   max-height: 370px;
   overflow-y: auto; }
+  .vote-group li {
+    display: block; }
 
 #postPage .breadcrumb li:nth-child(2) {
   max-width: 190px; }

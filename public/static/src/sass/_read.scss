@@ -189,4 +189,8 @@
 .vote-group {
   max-height: 370px;
   overflow-y: auto;
+
+  li {
+    display: block;
+  }
 }

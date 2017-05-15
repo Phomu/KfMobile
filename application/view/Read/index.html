@@ -47,7 +47,7 @@
       <ul class="list-group list-group-sm vote-group mb-3">
         {volist name="voteList" id="vo"}
         <li class="list-group-item">
-          <div class="form-check mb-1">
+          <div class="form-check form-check-inline mb-1">
             {notempty name="vo.itemType"}
             <label class="form-check-label">
               <input class="form-check-input" name="voteid[]" type="{$vo.itemType}" value="{$vo.itemValue}">
@@ -58,7 +58,7 @@
             {/notempty}
           </div>
           {eq name="vo.itemVoteCount" value="-1"}
-          <div class="small text-muted">* 票</div>
+          <div class="d-inline-block small text-muted pl-1">* 票</div>
           {else /}
           {assign name="itemVotePercent" value="$voteTotalCount > 0 ? $vo.itemVoteCount / $voteTotalCount * 100 : 0"}
           <div class="progress w-100">
