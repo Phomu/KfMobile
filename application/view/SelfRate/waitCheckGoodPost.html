@@ -43,7 +43,8 @@
             <span title="提交时间" aria-label="提交时间">
               <i class="fa fa-calendar" aria-hidden="true"></i> {$vo.submitTime}
             </span>&nbsp;
-            <a href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank" title="提交用户ID" aria-label="提交用户ID">
+            <a href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank" title="提交用户ID" aria-label="提交用户ID"
+               class="{eq name='vo.uid' value='$uid'}text-danger{/eq}">
               <i class="fa fa-user" aria-hidden="true"></i> uid[{$vo.uid}]
             </a>&nbsp;
           </div>

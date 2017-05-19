@@ -35,8 +35,12 @@
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.rateTime}</time>
             </span>&nbsp;
+            {empty name="vo.extraMemo"}
             <span class="text-success">+[<b>{$vo.kfb|number_format}</b>]KFB</span>&nbsp;
             <span class="text-info">+[<b>{$vo.gongXian}</b>]贡献</span>&nbsp;
+            {else /}
+            <span>{$vo.extraMemo}</span>&nbsp;
+            {/empty}
           </div>
         </footer>
       </li>

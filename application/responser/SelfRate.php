@@ -168,14 +168,14 @@ class SelfRate extends Responser
             $rateTime = trim_strip($pqItem->find('> td:first-child')->text());
 
             $pqRateCell = $pqItem->find('> td:nth-child(2)');
-            $pqThreadLink = $pqRateCell->find('a');
-            $tid = 0;
-            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
-                $tid = intval($matches[1]);
-            }
-            $pqThreadLink->attr('href', url('Read/index?tid=' . $tid))->addClass('thread-link d-inline font-size-base');
-            $rateInfo = trim($pqRateCell->html());
-            $rateInfo = preg_replace('/\[(<a.+?<\/a>)\]/i', ' $1 ', $rateInfo);
+            $pqRateCell->find('a')->addClass('thread-link d-inline font-size-base');
+            $rateInfo = trim(str_replace('&amp;', '&', $pqRateCell->html()));
+            $rateInfo = preg_replace_callback('/href="([^"]+)"/', function ($matches) {
+                return 'href="' . convert_url($matches[1]) . '"';
+            }, $rateInfo);
+            $rateInfo = preg_replace_callback('/\[(.+?)\]/', function ($matches) {
+                return '[<span class="text-danger">' . $matches[1] . '</span>]';
+            }, $rateInfo, 1);
 
             $kfb = 0;
             if (preg_match('/\+\[(\d+)\]KFB/i', $pqItem->find('> td:nth-child(3)')->text(), $matches)) {
@@ -185,12 +185,20 @@ class SelfRate extends Responser
             if (preg_match('/\+\[([\d\.]+)\]贡献/i', $pqItem->find('> td:nth-child(4)')->text(), $matches)) {
                 $gongXian = floatval($matches[1]);
             }
+            $extraMemo = '';
+            if (!$kfb && !$gongXian) {
+                $extraMemo = trim($pqItem->find('> td:nth-child(3)')->html());
+                $extraMemo = preg_replace_callback('/href="([^"]+)"/', function ($matches) {
+                    return 'href="' . convert_url($matches[1]) . '"';
+                }, $extraMemo);
+            }
 
             $threadList[] = [
                 'rateInfo' => $rateInfo,
                 'rateTime' => $rateTime,
                 'kfb' => $kfb,
                 'gongXian' => $gongXian,
+                'extraMemo' => $extraMemo,
             ];
         }
 
