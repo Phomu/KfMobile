@@ -81,21 +81,25 @@
           </a>
         </div>
         <footer class="thread-footer">
-          <div class="thread-footer-column">
+          <div class="col-4 thread-footer-column">
             {notempty name="vo.threadForum"}
             <span class="text-gray-dark" title="所属版块" aria-label="所属版块">
               <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadForum}
-            </span>&nbsp;
+            </span>
             {/notempty}
+          </div>
+          <div class="col-4 thread-footer-column text-center">
             <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
-            </a>&nbsp;
+            </a>
+          </div>
+          <div class="col-4 thread-footer-column text-right">
             <span title="回复时间" aria-label="回复时间">
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.replyTime}</time>
-            </span>&nbsp;
+            </span>
           </div>
         </footer>
       </li>

@@ -87,14 +87,16 @@
           </a>
         </div>
         <footer class="thread-footer">
-          <div  class="thread-footer-column">
+          <div class="col-6 thread-footer-column">
             <span title="发表时间" aria-label="发表时间">
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.publishTime}</time>
-            </span>&nbsp;
+            </span>
+          </div>
+          <div class="col-6 thread-footer-column text-right">
             <a class="text-success" href="{:url('SelfRate/rating', 'safeid=' . $safeId . '&ptid=' . $vo['tid'])}">
               <i class="fa fa-star-o" aria-hidden="true"></i> 获取评分奖励
-            </a>&nbsp;
+            </a>
           </div>
         </footer>
       </li>

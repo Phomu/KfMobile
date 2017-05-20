@@ -81,25 +81,30 @@
           </a>
         </div>
         <footer class="thread-footer">
-          <div class="thread-footer-column">
+          <div class="col-4 thread-footer-column">
             {notempty name="vo.threadForum"}
             <span class="text-gray-dark" title="所属版块" aria-label="所属版块">
               <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadForum}
             </span>&nbsp;
             {/notempty}
+          </div>
+          <div class="col-4 thread-footer-column text-center">
             <span title="回复数" aria-label="回复数">
               <i class="fa fa-commenting-o" aria-hidden="true"></i>
               {$vo.replyNum|number_format}
-            </span>&nbsp;
+            </span>
+            |
             <span title="点击数" aria-label="点击数">
               <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
               {$vo.hitNum|number_format}
-            </span>&nbsp;
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-right">
             <span title="发表时间" aria-label="发表时间">
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.publishTime}</time>
-            </span>&nbsp;
+            </span>
           </div>
         </footer>
       </li>

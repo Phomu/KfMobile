@@ -104,26 +104,28 @@
             </a>
           </div>
           <footer class="thread-footer">
-            <div class="thread-footer-column">
+            <div class="col-6 thread-footer-column">
               {eq name="action" value="receivebox"}
               <a class="{empty name='vo.sendUid'}text-gray-dark{/empty}" href="{:url('Profile/show?uid=' . $vo['sendUid'])}" title="发件人"
                  aria-label="发件人">
                 <i class="fa fa-user" aria-hidden="true"></i> {$vo.sendUserName}
-              </a>&nbsp;
+              </a>
               {else /}
               <a class="{eq name='vo.receiveUid' value='219822'}text-gray-dark{/eq}" href="{:url('Profile/show?uid=' . $vo['receiveUid'])}"
                  title="收件人" aria-label="收件人">
                 <i class="fa fa-user" aria-hidden="true"></i> {$vo.receiveUserName}
-              </a>&nbsp;
+              </a>
               {/eq}
+            </div>
+            <div class="col-6 thread-footer-column text-right">
               <span title="发送时间" aria-label="发送时间">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-              <time>{$vo.sendTime}</time>
-            </span>&nbsp;
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <time>{$vo.sendTime}</time>
+              </span>&nbsp;
               {eq name="vo.canEdit" value="true"}
               <a href="{:url('Message/write?edmid=' . $vo['mid'])}">
                 <i class="fa fa-pencil" aria-hidden="true"></i> 编辑
-              </a>&nbsp;
+              </a>
               {/eq}
             </div>
           </footer>

@@ -60,17 +60,19 @@
             <a class="thread-link d-inline" href="{:url('Read/index?tid=' . $vo['tid'])}" target="_blank">{$vo.threadTitle}</a>
           </div>
           <footer class="thread-footer">
-            <div class="thread-footer-column">
+            <div class="col-6 thread-footer-column">
               {notempty name="vo.threadForum"}
               <span class="text-gray-dark" title="所属版块" aria-label="所属版块">
-              <i class="fa fa-map-signs" aria-hidden="true"></i>
-              {$vo.threadForum}
-            </span>&nbsp;
+                <i class="fa fa-map-signs" aria-hidden="true"></i>
+                {$vo.threadForum}
+              </span>
               {/notempty}
+            </div>
+            <div class="col-6 thread-footer-column text-right">
               <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 {$vo.author}
-              </a>&nbsp;
+              </a>
             </div>
           </footer>
         </li>

@@ -40,10 +40,12 @@
           </a>
         </div>
         <footer class="thread-footer">
-          <div class="thread-footer-column">
+          <div class="col-4 thread-footer-column">
             <span title="剩余时间" aria-label="剩余时间">
               <i class="fa fa-clock-o" aria-hidden="true"></i> {$vo.remainingTime}
-            </span>&nbsp;
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-center">
             {switch name="vo.sizeStatus"}
             {case value="-1"}{assign name="sizeColor" value="warning" /}{/case}
             {case value="1"}{assign name="sizeColor" value="danger" /}{/case}
@@ -53,10 +55,12 @@
                   aria-label="{$vo.sizeTips}">
               <i class="fa fa-file-o" aria-hidden="true"></i>
               认定[{$vo.rateSize|number_format}]MB
-            </span>&nbsp;
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-right">
             <a class="text-danger" href="{:url('SelfRate/check', 'safeid=' . $safeId . '&id=' . $vo['id'])}" target="_blank">
               <i class="fa fa-check-square" aria-hidden="true"></i> 检查详细/纠错
-            </a>&nbsp;
+            </a>
           </div>
         </footer>
       </li>

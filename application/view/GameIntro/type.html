@@ -33,7 +33,8 @@
     <div class="mb-3">
       <img class="img-thumbnail game-intro-cover" src="{$typeCover}" alt="游戏类型封面">
     </div>
-    <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
+    <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数" data-type="type"
+       data-url="{:url('GameIntro/type', 'id=' . $id . '&tui=1')}">
       <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
     </a>
   </div>

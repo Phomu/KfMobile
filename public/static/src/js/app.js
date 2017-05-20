@@ -111,17 +111,8 @@ const init = function () {
     else if (pageId === 'gameIntroSearchPage') {
         Other.handleGameIntroSearchArea();
     }
-    else if (pageId === 'gameIntroPage') {
-        Other.tuiGameIntro('game');
-    }
-    else if (pageId === 'gameIntroCompanyPage') {
-        Other.tuiGameIntro('company');
-    }
-    else if (pageId === 'gameIntroTypePage') {
-        Other.tuiGameIntro('type');
-    }
-    else if (pageId === 'gameIntroPropertyPage') {
-        Other.tuiGameIntro('property');
+    else if (['gameIntroPage', 'gameIntroCompanyPage', 'gameIntroTypePage', 'gameIntroPropertyPage'].includes(pageId)) {
+        Other.tuiGameIntro();
     }
     else if (pageId === 'favorPage') {
         Other.bindFavorPageBtnsClick();

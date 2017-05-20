@@ -77,24 +77,26 @@
       {volist name="shareList" id="vo"}
       <li class="list-group-item thread-list-item">
         <div class="thread-link-item">
-          <a href="{:url('Read/index?tid=' . $vo['tid'])}" class="thread-link" target="_blank">
-            {$vo.threadTitle}
-          </a>
+          <a href="{:url('Read/index?tid=' . $vo['tid'])}" class="thread-link" target="_blank">{$vo.threadTitle}</a>
         </div>
         <footer class="thread-footer">
-          <div class="thread-footer-column">
+          <div class="col-4 thread-footer-column">
             <span style="color: {$vo.threadTypeColor}" title="类型" aria-label="类型">
               <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadType}
-            </span>&nbsp;
-            <a data-author="{$vo.author}" href="{:url('Profile/show?username=' . $vo['author'])}" title="发布者" aria-label="发布者">
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-center">
+            <a data-author="{$vo.author}" href="{:url('Profile/show', 'username=' . $vo['author'])}" title="发布者" aria-label="发布者">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
-            </a>&nbsp;
+            </a>
+          </div>
+          <div class="col-4 thread-footer-column text-right">
             <span title="发布时间" aria-label="发布时间">
               <i class="fa fa-calendar" aria-hidden="true"></i>
               <time>{$vo.publishTime}</time>
-            </span>&nbsp;
+            </span>
           </div>
         </footer>
       </li>

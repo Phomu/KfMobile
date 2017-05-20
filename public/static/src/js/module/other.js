@@ -38,24 +38,25 @@ export const handleGameIntroSearchArea = function () {
 
 /**
  * 推游戏介绍
- * @param {string} type 页面类型
  */
-export const tuiGameIntro = function (type) {
-    let cookieName = '';
-    if (type === 'company') cookieName = 'g_intro_inc_tui_';
-    else if (type === 'type') cookieName = 'g_intro_adv_tui_';
-    else if (type === 'property') cookieName = 'g_intro_moe_tui_';
-    else cookieName = 'g_intro_tui_';
-    cookieName += Info.id;
-
+export const tuiGameIntro = function () {
     $('.tui-btn').click(function (e) {
         e.preventDefault();
         let $this = $(this);
         if ($this.data('wait')) return;
+
+        let type = $this.data('type');
+        let cookieName = '';
+        if (type === 'company') cookieName = 'g_intro_inc_tui_';
+        else if (type === 'type') cookieName = 'g_intro_adv_tui_';
+        else if (type === 'property') cookieName = 'g_intro_moe_tui_';
+        else cookieName = 'g_intro_tui_';
+        cookieName += Info.id;
         if (Util.getCookie(cookieName, '')) {
             alert('你在48小时内已经推过');
             return;
         }
+
         $this.data('wait', true);
         $.ajax({
             type: 'GET',
@@ -73,8 +74,7 @@ export const tuiGameIntro = function (type) {
             },
             complete: function () {
                 $this.removeData('wait');
-            },
-            dataType: 'html'
+            }
         });
     });
 };
