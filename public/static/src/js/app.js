@@ -61,9 +61,9 @@ const init = function () {
     Public.handleSearchDialog();
     Public.fillCommonForumPanel();
     Public.showEditCommonForumDialog();
-    if ($('.page-input').length > 0) {
-        Public.handlePageInput();
-    }
+    if ($('.page-input').length > 0) Public.handlePageInput();
+    Public.bindFastSubmitShortcutKey();
+
     if (pageId === 'indexPage') {
         Index.handleAtTipsBtn();
         Index.handleIndexThreadPanel();
@@ -84,7 +84,6 @@ const init = function () {
         Read.replaceAttachLabel();
         Read.handleFloorImage();
         Post.checkPostForm();
-        Public.bindFastSubmitShortcutKey($('#postContent'));
         Read.handleCopyCodeBtn();
         Post.addSmileCode($('#postContent'));
         Read.bindMultiQuoteCheckClick();
@@ -94,7 +93,6 @@ const init = function () {
     }
     else if (pageId === 'postPage') {
         Post.checkPostForm();
-        Public.bindFastSubmitShortcutKey($('#postContent'));
         Post.handleEditorBtns();
         Post.addSmileCode($('#postContent'));
         Post.handleAttachBtns();
@@ -112,7 +110,7 @@ const init = function () {
         Other.handleGameIntroSearchArea();
     }
     else if (['gameIntroPage', 'gameIntroCompanyPage', 'gameIntroTypePage', 'gameIntroPropertyPage'].includes(pageId)) {
-        Other.tuiGameIntro();
+        Other.tuiGame();
     }
     else if (pageId === 'favorPage') {
         Other.bindFavorPageBtnsClick();
@@ -136,11 +134,7 @@ const init = function () {
         Read.handleCopyCodeBtn();
     }
     else if (pageId === 'writeMessagePage') {
-        Public.bindFastSubmitShortcutKey($('#msgContent'));
         Post.addSmileCode($('#msgContent'));
-    }
-    else if (pageId === 'messageBannedPage') {
-        Public.bindFastSubmitShortcutKey($('[name="banidinfo"]'));
     }
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();

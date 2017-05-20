@@ -148,10 +148,9 @@ export const handlePageInput = function () {
 
 /**
  * 绑定快速提交的快捷键
- * @param {jQuery} $node 想要绑定的节点的jQuery对象
  */
-export const bindFastSubmitShortcutKey = function ($node) {
-    $node.keydown(function (e) {
+export const bindFastSubmitShortcutKey = function () {
+    $('[data-fast-submit="true"]').keydown(function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).closest('form').submit();
         }

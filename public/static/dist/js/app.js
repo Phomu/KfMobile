@@ -99,9 +99,9 @@ var init = function init() {
     Public.handleSearchDialog();
     Public.fillCommonForumPanel();
     Public.showEditCommonForumDialog();
-    if ($('.page-input').length > 0) {
-        Public.handlePageInput();
-    }
+    if ($('.page-input').length > 0) Public.handlePageInput();
+    Public.bindFastSubmitShortcutKey();
+
     if (pageId === 'indexPage') {
         Index.handleAtTipsBtn();
         Index.handleIndexThreadPanel();
@@ -120,7 +120,6 @@ var init = function init() {
         Read.replaceAttachLabel();
         Read.handleFloorImage();
         Post.checkPostForm();
-        Public.bindFastSubmitShortcutKey($('#postContent'));
         Read.handleCopyCodeBtn();
         Post.addSmileCode($('#postContent'));
         Read.bindMultiQuoteCheckClick();
@@ -131,7 +130,6 @@ var init = function init() {
         if (Config.userMemoEnabled) Read.addUserMemo();
     } else if (pageId === 'postPage') {
         Post.checkPostForm();
-        Public.bindFastSubmitShortcutKey($('#postContent'));
         Post.handleEditorBtns();
         Post.addSmileCode($('#postContent'));
         Post.handleAttachBtns();
@@ -144,14 +142,8 @@ var init = function init() {
         Other.handleProfilePage();
     } else if (pageId === 'gameIntroSearchPage') {
         Other.handleGameIntroSearchArea();
-    } else if (pageId === 'gameIntroPage') {
-        Other.tuiGameIntro('game');
-    } else if (pageId === 'gameIntroCompanyPage') {
-        Other.tuiGameIntro('company');
-    } else if (pageId === 'gameIntroTypePage') {
-        Other.tuiGameIntro('type');
-    } else if (pageId === 'gameIntroPropertyPage') {
-        Other.tuiGameIntro('property');
+    } else if (['gameIntroPage', 'gameIntroCompanyPage', 'gameIntroTypePage', 'gameIntroPropertyPage'].includes(pageId)) {
+        Other.tuiGame();
     } else if (pageId === 'favorPage') {
         Other.bindFavorPageBtnsClick();
     } else if (pageId === 'friendPage') {
@@ -168,10 +160,7 @@ var init = function init() {
         Read.handleFloorImage();
         Read.handleCopyCodeBtn();
     } else if (pageId === 'writeMessagePage') {
-        Public.bindFastSubmitShortcutKey($('#msgContent'));
         Post.addSmileCode($('#msgContent'));
-    } else if (pageId === 'messageBannedPage') {
-        Public.bindFastSubmitShortcutKey($('[name="banidinfo"]'));
     }
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();
@@ -1578,7 +1567,7 @@ var destroy = exports.destroy = function destroy() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleProfilePage = exports.handleUserPageBtns = exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGameIntro = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+exports.handleProfilePage = exports.handleUserPageBtns = exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGame = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1628,22 +1617,23 @@ var handleGameIntroSearchArea = exports.handleGameIntroSearchArea = function han
 };
 
 /**
- * 推游戏介绍
- * @param {string} type 页面类型
+ * 推游戏
  */
-var tuiGameIntro = exports.tuiGameIntro = function tuiGameIntro(type) {
-    var cookieName = '';
-    if (type === 'company') cookieName = 'g_intro_inc_tui_';else if (type === 'type') cookieName = 'g_intro_adv_tui_';else if (type === 'property') cookieName = 'g_intro_moe_tui_';else cookieName = 'g_intro_tui_';
-    cookieName += Info.id;
-
+var tuiGame = exports.tuiGame = function tuiGame() {
     $('.tui-btn').click(function (e) {
         e.preventDefault();
         var $this = $(this);
         if ($this.data('wait')) return;
+
+        var type = $this.data('type');
+        var cookieName = '';
+        if (type === 'company') cookieName = 'g_intro_inc_tui_';else if (type === 'type') cookieName = 'g_intro_adv_tui_';else if (type === 'property') cookieName = 'g_intro_moe_tui_';else cookieName = 'g_intro_tui_';
+        cookieName += Info.id;
         if (Util.getCookie(cookieName, '')) {
             alert('你在48小时内已经推过');
             return;
         }
+
         $this.data('wait', true);
         $.ajax({
             type: 'GET',
@@ -1661,8 +1651,7 @@ var tuiGameIntro = exports.tuiGameIntro = function tuiGameIntro(type) {
             },
             complete: function complete() {
                 $this.removeData('wait');
-            },
-            dataType: 'html'
+            }
         });
     });
 };
@@ -2621,10 +2610,9 @@ var handlePageInput = exports.handlePageInput = function handlePageInput() {
 
 /**
  * 绑定快速提交的快捷键
- * @param {jQuery} $node 想要绑定的节点的jQuery对象
  */
-var bindFastSubmitShortcutKey = exports.bindFastSubmitShortcutKey = function bindFastSubmitShortcutKey($node) {
-    $node.keydown(function (e) {
+var bindFastSubmitShortcutKey = exports.bindFastSubmitShortcutKey = function bindFastSubmitShortcutKey() {
+    $('[data-fast-submit="true"]').keydown(function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).closest('form').submit();
         }

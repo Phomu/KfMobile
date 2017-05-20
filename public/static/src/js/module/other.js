@@ -37,9 +37,9 @@ export const handleGameIntroSearchArea = function () {
 };
 
 /**
- * 推游戏介绍
+ * 推游戏
  */
-export const tuiGameIntro = function () {
+export const tuiGame = function () {
     $('.tui-btn').click(function (e) {
         e.preventDefault();
         let $this = $(this);
