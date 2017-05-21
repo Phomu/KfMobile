@@ -58,13 +58,7 @@ export const create = function (id, title, bodyContent, footerContent = '') {
                 }
             });
         }).end().find('[data-toggle="tooltip"]').tooltip({'container': 'body'});
-    $(window).on('resize.' + id, function () {
-        let $focus = $(':focus');
-        if ($focus.length > 0) {
-            if ($focus.is('input') && !['checkbox', 'radio'].includes($focus.attr('type')) || $focus.is('textarea')) return;
-        }
-        resize(id);
-    });
+    $(window).on('resize.' + id, () => resize(id));
     return $dialog;
 };
 

@@ -1273,11 +1273,7 @@ var create = exports.create = function create(id, title, bodyContent) {
         });
     }).end().find('[data-toggle="tooltip"]').tooltip({ 'container': 'body' });
     $(window).on('resize.' + id, function () {
-        var $focus = $(':focus');
-        if ($focus.length > 0) {
-            if ($focus.is('input') && !['checkbox', 'radio'].includes($focus.attr('type')) || $focus.is('textarea')) return;
-        }
-        resize(id);
+        return resize(id);
     });
     return $dialog;
 };
