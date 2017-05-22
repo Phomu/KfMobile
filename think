@@ -16,4 +16,4 @@ define('APP_PATH', __DIR__ . '/application/');
 define('PUBLIC_PATH', '/');
 
 // 加载框架引导文件
-require './thinkphp/console.php';
+require __DIR__.'/thinkphp/console.php';
