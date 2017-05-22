@@ -47,7 +47,7 @@ const init = function () {
     let startTime = new Date();
     exportModule();
     if (pageId === 'registerPage') {
-        Other.validateRegisterField();
+        Other.handleRegisterPage();
         return;
     }
     initConfig();

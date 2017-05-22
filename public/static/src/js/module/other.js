@@ -258,9 +258,9 @@ export const bindMessageActionBtnsClick = function () {
 };
 
 /**
- * 验证注册页面字段
+ * 处理注册页面
  */
-export const validateRegisterField = function () {
+export const handleRegisterPage = function () {
     $(document).on('change', 'input[name]', function () {
         let $this = $(this);
         let name = $this.attr('name');
@@ -269,17 +269,8 @@ export const validateRegisterField = function () {
             Util.showValidationMsg($this, 'clear');
             return;
         }
-        if (name === 'regemail') {
-            Util.showValidationMsg($this, 'wait', '检查中，请稍等&hellip;');
-            $.post(Util.makeUrl('register/check'), 'username=' + value, ({type, msg, username}) => {
-                if ($this.val() === username) {
-                    Util.showValidationMsg($this, type, msg);
-                }
-            }).fail(() => {
-                Util.showValidationMsg($this, 'error', '响应失败');
-            });
-        }
-        else if (name === 'regpwd') {
+        Util.showValidationMsg($('#response'), 'clear');
+        if (name === 'regpwd') {
             if (value.length > 16 || value.length < 6) {
                 Util.showValidationMsg($this, 'error', '密码长度不正确');
             }
@@ -294,10 +285,31 @@ export const validateRegisterField = function () {
         }
     });
 
-    $('#registerForm').submit(function () {
-        if ($(this).find('.has-danger').length > 0) {
+    $('#registerBtn').click(function () {
+        let $this = $(this);
+        let $form = $this.closest('form');
+        if ($form.find('.has-danger').length > 0) {
             alert('请正确填写表单');
             return false;
+        }
+
+        let action = $this.data('action');
+        if (action === 'check') {
+            if (typeof window.namecheck !== 'function') return;
+            if (!window.namecheck()) return;
+            let $response = $('#response');
+            $this.prop('disabled', true);
+            Util.showValidationMsg($response, 'wait', '检查中，请稍等&hellip;');
+            $.post(Util.makeUrl('register/check'), $('[name="checkForm"]').serialize(), ({type, msg}) => {
+                $this.prop('disabled', false);
+                Util.showValidationMsg($response, type, msg);
+                if (type === 'success') $this.data('action', 'register').find('span:last-child').text('注册');
+            }).fail(() => {
+                Util.showValidationMsg($response, 'error', '响应失败');
+            });
+        }
+        else {
+            $form.submit();
         }
     });
 };

@@ -11,15 +11,28 @@
   <link rel="stylesheet" href="../../public/static/src/css/app.css">
   <link rel="stylesheet" href="../../public/static/src/css/font-awesome.css">
   */}
+  <script>
+      var lastname = '';
+      {$nameCheckFunc}
+  </script>
 </head>
 <body id="registerPage">
 <header class="container">
   <h1 class="py-4">{$Think.config.site_name}</h1>
 </header>
 <main class="container">
+  <form name="checkForm">
+    <input name="username" type="hidden" value="">
+    <input name="action" type="hidden" value="regnameck">
+    <input name="diy_yz" type="hidden" value="{$diy_yz|default=''}">
+    <input name="diy_yz2" type="hidden" value="{$diy_yz2|default=''}">
+    <span id="check_info" hidden></span>
+  </form>
+
   <form id="registerForm" action="{:url('Register/register')}" method="post">
-    <input id="diy_ryzm" name="diy_ryzm" type="hidden" value="">
-    <input name="step" type="hidden" value="2">
+    <input id="diy_ryzm" name="diy_ryzm" type="hidden" value="{$diy_ryzm|default=''}">
+    <input name="forward" type="hidden" value="{$forward|default=''}">
+    <input name="step" type="hidden" value="{$step|default=''}">
 
     <div class="form-group">
       <label for="regemail"><i class="fa fa-user fa-fw" aria-hidden="true"></i> 用户名</label>
@@ -46,9 +59,14 @@
       <div class="form-control-feedback font-size-sm"></div>
     </div>
 
-    <button class="btn btn-primary btn-lg btn-block" type="submit">
-      <i class="fa fa-check-square-o" aria-hidden="true"></i> 注册
+    <button class="btn btn-primary btn-lg btn-block mb-2" id="registerBtn" data-action="check" type="button">
+      <i class="fa fa-check-square-o" aria-hidden="true"></i>
+      <span>下一步</span>
     </button>
+    <div>
+      <span id="response" hidden></span>
+      <span class="form-control-feedback font-size-sm"></span>
+    </div>
   </form>
 </main>
 <script src="/ys/r1129.js"></script>

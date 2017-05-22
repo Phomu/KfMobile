@@ -1,10 +1,11 @@
 <?php
+
 namespace app\controller;
 
 use think\Controller;
 use think\Request;
 use app\lib\Proxy;
-use app\responser\Responser;
+use app\responser;
 
 /**
  * 注册页面控制器
@@ -30,8 +31,8 @@ class Register extends Controller
     public function index(Request $request)
     {
         $response = Proxy::get('register.php', $request->param(), ['proxyDomain' => config('register_page_proxy_domain')]);
-        $register = new Responser($response, ['noCheckLogin' => true]);
-        $this->assign($register->response());
+        $register = new responser\Register($response, ['noCheckLogin' => true]);
+        $this->assign($register->index());
         return $this->fetch('Register/index');
     }
 
@@ -61,25 +62,27 @@ class Register extends Controller
             cookie($userCookieName, $cookies[$userCookieName], ['prefix' => '', 'expire' => 60 * 60 * 24 * 356, 'httponly' => 'true']);
         }
 
-        new Responser($response, ['jumpUrl' => url('/')]);
+        new responser\Responser($response, ['jumpUrl' => url('/')]);
         return error('注册失败');
     }
 
     /**
      * 检查用户名
-     * @param string $username 用户名
+     * @param Request $request
      * @return mixed
      */
-    public function check($username = '')
+    public function check(Request $request)
     {
         if (!$this->request->isPost()) error('非法请求');
 
         $response = Proxy::post(
             'register.php',
-            ['action' => 'regnameck', 'username' => $username],
+            $request->param(),
             null,
             ['proxyDomain' => config('register_page_proxy_domain')]
         );
+        new responser\Responser($response, ['noCheckLogin' => true]);
+
         $matches = [];
         $msgId = null;
         if (preg_match('/parent\.retmsg\(\'(\d+)\'\);/i', $response['document'], $matches)) {
@@ -96,6 +99,6 @@ class Register extends Controller
         $type = $msgId === 4 ? 'success' : 'error';
         $msg = $msgId === null ? '服务端错误' : $msgList[$msgId];
 
-        return ['type' => $type, 'msg' => $msg, 'username' => $username];
+        return ['type' => $type, 'msg' => $msg];
     }
 }

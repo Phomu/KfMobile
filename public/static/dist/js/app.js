@@ -85,7 +85,7 @@ var init = function init() {
     var startTime = new Date();
     exportModule();
     if (pageId === 'registerPage') {
-        Other.validateRegisterField();
+        Other.handleRegisterPage();
         return;
     }
     (0, _config.init)();
@@ -1563,7 +1563,7 @@ var destroy = exports.destroy = function destroy() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleProfilePage = exports.handleUserPageBtns = exports.validateRegisterField = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGame = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+exports.handleProfilePage = exports.handleUserPageBtns = exports.handleRegisterPage = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGame = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1847,9 +1847,9 @@ var bindMessageActionBtnsClick = exports.bindMessageActionBtnsClick = function b
 };
 
 /**
- * 验证注册页面字段
+ * 处理注册页面
  */
-var validateRegisterField = exports.validateRegisterField = function validateRegisterField() {
+var handleRegisterPage = exports.handleRegisterPage = function handleRegisterPage() {
     $(document).on('change', 'input[name]', function () {
         var $this = $(this);
         var name = $this.attr('name');
@@ -1858,20 +1858,8 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
             Util.showValidationMsg($this, 'clear');
             return;
         }
-        if (name === 'regemail') {
-            Util.showValidationMsg($this, 'wait', '检查中，请稍等&hellip;');
-            $.post(Util.makeUrl('register/check'), 'username=' + value, function (_ref) {
-                var type = _ref.type,
-                    msg = _ref.msg,
-                    username = _ref.username;
-
-                if ($this.val() === username) {
-                    Util.showValidationMsg($this, type, msg);
-                }
-            }).fail(function () {
-                Util.showValidationMsg($this, 'error', '响应失败');
-            });
-        } else if (name === 'regpwd') {
+        Util.showValidationMsg($('#response'), 'clear');
+        if (name === 'regpwd') {
             if (value.length > 16 || value.length < 6) {
                 Util.showValidationMsg($this, 'error', '密码长度不正确');
             } else {
@@ -1883,10 +1871,33 @@ var validateRegisterField = exports.validateRegisterField = function validateReg
         }
     });
 
-    $('#registerForm').submit(function () {
-        if ($(this).find('.has-danger').length > 0) {
+    $('#registerBtn').click(function () {
+        var $this = $(this);
+        var $form = $this.closest('form');
+        if ($form.find('.has-danger').length > 0) {
             alert('请正确填写表单');
             return false;
+        }
+
+        var action = $this.data('action');
+        if (action === 'check') {
+            if (typeof window.namecheck !== 'function') return;
+            if (!window.namecheck()) return;
+            var $response = $('#response');
+            $this.prop('disabled', true);
+            Util.showValidationMsg($response, 'wait', '检查中，请稍等&hellip;');
+            $.post(Util.makeUrl('register/check'), $('[name="checkForm"]').serialize(), function (_ref) {
+                var type = _ref.type,
+                    msg = _ref.msg;
+
+                $this.prop('disabled', false);
+                Util.showValidationMsg($response, type, msg);
+                if (type === 'success') $this.data('action', 'register').find('span:last-child').text('注册');
+            }).fail(function () {
+                Util.showValidationMsg($response, 'error', '响应失败');
+            });
+        } else {
+            $form.submit();
         }
     });
 };
