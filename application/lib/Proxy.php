@@ -57,7 +57,7 @@ class Proxy
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_USERAGENT, input('server.HTTP_USER_AGENT', ''));
+        curl_setopt($ch, CURLOPT_USERAGENT, config('proxy_user_agent'));
         curl_setopt($ch, CURLOPT_REFERER, !empty($extraData['referer']) ? $extraData['referer'] : config('proxy_domain'));
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, config('proxy_connection_timeout'));
         curl_setopt($ch, CURLOPT_TIMEOUT, config('proxy_timeout'));

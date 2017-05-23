@@ -107,7 +107,7 @@ Nginx虚拟主机配置参考：
             proxy_redirect off;
     
             proxy_set_header Host www.9moe.com;
-            proxy_set_header User-Agent $http_user_agent;
+            proxy_set_header User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0';
             proxy_set_header Referer http://www.9moe.com;
             proxy_set_header Accept-Encoding '';
             proxy_set_header X-Real-IP $remote_addr;
