@@ -233,7 +233,7 @@ class Read extends Responser
             $userName = trim_strip($pqUserLink->text());
             $smLevel = trim_strip($pqAvatar->find('.readidmright')->text());
         } else {
-            $avatar = $pqAvatar->find('.pic')->attr('src');
+            $avatar = $pqAvatar->find('.readidmstop > img')->attr('src');
             $pqUser = $pqAvatar->find('.readidmsbottom');
             $pqUserLink = $pqUser->find('a');
             if (preg_match('/uid=(\d+)/', $pqUserLink->attr('href'), $matches)) {
