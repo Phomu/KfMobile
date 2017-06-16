@@ -6357,7 +6357,7 @@ main {
       overflow: hidden; }
       .thread-list-group .thread-list-item .thread-link-item .thread-link {
         display: inline-block;
-        min-width: 70%;
+        min-width: 50%;
         text-decoration: none; }
     .thread-list-group .thread-list-item .thread-link-item-full {
       max-height: none;

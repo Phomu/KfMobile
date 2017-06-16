@@ -74,12 +74,19 @@
           </a>
         </div>
         <footer class="thread-footer">
-          <div class="col-6 thread-footer-column">
+          <div class="col-4 thread-footer-column">
             <span title="提交时间" aria-label="提交时间">
               <i class="fa fa-calendar" aria-hidden="true"></i> {$vo.submitTime}
             </span>
           </div>
-          <div class="col-6 thread-footer-column text-right">
+          <div class="col-4 thread-footer-column text-center">
+            {neq name="vo.userName" value="0"}
+            <a href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank" title="用户名" aria-label="用户名">
+              <i class="fa fa-user" aria-hidden="true"></i> {$vo.userName}
+            </a>
+            {/neq}
+          </div>
+          <div class="col-4 thread-footer-column text-right">
             <a href="{:url('Thread/index?fid=' . $vo['fid'])}" target="_blank" title="版块ID" aria-label="版块ID">
               <i class="fa fa-map-signs" aria-hidden="true"></i> [{$vo.fid}]版块
             </a>

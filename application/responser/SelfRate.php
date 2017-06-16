@@ -539,6 +539,8 @@ class SelfRate extends Responser
             $threadUrl = convert_url($pqThreadLink->attr('href'));
             $threadTitle = trim_strip($pqThreadLink->text());
 
+            $userName = trim_strip($pqItem->find('> td:nth-child(3)')->text());
+
             $fid = 0;
             if (preg_match('/\[(\d+)\]板块/', $pqItem->find('> td:nth-child(4)')->text(), $matches)) {
                 $fid = intval($matches[1]);
@@ -550,6 +552,7 @@ class SelfRate extends Responser
                     'threadUrl' => $threadUrl,
                     'threadTitle' => $threadTitle,
                     'submitTime' => $submitTime,
+                    'userName' => $userName,
                     'fid' => $fid,
                 ],
                 $this->getRateSizeStatusData($pqItem->find('> td:nth-child(3)')->text(), $threadTitle)
