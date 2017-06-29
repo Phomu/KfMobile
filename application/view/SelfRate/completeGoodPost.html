@@ -81,7 +81,8 @@
           </div>
           <div class="col-4 thread-footer-column text-center">
             {neq name="vo.userName" value="0"}
-            <a href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank" title="用户名" aria-label="用户名">
+            <a href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank" title="用户名" aria-label="用户名"
+               class="{eq name='vo.userName' value='$userName'}text-danger{/eq}">
               <i class="fa fa-user" aria-hidden="true"></i> {$vo.userName}
             </a>
             {/neq}
