@@ -169,7 +169,7 @@ class Log
             if ($result) {
                 self::$log = [];
             }
-
+            Hook::listen('log_write_done', $log);
             return $result;
         }
         return true;
