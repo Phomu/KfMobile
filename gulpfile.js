@@ -81,7 +81,16 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(cssSrcPath))
         .pipe(minifycss())
         .pipe(autoprefixer({
-            browsers: ['last 2 versions', 'Android >= 4.4', 'iOS >= 7']
+            browsers: [
+                'Chrome >= 45',
+                'Firefox ESR',
+                'Edge >= 12',
+                'Explorer >= 10',
+                'iOS >= 9',
+                'Safari >= 9',
+                'Android >= 4.4',
+                'Opera >= 30'
+            ]
         }))
         .pipe(rename(function (path) {
             path.basename += '.min';
