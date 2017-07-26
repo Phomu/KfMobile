@@ -354,6 +354,7 @@ export const handleMultiQuote = function (type = 1) {
 
     let keywords = new Set();
     let content = '';
+    let $keywords = $('[name="diy_guanjianci"]');
     if (type === 2) {
         Msg.wait(`<span class="mr-3">正在获取引用内容中&hellip;</span>剩余：<em class="text-warning countdown-num">${list.length}</em>`);
         $(document).clearQueue('MultiQuote');
@@ -373,6 +374,7 @@ export const handleMultiQuote = function (type = 1) {
                     if (index === list.length - 1) {
                         Msg.destroy();
                         $('#postContent').val(content).focus();
+                        $keywords.trigger('change');
                     }
                     else {
                         setTimeout(() => $(document).dequeue('MultiQuote'), 100);
@@ -386,12 +388,17 @@ export const handleMultiQuote = function (type = 1) {
     });
     for (let [index, quote] of list.entries()) {
     }
-    $('[name="diy_guanjianci"]').val([...keywords].join(','));
+    $keywords.val([...keywords].join(','));
     $('#postForm').submit(function () {
         localStorage.removeItem(Const.multiQuoteStorageName);
     });
-    if (type === 2) $(document).dequeue('MultiQuote');
-    else $('#postContent').val(content).focus();
+    if (type === 2) {
+        $(document).dequeue('MultiQuote');
+    }
+    else {
+        $('#postContent').val(content).focus();
+        $keywords.trigger('change');
+    }
 };
 
 /**
@@ -404,5 +411,19 @@ export const handleClearMultiQuoteDataBtn = function () {
         localStorage.removeItem(Const.multiQuoteStorageName);
         $('[name="diy_guanjianci"]').val('');
         $('#postContent').val('');
+    });
+};
+
+/**
+ * 添加多余关键词警告
+ */
+export const addRedundantKeywordWarning = function () {
+    $('input[name="diy_guanjianci"]').change(function () {
+        let $this = $(this);
+        let keywords = $.trim($this.val()).split(',').filter(str => str);
+        if (keywords.length > 5) {
+            alert('所填关键词已超过5个，多余的关键词将被忽略');
+            $this.select().focus();
+        }
     });
 };

@@ -86,12 +86,14 @@ const init = function () {
         Post.checkPostForm();
         Read.handleCopyCodeBtn();
         Post.addSmileCode($('#postContent'));
+        Post.addRedundantKeywordWarning();
         Read.bindMultiQuoteCheckClick();
         Post.handleClearMultiQuoteDataBtn();
         $('.multi-reply-btn').click(() => Post.handleMultiQuote(1));
         if (Config.userMemoEnabled) Read.addUserMemo();
     }
     else if (pageId === 'postPage') {
+        Post.addRedundantKeywordWarning();
         Post.checkPostForm();
         Post.handleEditorBtns();
         Post.addSmileCode($('#postContent'));
