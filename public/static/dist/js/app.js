@@ -122,6 +122,7 @@ var init = function init() {
         Post.checkPostForm();
         Read.handleCopyCodeBtn();
         Post.addSmileCode($('#postContent'));
+        Post.addRedundantKeywordWarning();
         Read.bindMultiQuoteCheckClick();
         Post.handleClearMultiQuoteDataBtn();
         $('.multi-reply-btn').click(function () {
@@ -129,6 +130,7 @@ var init = function init() {
         });
         if (Config.userMemoEnabled) Read.addUserMemo();
     } else if (pageId === 'postPage') {
+        Post.addRedundantKeywordWarning();
         Post.checkPostForm();
         Post.handleEditorBtns();
         Post.addSmileCode($('#postContent'));
@@ -1984,7 +1986,7 @@ var handleProfilePage = exports.handleProfilePage = function handleProfilePage()
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleClearMultiQuoteDataBtn = exports.handleMultiQuote = exports.addSmileCode = exports.handleAttachBtns = exports.checkPostForm = exports.handleEditorBtns = undefined;
+exports.addRedundantKeywordWarning = exports.handleClearMultiQuoteDataBtn = exports.handleMultiQuote = exports.addSmileCode = exports.handleAttachBtns = exports.checkPostForm = exports.handleEditorBtns = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -2375,6 +2377,7 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
 
     var keywords = new Set();
     var content = '';
+    var $keywords = $('[name="diy_guanjianci"]');
     if (type === 2) {
         Msg.wait('<span class="mr-3">\u6B63\u5728\u83B7\u53D6\u5F15\u7528\u5185\u5BB9\u4E2D&hellip;</span>\u5269\u4F59\uFF1A<em class="text-warning countdown-num">' + list.length + '</em>');
         $(document).clearQueue('MultiQuote');
@@ -2393,6 +2396,7 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
                     if (index === list.length - 1) {
                         Msg.destroy();
                         $('#postContent').val(content).focus();
+                        $keywords.trigger('change');
                     } else {
                         setTimeout(function () {
                             return $(document).dequeue('MultiQuote');
@@ -2429,11 +2433,16 @@ var handleMultiQuote = exports.handleMultiQuote = function handleMultiQuote() {
         }
     }
 
-    $('[name="diy_guanjianci"]').val([].concat(_toConsumableArray(keywords)).join(','));
+    $keywords.val([].concat(_toConsumableArray(keywords)).join(','));
     $('#postForm').submit(function () {
         localStorage.removeItem(_const2.default.multiQuoteStorageName);
     });
-    if (type === 2) $(document).dequeue('MultiQuote');else $('#postContent').val(content).focus();
+    if (type === 2) {
+        $(document).dequeue('MultiQuote');
+    } else {
+        $('#postContent').val(content).focus();
+        $keywords.trigger('change');
+    }
 };
 
 /**
@@ -2446,6 +2455,22 @@ var handleClearMultiQuoteDataBtn = exports.handleClearMultiQuoteDataBtn = functi
         localStorage.removeItem(_const2.default.multiQuoteStorageName);
         $('[name="diy_guanjianci"]').val('');
         $('#postContent').val('');
+    });
+};
+
+/**
+ * 添加多余关键词警告
+ */
+var addRedundantKeywordWarning = exports.addRedundantKeywordWarning = function addRedundantKeywordWarning() {
+    $('input[name="diy_guanjianci"]').change(function () {
+        var $this = $(this);
+        var keywords = $.trim($this.val()).split(',').filter(function (str) {
+            return str;
+        });
+        if (keywords.length > 5) {
+            alert('所填关键词已超过5个，多余的关键词将被忽略');
+            $this.select().focus();
+        }
     });
 };
 
