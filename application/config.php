@@ -13,7 +13,7 @@ return [
     // 电脑版的域名
     'pc_version_domain' => 'https://kf.miaola.info/',
     // 游戏介绍图片的域名
-    'game_image_domain' => 'http://www.kfer.online/',
+    'game_image_domain' => 'http://www.2dloli.com/',
     // 反向代理的User Agent
     'proxy_user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
     // 网站名称
