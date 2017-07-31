@@ -75,8 +75,8 @@ class Loot extends Responser
         // 帮助说明
         $readmeContent = trim(pq('.kf_fw_ig1 > tr > td')->html());
         $readmeContent = str_replace('相关详细说明<br>', '', $readmeContent);
-        $readmeContent = str_replace('技能说明<br>', '<br>技能说明<br>', $readmeContent);
-        $readmeContent = preg_replace('/(NPC属性|灵活和智力的抵消机制|技能说明|各道具效果)<br>/', '<h5>$1</h5>', $readmeContent);
+        $readmeContent = preg_replace('/(技能说明|NPC属性)<br>/', '<br>$1<br>', $readmeContent);
+        $readmeContent = preg_replace('/(装备属性|NPC属性|灵活和智力的抵消机制|技能说明|各道具效果)<br>/', '<h5>$1</h5>', $readmeContent);
         $readmeContent = preg_replace(
             '/(蕾米莉亚同人漫画|十六夜同人漫画|档案室钥匙|傲娇LOLI娇蛮音CD|消逝之药|整形优惠卷)<br>/',
             '<strong>$1</strong><br>',

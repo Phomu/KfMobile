@@ -6645,6 +6645,9 @@ main {
   padding: 0;
   font-size: 1rem; }
 
+#lootReadmeContent .card-block {
+  line-height: 1.8; }
+
 .bg-sprite {
   background-image: url("../img/bg/small/sprite.jpg");
   background-repeat: no-repeat; }
