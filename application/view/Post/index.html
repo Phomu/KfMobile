@@ -83,7 +83,7 @@
       {/eq}
       <h6 class="card-header">投票信息</h6>
 
-      <div class="card-block p-3">
+      <div class="card-body p-3">
         {eq name="vote.hasClose" value="true"}
         <div class="form-check">
           <label class="form-check-label text-danger">
@@ -151,7 +151,7 @@
         <div class="form-group mb-0">
           <label for="voteItemContent">投票选项</label>
           <textarea class="form-control" id="voteItemContent" name="vt_select" rows="7" aria-describedby="voteItemContentHelp"></textarea>
-          <small class="form-text text-muted" id="voteItemContentHelp">每行写一个投票选项，最多可以有<b>50</b>个选项</small>
+          <small class="form-text text-secondary" id="voteItemContentHelp">每行写一个投票选项，最多可以有<b>50</b>个选项</small>
         </div>
         {/notempty}
       </div>
@@ -159,7 +159,7 @@
     {/notempty}
 
     <!-- 编辑器按钮 -->
-    <div class="btn-group btn-group-sm editor-btn-group flex-wrap" role="group" aria-label="编辑器按钮">
+    <div class="btn-group btn-group-sm editor-btn-group" role="group" aria-label="编辑器按钮">
       <div class="btn-group" role="group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" id="fontSizeDropdownBtn" data-toggle="dropdown" type="button"
                 aria-haspopup="true" aria-expanded="false">
@@ -240,7 +240,7 @@
       <button class="btn btn-secondary" data-action="align-right" data-toggle="tooltip" type="button" title="右对齐" aria-label="右对齐">
         <i class="fa fa-align-right" aria-hidden="true"></i>
       </button>
-      <button class="btn btn-secondary hidden-xs-down" data-action="fly" data-toggle="tooltip" type="button" title="插入飞行文字"
+      <button class="btn btn-secondary" data-action="fly" data-toggle="tooltip" type="button" title="插入飞行文字"
               aria-label="插入飞行文字">
         <i class="fa fa-plane" aria-hidden="true"></i>
       </button>
@@ -279,7 +279,7 @@
       <label class="sr-only" for="postGjc">关键词</label>
       <input class="form-control" id="postGjc" name="diy_guanjianci" data-toggle="tooltip" type="text" value="{$gjc}" maxlength="75"
              title="关键词" placeholder="关键词" aria-describedby="postGjcHelp">
-      <small id="postGjcHelp" class="form-text text-muted">
+      <small id="postGjcHelp" class="form-text text-secondary">
         最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英文逗号 <kbd>,</kbd> 隔开，不要包含英文单引号、双引号；<br>
         如果关键词是别人的ID名，系统就会@提示此人查看本帖子
       </small>
@@ -300,7 +300,7 @@
         <input class="form-check-input" name="diy_xinzuo" type="checkbox" value="1" {$xinZuoStatusChecked|default="" }>
         新作资源
       </label>
-      <small id="diy_xinzuoHelp" class="form-text text-muted">距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效</small>
+      <small id="diy_xinzuoHelp" class="form-text text-secondary">距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效</small>
     </div>
     {/neq}
 
@@ -323,9 +323,9 @@
     <div class="card">
       <h6 class="card-header">
         该帖包含附件
-        <small class="text-muted">(不想保留的附件去掉&check;)</small>
+        <small class="text-secondary">(不想保留的附件去掉&check;)</small>
       </h6>
-      <div class="card-block p-3">
+      <div class="card-body p-3">
         {volist name="attachList" id="vo"}
         <div class="form-group row font-size-sm attach-area" data-id="{$vo.id}">
           <div class="col-12 form-check">
@@ -334,7 +334,7 @@
             </label>
             <span class="attach-info">
               附件：<b class="text-danger">{$vo.name}</b>
-              <small class="text-muted">({$vo.size}K)</small>
+              <small class="text-secondary">({$vo.size}K)</small>
             </span>&nbsp;
             <span>
               <a data-action="insert" href="#">插入</a>&nbsp;
@@ -360,7 +360,7 @@
     <!-- 添加附件 -->
     <div class="card">
       <h6 class="card-header">添加附件</h6>
-      <div class="card-block p-3" id="newAttachArea">
+      <div class="card-body p-3" id="newAttachArea">
         <div class="form-group row font-size-sm attach-area" data-id="1">
           <div class="col-12 col-form-label">
             <label>
@@ -383,8 +383,8 @@
           </div>
         </div>
 
-        <div class="small text-muted">
-          类型：<b>gif、jpg、png、torrent</b>，单文件限制：<b>1024</b> KB<br class="hidden-sm-up">
+        <div class="small text-secondary">
+          类型：<b>gif、jpg、png、torrent</b>，单文件限制：<b>1024</b> KB<br class="d-sm-none">
           (一次限上传<b>5</b>个附件)
         </div>
       </div>
@@ -395,7 +395,7 @@
   <!-- 主题回顾 -->
   <div class="card mt-4">
     <h6 class="card-header">主题回顾</h6>
-    <div class="card-block read-content latest-floor-content p-3">
+    <div class="card-body read-content latest-floor-content p-3">
       {$latestFloorContent}
     </div>
   </div>

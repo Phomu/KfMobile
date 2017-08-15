@@ -58,7 +58,7 @@
             {/notempty}
           </div>
           {eq name="vo.itemVoteCount" value="-1"}
-          <div class="d-inline-block small text-muted pl-1">* 票</div>
+          <div class="d-inline-block small text-secondary pl-1">* 票</div>
           {else /}
           {assign name="itemVotePercent" value="$voteTotalCount > 0 ? $vo.itemVoteCount / $voteTotalCount * 100 : 0"}
           <div class="progress w-100">
@@ -73,7 +73,7 @@
         {/volist}
       </ul>
       <footer class="form-group">
-        <div class="small text-muted mb-3">
+        <div class="small text-secondary mb-3">
           {notempty name="voteTotalCount"}合计<b>{$voteTotalCount}</b>票{/notempty}
           {$votedInfo}
         </div>
@@ -100,7 +100,7 @@
   <h1 class="thread-title">{$threadTitle}</h1>
 
   <!-- 主题信息 -->
-  <section class="small text-muted mb-3 float-md-left">
+  <section class="small text-secondary mb-3 float-md-left">
     <span data-toggle="tooltip" title="点击数" aria-label="点击数">
       <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
       {eq name="hitNum|is_numeric" value="true"}{$hitNum|number_format}{else /}{$hitNum}{/eq}
@@ -189,7 +189,7 @@
       <div class="media-body">
         <div class="d-flex">
           <div class="">
-            <a class="font-size-sm text-muted floor-num" title="复制楼层链接"
+            <a class="font-size-sm text-secondary floor-num" title="复制楼层链接"
                href="{:url('Read/index?tid=' . $tid . ($vo['pid'] !== 'tpc' ? '&spid=' . $vo['pid'] : ''))}" role="button">
               {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
             </a>
@@ -197,13 +197,13 @@
               {$vo.userName}
             </a>
             {eq name="vo.smLevel" value="*"}
-            <span class="badge badge-default" title="该用户已被禁言">禁</span>
+            <span class="badge badge-secondary" title="该用户已被禁言">禁</span>
             {/eq}
           </div>
 
           <div class="ml-auto">
             <div class="form-check form-check-inline">
-              <label class="form-check-label font-size-sm text-muted" title="多重引用" aria-label="多重引用">
+              <label class="form-check-label font-size-sm text-secondary" title="多重引用" aria-label="多重引用">
                 <input class="form-check-input form-check-input-sm multi-quote-check" type="checkbox" autocomplete="off"> 引
               </label>
             </div>
@@ -220,7 +220,7 @@
             {/eq}
           </div>
         </div>
-        <div class="small text-muted floor-info mt-2">
+        <div class="small text-secondary floor-info mt-2">
           <span class="sm-level" title="神秘等级" aria-label="神秘等级">
             <i class="fa fa-star-o" aria-hidden="true"></i> {$vo.smLevel}级
           </span>&nbsp;

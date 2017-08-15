@@ -163,8 +163,8 @@
             {switch name="vo.status"}
             {case value="顶"}{assign name="statusBadge" value="badge-danger" /}{/case}
             {case value="票"}{assign name="statusBadge" value="badge-warning" /}{/case}
-            {case value="锁"}{assign name="statusBadge" value="badge-default" /}{/case}
-            {default /}{assign name="statusBadge" value="badge-default" /}
+            {case value="锁"}{assign name="statusBadge" value="badge-secondary" /}{/case}
+            {default /}{assign name="statusBadge" value="badge-secondary" /}
             {/switch}
             <span class="badge {$statusBadge}">{$vo.status}</span>
             {/notempty}
@@ -185,10 +185,8 @@
             <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
               <i class="fa fa-user" aria-hidden="true"></i> {$vo.author}
             </a>
-            <span class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}"
-                  data-toggle="{if condition='(strlen($vo.author) >= 16) OR (mb_strlen($vo.author) >= 9)'}tooltip{/if}"
-                  title="发表时间：{$vo.publishTime}" aria-label="发表时间">
-              <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
+            <span class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}" title="发表时间：{$vo.publishTime}" aria-label="发表时间">
+              <i class="fa fa-calendar d-none d-sm-inline-block" aria-hidden="true"></i>
               <time>{$vo.publishTime}</time>
             </span>
           </div>
@@ -205,9 +203,8 @@
             <a href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}" title="最后回复者" aria-label="最后回复者">
               <i class="fa fa-reply" aria-hidden="true"></i> {$vo.lastReplier}
             </a>
-            <span data-toggle="{if condition='(strlen($vo.lastReplier) > 15) OR (mb_strlen($vo.lastReplier) > 9)'}tooltip{/if}"
-                  data-placement="left" title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
-              <i class="fa fa-calendar hidden-xs-down" aria-hidden="true"></i>
+            <span title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
+              <i class="fa fa-calendar d-none d-sm-inline-block" aria-hidden="true"></i>
               <time>{$vo.lastReplyTime}</time>
             </span>
           </div>

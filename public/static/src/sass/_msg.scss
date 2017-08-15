@@ -32,11 +32,11 @@
   padding: .7rem;
   color: #fff;
   text-align: center;
-  background-color: rgba($gray-dark, .8);
+  background-color: rgba($gray-900, .8);
   border-radius: $border-radius-lg;
 
   .text-danger {
-    color: lighten($brand-danger, 8%) !important;
+    color: lighten($red, 8%) !important;
   }
 
   a {

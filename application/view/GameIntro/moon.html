@@ -29,7 +29,7 @@
               aria-haspopup="true" aria-expanded="false">
         年份
       </button>
-      <div class="dropdown-menu" aria-labelledby="gameYearDropdownBtn">
+      <div class="dropdown-menu" style="z-index: 1031;" aria-labelledby="gameYearDropdownBtn">
         {volist name="yearList" id="vo"}
         {eq name="vo.year" value="0"}
         <span class="dropdown-item active">{$vo.name}</span>
@@ -45,7 +45,7 @@
               aria-haspopup="true" aria-expanded="false">
         月份
       </button>
-      <div class="dropdown-menu" aria-labelledby="gameMonthDropdownBtn">
+      <div class="dropdown-menu" style="z-index: 1031;" aria-labelledby="gameMonthDropdownBtn">
         {volist name="monthList" id="vo"}
         {eq name="vo.year" value="0"}
         <span class="dropdown-item active">{$vo.name}</span>
@@ -69,10 +69,10 @@
       <li class="{eq name='i' value='1'}active{/eq}" data-target="#moonGameImagesCarousel" data-slide-to="{$i-1}"></li>
       {/volist}
     </ol>
-    <div class="carousel-inner" role="listbox">
+    <div class="carousel-inner">
       {volist name="gameImgList" id="vo"}
       <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{:url('GameIntro/game?id=' . $vo['id'])}">
-        <img class="mx-auto" src="{$vo.img}" alt="游戏图片">
+        <img class="d-block mx-auto" src="{$vo.img}" alt="游戏图片">
         <div class="carousel-caption">
           <p>{$vo.name}</p>
         </div>

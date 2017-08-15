@@ -30,16 +30,16 @@
           {eq name="vo.isOnline" value="true"}
           <span class="badge badge-success">在线</span>
           {else /}
-          <span class="badge badge-default">离线</span>
+          <span class="badge badge-secondary">离线</span>
           {/eq}
           <a href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank">{$vo.name}</a>&nbsp;
-          <small class="text-muted" title="加入时间" aria-label="加入时间">
+          <small class="text-secondary" title="加入时间" aria-label="加入时间">
             <i class="fa fa-calendar" aria-hidden="true"></i>
             <time>{$vo.addTime}</time>
           </small>
           &nbsp;
           <div class="form-check form-check-inline">
-            <label class="form-check-label text-muted">
+            <label class="form-check-label text-secondary">
               <input class="form-check-input" name="selid[]" type="checkbox" value="{$vo.uid}"> 删
             </label>
           </div>

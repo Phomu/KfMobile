@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       Powered by <a href="https://github.com/miaolapd/KfMobile" target="_blank">KfMobile</a>
-      <b class="text-warning">v{$Think.config.app_version}</b> &copy; 2016 喵拉布丁
+      <b class="text-orange">v{$Think.config.app_version}</b> &copy; 2016 喵拉布丁
     </div>
     {notempty name="pcVersionUrl"}
     <div>移动版&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{$pcVersionUrl}" target="_blank">电脑版</a></div>
@@ -38,12 +38,12 @@
 </section>
 
 {notempty name="Think.config.static_file_cdn"}
-<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.11.1/umd/popper.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <input name="dragulaScriptPath" type="hidden" value="https://cdn.bootcss.com/dragula/3.7.2/dragula.min.js" autocomplete="off">
 {else/}
-<script src="__PUBLIC__{$Think.config.static_path}js/lib/tether.min.js?v=1.4.0"></script>
-<script src="__PUBLIC__{$Think.config.static_path}js/lib/bootstrap.min.js?v=4.0.0-alpha.6"></script>
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/popper.min.js?v=1.11.1"></script>
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/bootstrap.min.js?v=4.0.0-beta"></script>
 <input name="dragulaScriptPath" type="hidden" value="__PUBLIC__{$Think.config.static_path}js/lib/dragula.min.js?v=3.7.2" autocomplete="off">
 {/notempty}
 <script src="__PUBLIC__{$Think.config.static_path}js/app.min.js?ts={$Think.config.static_file_timestamp}"></script>

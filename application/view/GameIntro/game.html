@@ -43,7 +43,7 @@
 
   <!-- 基本信息 -->
   <div class="card mb-3">
-    <div class="card-block">
+    <div class="card-body">
       <p class="card-text">{$gameInfo}</p>
     </div>
   </div>
@@ -59,7 +59,7 @@
     <div class="carousel-inner" role="listbox">
       {volist name="gameImgList" id="vo"}
       <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{$vo.largeImg}">
-        <img class="mx-auto" src="{:url('GameIntro/thumb?path=' . $vo['thumbImg'])}" alt="游戏图片">
+        <img class="d-block mx-auto" src="{:url('GameIntro/thumb?path=' . $vo['thumbImg'])}" alt="游戏图片">
       </a>
       {/volist}
     </div>
@@ -77,7 +77,7 @@
   {notempty name="gameExtraInfo"}
   <!-- 额外信息 -->
   <div class="card mb-3">
-    <div class="card-block">
+    <div class="card-body">
       <p class="card-text">{$gameExtraInfo}</p>
     </div>
   </div>
@@ -87,7 +87,7 @@
   <!-- 人物列表 -->
   {volist name="characterList" id="vo"}
   <div class="card mb-3">
-    <div class="card-block">
+    <div class="card-body">
       <p class="text-center">
         <img class="rounded character-img" src="{$vo.img}" alt="人物图片">
       </p>

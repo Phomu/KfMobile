@@ -58,7 +58,7 @@ class Profile extends Responser
                 function ($matches) {
                     $isOnline = false;
                     if (trim($matches[1]) === '在线') $isOnline = true;
-                    return sprintf('<span class="badge badge-%s ml-1">%s</span>', $isOnline ? 'success' : 'default', $isOnline ? '在线' : '离线');
+                    return sprintf('<span class="badge badge-%s ml-1">%s</span>', $isOnline ? 'success' : 'secondary', $isOnline ? '在线' : '离线');
                 },
                 $line
             );

@@ -25,7 +25,7 @@
   </ol>
 
   <!-- 搜索信息 -->
-  <div class="font-size-sm text-muted text-center mb-3">{$searchInfo}</div>
+  <div class="font-size-sm text-secondary text-center mb-3">{$searchInfo}</div>
 
   <!-- 分页导航 -->
   <nav aria-label="分页导航">
@@ -81,14 +81,14 @@
         <div class="thread-link-item">
           <a href="{:str_replace('+', '%20', url('Read/index?tid=' . $vo['tid'] . (!empty($keyword) ? '&keyword=' . $keyword : '')))}"
              class="thread-link" target="_blank">
-            {empty name="vo.threadForum"}<span class="badge badge-default">删</span>{/empty}
+            {empty name="vo.threadForum"}<span class="badge badge-secondary">删</span>{/empty}
             {$vo.threadTitle}
           </a>
         </div>
         <footer class="thread-footer">
           <div class="col-4 thread-footer-column">
             {notempty name="vo.threadForum"}
-            <span class="text-gray-dark" title="所属版块" aria-label="所属版块">
+            <span class="text-dark" title="所属版块" aria-label="所属版块">
               <i class="fa fa-map-signs" aria-hidden="true"></i>
               {$vo.threadForum}
             </span>

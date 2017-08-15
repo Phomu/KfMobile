@@ -5,6 +5,11 @@
 @include font-size-make(sm, $font-size-sm);
 @include font-size-make(xs, $font-size-xs);
 
+// 额外字体颜色
+@each $color, $value in $colors {
+  @include text-emphasis-variant('.text-#{$color}', $value);
+}
+
 // 列表组（紧凑）
 .list-group-sm {
   .list-group-item {
@@ -15,7 +20,6 @@
 // 列表组项头部
 .list-group-item.list-group-item-header {
   @extend .card-header;
-  background-color: lighten(opacify($card-cap-bg, .23), 2%);
   margin-bottom: -1px;
   padding: $card-spacer-y $card-spacer-x;
 }
@@ -62,11 +66,12 @@
   font-size: $font-size-sm;
   text-align: center;
   vertical-align: middle;
-  background-color: $gray-lightest;
+  background-color: $gray-100;
 }
 
 // 导航（延展）
 .nav-extend {
+  flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;

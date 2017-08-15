@@ -26,7 +26,7 @@
   <!-- 自助评分奖励 -->
   <div class="card">
     <h5 class="card-header">自助评分奖励</h5>
-    <div class="card-block p-3">
+    <div class="card-body p-3">
       <form action="{:url('SelfRate/rating')}" method="get">
         <input name="safeid" type="hidden" value="{$safeId}">
         <input name="ptid" type="hidden" value="{$tid}">
@@ -40,7 +40,7 @@
           <label for="psize">资源体积数值</label>
           <input class="form-control" id="psize" name="psize" type="text" maxlength="20" placeholder="资源体积数值"
                  aria-describedby="psizeHelp">
-          <small class="form-text text-muted" id="psizeHelp">注：如[1.23GB]的资源，本项填[1.23]，下一项选择[GB]</small>
+          <small class="form-text text-secondary" id="psizeHelp">注：如[1.23GB]的资源，本项填[1.23]，下一项选择[GB]</small>
         </div>
         <div class="form-group">
           <label for="psizegb">资源体积单位</label>
@@ -48,7 +48,7 @@
             <option value="1" selected>MB(较小文件)</option>
             <option value="2">GB(较大文件)</option>
           </select>
-          <small class="form-text text-muted" id="psizegbHelp">注：程序按照[1024MB = 1GB]计算</small>
+          <small class="form-text text-secondary" id="psizegbHelp">注：程序按照[1024MB = 1GB]计算</small>
         </div>
         <div class="form-group">
           <label for="pnew">是否首发/补档/多网盘</label>
@@ -56,7 +56,7 @@
             <option value="1" selected>无</option>
             <option value="2">首发/补档/多网盘</option>
           </select>
-          <small class="form-text text-muted" id="pnewHelp">注：所在版块第一次出现 / 所在版块2年内未发布过 / 相同内容多个网盘下载</small>
+          <small class="form-text text-secondary" id="pnewHelp">注：所在版块第一次出现 / 所在版块2年内未发布过 / 相同内容多个网盘下载</small>
         </div>
         <div class="form-group">
           <label for="pgod">是否自购</label>
@@ -64,7 +64,7 @@
             <option value="1" selected>无</option>
             <option value="2">自购/自扫/自镜像</option>
           </select>
-          <small class="form-text text-muted" id="pgodHelp">注：自己购买的游戏/漫画/DVD等，不必须首发</small>
+          <small class="form-text text-secondary" id="pgodHelp">注：自己购买的游戏/漫画/DVD等，不必须首发</small>
         </div>
         <div class="form-group">
           <label class="text-danger" for="pbad">伪原创</label>
@@ -72,7 +72,7 @@
             <option value="1" selected>无</option>
             <option class="text-danger" value="2">伪原创</option>
           </select>
-          <small class="form-text text-muted" id="pbadHelp">注：本项选择“伪原创”则以上各项均无须填写，标准详见下方</small>
+          <small class="form-text text-secondary" id="pbadHelp">注：本项选择“伪原创”则以上各项均无须填写，标准详见下方</small>
         </div>
         <div class="alert alert-warning font-size-sm" role="alert">
           <h6 class="alert-heading font-weight-bold">伪原创认定范围：</h6>
@@ -85,7 +85,7 @@
         <div class="form-group">
           <label for="ptext">附言</label>
           <textarea class="form-control" id="ptext" name="ptext" rows="3" aria-describedby="ptextHelp"></textarea>
-          <small class="form-text text-muted" id="ptextHelp">选填，体积虚标、认定补档自购、伪原创说明等情况请在此注明（40汉字以内）</small>
+          <small class="form-text text-secondary" id="ptextHelp">选填，体积虚标、认定补档自购、伪原创说明等情况请在此注明（40汉字以内）</small>
         </div>
         <button class="btn btn-primary btn-block" type="submit">
           <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交

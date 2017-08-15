@@ -44,7 +44,7 @@
         <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.title}</a>
         {/volist}
         {else /}
-        <span class="list-group-item text-muted">暂无数据</span>
+        <span class="list-group-item text-secondary">暂无数据</span>
         {/notempty}
         <a class="list-group-item font-weight-bold" href="{:url('GameIntro/moon')}">更多本月新作&raquo;</a>
       </div>
@@ -55,7 +55,7 @@
         <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.title}</a>
         {/volist}
         {else /}
-        <span class="list-group-item text-muted">暂无数据</span>
+        <span class="list-group-item text-secondary">暂无数据</span>
         {/notempty}
       </div>
     </div>

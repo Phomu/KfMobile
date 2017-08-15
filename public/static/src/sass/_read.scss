@@ -112,7 +112,7 @@
     text-align: left !important;
     font-weight: normal !important;
     font-style: normal !important;
-    border-color: $brand-warning;
+    border-color: $orange;
 
     legend {
       font-size: $font-size-sm;
@@ -136,10 +136,10 @@
   // 提示区域
   .fieldset-alert {
     font-size: $font-size-sm;
-    border-color: $brand-danger;
+    border-color: $red;
 
     legend {
-      color: $brand-danger;
+      color: $red;
     }
 
     li {

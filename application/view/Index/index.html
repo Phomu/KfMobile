@@ -390,7 +390,7 @@
     <h4 class="col-12 card-header">
       <i class="fa fa-signal" aria-hidden="true"></i> 选择背景
     </h4>
-    <div class="col-12 card-block p-2" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
+    <div class="col-12 card-body p-2" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
       {volist name="Think.config.const.bgImageList" id="vo"}
       <span class="img-thumbnail bg-sprite bg-sprite-{$i}" data-id="{$i}" data-filename="{$vo}"></span>
       {/volist}

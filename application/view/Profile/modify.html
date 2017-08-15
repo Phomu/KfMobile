@@ -34,13 +34,13 @@
     <div class="form-group">
       <label for="oldpwd">原密码</label>
       <input class="form-control" name="oldpwd" id="oldpwd" type="password" maxlength="16" placeholder="原密码" aria-describedby="oldpwdHelp">
-      <small class="form-text text-muted" id="oldpwdHelp">修改<b class="text-danger">密码和Email</b>时需要密码验证</small>
+      <small class="form-text text-secondary" id="oldpwdHelp">修改<b class="text-danger">密码和Email</b>时需要密码验证</small>
     </div>
 
     <div class="form-group">
       <label for="propwd">新密码</label>
       <input class="form-control" name="propwd" id="propwd" type="password" maxlength="16" placeholder="新密码" aria-describedby="propwdHelp">
-      <small class="form-text text-muted" id="propwdHelp">新密码最大不要超过<b class="text-danger">16</b>字节</small>
+      <small class="form-text text-secondary" id="propwdHelp">新密码最大不要超过<b class="text-danger">16</b>字节</small>
     </div>
 
     <div class="form-group">
@@ -82,7 +82,7 @@
     <div class="form-group">
       <label for="birthday">生日</label>
       <input class="form-control" id="birthday" type="date" value="{$birthday|default=''}" placeholder="生日" aria-describedby="birthdayHelp">
-      <small class="form-text text-muted" id="birthdayHelp">须选择<b>2001</b>年以前的日期</small>
+      <small class="form-text text-secondary" id="birthdayHelp">须选择<b>2001</b>年以前的日期</small>
       <input name="proyear" type="hidden" value="{$proyear|default=''}">
       <input name="promonth" type="hidden" value="{$promonth|default=''}">
       <input name="proday" type="hidden" value="{$proday|default=''}">
@@ -99,7 +99,7 @@
         <label for="avatarWidth">头像宽度</label>
         <input class="form-control" name="uploadurl[1]" id="avatarWidth" type="number" value="{$avatarWidth|default=''}" maxlength="3"
                min="0" max="140" placeholder="头像宽度" aria-describedby="avatarWidthHelp">
-        <small class="form-text text-muted" id="avatarWidthHelp">
+        <small class="form-text text-secondary" id="avatarWidthHelp">
           必须是<b class="text-danger">140</b>之内的整数（高度和宽度必填，否则默认最大值）
         </small>
       </div>
@@ -107,7 +107,7 @@
         <label for="avatarHeight">头像高度</label>
         <input class="form-control" name="uploadurl[2]" id="avatarHeight" type="number" value="{$avatarHeight|default=''}" maxlength="3"
                min="0" max="200" placeholder="头像高度" aria-describedby="avatarHeightHelp">
-        <small class="form-text text-muted" id="avatarHeightHelp">
+        <small class="form-text text-secondary" id="avatarHeightHelp">
           必须是<b class="text-danger">140 + 整形优惠券{$couponNum|default=0}x20</b>之内的整数
         </small>
       </div>
@@ -130,7 +130,7 @@
         <option value="30" {eq name="t_num" value="30"}selected{/eq}>30</option>
         <option value="40" {eq name="t_num" value="40"}selected{/eq}>40</option>
       </select>
-      <small class="form-text text-muted" id="t_numHelp">设置为<b>0</b>使用默认</small>
+      <small class="form-text text-secondary" id="t_numHelp">设置为<b>0</b>使用默认</small>
     </div>
 
     <div class="form-group">
@@ -141,7 +141,7 @@
         <option value="20" {eq name="p_num" value="20"}selected{/eq}>20</option>
         <option value="30" {eq name="p_num" value="30"}selected{/eq}>30</option>
       </select>
-      <small class="form-text text-muted" id="p_numHelp">设置为<b>0</b>使用默认</small>
+      <small class="form-text text-secondary" id="p_numHelp">设置为<b>0</b>使用默认</small>
     </div>
 
     <button class="btn btn-primary btn-block" type="submit">
