@@ -159,12 +159,10 @@
     {/notempty}
 
     <!-- 编辑器按钮 -->
-    <div class="btn-group btn-group-sm editor-btn-group" role="group" aria-label="编辑器按钮">
+    <div class="btn-group btn-group-sm editor-btn-group flex-wrap" role="group" aria-label="编辑器按钮">
       <div class="btn-group" role="group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" id="fontSizeDropdownBtn" data-toggle="dropdown" type="button"
-                aria-haspopup="true" aria-expanded="false">
-          字号
-        </button>
+                aria-haspopup="true" aria-expanded="false">字号</button>
         <div class="dropdown-menu" id="fontSizeDropdownMenu" aria-labelledby="fontSizeDropdownBtn">
           {for start="1" end="8"}
           <a class="dropdown-item" data-size="{$i}" href="#">
@@ -175,18 +173,14 @@
       </div>
       <div class="btn-group" role="group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" id="colorDropdownBtn" data-toggle="dropdown" type="button"
-                aria-haspopup="true" aria-expanded="false">
-          颜色
-        </button>
+                aria-haspopup="true" aria-expanded="false">颜色</button>
         <div class="dropdown-menu select-color-menu" id="colorDropdownMenu" aria-labelledby="colorDropdownBtn">
           {include file="Public/selectColor" /}
         </div>
       </div>
       <div class="btn-group" role="group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" id="bgColorDropdownBtn" data-toggle="dropdown" type="button"
-                aria-haspopup="true" aria-expanded="false">
-          背景
-        </button>
+                aria-haspopup="true" aria-expanded="false">背景</button>
         <div class="dropdown-menu select-color-menu" id="bgColorDropdownMenu" aria-labelledby="bgColorDropdownBtn">
           {include file="Public/selectColor" /}
         </div>
@@ -240,7 +234,7 @@
       <button class="btn btn-secondary" data-action="align-right" data-toggle="tooltip" type="button" title="右对齐" aria-label="右对齐">
         <i class="fa fa-align-right" aria-hidden="true"></i>
       </button>
-      <button class="btn btn-secondary" data-action="fly" data-toggle="tooltip" type="button" title="插入飞行文字"
+      <button class="btn btn-secondary d-none d-sm-block" data-action="fly" data-toggle="tooltip" type="button" title="插入飞行文字"
               aria-label="插入飞行文字">
         <i class="fa fa-plane" aria-hidden="true"></i>
       </button>

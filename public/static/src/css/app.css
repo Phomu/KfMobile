@@ -6132,12 +6132,8 @@ main {
 #postPage .breadcrumb li:nth-child(2) {
   max-width: 190px; }
 
-.editor-btn-group {
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden; }
-  .editor-btn-group .btn {
-    margin-bottom: 5px; }
+.editor-btn-group .btn {
+  margin-bottom: 5px; }
 
 #fontSizeDropdownMenu {
   line-height: 1.3; }
