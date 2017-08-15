@@ -267,7 +267,7 @@ export const handleAttachBtns = function () {
             id++;
             $(`
 <div class="form-group row font-size-sm attach-area" data-id="${id}">
-  <div class="col-xs-12 col-form-label">
+  <div class="col-12 col-form-label">
     <label>
       <input name="attachment_${id}" data-type="new" type="file" aria-label="选择附件">
     </label>
@@ -276,12 +276,12 @@ export const handleAttachBtns = function () {
       <a data-action="delete" href="#">删除</a>
     </span>
   </div>
-  <div class="col-xs-4">
+  <div class="col-4">
     <label class="sr-only" for="atc_downrvrc${id}">神秘系数</label>
     <input class="form-control form-control-sm" id="atc_downrvrc${id}" name="atc_downrvrc${id}" data-toggle="tooltip" 
 type="number" value="0" min="0" title="神秘系数" placeholder="神秘系数">
   </div>
-  <div class="col-xs-8">
+  <div class="col-8">
     <label class="sr-only" for="atc_desc${id}">描述</label>
     <input class="form-control form-control-sm" id="atc_desc${id}" name="atc_desc${id}" data-toggle="tooltip" type="text" 
 title="描述" placeholder="描述">
