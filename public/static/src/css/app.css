@@ -5796,6 +5796,9 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   padding: 0 1.675rem 0 0.675rem;
   line-height: 1.1875; }
 
+.form-control::-moz-placeholder {
+  font-size: .857rem; }
+
 .mask {
   position: fixed;
   width: 100%;

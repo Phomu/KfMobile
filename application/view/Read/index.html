@@ -227,7 +227,11 @@
           <span title="发表时间" aria-label="发表时间">
             <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$vo.publishTime}</time>
           </span>&nbsp;
-          <a href="{:url('Read/index?tid=' . $tid . '&uid=' . $vo['uid'])}" title="只看该会员的发言">只看TA</a>&nbsp;
+          {eq name="isSeeAll" value="true"}
+          <a class="text-danger" href="{:url('Read/index', 'tid=' . $tid)}" title="显示全部发言">[全看]</a>
+          {else /}
+          <a href="{:url('Read/index', 'tid=' . $tid . '&uid=' . $vo['uid'])}" title="只看该会员的发言">[只看TA]</a>
+          {/eq}
         </div>
       </div>
     </header>

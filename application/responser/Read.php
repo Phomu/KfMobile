@@ -47,6 +47,7 @@ class Read extends Responser
         $threadTitle = trim_strip(pq('table:not(.thread1) > tr:first-child > td[colspan="2"]')->eq(0)->text());
         $pqForumNav = $pqThreadInfo->find('a[href^="thread.php?fid="]');
         $forumName = trim_strip($pqForumNav->eq($pqForumNav->length - 1)->text());
+        $isSeeAll = pq('.readtext:first')->prev()->prev('.readlou')->find('a:contains("[全看]")')->length > 0;
         if ($pqForumNav->length >= 2) {
             if (preg_match('/fid=(\d+)/', $pqForumNav->eq(0)->attr('href'), $matches)) {
                 $parentFid = intval($matches[1]);
@@ -149,6 +150,7 @@ class Read extends Responser
             'threadTitle' => $threadTitle,
             'fid' => $fid,
             'forumName' => $forumName,
+            'isSeeAll' => $isSeeAll,
             'parentFid' => $parentFid,
             'parentForumName' => $parentForumName,
             'hitNum' => $hitNum,

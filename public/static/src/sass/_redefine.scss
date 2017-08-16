@@ -64,7 +64,6 @@
 .form-check-input {
   top: 0;
 }
-
 // 选择控件（修正位置）
 @-moz-document url-prefix() {
   .form-check-input {
@@ -76,4 +75,9 @@
 .custom-select-sm {
   padding: 0 ($custom-select-padding-x * .9 + $custom-select-indicator-padding) 0 $custom-select-padding-x * .9;
   line-height: $custom-select-line-height * .95;
+}
+
+// 表单控件占位符（Firefox浏览器）
+.form-control::-moz-placeholder {
+  font-size: .857rem; // ~12px
 }
