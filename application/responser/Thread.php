@@ -169,7 +169,6 @@ class Thread extends Responser
             $isNewWorks = false;
             $tid = 0;
             $threadName = '';
-            $threadNameStyle = '';
             $pqThreadType = $pqThreadLinkCell->find('a[href*="type="] > font');
             if ($pqThreadType->length > 0) {
                 $typeName = trim_strip($pqThreadType->text());
@@ -180,11 +179,7 @@ class Thread extends Responser
             if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
                 $tid = intval($matches[1]);
             }
-            $threadName = trim_strip($pqThreadLink->text());
-            if ($pqThreadLink->find('b')->length > 0) $threadNameStyle .= 'font-weight: bold; ';
-            if ($pqThreadLink->find('i')->length > 0) $threadNameStyle .= 'font-style: italic; ';
-            $threadNameColor = $pqThreadLink->find('font')->attr('color');
-            if (!empty($threadNameColor)) $threadNameStyle .= 'color: ' . $threadNameColor . ';';
+            $threadName = trim($pqThreadLink->html());
 
             // 主题回复数和点击数
             $pqThreadNumCell = $pqItem->find('td:nth-child(3) a');
@@ -225,7 +220,6 @@ class Thread extends Responser
                 'isNewWorks' => $isNewWorks,
                 'tid' => $tid,
                 'threadName' => $threadName,
-                'threadNameStyle' => $threadNameStyle,
 
                 'replyNum' => $replyNum,
                 'hitNum' => $hitNum,
