@@ -165,6 +165,11 @@ var init = function init() {
         Post.addSmileCode($('#msgContent'));
     } else if (pageId === 'selfRateRatingPage') {
         Other.showSelfRateErrorSizeSubmitWarning();
+    } else if (pageId === 'haloPage') {
+        $('#buyHaloBtns').on('click', 'a', function () {
+            if (!confirm('\u662F\u5426' + $(this).text().trim() + '\u63D0\u5347\u4E00\u6B21\u6218\u529B\u5149\u73AF\uFF1F')) return false;
+            localStorage.removeItem('pd_tmp_log_' + Info.uid);
+        });
     }
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();

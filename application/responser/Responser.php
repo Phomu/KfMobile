@@ -125,17 +125,17 @@ class Responser
         $hasNewRateMsg = trim($pqUserMenu->find('a[href^="kf_fw_1wkfb.php"]')->text()) === '有新的评分';
 
         $verify = '';
-        if (preg_match('/&verify=(\w+)/i', $pqUserMenu->find('a[href^="login.php?action=quit&verify="]')->attr('href'), $matches)) {
+        if (preg_match('/&verify=(\w+)/', $pqUserMenu->find('a[href^="login.php?action=quit&verify="]')->attr('href'), $matches)) {
             $verify = $matches[1];
         }
         $safeId = '';
-        if (preg_match('/&safeid=(\w+)/i', pq('a[href*="safeid="]:first', $doc)->attr('href'), $matches)) {
+        if (preg_match('/&?safeid=(\w+)/', pq('a[href*="safeid="]:first', $doc)->attr('href'), $matches)) {
             $safeId = $matches[1];
         } else {
             $safeId = pq('input#safeid, input[name="safeid"]', $doc)->eq(0)->val();
         }
         $imgPath = '';
-        if (preg_match('/var imgpath\s*=\s*\'(\d+)\';/i', $this->response['document'], $matches)) {
+        if (preg_match('/var imgpath\s*=\s*\'(\d+)\';/', $this->response['document'], $matches)) {
             $imgPath = $matches[1];
         }
 

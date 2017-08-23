@@ -141,6 +141,12 @@ const init = function () {
     else if (pageId === 'selfRateRatingPage') {
         Other.showSelfRateErrorSizeSubmitWarning();
     }
+    else if (pageId === 'haloPage') {
+        $('#buyHaloBtns').on('click', 'a', function () {
+            if (!confirm(`是否${$(this).text().trim()}提升一次战力光环？`)) return false;
+            localStorage.removeItem('pd_tmp_log_' + Info.uid);
+        });
+    }
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();
