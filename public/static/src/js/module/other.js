@@ -386,3 +386,19 @@ export const handleProfilePage = function () {
         }
     }
 };
+
+/**
+ * 在提交自助评分时显示错标文件大小警告
+ */
+export const showSelfRateErrorSizeSubmitWarning = function () {
+    $('form[name="selfRate"]').submit(function () {
+        let $this = $(this);
+        let ratingSize = parseFloat($this.find('[name="psize"]').val());
+        if (isNaN(ratingSize) || ratingSize <= 0) return;
+        if (parseInt($this.find('[name="psizegb"]').val()) === 2) ratingSize *= 1024;
+        let titleSize = parseInt($this.find('a[data-title-size]').data('title-size'));
+        if (titleSize && (titleSize > ratingSize * (100 + 3) / 100 + 1 || titleSize < ratingSize * (100 - 3) / 100 - 1)) {
+            return confirm(`标题文件大小(${titleSize.toLocaleString()}M)与认定文件大小(${ratingSize.toLocaleString()}M)不一致，是否继续？`);
+        }
+    });
+};

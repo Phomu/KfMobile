@@ -138,6 +138,9 @@ const init = function () {
     else if (pageId === 'writeMessagePage') {
         Post.addSmileCode($('#msgContent'));
     }
+    else if (pageId === 'selfRateRatingPage') {
+        Other.showSelfRateErrorSizeSubmitWarning();
+    }
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();

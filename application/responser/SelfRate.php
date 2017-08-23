@@ -322,11 +322,14 @@ class SelfRate extends Responser
         }
         $threadTitle = trim_strip($pqThreadLink->text());
         $forumName = trim_strip($pqArea->find('tr:eq(3) > td:last-child')->text());
+        $rateStatusData = $this->getRateSizeStatusData('认定[1]MB', $threadTitle);
 
         $data = [
             'tid' => $tid,
             'threadTitle' => $threadTitle,
             'forumName' => $forumName,
+            'titleSize' => $rateStatusData['titleSize'],
+            'sizeStatus' => $rateStatusData['sizeStatus'],
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
