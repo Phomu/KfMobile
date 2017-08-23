@@ -402,3 +402,33 @@ export const showSelfRateErrorSizeSubmitWarning = function () {
         }
     });
 };
+
+/**
+ * 在物品商店显示当前持有的KFB和贡献
+ */
+export const showMyInfoInItemShop = function () {
+    $.get(`/profile.php?action=show&uid=${Info.uid}&t=${$.now()}`, function (html) {
+        let kfbMatches = /论坛货币：(\d+)\s*KFB/.exec(html);
+        let gxMatches = /贡献数值：(\d+(?:\.\d+)?)/.exec(html);
+        if (!kfbMatches && !gxMatches) return;
+        let kfb = parseInt(kfbMatches[1]);
+        let gx = parseFloat(gxMatches[1]);
+        $('#myInfo').html(`当前持有 <b>${kfb.toLocaleString()}</b> KFB 和 <b>${gx}</b> 贡献`);
+    });
+};
+
+/**
+ * 处理购买物品按钮
+ */
+export const handleBuyItemBtns = function () {
+    $('#itemList').on('click', 'button[name="buy"]', function () {
+        let $this = $(this);
+        let itemId = $this.data('id');
+        if (!confirm('是否购买此物品？')) return;
+        $this.prop('disabled', true);
+        $.post('/kf_fw_ig_shop.php', `buy=${itemId}&safeid=${Info.safeId}`).done(function (html) {
+            let msg = Util.removeHtmlTag(html);
+            alert(msg);
+        }).fail(() => alert('连接超时')).always(() => $this.prop('disabled', false));
+    });
+};

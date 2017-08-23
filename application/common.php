@@ -74,8 +74,9 @@ function convert_url($url)
         elseif ($path === 'kf_smbox.php') return url('SmBox/index', $params);
         elseif ($path === 'kf_share.php') return url('Share/index', $params);
         elseif ($path === 'kf_no1.php') return url('Rank/index', $params);
-        elseif ($path === 'kf_fw_ig_pklist.php') return url('Fight/rank', $params);
         elseif ($path === 'kf_fw_ig_halo.php') return url('Fight/halo', $params);
+        elseif ($path === 'kf_fw_ig_pklist.php') return url('Fight/rank', $params);
+        elseif ($path === 'kf_fw_ig_shop.php') return url('Item/shop', $params);
         elseif ($path === 'kf_fw_ig_readme.php') return url('Fight/readme', $params);
         elseif ($path === 'profile.php') {
             if (strpos($params, 'action=favor') !== false)

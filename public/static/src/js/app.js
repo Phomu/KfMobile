@@ -147,6 +147,11 @@ const init = function () {
             localStorage.removeItem('pd_tmp_log_' + Info.uid);
         });
     }
+    else if (pageId === 'itemShopPage') {
+        Other.handleBuyItemBtns();
+        Other.showMyInfoInItemShop();
+    }
+
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();

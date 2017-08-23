@@ -223,6 +223,13 @@ export const decodeHtmlSpecialChar = function (str) {
 };
 
 /**
+ * 去除HTML标签
+ * @param html HTML代码
+ * @returns {string} 去除HTML标签的文本
+ */
+export const removeHtmlTag = html => html ? html.replace(/<br\s*\/?>/g, '\n').replace(/<[^>]+>/g, '') : '';
+
+/**
  * 全选
  * @param {jQuery} $nodes 想要全选的节点的jQuery对象
  */

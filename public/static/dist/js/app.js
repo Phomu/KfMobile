@@ -170,7 +170,11 @@ var init = function init() {
             if (!confirm('\u662F\u5426' + $(this).text().trim() + '\u63D0\u5347\u4E00\u6B21\u6218\u529B\u5149\u73AF\uFF1F')) return false;
             localStorage.removeItem('pd_tmp_log_' + Info.uid);
         });
+    } else if (pageId === 'itemShopPage') {
+        Other.handleBuyItemBtns();
+        Other.showMyInfoInItemShop();
     }
+
     if (Config.blockUserEnabled) Public.blockUsers();
     if (Config.blockThreadEnabled) Public.blockThread();
     if (Config.followUserEnabled) Public.followUsers();
@@ -1572,7 +1576,7 @@ var destroy = exports.destroy = function destroy() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.showSelfRateErrorSizeSubmitWarning = exports.handleProfilePage = exports.handleUserPageBtns = exports.handleRegisterPage = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGame = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+exports.handleBuyItemBtns = exports.showMyInfoInItemShop = exports.showSelfRateErrorSizeSubmitWarning = exports.handleProfilePage = exports.handleUserPageBtns = exports.handleRegisterPage = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGame = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1999,6 +2003,40 @@ var showSelfRateErrorSizeSubmitWarning = exports.showSelfRateErrorSizeSubmitWarn
         if (titleSize && (titleSize > ratingSize * (100 + 3) / 100 + 1 || titleSize < ratingSize * (100 - 3) / 100 - 1)) {
             return confirm('\u6807\u9898\u6587\u4EF6\u5927\u5C0F(' + titleSize.toLocaleString() + 'M)\u4E0E\u8BA4\u5B9A\u6587\u4EF6\u5927\u5C0F(' + ratingSize.toLocaleString() + 'M)\u4E0D\u4E00\u81F4\uFF0C\u662F\u5426\u7EE7\u7EED\uFF1F');
         }
+    });
+};
+
+/**
+ * 在物品商店显示当前持有的KFB和贡献
+ */
+var showMyInfoInItemShop = exports.showMyInfoInItemShop = function showMyInfoInItemShop() {
+    $.get('/profile.php?action=show&uid=' + Info.uid + '&t=' + $.now(), function (html) {
+        var kfbMatches = /论坛货币：(\d+)\s*KFB/.exec(html);
+        var gxMatches = /贡献数值：(\d+(?:\.\d+)?)/.exec(html);
+        if (!kfbMatches && !gxMatches) return;
+        var kfb = parseInt(kfbMatches[1]);
+        var gx = parseFloat(gxMatches[1]);
+        $('#myInfo').html('\u5F53\u524D\u6301\u6709 <b>' + kfb.toLocaleString() + '</b> KFB \u548C <b>' + gx + '</b> \u8D21\u732E');
+    });
+};
+
+/**
+ * 处理购买物品按钮
+ */
+var handleBuyItemBtns = exports.handleBuyItemBtns = function handleBuyItemBtns() {
+    $('#itemList').on('click', 'button[name="buy"]', function () {
+        var $this = $(this);
+        var itemId = $this.data('id');
+        if (!confirm('是否购买此物品？')) return;
+        $this.prop('disabled', true);
+        $.post('/kf_fw_ig_shop.php', 'buy=' + itemId + '&safeid=' + Info.safeId).done(function (html) {
+            var msg = Util.removeHtmlTag(html);
+            alert(msg);
+        }).fail(function () {
+            return alert('连接超时');
+        }).always(function () {
+            return $this.prop('disabled', false);
+        });
     });
 };
 
@@ -3732,6 +3770,15 @@ var getQueryParam = exports.getQueryParam = function getQueryParam(name) {
 var decodeHtmlSpecialChar = exports.decodeHtmlSpecialChar = function decodeHtmlSpecialChar(str) {
     if (!str.length) return '';
     return str.replace(/<br\s*\/?>/gi, '\n').replace(/&quot;/gi, '\"').replace(/&#39;/gi, '\'').replace(/&nbsp;/gi, ' ').replace(/&gt;/gi, '>').replace(/&lt;/gi, '<').replace(/&amp;/gi, '&');
+};
+
+/**
+ * 去除HTML标签
+ * @param html HTML代码
+ * @returns {string} 去除HTML标签的文本
+ */
+var removeHtmlTag = exports.removeHtmlTag = function removeHtmlTag(html) {
+    return html ? html.replace(/<br\s*\/?>/g, '\n').replace(/<[^>]+>/g, '') : '';
 };
 
 /**
