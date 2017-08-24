@@ -200,7 +200,7 @@
             </span>
           </div>
           <div class="col-4 thread-footer-column text-right">
-            <a href="{:url('Read/index', 'tid=' . $vo['tid'] . '&page=e#a')}" title="最后回复者" aria-label="最后回复者">
+            <a href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}" title="最后回复者" aria-label="最后回复者">
               <i class="fa fa-reply" aria-hidden="true"></i> {$vo.lastReplier}
             </a>
             <span title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
