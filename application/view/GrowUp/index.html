@@ -22,6 +22,9 @@
 
   <!-- 等级经验 -->
   <section>
+    <div class="alert alert-danger text-center font-size-sm" role="alert">
+      神秘等级 = 神秘系数<sup>2</sup> + 贡献数值*10 + 发帖数量/100
+    </div>
     <p class="text-danger text-center">{$expInfo}</p>
     {if condition="$expPercent >= 90"} {assign name="expColor" value="danger" /}
     {elseif condition="$expPercent >= 60"} {assign name="expColor" value="warning" /}
