@@ -3213,8 +3213,18 @@ var handleGoodPostBtn = exports.handleGoodPostBtn = function handleGoodPostBtn()
     $(document).on('click', '.handle-post-btn', function () {
         var $this = $(this);
         if (!Info.goodPostTips || $this.data('wait')) return;
-        var pid = $(this).closest('.read-floor').data('pid');
-        if (!confirm('\u662F\u5426\u63D0\u4EA4\u672C\u697C\u5C42\u4E3A\u4F18\u79C0\u5E16\u5B50\uFF1F\n\uFF08' + Info.goodPostTips + '\uFF09')) return;
+        var $floor = $(this).closest('.read-floor');
+        var pid = $floor.data('pid');
+        var userName = $floor.data('username');
+        $floor.addClass('good-post-mark');
+        if (!confirm('\u662F\u5426\u63D0\u4EA4\u672C\u697C\u5C42\u4E3A\u4F18\u79C0\u5E16\u5B50\uFF1F\n\uFF08' + Info.goodPostTips + '\uFF09')) {
+            $floor.removeClass('good-post-mark');
+            return;
+        }
+        var $sameUserNameFloors = $('.read-floor[data-username="' + userName + '"]').not($floor);
+        if ($sameUserNameFloors.hasClass('good-post-mark') || $sameUserNameFloors.find('.fieldset-alert:contains("本帖为优秀帖")').length > 0) {
+            if (!confirm('在当前页面中该会员已经有回帖被评为优秀帖，是否继续？')) return;
+        }
         $this.data('wait', true);
         $.post('/diy_read_cztz.php', 'tid=' + Info.tid + '&pid=' + pid + '&safeid=' + Info.safeId).done(function (html) {
             return alert(html);

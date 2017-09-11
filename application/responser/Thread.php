@@ -1,4 +1,5 @@
 <?php
+
 namespace app\responser;
 
 /**
@@ -103,7 +104,8 @@ class Thread extends Responser
             $pqForumRule = $pqForumTopArea->find('> tr:nth-child(2) > td');
             if (!$pqForumRule->find('form')->length) {
                 $pqForumRule->find('a')->addClass('alert-link');
-                $forumRule = replace_common_html_content($pqForumRule->html());
+                $forumRule = str_replace('href="faq.php"', 'href="faq.php?id=101"', $pqForumRule->html());
+                $forumRule = replace_common_html_content($forumRule);
                 $forumRule = str_ireplace('color="blue"', '', $forumRule);
                 $forumRule = str_ireplace('color="red"', 'class="text-danger"', $forumRule);
                 $forumRule = preg_replace('/color="#?000000"/i', 'class="text-gray-dark"', $forumRule);

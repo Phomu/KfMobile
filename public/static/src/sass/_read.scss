@@ -194,3 +194,9 @@
     display: block;
   }
 }
+
+// 优秀帖标记
+.good-post-mark {
+  outline: 3px solid $red;
+  outline-offset: -3px;
+}

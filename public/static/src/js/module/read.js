@@ -44,8 +44,18 @@ export const handleGoodPostBtn = function () {
     $(document).on('click', '.handle-post-btn', function () {
         let $this = $(this);
         if (!Info.goodPostTips || $this.data('wait')) return;
-        let pid = $(this).closest('.read-floor').data('pid');
-        if (!confirm(`是否提交本楼层为优秀帖子？\n（${Info.goodPostTips}）`)) return;
+        let $floor = $(this).closest('.read-floor');
+        let pid = $floor.data('pid');
+        let userName = $floor.data('username');
+        $floor.addClass('good-post-mark');
+        if (!confirm(`是否提交本楼层为优秀帖子？\n（${Info.goodPostTips}）`)) {
+            $floor.removeClass('good-post-mark');
+            return;
+        }
+        let $sameUserNameFloors = $(`.read-floor[data-username="${userName}"]`).not($floor);
+        if ($sameUserNameFloors.hasClass('good-post-mark') || $sameUserNameFloors.find('.fieldset-alert:contains("本帖为优秀帖")').length > 0) {
+            if (!confirm('在当前页面中该会员已经有回帖被评为优秀帖，是否继续？')) return;
+        }
         $this.data('wait', true);
         $.post('/diy_read_cztz.php', `tid=${Info.tid}&pid=${pid}&safeid=${Info.safeId}`)
             .done(html => alert(html))
