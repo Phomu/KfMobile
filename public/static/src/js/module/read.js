@@ -58,8 +58,15 @@ export const handleGoodPostBtn = function () {
         }
         $this.data('wait', true);
         $.post('/diy_read_cztz.php', `tid=${Info.tid}&pid=${pid}&safeid=${Info.safeId}`)
-            .done(html => alert(html))
-            .always(() => $this.removeData('wait'));
+            .done(function (html) {
+                if (/已将本帖操作为优秀帖|该楼层已经是优秀帖/.test(html)) {
+                    let $content = $floor.find('.read-content');
+                    if (!$content.find('.fieldset-alert:contains("本帖为优秀帖")').length) {
+                        $content.prepend('<fieldset class="fieldset fieldset-alert"><legend>↓</legend>本帖为优秀帖</fieldset>');
+                    }
+                }
+                alert(html);
+            }).always(() => $this.removeData('wait'));
     });
 };
 

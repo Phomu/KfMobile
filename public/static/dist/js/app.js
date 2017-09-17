@@ -3227,7 +3227,13 @@ var handleGoodPostBtn = exports.handleGoodPostBtn = function handleGoodPostBtn()
         }
         $this.data('wait', true);
         $.post('/diy_read_cztz.php', 'tid=' + Info.tid + '&pid=' + pid + '&safeid=' + Info.safeId).done(function (html) {
-            return alert(html);
+            if (/已将本帖操作为优秀帖|该楼层已经是优秀帖/.test(html)) {
+                var $content = $floor.find('.read-content');
+                if (!$content.find('.fieldset-alert:contains("本帖为优秀帖")').length) {
+                    $content.prepend('<fieldset class="fieldset fieldset-alert"><legend>↓</legend>本帖为优秀帖</fieldset>');
+                }
+            }
+            alert(html);
         }).always(function () {
             return $this.removeData('wait');
         });
