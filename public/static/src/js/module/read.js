@@ -53,9 +53,13 @@ export const handleGoodPostBtn = function () {
             return;
         }
         let $sameUserNameFloors = $(`.read-floor[data-username="${userName}"]`).not($floor);
-        if ($sameUserNameFloors.hasClass('good-post-mark') || $sameUserNameFloors.find('.fieldset-alert:contains("本帖为优秀帖")').length > 0) {
-            if (!confirm('在当前页面中该会员已经有回帖被评为优秀帖，是否继续？')) return;
+        if ($sameUserNameFloors.find('.fieldset-alert:contains("本帖为优秀帖")').length > 0) {
+            if (!confirm('在当前页面中该会员已经有回帖被评为优秀帖，是否继续？')) {
+                $floor.removeClass('good-post-mark');
+                return;
+            }
         }
+
         $this.data('wait', true);
         $.post('/diy_read_cztz.php', `tid=${Info.tid}&pid=${pid}&safeid=${Info.safeId}`)
             .done(function (html) {
@@ -64,6 +68,9 @@ export const handleGoodPostBtn = function () {
                     if (!$content.find('.fieldset-alert:contains("本帖为优秀帖")').length) {
                         $content.prepend('<fieldset class="fieldset fieldset-alert"><legend>↓</legend>本帖为优秀帖</fieldset>');
                     }
+                }
+                if (!/已将本楼层提交为优秀帖申请/.test(html)) {
+                    $floor.removeClass('good-post-mark');
                 }
                 alert(html);
             }).always(() => $this.removeData('wait'));
