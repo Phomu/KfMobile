@@ -111,7 +111,7 @@ function convert_url($url)
             } else {
                 return url('Message/index', $params);
             }
-        } elseif ($path === 'kf_fw_1wkfb.php') {
+        } /*elseif ($path === 'kf_fw_1wkfb.php') {
             if (preg_match('/ping=(\d+)/i', $params, $matches)) {
                 $params = str_replace('ping=' . $matches[1], '', $params);
                 switch (intval($matches[1])) {
@@ -140,7 +140,7 @@ function convert_url($url)
             } else {
                 return url('SelfRate/latest', $params);
             }
-        }
+        }*/
 
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;
