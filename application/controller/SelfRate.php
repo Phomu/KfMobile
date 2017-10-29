@@ -1,4 +1,5 @@
 <?php
+
 namespace app\controller;
 
 use think\Request;
@@ -18,7 +19,7 @@ class SelfRate extends Base
      */
     public function latest(Request $request)
     {
-        $response = Proxy::get('kf_fw_1wkfb.php?ping=1', $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=1', $request->except('ping'));
         $selfRate = new responser\SelfRate($response);
         $data = $selfRate->latest(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
@@ -32,7 +33,7 @@ class SelfRate extends Base
      */
     public function waitCheck(Request $request)
     {
-        $response = Proxy::get('kf_fw_1wkfb.php?ping=2', $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=2', $request->except('ping'));
         $selfRate = new responser\SelfRate($response);
         $data = $selfRate->waitCheck(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
@@ -46,7 +47,7 @@ class SelfRate extends Base
      */
     public function my(Request $request)
     {
-        $response = Proxy::get('kf_fw_1wkfb.php?ping=3', $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=3', $request->except('ping'));
         $selfRate = new responser\SelfRate($response);
         $data = $selfRate->my(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
@@ -60,7 +61,7 @@ class SelfRate extends Base
      */
     public function complete(Request $request)
     {
-        $response = Proxy::get('kf_fw_1wkfb.php?ping=4', $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=4', $request->except('ping'));
         $selfRate = new responser\SelfRate($response);
         $data = $selfRate->complete(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
@@ -74,7 +75,7 @@ class SelfRate extends Base
      */
     public function rating(Request $request)
     {
-        $response = Proxy::get('kf_fw_1wkfb.php?do=1', $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?do=1', $request->except('do'));
         $selfRate = new responser\SelfRate($response);
         $data = $selfRate->rating(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
@@ -88,9 +89,7 @@ class SelfRate extends Base
      */
     public function check(Request $request)
     {
-        $do = input('do/d', 2);
-        $do = intval($do) === 3 ? 3 : 2;
-        $response = Proxy::get('kf_fw_1wkfb.php?do=' . $do, $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?do=2', $request->except('do'));
         $selfRate = new responser\SelfRate($response);
         $data = $selfRate->check(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
@@ -98,17 +97,31 @@ class SelfRate extends Base
     }
 
     /**
+     * 提交
+     * @param Request $request
+     * @return mixed
+     */
+    public function submit(Request $request)
+    {
+        $do = intval(input('do/d', 0));
+        if ($do < 3) return error('参数错误');
+        $response = Proxy::get('kf_fw_1wkfb.php?do=' . $do, $request->except('do'));
+        new responser\SelfRate($response);
+        return error('提交失败');
+    }
+
+    /**
      * 展示待检查的优秀帖页面
      * @param Request $request
      * @return mixed
      */
-    public function waitCheckGoodPost(Request $request)
+    public function goodPostWaitCheck(Request $request)
     {
-        $response = Proxy::get('kf_fw_1wkfb.php?ping=5', $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=5', $request->except('ping'));
         $selfRate = new responser\SelfRate($response);
-        $data = $selfRate->waitCheckGoodPost(['action' => $request->action()]);
+        $data = $selfRate->goodPostWaitCheck(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
-        else return $this->fetch('SelfRate/waitCheckGoodPost', $data);
+        else return $this->fetch('SelfRate/goodPostWaitCheck', $data);
     }
 
     /**
@@ -116,12 +129,54 @@ class SelfRate extends Base
      * @param Request $request
      * @return mixed
      */
-    public function completeGoodPost(Request $request)
+    public function goodPostComplete(Request $request)
     {
-        $response = Proxy::get('kf_fw_1wkfb.php?ping=6', $request->param());
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=6', $request->except('ping'));
         $selfRate = new responser\SelfRate($response);
-        $data = $selfRate->completeGoodPost(['action' => $request->action()]);
+        $data = $selfRate->goodPostComplete(['action' => $request->action()]);
         if ($request->isAjax()) return $data;
-        else return $this->fetch('SelfRate/completeGoodPost', $data);
+        else return $this->fetch('SelfRate/goodPostComplete', $data);
+    }
+
+    /**
+     * 展示被异议的评分记录页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function disagree(Request $request)
+    {
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=7', $request->except('ping'));
+        $selfRate = new responser\SelfRate($response);
+        $data = $selfRate->disagree(['action' => $request->action()]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/disagree', $data);
+    }
+
+    /**
+     * 展示异议评分处理记录页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function disagreeComplete(Request $request)
+    {
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=8', $request->except('ping'));
+        $selfRate = new responser\SelfRate($response);
+        $data = $selfRate->disagreeComplete(['action' => $request->action()]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/disagreeComplete', $data);
+    }
+
+    /**
+     * 展示指定会员评分限制页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function banUser(Request $request)
+    {
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=9', $request->except('ping'));
+        $selfRate = new responser\SelfRate($response);
+        $data = $selfRate->banUser(['action' => $request->action()]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/banUser', $data);
     }
 }

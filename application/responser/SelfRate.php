@@ -313,18 +313,24 @@ class SelfRate extends Responser
         $commonData = array_merge($this->getCommonData($doc), $extraData);
         $matches = [];
 
-        // 自助评分奖励信息
+        // 自助评分信息
         $pqArea = pq('.adp1');
-        $pqThreadLink = $pqArea->find('tr:eq(2) > td:last-child > a');
+        $ratingTimeInfo = trim($pqArea->find('tr:eq(3) > td')->html());
+        $pqThreadInfo = $pqArea->find('tr:eq(4) > td');
+        $pqThreadLink = $pqThreadInfo->find('a');
         $tid = 0;
-        if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
+        if (preg_match('/tid=(\d+)/', $pqThreadLink->attr('href'), $matches)) {
             $tid = intval($matches[1]);
         }
         $threadTitle = trim_strip($pqThreadLink->text());
-        $forumName = trim_strip($pqArea->find('tr:eq(3) > td:last-child')->text());
+        $forumName = '';
+        if (preg_match('/\[([^\[\]]+)\]版块/', $pqThreadInfo->text(), $matches)) {
+            $forumName = $matches[1];
+        }
         $rateStatusData = $this->getRateSizeStatusData('认定[1]MB', $threadTitle);
 
         $data = [
+            'ratingTimeInfo' => $ratingTimeInfo,
             'tid' => $tid,
             'threadTitle' => $threadTitle,
             'forumName' => $forumName,
@@ -363,13 +369,13 @@ class SelfRate extends Responser
         $id = intval($pqArea->find('input[name="pfid"]')->val());
         $pqThreadLink = $pqArea->find('tr:eq(2) > td:last-child > a');
         $tid = 0;
-        if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
+        if (preg_match('/tid=(\d+)/', $pqThreadLink->attr('href'), $matches)) {
             $tid = intval($matches[1]);
         }
         $threadTitle = trim_strip($pqThreadLink->text());
         $rateUserName = trim_strip($pqArea->find('tr:eq(3) > td:last-child')->text());
         $rateSize = 0;
-        if (preg_match('/(\d+)\s*MB/i', $pqArea->find('tr:eq(4) > td:last-child')->html(), $matches)) {
+        if (preg_match('/(\d+)\s*MB/', $pqArea->find('tr:eq(4) > td:last-child')->html(), $matches)) {
             $rateSize = intval($matches[1]);
         }
         $isNew = strpos(trim($pqArea->find('tr:eq(5) > td:last-child')->html()), '是') === 0;
@@ -378,6 +384,18 @@ class SelfRate extends Responser
         $rateMsg = trim($pqArea->find('tr:eq(8) > td:last-child')->html());
         $rateMsg = trim(preg_replace('/<span style="color:#ff0000;">.+?<\/span>/i', '', $rateMsg));
         if ($rateMsg === '0') $rateMsg = '';
+
+        // 异议信息
+        $isDisagree = false;
+        $disagreeUserName = '';
+        $disagreeMsg = '';
+        if ($pqArea->find('a[href*="kf_fw_1wkfb.php?do=4"]')->length > 0) {
+            $isDisagree = true;
+            if (preg_match('/异议提出人：(\S+)/', $pqArea->find('tr:eq(9) > td:last-child')->text(), $matches)) {
+                $disagreeUserName = trim_strip($matches[1]);
+            }
+            $disagreeMsg = trim($pqArea->find('tr:eq(10) > td:last-child')->html());
+        }
 
         $data = [
             'id' => $id,
@@ -389,6 +407,9 @@ class SelfRate extends Responser
             'isSelfBuy' => $isSelfBuy,
             'isFake' => $isFake,
             'rateMsg' => $rateMsg,
+            'isDisagree' => $isDisagree,
+            'disagreeUserName' => $disagreeUserName,
+            'disagreeMsg' => $disagreeMsg,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
@@ -443,7 +464,7 @@ class SelfRate extends Responser
      * @param array $extraData 额外参数
      * @return array 响应数据
      */
-    public function waitCheckGoodPost($extraData = [])
+    public function goodPostWaitCheck($extraData = [])
     {
         debug('begin');
         $doc = null;
@@ -500,7 +521,7 @@ class SelfRate extends Responser
      * @param array $extraData 额外参数
      * @return array 响应数据
      */
-    public function completeGoodPost($extraData = [])
+    public function goodPostComplete($extraData = [])
     {
         debug('begin');
         $doc = null;
@@ -568,6 +589,180 @@ class SelfRate extends Responser
             'nextPageNum' => $currentPageNum + 1,
             'pageParam' => $pageParam,
             'threadList' => $threadList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取被异议的评分记录页面的响应数据
+     * @param array $extraData 额外参数
+     * @return array 响应数据
+     */
+    public function disagree($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 主题列表
+        $threadList = [];
+        foreach (pq('.adp1:last > tr:gt(0)') as $item) {
+            $pqItem = pq($item);
+
+            $pqThreadCell = $pqItem->find('> td:nth-child(2)');
+            $pqThreadLink = $pqThreadCell->find('a:first');
+            $tid = 0;
+            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
+                $tid = intval($matches[1]);
+            }
+            $threadTitle = trim_strip($pqThreadLink->text());
+
+            $id = 0;
+            if (preg_match('/(?<!\w)id=(\d+)/i', $pqThreadCell->find('a:last')->attr('href'), $matches)) {
+                $id = intval($matches[1]);
+            }
+
+            $pqTagCell = $pqItem->find('> td:nth-child(4)');
+            $isNew = $pqTagCell->find('span:contains("新补")')->length > 0;
+            $isSelfBuy = $pqTagCell->find('span:contains("自购")')->length > 0;
+
+            $threadList[] = array_merge(
+                [
+                    'id' => $id,
+                    'tid' => $tid,
+                    'threadTitle' => $threadTitle,
+                    'isNew' => $isNew,
+                    'isSelfBuy' => $isSelfBuy,
+                ],
+                $this->getRateSizeStatusData($pqItem->find('> td:nth-child(3)')->text(), $threadTitle)
+            );
+        }
+
+        $data = [
+            'threadList' => $threadList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取异议评分处理记录页面的响应数据
+     * @param array $extraData 额外参数
+     * @return array 响应数据
+     */
+    public function disagreeComplete($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+        $request = request();
+
+        // 分页导航
+        $currentPageNum = 1;
+        $pqPages = pq('.adp1:last > tr:nth-child(2) > td:nth-child(2)');
+        if (preg_match('/当前第\s*(\d+)\s*页/', $pqPages->html(), $matches)) {
+            $currentPageNum = intval($matches[1]);
+        }
+        $pageParam = http_build_query($request->except('page'));
+
+        // 异议评分处理记录列表
+        $disagreeList = [];
+        foreach (pq('.adp1:last > tr:gt(1):not(:last)') as $item) {
+            $pqItem = pq($item);
+            $submitTime = trim_strip($pqItem->find('> td:first-child')->text());
+
+            $disagreeInfo = trim($pqItem->find('> td:nth-child(2)')->html());
+            $disagreeInfo = preg_replace_callback('/(管理|会员):([^\[\]]+)\]/', function ($matches) {
+                return sprintf('%s:<a href="%s" target="_blank">%s</a>]', $matches[1], url('Profile/show', 'username=' . $matches[2]), $matches[2]);
+            }, $disagreeInfo);
+            $disagreeInfo = preg_replace_callback('/\[帖子:(\d+)\]/', function ($matches) {
+                return sprintf('[帖子:<a href="%s" target="_blank">%s</a>]', url('Read/index?tid=' . $matches[1]), $matches[1]);
+            }, $disagreeInfo);
+            $disagreeInfo = preg_replace('/\[([^\[\]]+):([^\[\]]+)\]/', '[<span class="text-danger">$1</span>: $2]', $disagreeInfo);
+
+            $disagreeList[] = [
+                'submitTime' => $submitTime,
+                'disagreeInfo' => $disagreeInfo,
+            ];
+        }
+
+        $data = [
+            'currentPageNum' => $currentPageNum,
+            'prevPageNum' => $currentPageNum > 1 ? $currentPageNum - 1 : 1,
+            'nextPageNum' => $currentPageNum + 1,
+            'pageParam' => $pageParam,
+            'disagreeList' => $disagreeList,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
+
+    /**
+     * 获取指定会员评分限制页面的响应数据
+     * @param array $extraData 额外参数
+     * @return array 响应数据
+     */
+    public function banUser($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        // 禁止自助评分的会员列表
+        $banList = [];
+        foreach (pq('.adp1:last > tr:gt(2)') as $item) {
+            $pqItem = pq($item);
+            $uid = 0;
+            if (preg_match('/UID:(\d+)/', $pqItem->find('> td:first-child')->text(), $matches)) {
+                $uid = intval($matches[1]);
+            }
+            $banInfo = trim($pqItem->find('> td:nth-child(2)')->html());
+
+            $banList[] = [
+                'uid' => $uid,
+                'banInfo' => $banInfo,
+            ];
+        }
+
+        $data = [
+            'banList' => $banList,
         ];
         debug('end');
         trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');

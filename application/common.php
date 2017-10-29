@@ -111,7 +111,7 @@ function convert_url($url)
             } else {
                 return url('Message/index', $params);
             }
-        } /*elseif ($path === 'kf_fw_1wkfb.php') {
+        } elseif ($path === 'kf_fw_1wkfb.php') {
             if (preg_match('/ping=(\d+)/i', $params, $matches)) {
                 $params = str_replace('ping=' . $matches[1], '', $params);
                 switch (intval($matches[1])) {
@@ -122,9 +122,15 @@ function convert_url($url)
                     case 4:
                         return url('SelfRate/complete', $params);
                     case 5:
-                        return url('SelfRate/waitCheckGoodPost', $params);
+                        return url('SelfRate/goodPostWaitCheck', $params);
                     case 6:
-                        return url('SelfRate/completeGoodPost', $params);
+                        return url('SelfRate/goodPostComplete', $params);
+                    case 7:
+                        return url('SelfRate/disagree', $params);
+                    case 8:
+                        return url('SelfRate/disagreeComplete', $params);
+                    case 9:
+                        return url('SelfRate/banUser', $params);
                     default:
                         return url('SelfRate/latest', $params);
                 }
@@ -132,7 +138,6 @@ function convert_url($url)
                 $params = str_replace('do=' . $matches[1], '', $params);
                 switch (intval($matches[1])) {
                     case 2:
-                    case 3:
                         return url('SelfRate/check', $params);
                     default:
                         return url('SelfRate/rating', $params);
@@ -140,7 +145,7 @@ function convert_url($url)
             } else {
                 return url('SelfRate/latest', $params);
             }
-        }*/
+        }
 
         if (strpos($url, '/') !== 0) $url = '/' . $url;
         return $url;

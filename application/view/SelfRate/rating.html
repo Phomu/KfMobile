@@ -24,78 +24,104 @@
   {include file="SelfRate/header" /}
 
   <!-- 自助评分奖励 -->
-  <div class="card">
-    <h5 class="card-header">自助评分奖励</h5>
-    <div class="card-body p-3">
-      <form name="selfRate" action="{:url('SelfRate/rating')}" method="get">
-        <input name="safeid" type="hidden" value="{$safeId}">
-        <input name="ptid" type="hidden" value="{$tid}">
-        <div class="form-group">
-          帖子：<a data-title-size="{$titleSize}" href="{:url('Read/index', 'tid=' . $tid)}" target="_blank">{$threadTitle}</a>
-          {eq name="sizeStatus" value="-1"}
-          <span class="text-warning">(标题文件大小无法解析)</span>
-          {/eq}
-        </div>
-        <div class="form-group">
-          所在板块：{$forumName}
-        </div>
-        <div class="form-group">
-          <label for="psize">资源体积数值</label>
-          <input class="form-control" id="psize" name="psize" type="text" maxlength="20" placeholder="资源体积数值"
-                 aria-describedby="psizeHelp">
-          <small class="form-text text-secondary" id="psizeHelp">注：如[1.23GB]的资源，本项填[1.23]，下一项选择[GB]</small>
-        </div>
-        <div class="form-group">
-          <label for="psizegb">资源体积单位</label>
-          <select class="form-control custom-select" id="psizegb" name="psizegb" aria-describedby="psizegbHelp">
-            <option value="1" selected>MB(较小文件)</option>
-            <option value="2">GB(较大文件)</option>
+  <form name="selfRate" action="{:url('SelfRate/rating')}" method="get">
+    <input name="safeid" type="hidden" value="{$safeId}">
+    <input name="ptid" type="hidden" value="{$tid}">
+    <input type="hidden" name="pbad" value="1">
+
+    <div class="alert alert-warning font-size-sm" role="alert">{$ratingTimeInfo}</div>
+
+    <div class="alert alert-info font-size-sm" role="alert">
+      你正在为[<b>{$forumName}</b>]版块的《
+      <a class="alert-link font-size-base" data-title-size="{$titleSize}" href="{:url('Read/index', 'tid=' . $tid)}" target="_blank">{$threadTitle}</a>
+      》帖子评分
+      {eq name="sizeStatus" value="-1"}
+      <span class="text-orange">(标题文件大小无法解析)</span>
+      {/eq}
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第一步 确认原创</h5>
+      <div class="card-body font-size-sm p-3">
+        首先，请先查看该帖子的内容是否应该发布于所在版块，并且符合<a href="{:url('Faq/index?id=100')}" target="_blank">站内定义</a>。<br>
+        然后，帖子里必须包含3部分[1.一张该资源的相关图片][2.一段文字的资源介绍][3.资源下载链接和原创证明信息]。<br>
+        第三，进入下载链接的网络硬盘，确认文件名与帖子介绍内容一致。<br>
+        接下来，检查帖子是否原创，本评分暂时只支持一种方式：<br>
+        [<b>帖子内贴出资源的压缩包截图，并且截图的（1.文件名）（2.压缩包注解）其中之一含有（发帖人的完整ID名称），即符合要求</b>]<br>
+        如果发现不符合以上规则的帖子，请至<a href="{:url('Thread/index?fid=4')}" target="_blank">意见管理区</a>发帖举报，管理人员确认后会将投诉作为优秀帖奖励。
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第二步 填写体积</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          注意，资源体积为[<b>你在下载链接的网络硬盘中看到的文件大小</b>]而不是发帖人在帖子中自己说的文件大小。<br>
+          如果是大量文件要算总体积你觉得麻烦，可以不评分等本次建立评分失效，让有耐心的人去评。
+        </p>
+        <div class="form-group row mb-0 px-3">
+          <input class="form-control col-7" id="psize" name="psize" type="text" maxlength="20" placeholder="资源体积数值" aria-label="资源体积数值">
+          <select class="form-control custom-select col-5" id="psizegb" name="psizegb" aria-label="资源体积单位">
+            <option value="1" selected>MB(小文件)</option>
+            <option value="2">GB(大文件)</option>
           </select>
-          <small class="form-text text-secondary" id="psizegbHelp">注：程序按照[1024MB = 1GB]计算</small>
         </div>
-        <div class="form-group">
-          <label for="pnew">是否首发/补档/多网盘</label>
-          <select class="form-control custom-select" id="pnew" name="pnew" aria-describedby="pnewHelp">
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第三步 附加判定</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          请用[该资源名称]在所在版块搜索，符合以下情况之一的，请选择本项：<br>
+          （1.该资源第一次出现在本版块中，之前没有人发过，属于首发）<br>
+          （2.该资源最后一次出现在本版块中超过2年时间，属于补档）<br>
+          （3.该资源帖子内相同文件包含2个或2个以上的不同网盘下载链接，即用多个网盘上传了同一资源，属于多网盘）
+        </p>
+        <div class="form-group mb-0">
+          <label class="sr-only" for="pnew">是否首发/补档/多网盘</label>
+          <select class="form-control custom-select" id="pnew" name="pnew">
             <option value="1" selected>无</option>
             <option value="2">首发/补档/多网盘</option>
           </select>
-          <small class="form-text text-secondary" id="pnewHelp">注：所在版块第一次出现 / 所在版块2年内未发布过 / 相同内容多个网盘下载</small>
         </div>
-        <div class="form-group">
-          <label for="pgod">是否自购</label>
-          <select class="form-control custom-select" id="pgod" name="pgod" aria-describedby="pgodHelp">
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第四步 自购认定</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          符合自购判定的资源，请选择本项，本评分只支持一种自购认定方式：<br>
+          [<b>帖子中给出对应照片，照片中含有（该资源的实物）和（发帖人的完整ID名称），即符合要求</b>]
+        </p>
+        <div class="form-group mb-0">
+          <label class="sr-only" for="pgod">是否自购</label>
+          <select class="form-control custom-select" id="pgod" name="pgod">
             <option value="1" selected>无</option>
             <option value="2">自购/自扫/自镜像</option>
           </select>
-          <small class="form-text text-secondary" id="pgodHelp">注：自己购买的游戏/漫画/DVD等，不必须首发</small>
         </div>
-        <div class="form-group">
-          <label class="text-danger" for="pbad">伪原创</label>
-          <select class="form-control custom-select" id="pbad" name="pbad" aria-describedby="pbadHelp">
-            <option value="1" selected>无</option>
-            <option class="text-danger" value="2">伪原创</option>
-          </select>
-          <small class="form-text text-secondary" id="pbadHelp">注：本项选择“伪原创”则以上各项均无须填写，标准详见下方</small>
-        </div>
-        <div class="alert alert-warning font-size-sm" role="alert">
-          <h6 class="alert-heading font-weight-bold">伪原创认定范围：</h6>
-          <p class="mb-0">
-            1. 文件名 或 下载页发布者 或 下载页备注 或 帖子提供压缩包内ID名截图，以上任意一处必须有发帖者ID名，否则为伪原创。<br>
-            2. 文件体积错误不算伪原创，按照实际大小评分即可。<br>
-            3. 直接盗链、冒充自购等恶意情况，请提交伪原创评分后，再去管理区举报，我们会封号处理。
-          </p>
-        </div>
-        <div class="form-group">
-          <label for="ptext">附言</label>
-          <textarea class="form-control" id="ptext" name="ptext" rows="3" aria-describedby="ptextHelp"></textarea>
-          <small class="form-text text-secondary" id="ptextHelp">选填，体积虚标、认定补档自购、伪原创说明等情况请在此注明（40汉字以内）</small>
-        </div>
-        <button class="btn btn-primary btn-block" type="submit">
-          <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
-        </button>
-      </form>
+      </div>
     </div>
-  </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">附言</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          选填，无需要特别说明内容则不用填写。（40汉字以内）
+        </p>
+        <div class="form-group mb-0">
+          <label class="sr-only" for="ptext">附言</label>
+          <textarea class="form-control" id="ptext" name="ptext" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit">
+      <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
+    </button>
+  </form>
 </main>
 {include file="Public/footer" /}
 </body>

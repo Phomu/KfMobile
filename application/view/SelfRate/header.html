@@ -1,11 +1,16 @@
 <!-- 分类导航 -->
-<ul class="nav nav-pills flex-wrap mb-3">
+<ul class="nav nav-pills nav-extend mb-3">
   <li class="nav-item">
-    <a class="nav-link {eq name='action' value='latest'}active{/eq}" href="/kf_fw_1wkfb.php?ping=1">最近发布的分享帖</a>
+    <a class="nav-link {eq name='action' value='latest'}active{/eq}" href="{:url('SelfRate/latest')}">最近发布的分享帖</a>
   </li>
   <li class="nav-item">
     <a class="nav-link {eq name='action' value='waitcheck'}active{/eq}" href="{:url('SelfRate/waitCheck')}">待检查的评分记录</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='goodpostwaitcheck'}active{/eq}" href="{:url('SelfRate/goodPostWaitCheck')}">待检查的优秀帖</a>
+  </li>
+</ul>
+<ul class="nav nav-pills nav-extend mb-3">
   <li class="nav-item">
     <a class="nav-link {eq name='action' value='my'}active{/eq}" href="{:url('SelfRate/my')}">关于我的评分记录</a>
   </li>
@@ -13,9 +18,17 @@
     <a class="nav-link {eq name='action' value='complete'}active{/eq}" href="{:url('SelfRate/complete')}">已完成的评分记录</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {eq name='action' value='waitCheckGoodPost'}active{/eq}" href="{:url('SelfRate/waitCheckGoodPost')}">待检查的优秀帖</a>
+    <a class="nav-link {eq name='action' value='goodpostcomplete'}active{/eq}" href="{:url('SelfRate/goodPostComplete')}">已完成的优秀帖记录</a>
+  </li>
+</ul>
+<ul class="nav nav-pills nav-extend mb-3">
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='disagree'}active{/eq}" href="{:url('SelfRate/disagree')}">被异议的评分记录</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {eq name='action' value='completeGoodPost'}active{/eq}" href="{:url('SelfRate/completeGoodPost')}">已完成的优秀帖记录</a>
+    <a class="nav-link {eq name='action' value='disagreecomplete'}active{/eq}" href="{:url('SelfRate/disagreeComplete')}">异议评分处理记录</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='banuser'}active{/eq}" href="{:url('SelfRate/banUser')}">指定会员评分限制</a>
   </li>
 </ul>
