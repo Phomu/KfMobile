@@ -92,8 +92,9 @@ Nginx虚拟主机配置参考：
             proxy_cache           cache_kf;
             proxy_cache_valid     200 304 30m;
             proxy_cache_valid     301 302 30m;
+            proxy_cache_valid     500 502 503 5s;
             proxy_cache_valid     any 1m;
-            proxy_cache_use_stale invalid_header error timeout http_502;
+            proxy_cache_use_stale invalid_header error timeout http_500 http_502 http_503;
     
             proxy_set_header     Host www.9moe.com;
             proxy_set_header     X-Real-IP $remote_addr;
