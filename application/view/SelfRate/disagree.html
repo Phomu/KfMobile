@@ -29,7 +29,7 @@
       {volist name="threadList" id="vo"}
       <li class="list-group-item thread-list-item">
         <div class="thread-link-item">
-          <a class="thread-link" href="{:url('Read/index', 'tid=' . $vo['tid'])}" target="_blank">
+          <a class="thread-link" href="{$vo.threadUrl}" target="_blank">
             <span class="badge badge-warning">异议</span>
             {eq name="vo.isNew" value="true"}
             <span class="badge badge-danger">新补</span>

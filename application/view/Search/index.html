@@ -79,7 +79,7 @@
       {volist name="threadList" id="vo"}
       <li class="list-group-item thread-list-item">
         <div class="thread-link-item">
-          <a href="{:str_replace('+', '%20', url('Read/index?tid=' . $vo['tid'] . (!empty($keyword) ? '&keyword=' . $keyword : '')))}"
+          <a href="{:str_replace('+', '%20', url('Read/index', 'tid=' . $vo['tid'] . '&sf=' . $vo['sf'] . (!empty($keyword) ? '&keyword=' . $keyword : '')))}"
              class="thread-link" target="_blank">
             {empty name="vo.threadForum"}<span class="badge badge-secondary">删</span>{/empty}
             {$vo.threadTitle}

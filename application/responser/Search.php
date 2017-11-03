@@ -1,4 +1,5 @@
 <?php
+
 namespace app\responser;
 
 /**
@@ -63,11 +64,12 @@ class Search extends Responser
             // 主题链接
             $pqThreadLink = $pqItem->find('td:first-child > a');
             $tid = 0;
-            $threadTitle = '';
-            if (preg_match('/tid=(\d+)(?:.+keyword=([^&]+))?/i', $pqThreadLink->attr('href'), $matches)) {
-                $tid = intval($matches[1]);
-            }
+            $sf = '';
             $threadTitle = trim($pqThreadLink->html());
+            if (preg_match('/tid=(\d+)(?:&sf=(\w+))?/', $pqThreadLink->attr('href'), $matches)) {
+                $tid = intval($matches[1]);
+                $sf = !empty($matches[2]) ? $matches[2] : '';
+            }
 
             // 主题所属版块
             $threadForum = trim_strip($pqItem->find('td:nth-child(2)')->text());
@@ -75,20 +77,20 @@ class Search extends Responser
             // 主题作者、发表时间
             $pqThreadInfoCell = $pqItem->find('td:last-child');
             $authorUid = '';
-            $author = '';
             $lastReplyTime = '';
             $pqAuthor = $pqThreadInfoCell->find('a');
-            if (preg_match('/uid=(\d+)/i', $pqAuthor->attr('href'), $matches)) {
+            if (preg_match('/uid=(\d+)/', $pqAuthor->attr('href'), $matches)) {
                 $authorUid = intval($matches[1]);
             }
             $author = trim_strip($pqAuthor->text());
             $pqThreadInfoContents = $pqThreadInfoCell->contents();
-            if (preg_match('/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i', $pqThreadInfoContents->eq($pqThreadInfoContents->length - 1), $matches)) {
+            if (preg_match('/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/', $pqThreadInfoContents->eq($pqThreadInfoContents->length - 1), $matches)) {
                 $lastReplyTime = $matches[0];
             }
 
             $threadList[] = [
                 'tid' => $tid,
+                'sf' => $sf,
                 'threadTitle' => $threadTitle,
                 'threadForum' => $threadForum,
                 'authorUid' => $authorUid,

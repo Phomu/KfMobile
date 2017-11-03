@@ -258,9 +258,8 @@
       <ul class="tab-pane list-group active" id="galgameNewReplyPanel" role="tabpanel">
         {volist name="galgameNewReplyList" id="vo"}
         <li class="list-group-item thread-link-group">
-          <a class="thread-link" data-author="{$vo.author}" href="{:url('Read/index?tid=' . $vo['tid'])}"
-             title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
-          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+          <a class="thread-link" data-author="{$vo.author}" href="{$vo.threadUrl}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{$vo.threadUrl}/page/e#a">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span class="sr-only">跳转到帖子末页</span>
           </a>
@@ -271,9 +270,8 @@
       <ul class="tab-pane list-group" id="resourceNewReplyPanel" role="tabpanel">
         {volist name="resourceNewReplyList" id="vo"}
         <li class="list-group-item thread-link-group">
-          <a class="thread-link" data-author="{$vo.author}" href="{:url('Read/index?tid=' . $vo['tid'])}"
-             title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
-          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+          <a class="thread-link" data-author="{$vo.author}" href="{$vo.threadUrl}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{$vo.threadUrl}/page/e#a">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span class="sr-only">跳转到帖子末页</span>
           </a>
@@ -284,9 +282,8 @@
       <ul class="tab-pane list-group" id="otherNewReplyPanel" role="tabpanel">
         {volist name="otherNewReplyList" id="vo"}
         <li class="list-group-item thread-link-group">
-          <a class="thread-link" data-author="{$vo.author}" href="{:url('Read/index?tid=' . $vo['tid'])}"
-             title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
-          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+          <a class="thread-link" data-author="{$vo.author}" href="{$vo.threadUrl}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{$vo.threadUrl}/page/e#a">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span class="sr-only">跳转到帖子末页</span>
           </a>
@@ -323,9 +320,8 @@
       <ul class="tab-pane list-group active" id="galgameTopRecommendPanel" role="tabpanel">
         {volist name="galgameTopRecommendList" id="vo"}
         <li class="list-group-item thread-link-group">
-          <a class="thread-link" data-author="{$vo.author}" href="{:url('Read/index?tid=' . $vo['tid'])}"
-             title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
-          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+          <a class="thread-link" data-author="{$vo.author}" href="{$vo.threadUrl}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{$vo.threadUrl}/page/e#a">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span class="sr-only">跳转到帖子末页</span>
           </a>
@@ -336,9 +332,8 @@
       <ul class="tab-pane list-group" id="resourceTopRecommendPanel" role="tabpanel">
         {volist name="resourceTopRecommendList" id="vo"}
         <li class="list-group-item thread-link-group">
-          <a class="thread-link" data-author="{$vo.author}" href="{:url('Read/index?tid=' . $vo['tid'])}"
-             title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
-          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+          <a class="thread-link" data-author="{$vo.author}" href="{$vo.threadUrl}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{$vo.threadUrl}/page/e#a">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span class="sr-only">跳转到帖子末页</span>
           </a>
@@ -349,9 +344,8 @@
       <ul class="tab-pane list-group" id="otherTopRecommendPanel" role="tabpanel">
         {volist name="otherTopRecommendList" id="vo"}
         <li class="list-group-item thread-link-group">
-          <a class="thread-link" data-author="{$vo.author}" href="{:url('Read/index?tid=' . $vo['tid'])}"
-             title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
-          <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+          <a class="thread-link" data-author="{$vo.author}" href="{$vo.threadUrl}" title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
+          <a class="thread-link-jump" href="{$vo.threadUrl}/page/e#a">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span class="sr-only">跳转到帖子末页</span>
           </a>
@@ -371,9 +365,9 @@
     <ul class="col-12 list-group px-0" id="newPublishPanel">
       {volist name="newPublishList" id="vo"}
       <li class="list-group-item thread-link-group">
-        <a class="thread-link" data-author="{$vo.author}" href="{:url('Read/index?tid=' . $vo['tid'])}"
+        <a class="thread-link" data-author="{$vo.author}" href="{$vo.threadUrl}"
            title="《{$vo.title}》by：{$vo.author}">{$vo.title}</a>
-        <a class="thread-link-jump" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">
+        <a class="thread-link-jump" href="{$vo.threadUrl}/page/e#a">
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
           <span class="sr-only">跳转到帖子末页</span>
         </a>

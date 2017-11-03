@@ -31,23 +31,20 @@ class Read extends Responser
         $request = request();
 
         // 主题信息
-        $tid = 0;
-        $threadTitle = '';
-        $fid = 0;
-        $forumName = '';
+        $pqThreadInfo = pq('td[colspan="2"]:contains("收藏本帖")')->eq(0);
+        $pqForumNav = $pqThreadInfo->find('a[href^="thread.php?fid="]');
+        $tid = intval(pq('input[name="tid"]')->val());
+        $threadTitle = trim_strip(pq('table:not(.thread1) > tr:first-child > td[colspan="2"]')->eq(0)->text());
+        $fid = intval(pq('input[name="fid"]')->val());
+        $forumName = trim_strip($pqForumNav->eq($pqForumNav->length - 1)->text());
         $parentFid = 0;
         $parentForumName = '';
         $hitNum = 0;
         $replyNum = 0;
         $publishTime = '';
         $tuiNum = 0;
-        $pqThreadInfo = pq('td[colspan="2"]:contains("收藏本帖")')->eq(0);
-        $tid = intval(pq('input[name="tid"]')->val());
-        $fid = intval(pq('input[name="fid"]')->val());
-        $threadTitle = trim_strip(pq('table:not(.thread1) > tr:first-child > td[colspan="2"]')->eq(0)->text());
-        $pqForumNav = $pqThreadInfo->find('a[href^="thread.php?fid="]');
-        $forumName = trim_strip($pqForumNav->eq($pqForumNav->length - 1)->text());
         $isSeeAll = pq('.readtext:first')->prev()->prev('.readlou')->find('a:contains("[全看]")')->length > 0;
+        $sf = input('sf', '');
         if ($pqForumNav->length >= 2) {
             if (preg_match('/fid=(\d+)/', $pqForumNav->eq(0)->attr('href'), $matches)) {
                 $parentFid = intval($matches[1]);
@@ -157,6 +154,7 @@ class Read extends Responser
             'replyNum' => $replyNum,
             'publishTime' => $publishTime,
             'tuiNum' => $tuiNum,
+            'sf' => $sf,
             'currentPageNum' => $currentPageNum,
             'prevPageNum' => $currentPageNum > 1 ? $currentPageNum - 1 : 1,
             'nextPageNum' => $currentPageNum < $maxPageNum ? $currentPageNum + 1 : $maxPageNum,

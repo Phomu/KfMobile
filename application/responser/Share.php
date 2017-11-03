@@ -40,11 +40,7 @@ class Share extends Responser
             if (empty($threadTypeColor)) $threadTypeColor = '#000';
 
             $pqThreadLink = $pqItem->find('td:nth-child(3) > a');
-            $tid = 0;
-            $threadTitle = '';
-            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
-                $tid = intval($matches[1]);
-            }
+            $threadUrl = convert_url($pqThreadLink->attr('href'));
             $threadTitle = trim($pqThreadLink->html());
             $threadTitle = str_replace('<font color="#009900">[新作]</font>', '<span class="badge badge-success">新作</span> ', $threadTitle);
             $threadTitle = str_replace('<font color="#ff0000">[推荐]</font>', '<span class="badge badge-danger">推荐</span> ', $threadTitle);
@@ -54,7 +50,7 @@ class Share extends Responser
                 'publishTime' => $publishTime,
                 'threadType' => $threadType,
                 'threadTypeColor' => $threadTypeColor,
-                'tid' => $tid,
+                'threadUrl' => $threadUrl,
                 'threadTitle' => $threadTitle,
                 'author' => $author,
             ];

@@ -85,7 +85,7 @@
         {notempty name="voteLimitNum"}<span class="text-danger">&nbsp;(限选个数：{$voteLimitNum})</span>{/notempty}
         {/case}
         {case value="voted"}
-        <a class="btn btn-warning btn-sm" href="{:url('Read/index?fid=' . $fid . '&tid=' . $tid . '&action=modify')}">
+        <a class="btn btn-warning btn-sm" href="{:url('Read/index', 'fid=' . $fid . '&tid=' . $tid . '&action=modify')}">
           <i class="fa fa-pencil" aria-hidden="true"></i> 修改投票
         </a>
         {/case}
@@ -121,7 +121,7 @@
     <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
       <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
     </a>
-    <a class="btn btn-info fast-goto-floor" data-url="{:url('Read/index?tid=' . $tid)}" href="#" title="快速直达指定楼层" role="button">
+    <a class="btn btn-info fast-goto-floor" data-url="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" href="#" title="快速直达指定楼层" role="button">
       <i class="fa fa-bolt" aria-hidden="true"></i> 电梯
     </a>
     <a class="btn btn-primary" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid)}">
@@ -190,7 +190,7 @@
         <div class="d-flex">
           <div class="">
             <a class="font-size-sm text-secondary floor-num" title="复制楼层链接"
-               href="{:url('Read/index?tid=' . $tid . ($vo['pid'] !== 'tpc' ? '&spid=' . $vo['pid'] : ''))}" role="button">
+               href="{:url('Read/index', 'tid=' . $tid . ($vo['pid'] !== 'tpc' ? '&spid=' . $vo['pid'] : '') . '&sf=' . $sf)}" role="button">
               {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
             </a>
             <a class="floor-user" href="{:url('Profile/show?uid=' . $vo['uid'])}" style="color: {$vo.smColor};">
@@ -228,9 +228,9 @@
             <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$vo.publishTime}</time>
           </span>&nbsp;
           {eq name="isSeeAll" value="true"}
-          <a class="text-danger" href="{:url('Read/index', 'tid=' . $tid)}" title="显示全部发言">[全看]</a>
+          <a class="text-danger" href="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" title="显示全部发言">[全看]</a>
           {else /}
-          <a href="{:url('Read/index', 'tid=' . $tid . '&uid=' . $vo['uid'])}" title="只看该会员的发言">[只看TA]</a>
+          <a href="{:url('Read/index', 'tid=' . $tid . '&uid=' . $vo['uid'] . '&sf=' . $sf)}" title="只看该会员的发言">[只看TA]</a>
           {/eq}
         </div>
       </div>

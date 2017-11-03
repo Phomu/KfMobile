@@ -77,7 +77,7 @@
       {volist name="shareList" id="vo"}
       <li class="list-group-item thread-list-item">
         <div class="thread-link-item">
-          <a href="{:url('Read/index?tid=' . $vo['tid'])}" class="thread-link" target="_blank">{$vo.threadTitle}</a>
+          <a href="{$vo.threadUrl}" class="thread-link" target="_blank">{$vo.threadTitle}</a>
         </div>
         <footer class="thread-footer">
           <div class="col-4 thread-footer-column">

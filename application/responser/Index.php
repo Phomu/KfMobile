@@ -52,14 +52,14 @@ class Index extends Responser
         $pqNewReplyList = pq('li.b_tit4 > a');
         foreach ($pqNewReplyList as $i => $link) {
             $pqLink = pq($link);
-            $tid = preg_match('/tid=(\d+)/', $pqLink->attr('href'), $matches) ? intval($matches[1]) : 0;
+            $threadUrl = convert_url($pqLink->attr('href'));
             $title = '';
             $author = '';
             if (preg_match('/^《(.+)》by：(.+)$/', trim_strip($pqLink->attr('title')), $matches)) {
                 $title = $matches[1];
                 $author = $matches[2];
             }
-            $linkData = ['tid' => $tid, 'title' => $title, 'author' => $author];
+            $linkData = ['threadUrl' => $threadUrl, 'title' => $title, 'author' => $author];
             if ($i >= 20) $otherNewReplyList[] = $linkData;
             elseif ($i >= 10) $resourceNewReplyList[] = $linkData;
             else $galgameNewReplyList[] = $linkData;
@@ -73,14 +73,14 @@ class Index extends Responser
         $pqNewReplyList = pq('li.b_tit4_1 > a');
         foreach ($pqNewReplyList as $i => $link) {
             $pqLink = pq($link);
-            $tid = preg_match('/tid=(\d+)/', $pqLink->attr('href'), $matches) ? intval($matches[1]) : 0;
+            $threadUrl = convert_url($pqLink->attr('href'));
             $title = '';
             $author = '';
             if (preg_match('/^《(.+)》by：(.+)$/', trim_strip($pqLink->attr('title')), $matches)) {
                 $title = $matches[1];
                 $author = $matches[2];
             }
-            $linkData = ['tid' => $tid, 'title' => $title, 'author' => $author];
+            $linkData = ['threadUrl' => $threadUrl, 'title' => $title, 'author' => $author];
             if ($i >= 24) $newPublishList[] = $linkData;
             elseif ($i >= 16) $otherTopRecommendList[] = $linkData;
             elseif ($i >= 8) $resourceTopRecommendList[] = $linkData;

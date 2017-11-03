@@ -33,7 +33,7 @@
 
     <div class="alert alert-info font-size-sm" role="alert">
       你正在为[<b>{$forumName}</b>]版块的《
-      <a class="alert-link font-size-base" data-title-size="{$titleSize}" href="{:url('Read/index', 'tid=' . $tid)}" target="_blank">{$threadTitle}</a>
+      <a class="alert-link font-size-base" data-title-size="{$titleSize}" href="{$threadUrl}" target="_blank">{$threadTitle}</a>
       》帖子评分
       {eq name="sizeStatus" value="-1"}
       <span class="text-orange">(标题文件大小无法解析)</span>

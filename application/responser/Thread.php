@@ -168,9 +168,6 @@ class Thread extends Responser
             $pqThreadLinkCell = $pqItem->find('td:nth-child(2) > .threadtit1');
             $typeName = '';
             $typeColor = '#000';
-            $isNewWorks = false;
-            $tid = 0;
-            $threadName = '';
             $pqThreadType = $pqThreadLinkCell->find('a[href*="type="] > font');
             if ($pqThreadType->length > 0) {
                 $typeName = trim_strip($pqThreadType->text());
@@ -178,6 +175,7 @@ class Thread extends Responser
             }
             $isNewWorks = $pqThreadLinkCell->find('font:contains("[新作]")')->length > 0;
             $pqThreadLink = $pqThreadLinkCell->find('a[href^="read.php?tid="]');
+            $threadUrl = convert_url($pqThreadLink->attr('href'));
             if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
                 $tid = intval($matches[1]);
             }
@@ -220,7 +218,7 @@ class Thread extends Responser
                 'typeName' => $typeName,
                 'typeColor' => $typeColor,
                 'isNewWorks' => $isNewWorks,
-                'tid' => $tid,
+                'threadUrl' => $threadUrl,
                 'threadName' => $threadName,
 
                 'replyNum' => $replyNum,

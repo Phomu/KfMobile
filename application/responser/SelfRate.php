@@ -45,17 +45,16 @@ class SelfRate extends Responser
             $pqItem = pq($item);
             $publishTime = trim_strip($pqItem->find('> td:first-child')->text());
             $pqThreadLink = $pqItem->find('> td:nth-child(2) > a');
-            $tid = 0;
-            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
-                $tid = intval($matches[1]);
-            }
+            $threadUrl = convert_url($pqThreadLink->attr('href'));
             $threadTitle = trim_strip($pqThreadLink->text());
             $status = trim_strip($pqItem->find('> td:nth-child(3)')->text());
+            $rateUrl = convert_url($pqItem->find('> td:nth-child(4) > a')->attr('href'));
             $threadList[] = [
-                'tid' => $tid,
+                'threadUrl' => $threadUrl,
                 'threadTitle' => $threadTitle,
                 'publishTime' => $publishTime,
                 'status' => $status,
+                'rateUrl' => $rateUrl,
             ];
         }
 
@@ -102,10 +101,7 @@ class SelfRate extends Responser
 
             $pqThreadCell = $pqItem->find('> td:nth-child(2)');
             $pqThreadLink = $pqThreadCell->find('a:first');
-            $tid = 0;
-            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
-                $tid = intval($matches[1]);
-            }
+            $threadUrl = convert_url($pqThreadLink->attr('href'));
             $threadTitle = trim_strip($pqThreadLink->text());
 
             $id = 0;
@@ -120,7 +116,7 @@ class SelfRate extends Responser
             $threadList[] = array_merge(
                 [
                     'id' => $id,
-                    'tid' => $tid,
+                    'threadUrl' => $threadUrl,
                     'threadTitle' => $threadTitle,
                     'remainingTime' => $remainingTime,
                     'isNew' => $isNew,
@@ -251,10 +247,7 @@ class SelfRate extends Responser
 
             $pqThreadCell = $pqItem->find('> td:nth-child(2)');
             $pqThreadLink = $pqThreadCell->find('a:first');
-            $tid = 0;
-            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
-                $tid = intval($matches[1]);
-            }
+            $threadUrl = convert_url($pqThreadLink->attr('href'));
             $threadTitle = trim_strip($pqThreadLink->text());
 
             $id = 0;
@@ -269,7 +262,7 @@ class SelfRate extends Responser
             $threadList[] = array_merge(
                 [
                     'id' => $id,
-                    'tid' => $tid,
+                    'threadUrl' => $threadUrl,
                     'threadTitle' => $threadTitle,
                     'rateTime' => $rateTime,
                     'isNew' => $isNew,
@@ -318,11 +311,9 @@ class SelfRate extends Responser
         $ratingTimeInfo = trim($pqArea->find('tr:eq(3) > td')->html());
         $pqThreadInfo = $pqArea->find('tr:eq(4) > td');
         $pqThreadLink = $pqThreadInfo->find('a');
-        $tid = 0;
-        if (preg_match('/tid=(\d+)/', $pqThreadLink->attr('href'), $matches)) {
-            $tid = intval($matches[1]);
-        }
+        $threadUrl = convert_url($pqThreadLink->attr('href'));
         $threadTitle = trim_strip($pqThreadLink->text());
+        $tid = intval($pqArea->find('[name="ptid"]')->val());
         $forumName = '';
         if (preg_match('/\[([^\[\]]+)\]版块/', $pqThreadInfo->text(), $matches)) {
             $forumName = $matches[1];
@@ -331,9 +322,10 @@ class SelfRate extends Responser
 
         $data = [
             'ratingTimeInfo' => $ratingTimeInfo,
-            'tid' => $tid,
+            'threadUrl' => $threadUrl,
             'threadTitle' => $threadTitle,
             'forumName' => $forumName,
+            'tid' => $tid,
             'titleSize' => $rateStatusData['titleSize'],
             'sizeStatus' => $rateStatusData['sizeStatus'],
         ];
@@ -368,10 +360,7 @@ class SelfRate extends Responser
         $pqArea = pq('.adp1');
         $id = intval($pqArea->find('input[name="pfid"]')->val());
         $pqThreadLink = $pqArea->find('tr:eq(2) > td:last-child > a');
-        $tid = 0;
-        if (preg_match('/tid=(\d+)/', $pqThreadLink->attr('href'), $matches)) {
-            $tid = intval($matches[1]);
-        }
+        $threadUrl = convert_url($pqThreadLink->attr('href'));
         $threadTitle = trim_strip($pqThreadLink->text());
         $rateUserName = trim_strip($pqArea->find('tr:eq(3) > td:last-child')->text());
         $rateSize = 0;
@@ -399,7 +388,7 @@ class SelfRate extends Responser
 
         $data = [
             'id' => $id,
-            'tid' => $tid,
+            'threadUrl' => $threadUrl,
             'threadTitle' => $threadTitle,
             'rateUserName' => $rateUserName,
             'rateSize' => $rateSize,
@@ -624,10 +613,7 @@ class SelfRate extends Responser
 
             $pqThreadCell = $pqItem->find('> td:nth-child(2)');
             $pqThreadLink = $pqThreadCell->find('a:first');
-            $tid = 0;
-            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
-                $tid = intval($matches[1]);
-            }
+            $threadUrl = convert_url($pqThreadLink->attr('href'));
             $threadTitle = trim_strip($pqThreadLink->text());
 
             $id = 0;
@@ -642,7 +628,7 @@ class SelfRate extends Responser
             $threadList[] = array_merge(
                 [
                     'id' => $id,
-                    'tid' => $tid,
+                    'threadUrl' => $threadUrl,
                     'threadTitle' => $threadTitle,
                     'isNew' => $isNew,
                     'isSelfBuy' => $isSelfBuy,
