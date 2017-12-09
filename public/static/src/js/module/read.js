@@ -333,3 +333,17 @@ export const replaceAttachLabel = function () {
         $this.replaceWith(`<img class="img" src="/job.php?action=download&pid=${pid}&tid=${Info.tid}&aid=${aid}" alt="[附件图片]">`);
     });
 };
+
+/**
+ * 处理一键移动主题按钮
+ */
+export const handleMoveThreadBtn = function () {
+    $('#moveThreadBtn').click(function (e) {
+        e.preventDefault();
+        if (!confirm('是否将该主题移到[无限制资源区]？')) return;
+        $.post('/diy_admin_read.php', `tid=${Info.tid}&safeid=${Info.safeId}`, function (msg) {
+            alert(msg);
+            location.reload();
+        });
+    });
+};

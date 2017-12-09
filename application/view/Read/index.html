@@ -114,6 +114,10 @@
     <a href="{:url('Job/addFavor?tid=' . $tid)}">
       <i class="fa fa-bookmark" aria-hidden="true"></i> 收藏
     </a>&nbsp;
+    {eq name="hasMoveThreadLink" value="true"}
+    <br class="d-sm-none">
+    <a class="text-danger" id="moveThreadBtn" href="#" role="button">管理：将本主题移到[无限制资源区]</a>
+    {/eq}
   </section>
 
   <!-- 功能区 -->

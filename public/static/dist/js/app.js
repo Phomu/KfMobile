@@ -125,6 +125,7 @@ var init = function init() {
         Post.addRedundantKeywordWarning();
         Read.bindMultiQuoteCheckClick();
         Post.handleClearMultiQuoteDataBtn();
+        Read.handleMoveThreadBtn();
         $('.multi-reply-btn').click(function () {
             return Post.handleMultiQuote(1);
         });
@@ -3154,7 +3155,7 @@ var blockThread = exports.blockThread = function blockThread() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.replaceAttachLabel = exports.addUserMemo = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleGoodPostBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
+exports.handleMoveThreadBtn = exports.replaceAttachLabel = exports.addUserMemo = exports.bindMultiQuoteCheckClick = exports.handleCopyCodeBtn = exports.handleTuiThreadBtn = exports.handleFastGotoFloorBtn = exports.gotoFloor = exports.handleFloorImage = exports.copyBuyThreadList = exports.handleBuyThreadBtn = exports.handleBlockFloorBtn = exports.handleGoodPostBtn = exports.handleFastReplyBtn = exports.handleCopyFloorLinkBtn = undefined;
 
 var _util = require('./util');
 
@@ -3474,6 +3475,20 @@ var replaceAttachLabel = exports.replaceAttachLabel = function replaceAttachLabe
         var aid = $this.data('aid');
         var pid = $this.closest('.read-floor').data('pid');
         $this.replaceWith('<img class="img" src="/job.php?action=download&pid=' + pid + '&tid=' + Info.tid + '&aid=' + aid + '" alt="[\u9644\u4EF6\u56FE\u7247]">');
+    });
+};
+
+/**
+ * 处理一键移动主题按钮
+ */
+var handleMoveThreadBtn = exports.handleMoveThreadBtn = function handleMoveThreadBtn() {
+    $('#moveThreadBtn').click(function (e) {
+        e.preventDefault();
+        if (!confirm('是否将该主题移到[无限制资源区]？')) return;
+        $.post('/diy_admin_read.php', 'tid=' + Info.tid + '&safeid=' + Info.safeId, function (msg) {
+            alert(msg);
+            location.reload();
+        });
     });
 };
 

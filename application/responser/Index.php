@@ -34,8 +34,10 @@ class Index extends Responser
             $atTipsTime = $matches[0];
         }
         $kfb = 0;
-        if (preg_match('/拥有(-?\d+)KFB/i', pq('a[href="kf_givemekfb.php"]')->text(), $matches)) {
+        $gongXian = 0;
+        if (preg_match('/(-?\d+)KFB\s*\|\s*(-?\d+(?:\.\d+)?)贡献/', pq('a[href="javascript:;"][title="网站虚拟货币"]')->text(), $matches)) {
             $kfb = intval($matches[1]);
+            $gongXian = floatval($matches[2]);
         }
         $smLevel = 0;
         $smRank = '';
@@ -90,6 +92,7 @@ class Index extends Responser
         $data = [
             'atTipsTime' => $atTipsTime,
             'kfb' => $kfb,
+            'gongXian' => $gongXian,
             'smLevel' => $smLevel,
             'smRank' => $smRank,
             'hasRatingBonus' => $hasRatingBonus,

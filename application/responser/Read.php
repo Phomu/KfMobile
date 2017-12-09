@@ -86,6 +86,7 @@ class Read extends Responser
         // 回帖表单
         $postContentName = pq('[name="atc_content"]')->attr('name');
         $postVerify = pq('input[name="verify"]')->val();
+        $hasMoveThreadLink = pq('#ad_move')->length > 0;
 
         // 投票区域
         $voteTitle = '';
@@ -165,6 +166,7 @@ class Read extends Responser
             'goodPostTips' => $goodPostTips,
             'postContentName' => $postContentName,
             'postVerify' => $postVerify,
+            'hasMoveThreadLink' => $hasMoveThreadLink,
             'voteTitle' => $voteTitle,
             'voteStatus' => $voteStatus,
             'voteTotalCount' => $voteTotalCount,
@@ -240,8 +242,13 @@ class Read extends Responser
                 $uid = intval($matches[1]);
             }
             $userName = trim_strip($pqUserLink->text());
-            $pqUserContents = $pqUser->contents();
-            $smLevel = str_replace('级神秘', '', trim_strip($pqUser->contents()->eq($pqUserContents->length - 1)->text()));
+
+            $userHtmlArray = explode('<br>', $pqUser->html());
+            if (count($userHtmlArray) >= 2) {
+                if (preg_match('/(\S+) 级神秘/', strip_tags($userHtmlArray[1]), $matches)) {
+                    $smLevel = $matches[1];
+                }
+            }
         }
         if (strpos($avatar, 'none.gif') > 0) $avatar = '';
         elseif (!empty($avatar) && strpos($avatar, 'http') !== 0) $avatar = '/' . $avatar;

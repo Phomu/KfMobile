@@ -200,16 +200,16 @@ class Message extends Responser
         $msgContent = replace_floor_content(replace_common_html_content($pqMsgContent->html()));
         $msgContent = preg_replace('/<\/blockquote>\n?<br>(<br>)?/i', '</blockquote>', $msgContent);
         $isTransfer = false;
-        if ($msgUserName === 'SYSTEM' && $msgTitle === '收到了他人转账的KFB') {
+        if ($msgUserName === 'SYSTEM' && $msgTitle === '收到了他人转账的贡献') {
             $isTransfer = true;
             $msgContent = preg_replace_callback(
-                '/会员\[(.+?)\]通过论坛银行功能给你转帐(\d+)KFB/i',
+                '/会员\[(.+?)\]通过论坛银行功能给你转帐(\d+(?:\.\d+)?)贡献/',
                 function ($matches) {
                     return sprintf(
-                        '会员[<a href="%s">%s</a>]通过论坛银行功能给你转帐 <b class="d-inline-block text-warning">%s</b> KFB',
+                        '会员[<a target="_blank" href="%s">%s</a>]通过论坛银行功能给你转帐 <b class="d-inline-block text-orange">%s</b> 贡献',
                         url('Profile/show', 'username=' . $matches[1]),
                         $matches[1],
-                        number_format($matches[2])
+                        $matches[2]
                     );
                 },
                 $msgContent

@@ -89,6 +89,7 @@ const init = function () {
         Post.addRedundantKeywordWarning();
         Read.bindMultiQuoteCheckClick();
         Post.handleClearMultiQuoteDataBtn();
+        Read.handleMoveThreadBtn();
         $('.multi-reply-btn').click(() => Post.handleMultiQuote(1));
         if (Config.userMemoEnabled) Read.addUserMemo();
     }
