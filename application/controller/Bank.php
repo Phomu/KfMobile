@@ -12,11 +12,6 @@ use app\responser;
  */
 class Bank extends Base
 {
-    public function _initialize()
-    {
-        return error('暂时关闭银行功能');
-    }
-
     /**
      * 展示银行页面
      * @param Request $request
