@@ -1,4 +1,5 @@
 <?php
+
 namespace app\responser;
 
 /**
@@ -35,16 +36,18 @@ class Index extends Responser
         }
         $kfb = 0;
         $gongXian = 0;
-        if (preg_match('/(-?\d+)KFB\s*\|\s*(-?\d+(?:\.\d+)?)贡献/', pq('a[href="javascript:;"][title="网站虚拟货币"]')->text(), $matches)) {
+        if (preg_match('/(-?\d+)KFB\s*\|\s*(-?\d+(?:\.\d+)?)贡献/', pq('a.indbox5[title="网站虚拟货币"]')->text(), $matches)) {
             $kfb = intval($matches[1]);
             $gongXian = floatval($matches[2]);
         }
+        $pqSmArea = pq('a.indbox5[href="kf_growup.php"]');
         $smLevel = 0;
         $smRank = '';
-        if (preg_match('/神秘(-?\d+)级\s*\(系数排名第\s*(\d+\+?)\s*位\)/', pq('a[href="kf_growup.php"]')->text(), $matches)) {
+        if (preg_match('/神秘(-?\d+)级\s*\(系数排名第\s*(\d+\+?)\s*位\)/', $pqSmArea->text(), $matches)) {
             $smLevel = intval($matches[1]);
             $smRank = $matches[2];
         }
+        $smTips = $pqSmArea->attr('title');
         $hasRatingBonus = pq('a.indbox5[href^="kf_fw_1wkfb.php?ping=3"]')->length > 0;
 
         // 最新回复帖子
@@ -95,6 +98,7 @@ class Index extends Responser
             'gongXian' => $gongXian,
             'smLevel' => $smLevel,
             'smRank' => $smRank,
+            'smTips' => $smTips,
             'hasRatingBonus' => $hasRatingBonus,
             'galgameNewReplyList' => $galgameNewReplyList,
             'resourceNewReplyList' => $resourceNewReplyList,

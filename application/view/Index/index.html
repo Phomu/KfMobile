@@ -32,7 +32,7 @@
     <a class="btn btn-outline-danger btn-block" data-kfb="{$kfb}" data-gongxian="{$gongXian}" href="javascript:;" title="网站虚拟货币">
       <b>{$kfb|number_format}</b>KFB | <b>{$gongXian}</b>贡献
     </a>
-    <a class="btn btn-outline-danger btn-block" href="{:url('GrowUp/index')}" title="等级公式：神秘系数*((贡献*5)+(KFB*0.001)+(发帖*0.01))"
+    <a class="btn btn-outline-danger btn-block" href="{:url('GrowUp/index')}" title="{$smTips}"
       data-smlevel="{$smLevel}" data-smrank="{$smRank}">
       神秘<b>{$smLevel|intval|number_format}</b>级 (系数排名第<b class="text-primary">{$smRank}</b>位)
     </a>

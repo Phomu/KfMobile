@@ -1812,7 +1812,7 @@ var bindMessageActionBtnsClick = exports.bindMessageActionBtnsClick = function b
         } else if (name === 'selectInverse') {
             Util.selectInverse($('[name="delid[]"]'));
         } else if (name === 'selectCustom') {
-            var title = $.trim(prompt('请填写所要选择的包含指定字符串的短消息标题（可用|符号分隔多个标题）', '收到了他人转账的KFB|银行汇款通知|您的文章被评分|您的文章被删除'));
+            var title = $.trim(prompt('请填写所要选择的包含指定字符串的短消息标题（可用|符号分隔多个标题）', '收到了他人转账的贡献|收到了他人转账的KFB|银行汇款通知|您的文章被评分|您的文章被删除'));
             if (!title) return;
             $('[name="delid[]"]').prop('checked', false);
             $('a.thread-link').each(function () {
