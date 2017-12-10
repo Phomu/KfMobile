@@ -73,9 +73,16 @@ class Profile extends Responser
                 $line
             );
             $line = preg_replace_callback(
-                '/(-?\d+)\s*(帖|KFB|小时)/',
+                '/(-?\d+)\s*(帖|KFB|小时|级)/',
                 function ($matches) {
-                    return sprintf('<span data-num="%d">%s</span>&nbsp;%s', $matches[1], number_format($matches[1]), $matches[2]);
+                    return sprintf('<span data-num="%d">%s</span>&nbsp;%s', $matches[1], number_format(intval($matches[1])), $matches[2]);
+                },
+                $line
+            );
+            $line = preg_replace_callback(
+                '/(-?\d+(?:\.\d+)?)\s*\(见注1\)/',
+                function ($matches) {
+                    return sprintf('<span data-num="%s">%s</span>&nbsp;<span class="text-secondary">(见注1)</span>', $matches[1], $matches[1]);
                 },
                 $line
             );
