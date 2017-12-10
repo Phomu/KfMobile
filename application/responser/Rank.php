@@ -38,21 +38,44 @@ class Rank extends Responser
         $rankList = [];
         foreach (pq('.kf_no11:eq(2) > tr:gt(0)') as $item) {
             $pqItem = pq($item);
+
             $no = trim($pqItem->find('td:first-child')->html());
+
             $userName = trim($pqItem->find('td:nth-child(2)')->html());
-            $smLevel = trim($pqItem->find('td:nth-child(3)')->html());
-            $exp = trim($pqItem->find('td:nth-child(4)')->html());
-            $followNum = trim($pqItem->find('td:nth-child(5)')->html());
-            $postNum = trim($pqItem->find('td:nth-child(6)')->html());
-            $contribution = trim($pqItem->find('td:nth-child(7)')->html());
+
+            $smCoefficient = 0;
+            if (preg_match('/(\d+)级/', $pqItem->find('td:nth-child(3)')->text(), $matches)) {
+                $smCoefficient = intval($matches[1]);
+            }
+
+            $gongXian = 0;
+            if (preg_match('/(-?\d+(?:\.\d+)?)点/', $pqItem->find('td:nth-child(4)')->text(), $matches)) {
+                $gongXian = floatval($matches[1]);
+            }
+
+            $kfb = 0;
+            if (preg_match('/(-?\d+)KFB/', $pqItem->find('td:nth-child(5)')->text(), $matches)) {
+                $kfb = intval($matches[1]);
+            }
+
+            $postNum = 0;
+            if (preg_match('/(\d+)帖子/', $pqItem->find('td:nth-child(6)')->text(), $matches)) {
+                $postNum = intval($matches[1]);
+            }
+
+            $smLevel = 0;
+            if (preg_match('/(\d+)级/', $pqItem->find('td:nth-child(7)')->text(), $matches)) {
+                $smLevel = intval($matches[1]);
+            }
+
             $rankList[] = [
                 'no' => $no,
                 'userName' => $userName,
-                'smLevel' => $smLevel,
-                'exp' => $exp,
-                'followNum' => $followNum,
+                'smCoefficient' => $smCoefficient,
+                'gongXian' => $gongXian,
+                'kfb' => $kfb,
                 'postNum' => $postNum,
-                'contribution' => $contribution,
+                'smLevel' => $smLevel,
             ];
         }
 

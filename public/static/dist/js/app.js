@@ -1577,7 +1577,7 @@ var destroy = exports.destroy = function destroy() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleBuyItemBtns = exports.showMyInfoInItemShop = exports.showSelfRateErrorSizeSubmitWarning = exports.handleProfilePage = exports.handleUserPageBtns = exports.handleRegisterPage = exports.bindMessageActionBtnsClick = exports.transferKfbAlert = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGame = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
+exports.handleBuyItemBtns = exports.showMyInfoInItemShop = exports.showSelfRateErrorSizeSubmitWarning = exports.handleProfilePage = exports.handleUserPageBtns = exports.handleRegisterPage = exports.bindMessageActionBtnsClick = exports.handleUploadAvatarFileBtn = exports.syncPerPageFloorNum = exports.assignBirthdayField = exports.bindFriendPageBtnsClick = exports.bindFavorPageBtnsClick = exports.tuiGame = exports.handleGameIntroSearchArea = exports.highlightUnReadAtTipsMsg = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -1779,23 +1779,6 @@ var handleUploadAvatarFileBtn = exports.handleUploadAvatarFileBtn = function han
         var matches = /\.(\w+)$/.exec($this.val());
         if (!matches || !['jpg', 'gif', 'png'].includes(matches[1].toLowerCase())) {
             alert('头像图片类型不匹配');
-        }
-    });
-};
-
-/**
- * 转账提醒
- */
-var transferKfbAlert = exports.transferKfbAlert = function transferKfbAlert() {
-    $('#transferKfbForm').submit(function () {
-        var $this = $(this);
-        var transferKfb = parseInt($this.find('[name="to_money"]').val());
-        var fixedDeposit = parseInt($('#fixedDeposit').text());
-        var currentDeposit = parseInt($('#currentDeposit').text());
-        if (transferKfb > 0 && fixedDeposit > 0 && transferKfb > currentDeposit) {
-            if (!confirm('你的活期存款不足，转账金额将从定期存款里扣除，是否继续？')) {
-                return false;
-            }
         }
     });
 };

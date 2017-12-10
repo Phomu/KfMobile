@@ -196,23 +196,6 @@ export const handleUploadAvatarFileBtn = function () {
 };
 
 /**
- * 转账提醒
- */
-export const transferKfbAlert = function () {
-    $('#transferKfbForm').submit(function () {
-        let $this = $(this);
-        let transferKfb = parseInt($this.find('[name="to_money"]').val());
-        let fixedDeposit = parseInt($('#fixedDeposit').text());
-        let currentDeposit = parseInt($('#currentDeposit').text());
-        if (transferKfb > 0 && fixedDeposit > 0 && transferKfb > currentDeposit) {
-            if (!confirm('你的活期存款不足，转账金额将从定期存款里扣除，是否继续？')) {
-                return false;
-            }
-        }
-    });
-};
-
-/**
  * 绑定短消息页面操作按钮点击事件
  */
 export const bindMessageActionBtnsClick = function () {
