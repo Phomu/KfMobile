@@ -197,9 +197,11 @@ class Read extends Responser
         $pqFloorTop = $pqFloor->prev('div')->prev('.readlou');
         $pid = $pqFloorTop->prev('a')->attr('name');
         $pqFloorTopInfo = $pqFloorTop->find('> div:nth-child(2)');
-        if (preg_match('/(\d+)楼/', $pqFloorTopInfo->find('span:first-child')->text(), $matches)) {
+        $floorNumText = $pqFloorTopInfo->find('span:first-child')->text();
+        if (preg_match('/(\d+)楼/', $floorNumText, $matches)) {
             $floorNum = intval($matches[1]);
         }
+        $isAdmin = strpos($floorNumText, '（管理成员）') > 0;
         $infoText = $pqFloorTopInfo->find('span:last-child')->text();
         if (preg_match('/发表于：(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2})/', $infoText, $matches)) {
             $publishTime = $matches[1];
@@ -258,6 +260,7 @@ class Read extends Responser
         return [
             'pid' => $pid,
             'floorNum' => $floorNum,
+            'isAdmin' => $isAdmin,
             'publishTime' => $publishTime,
             'sign' => $sign,
             'avatar' => $avatar,

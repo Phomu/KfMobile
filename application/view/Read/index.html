@@ -225,6 +225,11 @@
           </div>
         </div>
         <div class="small text-secondary floor-info mt-2">
+          {eq name='vo.isAdmin' value='true'}
+          <span class="text-danger" data-toggle="tooltip" title="管理成员" aria-label="管理成员">
+            <i class="fa fa-user-circle-o" aria-hidden="true"></i> <span class="d-none d-sm-inline">管理成员</span>
+          </span>&nbsp;
+          {/eq}
           <span class="sm-level" title="神秘等级" aria-label="神秘等级">
             <i class="fa fa-star-o" aria-hidden="true"></i> {$vo.smLevel}级
           </span>&nbsp;
