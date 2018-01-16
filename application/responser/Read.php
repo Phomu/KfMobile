@@ -203,7 +203,7 @@ class Read extends Responser
         }
         $isAdmin = strpos($floorNumText, '（管理成员）') > 0;
         $infoText = $pqFloorTopInfo->find('span:last-child')->text();
-        if (preg_match('/发表于：(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2})/', $infoText, $matches)) {
+        if (preg_match('/\s*-\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2})/', $infoText, $matches)) {
             $publishTime = $matches[1];
         }
         if (preg_match('/\(\s(.+)\s\)/', $infoText, $matches)) {
