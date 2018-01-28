@@ -181,7 +181,7 @@
         </div>
         <footer class="thread-footer">
           <div class="col-4 thread-footer-column">
-            <a href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
+            <a href="{:url('Profile/show', 'uid=' . $vo['authorUid'] . '&sf=' . $vo['sf'])}" title="作者" aria-label="作者">
               <i class="fa fa-user" aria-hidden="true"></i> {$vo.author}
             </a>
             <span class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}" title="发表时间：{$vo.publishTime}" aria-label="发表时间">

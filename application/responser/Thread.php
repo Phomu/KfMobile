@@ -191,21 +191,23 @@ class Thread extends Responser
             // 主题作者、最后回复人、发表时间、最后回复时间
             $pqThreadInfoCell = $pqItem->find('td:last-child');
             $authorUid = '';
+            $sf = '';
             $author = '';
             $publishTime = '';
             $lastReplier = '';
             $lastReplyTime = '';
             $isNewThread = false;
             $pqAuthor = $pqThreadInfoCell->find('a.bl');
-            if (preg_match('/uid=(\d+)/i', $pqAuthor->attr('href'), $matches)) {
+            if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqAuthor->attr('href'), $matches)) {
                 $authorUid = intval($matches[1]);
+                $sf = $matches[2];
             }
             $author = trim_strip($pqAuthor->text());
             $pqThreadInfoContents = $pqThreadInfoCell->contents();
-            if (preg_match('/(\d+(:|-)\d+)/i', $pqThreadInfoContents->eq(1)->text(), $matches)) {
+            if (preg_match('/(\d+(:|-)\d+)/', $pqThreadInfoContents->eq(1)->text(), $matches)) {
                 $publishTime = $matches[1];
             }
-            if (preg_match('/(\S+)\s*\|\s*(\d+(:|-)\d+)/i', trim($pqThreadInfoContents->eq($pqThreadInfoContents->length - 1)->text()), $matches)) {
+            if (preg_match('/(\S+)\s*\|\s*(\d+(:|-)\d+)/', trim($pqThreadInfoContents->eq($pqThreadInfoContents->length - 1)->text()), $matches)) {
                 $lastReplier = $matches[1];
                 $lastReplyTime = $matches[2];
             }
@@ -225,6 +227,7 @@ class Thread extends Responser
                 'hitNum' => $hitNum,
 
                 'authorUid' => $authorUid,
+                'sf' => $sf,
                 'author' => $author,
                 'publishTime' => $publishTime,
                 'lastReplier' => $lastReplier,

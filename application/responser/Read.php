@@ -213,6 +213,7 @@ class Read extends Responser
         // 楼层用户信息
         $avatar = '';
         $uid = 0;
+        $sf = '';
         $userName = '';
         $smLevel = '';
         $smColor = '';
@@ -231,8 +232,9 @@ class Read extends Responser
                 $avatar = $matches[1] . 's.png';
             }
             $pqUserLink = $pqAvatar->find('.readidmleft a');
-            if (preg_match('/uid=(\d+)/i', $pqUserLink->attr('href'), $matches)) {
+            if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
                 $uid = intval($matches[1]);
+                $sf = $matches[2];
             }
             $userName = trim_strip($pqUserLink->text());
             $smLevel = trim_strip($pqAvatar->find('.readidmright')->text());
@@ -240,8 +242,9 @@ class Read extends Responser
             $avatar = $pqAvatar->find('.readidmstop > img')->attr('src');
             $pqUser = $pqAvatar->find('.readidmsbottom');
             $pqUserLink = $pqUser->find('a');
-            if (preg_match('/uid=(\d+)/', $pqUserLink->attr('href'), $matches)) {
+            if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
                 $uid = intval($matches[1]);
+                $sf = $matches[2];
             }
             $userName = trim_strip($pqUserLink->text());
 
@@ -265,6 +268,7 @@ class Read extends Responser
             'sign' => $sign,
             'avatar' => $avatar,
             'uid' => $uid,
+            'sf' => $sf,
             'userName' => $userName,
             'smLevel' => $smLevel,
             'smColor' => $smColor,
