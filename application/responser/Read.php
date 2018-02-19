@@ -349,7 +349,7 @@ class Read extends Responser
                 $buyInfo = sprintf('售价 %d KFB，有 %d 人购买', $price, $matches[2]);
             }
             $pqLegend->contents()->get(0)->textContent = $buyInfo;
-            $pqLegend->find('select')->addClass('custom-select custom-select-sm buy-thread-list')
+            $pqLegend->find('select')->addClass('custom-select custom-select-sm w-auto buy-thread-list')
                 ->find('option:first-child')->text('名单')
                 ->after('<option value="copyList">复制名单</option>');
             $pqBuyBtn = $pqLegend->find('input[type="button"]');

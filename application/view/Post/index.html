@@ -53,7 +53,7 @@
     {notempty name="threadTypeList"}
     <div class="form-group">
       <label class="sr-only" for="postType">主题分类</label>
-      <select class="custom-select form-control" id="postType" name="p_type" title="主题分类" required>
+      <select class="custom-select" id="postType" name="p_type" title="主题分类" required>
         {volist name="threadTypeList" id="vo"}
         {eq name="vo.selected" value="true"}
         {assign name="threadTypeSelected" value="selected" /}

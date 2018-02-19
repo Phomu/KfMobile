@@ -196,13 +196,26 @@ export const showEditCommonForumDialog = function () {
 <button class="btn btn-danger" name="reset" type="button">重置</button>`;
         let $dialog = Dialog.create(dialogName, '编辑常用版块', bodyContent, footerContent);
 
+        const dragulaInit = function () {
+            let drake = dragula($dialog.find('.edit-forum-list').get(), {revertOnSpill: true});
+            drake.on('drag', function () {
+                $dialog.find('.dialog-body').css('overflow-y', 'hidden');
+            }).on('drop', function () {
+                $dialog.find('.dialog-body').css('overflow-y', 'auto');
+            }).on('cancel', function () {
+                $dialog.find('.dialog-body').css('overflow-y', 'auto');
+            });
+        };
+
         let $dragulaScriptPath = $('[name="dragulaScriptPath"]');
         let dragulaScriptPath = $dragulaScriptPath.val();
         if (dragulaScriptPath) {
-            $.getScript(dragulaScriptPath, () => dragula($dialog.find('.edit-forum-list').get(), {revertOnSpill: true}));
+            $.getScript(dragulaScriptPath, dragulaInit);
             $dragulaScriptPath.val('');
         }
-        else dragula($dialog.find('.edit-forum-list').get(), {revertOnSpill: true});
+        else {
+            dragulaInit();
+        }
 
         $dialog.submit(function (e) {
             e.preventDefault();

@@ -67,16 +67,20 @@ export const show = function () {
   <legend>主题页面相关</legend>
   <div class="form-group mb-2">
     <label for="perPageFloorNum">主题每页楼层数量</label>
-    <select class="custom-select custom-select-sm" id="perPageFloorNum" name="perPageFloorNum">
+    <select class="custom-select custom-select-sm w-auto" id="perPageFloorNum" name="perPageFloorNum">
       <option value="10">10</option><option value="20">20</option><option value="30">30</option>
     </select>
     <span class="tips" data-toggle="tooltip" title="主题页面中每页的楼层数量（用于电梯直达等功能），如果修改了论坛设置里的“文章列表每页个数”，请在此修改成相同的数目">[?]</span>
   </div>
   <div class="input-group mb-2">
-    <span class="input-group-addon">主题内容字体大小</span>
+    <div class="input-group-prepend">
+      <span class="input-group-text">主题内容字体大小</span>
+    </div>
     <input class="form-control" name="threadContentFontSize" data-toggle="tooltip" type="number" min="8" max="72"
            title="主题内容字体大小，留空表示使用默认大小，默认值：14px">
-    <span class="input-group-addon">px</span>
+    <div class="input-group-append">
+      <span class="input-group-text">px</span>
+    </div>
   </div>
   <div class="form-check">
     <label class="form-check-label">
@@ -96,10 +100,14 @@ export const show = function () {
 <fieldset class="fieldset mb-3 py-2">
   <legend>其它设置</legend>
   <div class="input-group mb-2">
-    <span class="input-group-addon">消息显示时间</span>
+    <div class="input-group-prepend">
+      <span class="input-group-text">消息显示时间</span>
+    </div>
     <input class="form-control" name="defShowMsgDuration" data-toggle="tooltip" type="number" min="-1" required
            title="默认的消息显示时间（秒），设置为-1表示永久显示，例：15">
-    <span class="input-group-addon">秒</span>
+    <div class="input-group-append">
+      <span class="input-group-text">秒</span>
+    </div>
   </div>
   <div class="form-check">
     <label class="form-check-label">
@@ -438,9 +446,9 @@ const showFollowUserDialog = function () {
 </div>
 <div class="input-group mb-3">
   <input class="form-control" name="addUser" data-toggle="tooltip" type="text" title="添加多个用户请用英文逗号分隔" aria-label="添加关注用户">
-  <span class="input-group-btn">
+  <div class="input-group-append">
     <button class="btn btn-success" name="add" type="button">添加</button>
-  </span>
+  </div>
 </div>
 `;
     let footerContent = `
@@ -457,15 +465,17 @@ const showFollowUserDialog = function () {
     const addFollowUser = function (name) {
         $(`
 <li class="input-group input-group-sm mb-2">
-  <span class="input-group-addon">
-    <input type="checkbox" aria-label="选择用户">
-  </span>
+  <div class="input-group-prepend">
+    <div class="input-group-text">
+      <input type="checkbox" aria-label="选择用户">
+    </div>
+  </div>
   <input class="form-control" name="userName" type="text" value="${name}" maxlength="12" aria-label="编辑关注用户">
-  <span class="input-group-btn">
+  <div class="input-group-append">
     <button class="btn btn-danger" name="delete" type="button" aria-label="删除关注用户">
       <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
-  </span>
+  </div>
 </li>
 `).appendTo($followUserList);
     };
@@ -529,7 +539,7 @@ const showBlockUserDialog = function () {
     let bodyContent = `
 <div class="form-group mb-2">
   <label for="blockUserDefaultType">默认屏蔽类型</label>
-  <select class="custom-select custom-select-sm" id="blockUserDefaultType" name="blockUserDefaultType">
+  <select class="custom-select custom-select-sm w-auto" id="blockUserDefaultType" name="blockUserDefaultType">
     <option value="0">主题和回帖</option><option value="1">主题</option><option value="2">回帖</option>
   </select>
   <div class="form-check form-check-inline ml-3">
@@ -541,7 +551,7 @@ const showBlockUserDialog = function () {
 </div>
 <div class="form-group mb-2">
   <label for="blockUserForumType">版块屏蔽范围</label>
-  <select class="custom-select custom-select-sm" id="blockUserForumType" name="blockUserForumType">
+  <select class="custom-select custom-select-sm w-auto" id="blockUserForumType" name="blockUserForumType">
     <option value="0">所有版块</option><option value="1">包括指定版块</option><option value="2">排除指定版块</option>
   </select>
 </div>
@@ -568,9 +578,9 @@ const showBlockUserDialog = function () {
 </div>
 <div class="input-group mb-3">
   <input class="form-control" name="addUser" data-toggle="tooltip" type="text" title="添加多个用户请用英文逗号分隔" aria-label="添加屏蔽用户">
-  <span class="input-group-btn">
+  <div class="input-group-append">
     <button class="btn btn-success" name="add" type="button">添加</button>
-  </span>
+  </div>
 </div>`;
     let footerContent = `
 <button class="btn btn-warning mr-auto" name="openImOrExBlockUserListDialog" type="button">导入/导出</button>
@@ -588,20 +598,22 @@ const showBlockUserDialog = function () {
         $(`
 <li class="form-group row no-gutters mb-2">
   <div class="col-7 input-group input-group-sm">
-    <span class="input-group-addon">
-      <input type="checkbox" aria-label="选择用户">
-    </span>
+    <div class="input-group-prepend">
+      <div class="input-group-text">
+        <input type="checkbox" aria-label="选择用户">
+      </div>
+    </div>
     <input class="form-control" name="userName" type="text" value="${name}" maxlength="12" aria-label="编辑屏蔽用户">
   </div>
   <div class="col-5 input-group input-group-sm">
     <select class="form-control" name="blockType">
       <option value="0">主题和回帖</option><option value="1">主题</option><option value="2">回帖</option>
     </select>
-    <span class="input-group-btn">
+    <div class="input-group-append">
       <button class="btn btn-danger" name="delete" type="button" aria-label="删除屏蔽用户">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </button>
-    </span>
+    </div>
   </div>
 </li>
 `).appendTo($blockUserList).find('[name="blockType"]').val(type);
@@ -687,7 +699,7 @@ const showBlockThreadDialog = function () {
 </p>
 <div class="form-group mb-2">
   <label for="blockThreadDefForumType">默认版块屏蔽范围</label>
-  <select class="custom-select custom-select-sm" id="blockThreadDefForumType" name="blockThreadDefForumType">
+  <select class="custom-select custom-select-sm w-auto" id="blockThreadDefForumType" name="blockThreadDefForumType">
     <option value="0">所有版块</option><option value="1">包括指定版块</option><option value="2">排除指定版块</option>
   </select>
 </div>

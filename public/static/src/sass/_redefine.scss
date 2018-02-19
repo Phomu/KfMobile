@@ -1,17 +1,9 @@
 // 导航栏
 .navbar {
-  // 导航栏内部容器
-  @include media-breakpoint-down(xs) {
-    .container {
-      width: 100%;
-    }
-  }
-
   // 导航栏菜单按钮
   .navbar-toggler {
     color: rgba(0, 0, 0, .9);
     border-color: transparent;
-    cursor: pointer;
   }
 
   // 导航栏下拉菜单按钮
@@ -56,28 +48,13 @@
 }
 
 // 选择控件容器（行内）
-.form-check.form-check-inline {
-  margin-bottom: 0;
-}
-
-// 选择控件（修正位置）
-.form-check-input {
-  top: 0;
-}
-// 选择控件（修正位置）
-@-moz-document url-prefix() {
-  .form-check-input {
-    top: 2px;
-  }
+.form-check-inline {
+  margin-right: 0;
+  vertical-align:  middle;
 }
 
 // 自定义选择框（小）
 .custom-select-sm {
   padding: 0 ($custom-select-padding-x * .9 + $custom-select-indicator-padding) 0 $custom-select-padding-x * .9;
   line-height: $custom-select-line-height * .95;
-}
-
-// 表单控件占位符（Firefox浏览器）
-.form-control::-moz-placeholder {
-  font-size: .857rem; // ~12px
 }
