@@ -78,6 +78,7 @@ export const show = function (id) {
         });
     $dialog.fadeIn('normal').find('.close:first').focus();
     resize(id);
+    $('body').addClass('modal-open');
 };
 
 /**
@@ -98,6 +99,9 @@ export const resize = function (id) {
 export const close = function (id) {
     $('#' + id).fadeOut('normal', function () {
         $(this).parent().remove();
+        if(!$('.dialog').length) {
+            $('body').removeClass('modal-open');
+        }
     });
     $(window).off('resize.' + id);
     return false;

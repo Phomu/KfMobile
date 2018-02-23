@@ -6399,7 +6399,7 @@ main {
   .edit-forum-list .btn {
     margin: 5px;
     min-width: 6.143rem;
-    cursor: move; }
+    cursor: move !important; }
 
 .thread-link-group {
   display: flex;

@@ -1306,6 +1306,7 @@ var show = exports.show = function show(id) {
     });
     $dialog.fadeIn('normal').find('.close:first').focus();
     resize(id);
+    $('body').addClass('modal-open');
 };
 
 /**
@@ -1325,6 +1326,9 @@ var resize = exports.resize = function resize(id) {
 var close = exports.close = function close(id) {
     $('#' + id).fadeOut('normal', function () {
         $(this).parent().remove();
+        if (!$('.dialog').length) {
+            $('body').removeClass('modal-open');
+        }
     });
     $(window).off('resize.' + id);
     return false;
