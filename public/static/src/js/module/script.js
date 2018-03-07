@@ -47,7 +47,7 @@ export const runCustomScript = function (type = 'end') {
  * @param {string} content 脚本内容
  * @returns {{}} 脚本meta信息
  */
-const getScriptMeta = function (content) {
+export const getScriptMeta = function (content) {
     let meta = {
         name: defScriptName,
         version: '',
@@ -81,9 +81,15 @@ export const showDialog = function (showIndex = null) {
     readConfig();
 
     let bodyContent = `
-<div class="btn-group btn-group-sm mb-3">
-  <button class="btn btn-success" name="add" type="button">添加脚本</button>
-  <button class="btn btn-secondary" name="insertSample" type="button">插入范例</button>
+<div class="d-flex mb-3">
+  <div class="btn-group btn-group-sm">
+    <button class="btn btn-success" name="add" type="button">添加脚本</button>
+    <button class="btn btn-secondary" name="insertSample" type="button">插入范例</button>
+  </div>
+  
+  <div class="btn-group btn-group-sm ml-auto">
+    <a class="btn btn-link" href="${window.Info.rootPath}read/682170/sf/6d7" target="_blank">脚本收集贴</a>
+  </div>
 </div>
 <div id="customScriptList"></div>
 `;
@@ -172,7 +178,7 @@ export const showDialog = function (showIndex = null) {
 // @version     1.0
 // @author      ${Info.userName}
 // @trigger     end
-// @homepage    read.php?tid=500968&spid=12318348
+// @homepage    read/682170/spid/14034074/sf/6d7
 // @description 这是一个未命名脚本
 // ==/UserScript==
 `.trim() + '\n' + $content.val()).focus();
@@ -233,5 +239,8 @@ export const handleInstallScriptLink = function () {
         writeConfig();
         Dialog.close('customScriptDialog');
         showDialog(index);
+    }).on('click', 'a[href$="#install-script"]', function (e) {
+        e.preventDefault();
+        alert('无法安装适用于电脑版论坛的自定义脚本');
     });
 };

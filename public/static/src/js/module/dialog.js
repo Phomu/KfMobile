@@ -27,9 +27,15 @@ export const create = function (id, title, bodyContent, footerContent = '') {
 </div>
 </form>`;
     let $dialog = $(html).appendTo('body');
-    $dialog.on('click', '[data-dismiss="dialog"]', () => close(id))
+    $dialog
+        .on('click', '[data-dismiss="dialog"]', () => close(id))
         .on('click', '.tips', () => false)
         .on('click', '.disabled-link', () => false)
+        .on('click', '.dialog', function (e) {
+            if($(e.target).hasClass('dialog')) {
+                close(id);
+            }
+        })
         .keydown(function (e) {
             if (e.keyCode === 27) {
                 return close(id);

@@ -43,7 +43,7 @@ export const show = function () {
     </div>
   </div>
   
-  <div class="mb-2 d-sm-inline-block ml-sm-3">
+  <div class="mb-2 d-sm-inline-block">
     <div class="form-check form-check-inline">
       <input class="form-check-input" id="${dialogName}_showSidebarForumListBtnEnabled" name="showSidebarForumListBtnEnabled" type="checkbox">
       <label class="form-check-label" for="${dialogName}_showSidebarForumListBtnEnabled">版块列表</label>

@@ -6261,6 +6261,9 @@ a.text-gray-dark:hover, a.text-gray-dark:focus {
 .blockquote {
   background-color: rgba(234, 234, 234, 0.7); }
 
+.form-check-inline {
+  vertical-align: middle; }
+
 .custom-select-sm {
   padding: 0 1.675rem 0 0.675rem;
   line-height: 1.425; }
