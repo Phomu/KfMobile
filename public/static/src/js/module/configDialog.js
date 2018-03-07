@@ -27,44 +27,41 @@ export const show = function () {
 </div>
 <fieldset class="fieldset mb-3 py-2">
   <legend class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" name="showSidebarBtnGroupEnabled" type="checkbox"> 显示侧边栏按钮组
-      <span class="tips" data-toggle="tooltip" title="显示侧边栏按钮组，可在下方设置要显示的按钮">[?]</span>
-    </label>
+    <input class="form-check-input" id="${dialogName}_showSidebarBtnGroupEnabled" name="showSidebarBtnGroupEnabled" type="checkbox">
+    <label class="form-check-label" for="${dialogName}_showSidebarBtnGroupEnabled">显示侧边栏按钮组</label>
+    <span class="tips" data-toggle="tooltip" title="显示侧边栏按钮组，可在下方设置要显示的按钮">[?]</span>
   </legend>
+  
   <div class="mb-2 d-sm-inline-block">
     <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarRollBtnEnabled" type="checkbox"> 滚动到页顶/页底
-      </label>
+      <input class="form-check-input" id="${dialogName}_showSidebarRollBtnEnabled" name="showSidebarRollBtnEnabled" type="checkbox">
+      <label class="form-check-label" for="${dialogName}_showSidebarRollBtnEnabled">滚动到页顶/页底</label>
     </div>
     <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarMainMenuBtnEnabled" type="checkbox"> 主菜单
-      </label>
+      <input class="form-check-input" id="${dialogName}_showSidebarMainMenuBtnEnabled" name="showSidebarMainMenuBtnEnabled" type="checkbox">
+      <label class="form-check-label" for="${dialogName}_showSidebarMainMenuBtnEnabled">主菜单</label>
     </div>
   </div>
+  
   <div class="mb-2 d-sm-inline-block ml-sm-3">
     <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarForumListBtnEnabled" type="checkbox"> 版块列表
-      </label>
+      <input class="form-check-input" id="${dialogName}_showSidebarForumListBtnEnabled" name="showSidebarForumListBtnEnabled" type="checkbox">
+      <label class="form-check-label" for="${dialogName}_showSidebarForumListBtnEnabled">版块列表</label>
     </div>
     <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarSearchBtnEnabled" type="checkbox"> 搜索
-      </label>
+      <input class="form-check-input" id="${dialogName}_showSidebarSearchBtnEnabled" name="showSidebarSearchBtnEnabled" type="checkbox">
+      <label class="form-check-label" for="${dialogName}_showSidebarSearchBtnEnabled">搜索</label>
     </div>
     <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input class="form-check-input" name="showSidebarHomePageBtnEnabled" type="checkbox"> 首页
-      </label>
+      <input class="form-check-input" id="${dialogName}_showSidebarHomePageBtnEnabled" name="showSidebarHomePageBtnEnabled" type="checkbox">
+      <label class="form-check-label" for="${dialogName}_showSidebarHomePageBtnEnabled">首页</label>
     </div>
   </div>
 </fieldset>
 
 <fieldset class="fieldset mb-3 py-2">
   <legend>主题页面相关</legend>
+  
   <div class="form-group mb-2">
     <label for="perPageFloorNum">主题每页楼层数量</label>
     <select class="custom-select custom-select-sm w-auto" id="perPageFloorNum" name="perPageFloorNum">
@@ -72,6 +69,7 @@ export const show = function () {
     </select>
     <span class="tips" data-toggle="tooltip" title="主题页面中每页的楼层数量（用于电梯直达等功能），如果修改了论坛设置里的“文章列表每页个数”，请在此修改成相同的数目">[?]</span>
   </div>
+  
   <div class="input-group mb-2">
     <div class="input-group-prepend">
       <span class="input-group-text">主题内容字体大小</span>
@@ -82,23 +80,24 @@ export const show = function () {
       <span class="input-group-text">px</span>
     </div>
   </div>
+  
   <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" name="userMemoEnabled" type="checkbox" data-disabled="[data-name=openUserMemoDialog]"> 显示用户备注
-    </label>
+    <input class="form-check-input" id="${dialogName}_userMemoEnabled" name="userMemoEnabled" type="checkbox" data-disabled="[data-name=openUserMemoDialog]">
+    <label class="form-check-label" for="${dialogName}_userMemoEnabled">显示用户备注</label>
     <span class="tips" data-toggle="tooltip" title="在楼层内的用户名旁显示该用户的自定义备注">[?]</span>
     <a class="ml-3" data-name="openUserMemoDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
+  
   <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" name="kfSmileEnhanceExtensionEnabled" type="checkbox"> 开启绯月表情增强插件
-    </label>
+    <input class="form-check-input" id="${dialogName}_kfSmileEnhanceExtensionEnabled" name="kfSmileEnhanceExtensionEnabled" type="checkbox">
+    <label class="form-check-label" for="${dialogName}_kfSmileEnhanceExtensionEnabled">开启绯月表情增强插件</label>
     <span class="tips" data-toggle="tooltip" title="在发帖框上显示绯月表情增强插件，该插件由eddie32开发">[?]</span>
   </div>
 </fieldset>
 
 <fieldset class="fieldset mb-3 py-2">
   <legend>其它设置</legend>
+  
   <div class="input-group mb-2">
     <div class="input-group-prepend">
       <span class="input-group-text">消息显示时间</span>
@@ -109,35 +108,42 @@ export const show = function () {
       <span class="input-group-text">秒</span>
     </div>
   </div>
+  
   <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]"> 添加自定义CSS
-    </label>
+    <input class="form-check-input" id="${dialogName}_customCssEnabled" name="customCssEnabled" type="checkbox" data-disabled="[data-name=openCustomCssDialog]">
+    <label class="form-check-label" for="${dialogName}_customCssEnabled">添加自定义CSS</label>
     <span class="tips" data-toggle="tooltip" title="为页面添加自定义的CSS内容，请点击详细设置填写自定义的CSS内容">[?]</span>
     <a class="ml-3" data-name="openCustomCssDialog" href="#" role="button">详细设置&raquo;</a>
+  </div>
+  
+  <div class="form-check">
+    <input class="form-check-input" id="${dialogName}_customScriptEnabled" name="customScriptEnabled" type="checkbox" data-disabled="[data-name=openCustomScriptDialog]">
+    <label class="form-check-label" for="${dialogName}_customScriptEnabled">执行自定义脚本</label>
+    <span class="tips" data-toggle="tooltip" title="执行自定义的javascript脚本，请点击详细设置填入自定义脚本内容">[?]</span>
+    <a class="ml-3" data-name="openCustomScriptDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
 </fieldset>
 
 <fieldset class="fieldset mb-3 py-2">
   <legend>关注和屏蔽</legend>
+  
   <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]"> 关注用户
-    </label>
+    <input class="form-check-input" id="${dialogName}_followUserEnabled" name="followUserEnabled" type="checkbox" data-disabled="[data-name=openFollowUserDialog]">
+    <label class="form-check-label" for="${dialogName}_followUserEnabled">关注用户</label>
     <span class="tips" data-toggle="tooltip" title="开启关注用户的功能，所关注的用户将被加注记号，请点击详细设置管理关注用户">[?]</span>
     <a class="ml-3" data-name="openFollowUserDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
+  
   <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]"> 屏蔽用户
-    </label>
+    <input class="form-check-input" id="${dialogName}_blockUserEnabled" name="blockUserEnabled" type="checkbox" data-disabled="[data-name=openBlockUserDialog]">
+    <label class="form-check-label" for="${dialogName}_blockUserEnabled">屏蔽用户</label>
     <span class="tips" data-toggle="tooltip" title="开启屏蔽用户的功能，你将看不见所屏蔽用户的发言，请点击详细设置管理屏蔽用户">[?]</span>
     <a class="ml-3" data-name="openBlockUserDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
+  
   <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]"> 屏蔽主题
-    </label>
+    <input class="form-check-input" id="${dialogName}_blockThreadEnabled" name="blockThreadEnabled" type="checkbox" data-disabled="[data-name=openBlockThreadDialog]">
+    <label class="form-check-label" for="${dialogName}_blockThreadEnabled">屏蔽主题</label>
     <span class="tips" data-toggle="tooltip" title="开启屏蔽标题中包含指定关键字的主题的功能，请点击详细设置管理屏蔽关键字">[?]</span>
     <a class="ml-3" data-name="openBlockThreadDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
@@ -165,6 +171,7 @@ export const show = function () {
         if (name === 'openRunCommandDialog') showRunCommandDialog();
         else if (name === 'openUserMemoDialog') showUserMemoDialog();
         else if (name === 'openCustomCssDialog') showCustomCssDialog();
+        else if (name === 'openCustomScriptDialog') Script.showDialog();
         else if (name === 'openFollowUserDialog') showFollowUserDialog();
         else if (name === 'openBlockUserDialog') showBlockUserDialog();
         else if (name === 'openBlockThreadDialog') showBlockThreadDialog();
@@ -265,7 +272,7 @@ const showRunCommandDialog = function () {
 </div>
 <div class="form-group">
   <label for="cfgResult">运行结果：</label>
-  <textarea class="form-control" name="result" id="cfgResult" rows="6" wrap="off" aria-label="运行结果" style="white-space: pre;"></textarea>
+  <textarea class="form-control font-size-sm" name="result" id="cfgResult" rows="6" wrap="off" aria-label="运行结果" style="white-space: pre;"></textarea>
 </div>`;
     let footerContent = `
 <button class="btn btn-primary" type="submit">运行</button>
@@ -312,7 +319,7 @@ const showImportOrExportSettingDialog = function () {
   <span class="text-danger">注：本设置与电脑版的KFOL助手并不完全通用</span>
 </p>
 <div class="form-group">
-  <textarea class="form-control" name="setting" rows="10" aria-label="设置内容" style="word-break: break-all;"></textarea>
+  <textarea class="form-control font-size-sm font-monospace" name="setting" rows="10" aria-label="设置内容" style="word-break: break-all;"></textarea>
 </div>`;
     let footerContent = `
 <button class="btn btn-primary" type="submit">保存</button>
@@ -400,7 +407,7 @@ const showCustomCssDialog = function () {
     readConfig();
     let bodyContent = `
 <div class="form-group">
-  <textarea class="form-control" name="customCssContent" rows="15" wrap="off" aria-label="自定义CSS内容" style="white-space: pre;"></textarea>
+  <textarea class="form-control font-size-sm font-monospace" name="customCssContent" rows="15" wrap="off" aria-label="自定义CSS内容" style="white-space: pre;"></textarea>
 </div>`;
     let footerContent = `
 <button class="btn btn-primary" type="submit">保存</button>
@@ -427,16 +434,14 @@ const showFollowUserDialog = function () {
     if ($('#' + dialogName).length > 0) return;
     let bodyContent = `
 <div class="form-check">
-  <label class="form-check-label">
-    <input class="form-check-input" name="highlightFollowUserThreadInHpEnabled" type="checkbox"> 高亮所关注用户的首页主题链接
-    <span class="tips" data-toggle="tooltip" title="高亮所关注用户在首页下的主题链接">[?]</span>
-  </label>
+  <input class="form-check-input" id="${dialogName}_highlightFollowUserThreadInHpEnabled" name="highlightFollowUserThreadInHpEnabled" type="checkbox">
+  <label class="form-check-label" for="${dialogName}_highlightFollowUserThreadInHpEnabled">高亮所关注用户的首页主题链接</label>
+  <span class="tips" data-toggle="tooltip" title="高亮所关注用户在首页下的主题链接">[?]</span>
 </div>
 <div class="form-check mb-3">
-  <label class="form-check-label">
-    <input class="form-check-input" name="highlightFollowUserThreadLinkEnabled" type="checkbox"> 高亮所关注用户的主题链接
-    <span class="tips" data-toggle="tooltip" title="高亮所关注用户在版块页面下的主题链接">[?]</span>
-  </label>
+  <input class="form-check-input" id="${dialogName}_highlightFollowUserThreadLinkEnabled" name="highlightFollowUserThreadLinkEnabled" type="checkbox">
+  <label class="form-check-label" for="${dialogName}_highlightFollowUserThreadLinkEnabled">高亮所关注用户的主题链接</label>
+  <span class="tips" data-toggle="tooltip" title="高亮所关注用户在版块页面下的主题链接">[?]</span>
 </div>
 <ul class="list-unstyled" id="followUserList"></ul>
 <div class="btn-group btn-group-sm mb-3" role="group">
@@ -512,8 +517,7 @@ const showFollowUserDialog = function () {
         }
         $addUser.val('');
         $followUserList.find('li:last-child [type="checkbox"]').focus();
-    }).end().find('[name="openImOrExFollowUserListDialog"]').click(function (e) {
-        e.preventDefault();
+    }).end().find('[name="openImOrExFollowUserListDialog"]').click(function () {
         Public.showCommonImportOrExportConfigDialog('关注用户', 'followUserList');
     }).end().find('[name="selectAll"]').click(() => Util.selectAll($followUserList.find('[type="checkbox"]')))
         .end().find('[name="selectInverse"]').click(() => Util.selectInverse($followUserList.find('[type="checkbox"]')));
@@ -543,10 +547,9 @@ const showBlockUserDialog = function () {
     <option value="0">主题和回帖</option><option value="1">主题</option><option value="2">回帖</option>
   </select>
   <div class="form-check form-check-inline ml-3">
-    <label class="form-check-label">
-      <input class="form-check-input" name="blockUserAtTipsEnabled" type="checkbox"> 屏蔽@提醒
-      <span class="tips" data-toggle="tooltip" title="屏蔽被屏蔽用户的@提醒">[?]</span>
-    </label>
+    <input class="form-check-input" id="${dialogName}_blockUserAtTipsEnabled" name="blockUserAtTipsEnabled" type="checkbox">
+    <label class="form-check-label" for="${dialogName}_blockUserAtTipsEnabled">屏蔽@提醒</label>
+    <span class="tips" data-toggle="tooltip" title="屏蔽被屏蔽用户的@提醒">[?]</span>
   </div>
 </div>
 <div class="form-group mb-2">
@@ -666,8 +669,7 @@ const showBlockUserDialog = function () {
         $blockUserList.find('li:last-child [type="checkbox"]').focus();
     }).end().find('[name="blockUserForumType"]').change(function () {
         $dialog.find('[name="blockUserFidList"]').prop('disabled', parseInt($(this).val()) === 0);
-    }).end().find('[name="openImOrExBlockUserListDialog"]').click(function (e) {
-        e.preventDefault();
+    }).end().find('[name="openImOrExBlockUserListDialog"]').click(function () {
         Public.showCommonImportOrExportConfigDialog('屏蔽用户', 'blockUserList');
     }).end().find('[name="selectAll"]').click(() => Util.selectAll($blockUserList.find('[type="checkbox"]')))
         .end().find('[name="selectInverse"]').click(() => Util.selectInverse($blockUserList.find('[type="checkbox"]')));
@@ -851,8 +853,7 @@ const showBlockThreadDialog = function () {
         );
     }).end().find('[name="blockThreadDefForumType"]').change(function () {
         $dialog.find('[name="blockThreadDefFidList"]').prop('disabled', parseInt($(this).val()) === 0);
-    }).end().find('[name="openImOrExBlockThreadListDialog"]').click(function (e) {
-        e.preventDefault();
+    }).end().find('[name="openImOrExBlockThreadListDialog"]').click(function () {
         Public.showCommonImportOrExportConfigDialog('屏蔽主题', 'blockThreadList');
     }).end().find('[name="selectAll"]').click(() => Util.selectAll($blockThreadList.find('[type="checkbox"]')))
         .end().find('[name="selectInverse"]').click(() => Util.selectInverse($blockThreadList.find('[type="checkbox"]')));

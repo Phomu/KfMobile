@@ -52,16 +52,26 @@ const init = function () {
     }
     initConfig();
 
-    if (Config.customCssEnabled && Config.customCssContent) $('head').append(`<style>${Config.customCssContent}</style>`);
+    if (Config.customCssEnabled && Config.customCssContent) {
+        $('head').append(`<style>${Config.customCssContent}</style>`);
+    }
+    if (Config.customScriptEnabled) {
+        Script.runCustomScript('start');
+    }
+
     Public.preventCloseWindow();
     Public.handleMainMenu();
     Public.handleMainMenuLink();
-    if (Config.showSidebarBtnGroupEnabled) Public.showSidebarBtnGroup();
+    if (Config.showSidebarBtnGroupEnabled) {
+        Public.showSidebarBtnGroup();
+    }
     Public.handleSidebarRollBtn();
     Public.handleSearchDialog();
     Public.fillCommonForumPanel();
     Public.showEditCommonForumDialog();
-    if ($('.page-input').length > 0) Public.handlePageInput();
+    if ($('.page-input').length > 0) {
+        Public.handlePageInput();
+    }
     Public.bindFastSubmitShortcutKey();
 
     if (pageId === 'indexPage') {
@@ -71,8 +81,9 @@ const init = function () {
     }
     else if (pageId === 'readPage') {
         Read.gotoFloor();
-        if (Config.threadContentFontSize > 0)
+        if (Config.threadContentFontSize > 0) {
             $('head').append(`<style>.read-content { font-size: ${Config.threadContentFontSize}px; }</style>`);
+        }
         Read.handleFastGotoFloorBtn();
         Read.handleTuiThreadBtn();
         Read.handleCopyFloorLinkBtn();
@@ -91,7 +102,10 @@ const init = function () {
         Post.handleClearMultiQuoteDataBtn();
         Read.handleMoveThreadBtn();
         $('.multi-reply-btn').click(() => Post.handleMultiQuote(1));
-        if (Config.userMemoEnabled) Read.addUserMemo();
+        if (Config.userMemoEnabled) {
+            Read.addUserMemo();
+        }
+        Script.handleInstallScriptLink();
     }
     else if (pageId === 'postPage') {
         Post.addRedundantKeywordWarning();
@@ -162,6 +176,9 @@ const init = function () {
         );
     }
 
+    if (Config.customScriptEnabled) {
+        Script.runCustomScript('end');
+    }
     $('[data-toggle="tooltip"]').tooltip({'container': 'body'});
     console.log(`脚本加载完毕，耗时：${new Date() - startTime}ms`);
 };

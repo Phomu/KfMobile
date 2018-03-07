@@ -86,9 +86,8 @@
       <div class="card-body p-3">
         {eq name="vote.hasClose" value="true"}
         <div class="form-check">
-          <label class="form-check-label text-danger">
-            <input class="form-check-input" name="vote_close" type="checkbox" value="1"> 结束投票
-          </label>
+          <input class="form-check-input" id="vote_close" name="vote_close" type="checkbox" value="1">
+          <label class="form-check-label text-danger" for="vote_close">结束投票</label>
         </div>
         {/eq}
 
@@ -101,13 +100,11 @@
         </div>
 
         <div class="form-check">
-          <label class="form-check-label">
-            {eq name="vote.isMultiple" value="true"}
-            {assign name="isMultipleChecked" value="checked" /}
-            {/eq}
-            <input class="form-check-input" name="multiplevote" type="checkbox" value="1" {$voteDisabled} {$isMultipleChecked|default="" }>
-            多选
-          </label>
+          {eq name="vote.isMultiple" value="true"}
+          {assign name="isMultipleChecked" value="checked" /}
+          {/eq}
+          <input class="form-check-input" id="multiplevote" name="multiplevote" type="checkbox" value="1" {$voteDisabled} {$isMultipleChecked|default="" }>
+          <label class="form-check-label" for="multiplevote">多选</label>
         </div>
 
         <div class="form-group row">
@@ -119,23 +116,19 @@
         </div>
 
         <div class="form-check">
-          <label class="form-check-label">
-            {eq name="vote.modifiable" value="true"}
-            {assign name="modifiableChecked" value="checked" /}
-            {/eq}
-            <input class="form-check-input" name="modifiable" type="checkbox" value="1" {$voteDisabled} {$modifiableChecked|default="" }>
-            是否允许修改投票结果
-          </label>
+          {eq name="vote.modifiable" value="true"}
+          {assign name="modifiableChecked" value="checked" /}
+          {/eq}
+          <input class="form-check-input" id="modifiable" name="modifiable" type="checkbox" value="1" {$voteDisabled} {$modifiableChecked|default="" }>
+          <label class="form-check-label" for="modifiable">是否允许修改投票结果</label>
         </div>
 
         <div class="form-check">
-          <label class="form-check-label">
-            {eq name="vote.previewable" value="true"}
-            {assign name="previewableChecked" value="checked" /}
-            {/eq}
-            <input class="form-check-input" name="previewable" type="checkbox" value="1" {$voteDisabled} {$previewableChecked|default="" }>
-            强制投票才能查看结果
-          </label>
+          {eq name="vote.previewable" value="true"}
+          {assign name="previewableChecked" value="checked" /}
+          {/eq}
+          <input class="form-check-input" id="previewable" name="previewable" type="checkbox" value="1" {$voteDisabled} {$previewableChecked|default="" }>
+          <label class="form-check-label" for="previewable">强制投票才能查看结果</label>
         </div>
 
         {notempty name="vote.items"}
@@ -287,13 +280,11 @@
     {neq name="xinZuoStatus" value="-1"}
     <!-- 新作资源 -->
     <div class="form-check">
-      <label class="form-check-label text-danger" aria-describedby="diy_xinzuoHelp">
-        {eq name="xinZuoStatus" value="1"}
-        {assign name="xinZuoStatusChecked" value="checked" /}
-        {/eq}
-        <input class="form-check-input" name="diy_xinzuo" type="checkbox" value="1" {$xinZuoStatusChecked|default="" }>
-        新作资源
-      </label>
+      {eq name="xinZuoStatus" value="1"}
+      {assign name="xinZuoStatusChecked" value="checked" /}
+      {/eq}
+      <input class="form-check-input" id="diy_xinzuo" name="diy_xinzuo" type="checkbox" value="1" {$xinZuoStatusChecked|default="" }>
+      <label class="form-check-label text-danger" for="diy_xinzuo" aria-describedby="diy_xinzuoHelp">新作资源</label>
       <small id="diy_xinzuoHelp" class="form-text text-secondary">距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效</small>
     </div>
     {/neq}
@@ -301,14 +292,12 @@
     <!-- 功能选项 -->
     <div class="form-group mb-2">
       <div class="form-check form-check-inline">
-        <label class="form-check-label">
-          <input class="form-check-input" name="atc_autourl" type="checkbox" value="1" checked> 自动分析url
-        </label>
+        <input class="form-check-input" id="atc_autourl" name="atc_autourl" type="checkbox" value="1" checked>
+        <label class="form-check-label" for="atc_autourl">自动分析url</label>
       </div>
       <div class="form-check form-check-inline">
-        <label class="form-check-label">
-          <input class="form-check-input" name="atc_convert" type="checkbox" value="1" checked> Wind Code自动转换
-        </label>
+        <input class="form-check-input" id="atc_convert" name="atc_convert" type="checkbox" value="1" checked>
+        <label class="form-check-label" for="atc_convert">Wind Code自动转换</label>
       </div>
     </div>
 
@@ -322,10 +311,10 @@
       <div class="card-body p-3">
         {volist name="attachList" id="vo"}
         <div class="form-group row font-size-sm attach-area" data-id="{$vo.id}">
-          <div class="col-12 form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" name="keep[]" type="checkbox" value="{$vo.id}" aria-label="选择附件" checked>
-            </label>
+          <div class="col-12 mb-1">
+            <div class="form-check form-check-inline mr-0">
+              <input class="form-check-input position-static" name="keep[]" type="checkbox" value="{$vo.id}" aria-label="选择附件" checked>
+            </div>
             <span class="attach-info">
               附件：<b class="text-danger">{$vo.name}</b>
               <small class="text-secondary">({$vo.size}K)</small>

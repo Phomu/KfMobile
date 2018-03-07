@@ -291,7 +291,7 @@ export const showCommonImportOrExportConfigDialog = function (title, configName,
   <b>导出设置：</b>复制文本框里的内容并粘贴到别处即可
 </p>
 <div class="form-group">
-  <textarea class="form-control" name="commonConfig" rows="10" aria-label="设置内容" style="word-break: break-all;"></textarea>
+  <textarea class="form-control font-size-sm" name="commonConfig" rows="10" aria-label="设置内容" style="word-break: break-all;"></textarea>
 </div>`;
     let footerContent = `
 <button class="btn btn-primary" type="submit">保存</button>

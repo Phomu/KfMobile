@@ -39,9 +39,8 @@
           </small>
           &nbsp;
           <div class="form-check form-check-inline">
-            <label class="form-check-label text-secondary">
-              <input class="form-check-input" name="selid[]" type="checkbox" value="{$vo.uid}"> 删
-            </label>
+            <input class="form-check-input" id="selid_{$i}" name="selid[]" type="checkbox" value="{$vo.uid}">
+            <label class="form-check-label text-secondary" for="selid_{$i}">删</label>
           </div>
         </div>
         <div class="form-group w-100">

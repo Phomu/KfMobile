@@ -52,10 +52,8 @@
         {volist name="threadList" id="vo"}
         <li class="list-group-item thread-list-item">
           <div class="thread-link-item">
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" name="delid[]" type="checkbox" value="{$vo.tid}" aria-label="选择主题">
-              </label>
+            <div class="form-check form-check-inline mr-0">
+              <input class="form-check-input position-static" name="delid[]" type="checkbox" value="{$vo.tid}" aria-label="选择主题">
             </div>
             <a class="thread-link d-inline" href="{:url('Read/index?tid=' . $vo['tid'])}" target="_blank">{$vo.threadTitle}</a>
           </div>

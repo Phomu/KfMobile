@@ -80,3 +80,14 @@ main {
     cursor: move !important;
   }
 }
+
+// 自定义脚本列表
+#customScriptList {
+  .card-header {
+    border-bottom: none;
+  }
+
+  .custom-script-content {
+    border-top: $card-border-width solid $card-border-color;
+  }
+}

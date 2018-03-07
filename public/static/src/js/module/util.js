@@ -354,3 +354,35 @@ export const isOpera = () => typeof window.opera !== 'undefined';
  * @returns {boolean} 是否为Edge
  */
 export const isEdge = () => navigator.appVersion && navigator.appVersion.includes('Edge');
+
+/**
+ * HTML转义编码
+ * @param {string} str 待编码的字符串
+ * @returns {string} 编码后的字符串
+ */
+export const htmlEncode = function (str) {
+    if (!str.length) return '';
+    return str.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/ /g, '&nbsp;')
+        .replace(/\'/g, '&#39;')
+        .replace(/\"/g, '&quot;')
+        .replace(/\n/g, '<br>');
+};
+
+/**
+ * HTML转义解码
+ * @param {string} str 待解码的字符串
+ * @returns {string} 解码后的字符串
+ */
+export const htmlDecode = function (str) {
+    if (!str.length) return '';
+    return str.replace(/<br\s*\/?>/gi, '\n')
+        .replace(/&quot;/gi, '\"')
+        .replace(/&#39;/gi, '\'')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&gt;/gi, '>')
+        .replace(/&lt;/gi, '<')
+        .replace(/&amp;/gi, '&');
+};

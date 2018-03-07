@@ -6232,6 +6232,9 @@ a.text-gray-dark:hover, a.text-gray-dark:focus {
 .w-auto {
   width: auto; }
 
+.font-monospace {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
 .navbar .navbar-toggler {
   color: rgba(0, 0, 0, 0.9);
   border-color: transparent; }
@@ -6257,10 +6260,6 @@ a.text-gray-dark:hover, a.text-gray-dark:focus {
 
 .blockquote {
   background-color: rgba(234, 234, 234, 0.7); }
-
-.form-check-inline {
-  margin-right: 0;
-  vertical-align: middle; }
 
 .custom-select-sm {
   padding: 0 1.675rem 0 0.675rem;
@@ -6400,6 +6399,12 @@ main {
     margin: 5px;
     min-width: 6.143rem;
     cursor: move !important; }
+
+#customScriptList .card-header, #customScriptList .list-group-item.list-group-item-header {
+  border-bottom: none; }
+
+#customScriptList .custom-script-content {
+  border-top: 1px solid rgba(0, 0, 0, 0.125); }
 
 .thread-link-group {
   display: flex;

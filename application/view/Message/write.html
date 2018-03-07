@@ -59,9 +59,8 @@
           <textarea class="form-control" id="msgContent" name="atc_content" data-fast-submit="true" rows="10" placeholder="短消息内容" required>{$msgContent}</textarea>
         </div>
         <div class="form-check mb-2">
-          <label class="form-check-label">
-            <input class="form-check-input" name="ifsave" type="checkbox" value="Y"> 保存到发件箱中
-          </label>
+          <input class="form-check-input" id="ifsave" name="ifsave" type="checkbox" value="Y">
+          <label class="form-check-label" for="ifsave">保存到发件箱中</label>
         </div>
         <button class="btn btn-primary btn-block" type="submit">
           <i class="fa fa-send" aria-hidden="true"></i> 发送

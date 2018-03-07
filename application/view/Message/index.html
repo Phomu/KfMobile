@@ -83,10 +83,8 @@
         <li class="list-group-item thread-list-item">
           <div class="thread-link-item">
             {eq name="vo.canSelect" value="true"}
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" name="delid[]" type="checkbox" value="{$vo.mid}" aria-label="选择短消息">
-              </label>
+            <div class="form-check form-check-inline mr-0">
+              <input class="form-check-input position-static" name="delid[]" type="checkbox" value="{$vo.mid}" aria-label="选择短消息">
             </div>
             {/eq}
             <span class="font-size-sm text-secondary">{$vo.no}.</span>

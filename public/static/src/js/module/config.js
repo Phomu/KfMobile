@@ -46,6 +46,10 @@ export const Config = {
     customCssEnabled: false,
     // 自定义CSS的内容
     customCssContent: '',
+    // 是否执行自定义的脚本，true：开启；false：关闭
+    customScriptEnabled: false,
+    // 自定义脚本列表
+    customScriptList: [],
 
     // 是否开启关注用户的功能，true：开启；false：关闭
     followUserEnabled: false,
