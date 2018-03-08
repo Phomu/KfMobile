@@ -6222,6 +6222,10 @@ a.text-gray-dark:hover, a.text-gray-dark:focus {
   cursor: not-allowed;
   pointer-events: none; }
 
+.not-click-link {
+  color: #343a40;
+  pointer-events: none; }
+
 .form-check-input-sm {
   vertical-align: text-bottom; }
 

@@ -37,17 +37,14 @@
         <p>
           <i class="fa fa-user" aria-hidden="true"></i>
           {eq name="action" value="read"}发件人{else /}收件人{/eq}：
-          {eq name="msgUserName|strtoupper" value="SYSTEM"}
-          <span>{$msgUserName}</span>
-          {else /}
-          <a href="{:url('Profile/show', 'username=' . $msgUserName)}">{$msgUserName}</a>
-          {/eq}
+          <a class="not-click-link" href="{:url('Profile/show', 'username=' . $msgUserName)}"
+             data-not-click="{neq name='msgUserName|strtoupper' value='SYSTEM'}true{/neq}">{$msgUserName}</a>
         </p>
         <p>
           <i class="fa fa-info-circle" aria-hidden="true"></i>
           标题：{$msgTitle}
         </p>
-        <p>
+        <p class="text-secondary">
           <i class="fa fa-calendar" aria-hidden="true"></i>
           时间：<time>{$sendTime}</time>
         </p>

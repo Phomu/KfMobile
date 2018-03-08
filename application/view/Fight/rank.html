@@ -36,7 +36,7 @@
       {volist name="rankList" id="vo"}
       <tr class="{eq name='vo.userName' value='$userName'}table-warning{/eq}">
         <th scope="row">{$vo.no}</th>
-        <td><a href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank">{$vo.userName}</a></td>
+        <td><a class="not-click-link" data-not-click="true" href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank">{$vo.userName}</a></td>
         <td>{$vo.maxLevel}</td>
       </tr>
       {/volist}

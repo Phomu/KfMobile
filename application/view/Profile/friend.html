@@ -32,7 +32,7 @@
           {else /}
           <span class="badge badge-secondary">离线</span>
           {/eq}
-          <a href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank">{$vo.name}</a>&nbsp;
+          <a class="not-click-link text-blue" href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank" data-not-click="true">{$vo.name}</a>&nbsp;
           <small class="text-secondary" title="加入时间" aria-label="加入时间">
             <i class="fa fa-calendar" aria-hidden="true"></i>
             <time>{$vo.addTime}</time>

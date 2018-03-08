@@ -133,7 +133,7 @@ class Bank extends Responser
             $description = preg_replace_callback(
                 '/<b>(.+?)<\/b>/i',
                 function ($matches) {
-                    return sprintf('<a href="%s" target="_blank">%s</a>', url('Profile/show', 'username=' . $matches[1]), $matches[1]);
+                    return sprintf('<b>%s</b>', $matches[1]);
                 },
                 $description
             );

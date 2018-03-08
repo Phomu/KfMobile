@@ -49,7 +49,7 @@
         <footer class="thread-footer py-2">
           <div class="col-5 thread-footer-column font-size-sm">
             UID:
-            <a href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank">{$vo.uid}</a>
+            <a class="not-click-link" href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank" data-not-click="true">{$vo.uid}</a>
           </div>
           <div class="col-7 thread-footer-column text-right font-size-sm">{$vo.banInfo}</div>
         </footer>

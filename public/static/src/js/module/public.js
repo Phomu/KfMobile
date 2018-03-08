@@ -71,6 +71,7 @@ export const handleSidebarRollBtn = function () {
  */
 export const handleSearchDialog = function () {
     let $searchDialog = $('#searchDialog');
+    $searchDialog.find('#searchType > option[value="username"]').prop('hidden', !Config.adminMemberEnabled);
 
     $searchDialog.on('shown.bs.modal', function () {
         $('#searchKeyword').select().focus();

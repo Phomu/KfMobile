@@ -136,6 +136,12 @@
   pointer-events: none;
 }
 
+// 禁止点击的链接
+.not-click-link {
+  color: $gray-800;
+  pointer-events: none;
+}
+
 // 复选框（小）
 .form-check-input-sm {
   vertical-align: text-bottom;

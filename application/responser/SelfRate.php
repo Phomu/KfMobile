@@ -684,12 +684,17 @@ class SelfRate extends Responser
 
             $disagreeInfo = trim($pqItem->find('> td:nth-child(2)')->html());
             $disagreeInfo = preg_replace_callback('/(管理|会员):([^\[\]]+)\]/', function ($matches) {
-                return sprintf('%s:<a href="%s" target="_blank">%s</a>]', $matches[1], url('Profile/show', 'username=' . $matches[2]), $matches[2]);
+                return sprintf(
+                    '%s:<a class="not-click-link" href="%s" target="_blank" data-not-click="true">%s</a>]',
+                    $matches[1],
+                    url('Profile/show', 'username=' . $matches[2]),
+                    $matches[2]
+                );
             }, $disagreeInfo);
             $disagreeInfo = preg_replace_callback('/\[帖子:(\d+)\]/', function ($matches) {
                 return sprintf('[帖子:<a href="%s" target="_blank">%s</a>]', url('Read/index?tid=' . $matches[1]), $matches[1]);
             }, $disagreeInfo);
-            $disagreeInfo = preg_replace('/\[([^\[\]]+):([^\[\]]+)\]/', '[<span class="text-danger">$1</span>: $2]', $disagreeInfo);
+            $disagreeInfo = preg_replace('/\[([^\[\]]+?):([^\[\]]+)\]/', '[<span class="text-danger">$1</span>: $2]', $disagreeInfo);
 
             $disagreeList[] = [
                 'submitTime' => $submitTime,

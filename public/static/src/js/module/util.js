@@ -386,3 +386,41 @@ export const htmlDecode = function (str) {
         .replace(/&lt;/gi, '<')
         .replace(/&amp;/gi, '&');
 };
+
+/**
+ * 获取URL中的指定参数
+ * @param {string} name 参数名称
+ * @returns {?string} URL中的指定参数
+ */
+export const getUrlParam = function (name) {
+    let regex = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+    let matches = Info.urlParam.match(regex);
+    if (matches) return decodeURI(matches[2]);
+    else return null;
+};
+
+/**
+ * 去除不配对的BBCode
+ * @param {string} content 引用内容
+ * @returns {string} 去除了不配对BBCode的内容
+ */
+export const removeUnpairedBBCodeContent = function (content) {
+    let startCodeList = [
+        /\[color=.+?\]/g, /\[backcolor=.+?\]/g, /\[size=.+?\]/g, /\[font=.+?\]/g, /\[align=.+?\]/g, /\[b\]/g, /\[i\]/g, /\[u\]/g,
+        /\[strike\]/g, /\[sup\]/g, /\[sub\]/g
+    ];
+    let endCodeList = [
+        /\[\/color\]/g, /\[\/backcolor\]/g, /\[\/size\]/g, /\[\/font\]/g, /\[\/align\]/g, /\[\/b\]/g, /\[\/i\]/g, /\[\/u\]/g,
+        /\[\/strike\]/g, /\[\/sup\]/g, /\[\/sub\]/g
+    ];
+    for (let i = 0; i < startCodeList.length; i++) {
+        let startMatches = content.match(startCodeList[i]);
+        let endMatches = content.match(endCodeList[i]);
+        let startMatchesNum = startMatches ? startMatches.length : 0;
+        let endMatchesNum = endMatches ? endMatches.length : 0;
+        if (startMatchesNum !== endMatchesNum) {
+            content = content.replace(startCodeList[i], '').replace(endCodeList[i], '');
+        }
+    }
+    return content;
+};

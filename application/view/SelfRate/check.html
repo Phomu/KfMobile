@@ -35,7 +35,7 @@
           帖子：<a href="{$threadUrl}" target="_blank">{$threadTitle}</a>
         </div>
         <div class="form-group">
-          评分会员：<a href="{:url('Profile/show', 'username=' . $rateUserName)}" target="_blank">{$rateUserName}</a>
+          评分会员：<a class="not-click-link" href="{:url('Profile/show', 'username=' . $rateUserName)}" target="_blank" data-not-click="true">{$rateUserName}</a>
         </div>
         <div class="form-group">
           <div>评分体积：<b>{$rateSize|number_format}</b> MB</div>
@@ -88,7 +88,7 @@
         </button>
         {else /}
         <div class="form-group">
-          异议提出人：<a href="{:url('Profile/show', 'username=' . $disagreeUserName)}" target="_blank">{$disagreeUserName}</a>
+          异议提出人：<a class="not-click-link" href="{:url('Profile/show', 'username=' . $disagreeUserName)}" target="_blank" data-not-click="true">{$disagreeUserName}</a>
         </div>
         <div class="form-group">
           异议附言：{$disagreeMsg}

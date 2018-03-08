@@ -50,6 +50,8 @@ export const Config = {
     customScriptEnabled: false,
     // 自定义脚本列表
     customScriptList: [],
+    // 是否为管理成员，true：开启；false：关闭
+    adminMemberEnabled: false,
 
     // 是否开启关注用户的功能，true：开启；false：关闭
     followUserEnabled: false,

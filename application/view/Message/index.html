@@ -104,13 +104,13 @@
           <footer class="thread-footer">
             <div class="col-6 thread-footer-column">
               {eq name="action" value="receivebox"}
-              <a class="{empty name='vo.sendUid'}text-dark{/empty}" href="{:url('Profile/show?uid=' . $vo['sendUid'])}" title="发件人"
-                 aria-label="发件人">
+              <a class="not-click-link" href="{:url('Profile/show?uid=' . $vo['sendUid'])}" title="发件人"
+                 aria-label="发件人" data-not-click="{notempty name='vo.sendUid'}true{/notempty}">
                 <i class="fa fa-user" aria-hidden="true"></i> {$vo.sendUserName}
               </a>
               {else /}
-              <a class="{eq name='vo.receiveUid' value='219822'}text-dark{/eq}" href="{:url('Profile/show?uid=' . $vo['receiveUid'])}"
-                 title="收件人" aria-label="收件人">
+              <a class="not-click-link" href="{:url('Profile/show?uid=' . $vo['receiveUid'])}"
+                 title="收件人" aria-label="收件人" data-not-click="{notempty name='vo.sendUid'}true{/notempty}">
                 <i class="fa fa-user" aria-hidden="true"></i> {$vo.receiveUserName}
               </a>
               {/eq}

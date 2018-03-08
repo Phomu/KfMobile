@@ -46,8 +46,8 @@
             </time>
           </div>
           <div class="col-6 thread-footer-column text-right">
-            <a data-author="{$vo.publisher}" href="{:url('Profile/show', 'username=' . $vo['publisher'])}" target="_blank" title="发表人"
-               aria-label="发表人">
+            <a class="not-click-link" data-author="{$vo.publisher}" href="{:url('Profile/show', 'username=' . $vo['publisher'])}" target="_blank" title="发表人"
+               aria-label="发表人" data-not-click="true">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.publisher}
             </a>

@@ -175,6 +175,9 @@ const init = function () {
             `<script src="${Info.rootPath}${Info.staticPath}js/userScript/KfEmotion.min.user.js?ts=${Info.resTimestamp}"></script>`
         );
     }
+    if(Config.adminMemberEnabled) {
+        $('a[data-not-click="true"]').removeClass('not-click-link');
+    }
 
     if (Config.customScriptEnabled) {
         Script.runCustomScript('end');

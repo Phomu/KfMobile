@@ -95,7 +95,7 @@
             {/notempty}
           </div>
           <div class="col-4 thread-footer-column text-center">
-            <a data-author="{$vo.author}" href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者">
+            <a class="not-click-link" data-author="{$vo.author}" href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者" data-not-click="true">
               <i class="fa fa-user" aria-hidden="true"></i>
               {$vo.author}
             </a>

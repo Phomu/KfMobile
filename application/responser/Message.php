@@ -206,7 +206,8 @@ class Message extends Responser
                 '/会员\[(.+?)\]通过论坛银行功能给你转帐(\d+(?:\.\d+)?)贡献/',
                 function ($matches) {
                     return sprintf(
-                        '会员[<a target="_blank" href="%s">%s</a>]通过论坛银行功能给你转帐 <b class="d-inline-block text-orange">%s</b> 贡献',
+                        '会员[<a class="not-click-link" href="%s" target="_blank" data-not-click="true">%s</a>]通过论坛银行功能给你转帐 ' .
+                        '<b class="d-inline-block text-orange">%s</b> 贡献',
                         url('Profile/show', 'username=' . $matches[1]),
                         $matches[1],
                         $matches[2]

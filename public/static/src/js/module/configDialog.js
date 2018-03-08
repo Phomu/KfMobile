@@ -122,6 +122,12 @@ export const show = function () {
     <span class="tips" data-toggle="tooltip" title="执行自定义的javascript脚本，请点击详细设置填入自定义脚本内容">[?]</span>
     <a class="ml-3" data-name="openCustomScriptDialog" href="#" role="button">详细设置&raquo;</a>
   </div>
+  
+  <div class="form-check">
+    <input class="form-check-input" id="${dialogName}_adminMemberEnabled" name="adminMemberEnabled" type="checkbox">
+    <label class="form-check-label" for="${dialogName}_adminMemberEnabled">我是管理成员</label>
+    <span class="tips" data-toggle="tooltip" title="管理成员可开启此功能，助手会开启部分只有管理成员才能使用的功能，非管理成员开启此功能无效">[?]</span>
+  </div>
 </fieldset>
 
 <fieldset class="fieldset mb-3 py-2">
