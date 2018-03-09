@@ -245,8 +245,8 @@
       <textarea class="form-control" id="postContent" name="{$postContentName}" data-fast-submit="true" rows="10" placeholder="发帖请遵守版规">{$postContent}</textarea>
     </div>
 
-    <div class="form-group">
-      <div class="dropup d-inline-block">
+    <div class="form-group d-flex">
+      <div class="dropup mr-1">
         <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
                 aria-label="表情" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-smile-o" aria-hidden="true"></i>
@@ -255,7 +255,7 @@
           {include file="Public/smile" /}
         </div>
       </div>
-      <button class="btn btn-danger clear-multi-quote-data-btn" title="清除在浏览器中保存的多重引用数据" aria-label="清除引用">
+      <button class="btn btn-danger clear-multi-quote-data-btn mr-1" title="清除在浏览器中保存的多重引用数据" aria-label="清除引用">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </button>
     </div>
@@ -267,7 +267,7 @@
       <input class="form-control" id="postGjc" name="diy_guanjianci" data-toggle="tooltip" type="text" value="{$gjc}" maxlength="75"
              title="关键词" placeholder="关键词" aria-describedby="postGjcHelp">
       <small id="postGjcHelp" class="form-text text-secondary">
-        最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英文逗号 <kbd>,</kbd> 隔开，不要包含英文单引号、双引号；<br>
+        最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英文逗号 <kbd>,</kbd> 隔开，不要包含英文单引号、双引号；<br class="d-lg-none d-xl-none">
         如果关键词是别人的ID名，系统就会@提示此人查看本帖子
       </small>
     </div>
@@ -285,7 +285,7 @@
       {/eq}
       <input class="form-check-input" id="diy_xinzuo" name="diy_xinzuo" type="checkbox" value="1" {$xinZuoStatusChecked|default="" }>
       <label class="form-check-label text-danger" for="diy_xinzuo" aria-describedby="diy_xinzuoHelp">新作资源</label>
-      <small id="diy_xinzuoHelp" class="form-text text-secondary">距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效</small>
+      <small id="diy_xinzuoHelp" class="text-secondary">（距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效）</small>
     </div>
     {/neq}
 

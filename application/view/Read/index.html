@@ -319,14 +319,14 @@
   {notempty name="postContentName"}
   <!-- 功能区 -->
   <hr>
-  <section class="mb-3 text-right">
-    <button class="btn btn-danger clear-multi-quote-data-btn" title="清除在浏览器中保存的多重引用数据" aria-label="清除引用">
+  <section class="d-flex justify-content-end mb-3">
+    <button class="btn btn-danger clear-multi-quote-data-btn ml-1" title="清除在浏览器中保存的多重引用数据" aria-label="清除引用">
       <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
-    <button class="btn btn-secondary multi-reply-btn" title="多重回复">
+    <button class="btn btn-secondary multi-reply-btn ml-1" title="多重回复">
       <i class="fa fa-reply-all" aria-hidden="true"></i> 回复
     </button>
-    <a class="btn btn-secondary multi-quote-btn" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid . '&multiquote=1')}"
+    <a class="btn btn-secondary multi-quote-btn ml-1" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid . '&multiquote=1')}"
        title="多重引用">
       <i class="fa fa-quote-left" aria-hidden="true"></i> 引用
     </a>
@@ -345,22 +345,20 @@
       <input name="atc_convert" type="hidden" value="1">
       <input name="atc_autourl" type="hidden" value="1">
 
-      <div class="form-group d-flex mb-0">
-        <div class="form-group col px-0">
+      <div class="form-group d-flex">
+        <div class="col mr-3 px-0">
           <label class="sr-only" for="postGjc">关键词</label>
           <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" placeholder="关键词"
                  title="最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英语逗号,隔开，不要包含英文单引号、双引号。如果关键词是别人的ID名，系统就会@提示此人查看本帖子。">
         </div>
 
-        <div class="form-group col-3 px-0 text-right">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
-                    aria-label="表情" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-smile-o" aria-hidden="true"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right smile-panel" aria-labelledby="smileDropdownBtn">
-              {include file="Public/smile" /}
-            </div>
+        <div class="dropdown ml-1">
+          <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
+                  aria-label="表情" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-smile-o" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right smile-panel" aria-labelledby="smileDropdownBtn">
+            {include file="Public/smile" /}
           </div>
         </div>
       </div>
