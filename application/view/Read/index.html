@@ -12,6 +12,7 @@
       Info.floor = {$floor};
       Info.currentPageNum = {$currentPageNum};
       Info.maxPageNum = {$maxPageNum};
+      Info.sf = '{$sf}';
       Info.goodPostTips = '{$goodPostTips}';
   </script>
   {/* 编辑器提示用
@@ -151,7 +152,7 @@
       </li>
       {/eq}
       <li class="page-item active">
-        <a class="page-link page-input" data-url="{:url('Read/index?tid=' . $tid)}" data-exclude="tid" href="#">
+        <a class="page-link page-input" data-url="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" data-exclude="tid,sf" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>
@@ -289,7 +290,7 @@
       </li>
       {/eq}
       <li class="page-item active">
-        <a class="page-link page-input" data-url="{:url('Read/index?tid=' . $tid)}" data-exclude="tid" href="#">
+        <a class="page-link page-input" data-url="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" data-exclude="tid,sf" href="#">
           {$currentPageNum} <span class="sr-only">(当前页)</span>
         </a>
       </li>

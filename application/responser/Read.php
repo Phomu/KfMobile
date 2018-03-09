@@ -44,7 +44,6 @@ class Read extends Responser
         $publishTime = '';
         $tuiNum = 0;
         $isSeeAll = pq('.readtext:first')->prev()->prev('.readlou')->find('a:contains("[全看]")')->length > 0;
-        $sf = input('sf', '');
         if ($pqForumNav->length >= 2) {
             if (preg_match('/fid=(\d+)/', $pqForumNav->eq(0)->attr('href'), $matches)) {
                 $parentFid = intval($matches[1]);
@@ -64,6 +63,7 @@ class Read extends Responser
         $currentPageNum = 1;
         $maxPageNum = 1;
         $pageParam = [];
+        $sf = '';
         $pqPages = pq('.pages:first');
         if (preg_match('/-\s*(\d+)\s*-/', $pqPages->find('li > a[href="javascript:;"]')->text(), $matches)) {
             $currentPageNum = intval($matches[1]);
@@ -71,7 +71,15 @@ class Read extends Responser
         if (preg_match('/(?<!\w)page=(\d+)/', $pqPages->find('li:last-child > a')->attr('href'), $matches)) {
             $maxPageNum = intval($matches[1]);
         }
-        $pageParam = http_build_query($request->except('page'));
+        if (preg_match('/(?<!\w)sf=(\w+)/', $pqPages->find('li:first-child > a')->attr('href'), $matches)) {
+            $sf = $matches[1];
+        }
+        $sf = empty($sf) ? input('sf', '') : $sf;
+        $pageParamList = $request->except(['page', 'sf']);
+        if(!empty($sf)) {
+            $pageParamList['sf'] = $sf;
+        }
+        $pageParam = http_build_query($pageParamList);
 
         // 楼层
         $canBlockFloor = pq('a[href^="kf_fw_0ladmin.php"]')->length > 0;
