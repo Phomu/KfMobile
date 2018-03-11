@@ -83,7 +83,7 @@ gulp.task('sass', function () {
         .pipe(autoprefixer({
             browsers: [
                 'Chrome >= 45',
-                'Firefox ESR',
+                'Firefox >= 38',
                 'Edge >= 12',
                 'Explorer >= 10',
                 'iOS >= 9',
