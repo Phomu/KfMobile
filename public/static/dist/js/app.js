@@ -153,6 +153,9 @@ var init = function init() {
         Post.handleAttachBtns();
         Post.handleClearMultiQuoteDataBtn();
         if (Info.multiQuote) Post.handleMultiQuote(2);
+        $('#postTitleFormatArea').on('change', '[type="text"], [type="checkbox"]', function () {
+            return Post.specialPostTitleChange();
+        });
     } else if (pageId === 'gjcPage') {
         Other.highlightUnReadAtTipsMsg();
     } else if (pageId === 'userPage') {
@@ -2063,7 +2066,7 @@ var handleBuyItemBtns = exports.handleBuyItemBtns = function handleBuyItemBtns()
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.addRedundantKeywordWarning = exports.handleClearMultiQuoteDataBtn = exports.handleMultiQuote = exports.addSmileCode = exports.handleAttachBtns = exports.checkPostForm = exports.handleEditorBtns = undefined;
+exports.specialPostTitleChange = exports.addRedundantKeywordWarning = exports.handleClearMultiQuoteDataBtn = exports.handleMultiQuote = exports.addSmileCode = exports.handleAttachBtns = exports.checkPostForm = exports.handleEditorBtns = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -2244,7 +2247,7 @@ var checkPostForm = exports.checkPostForm = function checkPostForm() {
             return false;
         }
 
-        var $postTitle = $('#postTitle');
+        var $postTitle = $('[name="atc_title"]');
         if ($postTitle.length > 0) {
             var length = Util.getStrByteLen($postTitle.val());
             if (!length) {
@@ -2549,6 +2552,28 @@ var addRedundantKeywordWarning = exports.addRedundantKeywordWarning = function a
             $this.select().focus();
         }
     });
+};
+
+/**
+ * 特殊发帖标题格式变化
+ */
+var specialPostTitleChange = exports.specialPostTitleChange = function specialPostTitleChange() {
+    var wangPanType = $.trim($('#wangPanType').val());
+    var fileSize = $.trim($('#fileSize').val());
+    var expiryDate = $.trim($('#expiryDate').val());
+    var fileFormat = $.trim($('#fileFormat').val());
+    var ziGou = $('#ziGou').prop('checked') ? '[自购]' : '';
+    var xinZuo = $('#xinZuo').prop('checked') ? '[新作]' : '';
+    var fileTitle = $.trim($('#fileTitle').val());
+    var now = new Date();
+    var month = (now.getMonth() + 1).toString().padStart(2, '0');
+    var day = now.getDate().toString().padStart(2, '0');
+
+    var previewTitle = '[' + month + '.' + day + ']' + ziGou + xinZuo + fileTitle + '[' + wangPanType + expiryDate + '][' + fileSize + ']' + (fileFormat ? '[' + fileFormat + ']' : '');
+    var realTitle = '[' + month + '.' + day + ']' + ziGou + fileTitle + '[' + wangPanType + expiryDate + '][' + fileSize + ']' + (fileFormat ? '[' + fileFormat + ']' : '');
+
+    $('#previewTitle').text(previewTitle);
+    $('#realTitle').val(realTitle);
 };
 
 },{"./const":4,"./msg":7,"./util":13}],10:[function(require,module,exports){

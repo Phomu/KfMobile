@@ -53,7 +53,7 @@
     {notempty name="threadTypeList"}
     <div class="form-group">
       <label class="sr-only" for="postType">主题分类</label>
-      <select class="custom-select" id="postType" name="p_type" title="主题分类" required>
+      <select class="custom-select" id="postType" name="p_type" title="主题分类" aria-describedby="postTypeHelp" required>
         {volist name="threadTypeList" id="vo"}
         {eq name="vo.selected" value="true"}
         {assign name="threadTypeSelected" value="selected" /}
@@ -63,15 +63,82 @@
         <option value="{$vo.value}" {$threadTypeSelected}>{$vo.name}</option>
         {/volist}
       </select>
+      <small class="form-text text-muted" id="postTypeHelp" {neq name="isSpecialTitleFormat" value="true"}hidden{/neq}>
+        （<span class="text-danger">必填</span>，根据帖子内容选择对应的分类）
+      </small>
     </div>
     {/notempty}
 
-    <!-- 发帖标题 -->
+    {eq name="isSpecialTitleFormat" value="true"}
+    <!-- 发帖标题格式 -->
+    <section id="postTitleFormatArea">
+      <div class="form-group">
+        <label class="sr-only" for="wangPanType">网盘类型</label>
+        <input class="form-control" id="wangPanType" data-toggle="tooltip" type="text" title="网盘类型" placeholder="网盘类型"
+               aria-describedby="wangPanTypeHelp" required>
+        <small class="form-text text-muted" id="wangPanTypeHelp">
+          （<span class="text-danger">必填</span>，填写资源所在网盘类型，如百度盘就填 <span class="text-primary">百度</span> 或 <span class="text-primary">BD</span>，多网盘上传则依次填写）
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label class="sr-only" for="fileSize">资源体积</label>
+        <input class="form-control" id="fileSize" data-toggle="tooltip" type="text" title="资源体积" placeholder="资源体积"
+               aria-describedby="fileSizeHelp" required>
+        <small class="form-text text-muted" id="fileSizeHelp">
+          （<span class="text-danger">必填</span>，填写资源在网盘中的文件体积，以 GB 或 MB 为单位，如 <span class="text-primary">3.25GB</span>）
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label class="sr-only" for="expiryDate">有效期限</label>
+        <input class="form-control" id="expiryDate" data-toggle="tooltip" type="text" title="有效期限" placeholder="有效期限"
+               aria-describedby="expiryDateHelp" required>
+        <small class="form-text text-muted" id="expiryDateHelp">
+          （<span class="text-danger">必填</span>，有效期不得小于15天，如30天有效期则填 <span class="text-primary">30D</span>，超过1年请填 <span class="text-primary">长期</span>）
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label class="sr-only" for="fileFormat">资源格式</label>
+        <input class="form-control" id="fileFormat" data-toggle="tooltip" type="text" title="资源格式" placeholder="资源格式"
+               aria-describedby="fileFormatHelp">
+        <small class="form-text text-muted" id="fileFormatHelp">
+          （选填，动画如 <span class="text-primary">BDRIP</span>、<span class="text-primary">DVDISO</span>，音乐如
+          <span class="text-primary">WAV</span>、<span class="text-primary">FLAC</span>，图片如 <span class="text-primary">BMP</span>、<span class="text-primary">JPG</span>）
+        </small>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" id="ziGou" type="checkbox">
+        <label class="form-check-label" for="ziGou" aria-describedby="ziGouHelp">是否自购</label><br>
+        <small id="ziGouHelp" class="text-muted">（选填，该资源是自己购买实体版拷贝上传分享的，请勾选，需要在发帖时提供实物照片）</small>
+      </div>
+
+      <div class="form-check mb-3">
+        <input class="form-check-input" id="xinZuo" name="diy_xinzuo" type="checkbox">
+        <label class="form-check-label" for="xinZuo" aria-describedby="xinZuoHelp">是否新作</label><br>
+        <small id="xinZuoHelp" class="text-secondary">（选填，距离网络上首次出现20日内的资源，请勾选）</small>
+      </div>
+
+      <div class="form-group">
+        <label class="sr-only" for="fileTitle">资源名称</label>
+        <input class="form-control" id="fileTitle" data-toggle="tooltip" type="text" title="资源名称" placeholder="资源名称"
+               aria-describedby="fileTitleHelp" required>
+        <small class="form-text text-muted" id="fileTitleHelp">（<span class="text-danger">必填</span>，作品名称及相关信息）</small>
+      </div>
+
+      <div class="breadcrumb font-size-sm" id="previewTitle">&nbsp;</div>
+      <input name="atc_title" id="realTitle" type="hidden">
+    </section>
+    {else /}
+    <!-- 主题标题 -->
     <div class="form-group">
       <label class="sr-only" for="postTitle">标题</label>
       <input class="form-control" id="postTitle" name="atc_title" data-toggle="tooltip" type="text" value="{$threadTitle}" maxlength="100"
              title="标题" placeholder="标题" required>
     </div>
+    {/eq}
 
     {notempty name="vote"}
     <!-- 投票信息 -->
@@ -277,7 +344,7 @@
       <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
     </button>
 
-    {neq name="xinZuoStatus" value="-1"}
+    {if condition="!$isSpecialTitleFormat && $xinZuoStatus != -1"}
     <!-- 新作资源 -->
     <div class="form-check">
       {eq name="xinZuoStatus" value="1"}
@@ -287,7 +354,7 @@
       <label class="form-check-label text-danger" for="diy_xinzuo" aria-describedby="diy_xinzuoHelp">新作资源</label>
       <small id="diy_xinzuoHelp" class="text-secondary">（距离网络上首次出现20日内的资源，请勾选本项，仅对主题帖有效）</small>
     </div>
-    {/neq}
+    {/if}
 
     <!-- 功能选项 -->
     <div class="form-group mb-2 post-extra-option">

@@ -161,7 +161,7 @@ export const checkPostForm = function () {
             return false;
         }
 
-        let $postTitle = $('#postTitle');
+        let $postTitle = $('[name="atc_title"]');
         if ($postTitle.length > 0) {
             let length = Util.getStrByteLen($postTitle.val());
             if (!length) {
@@ -426,4 +426,27 @@ export const addRedundantKeywordWarning = function () {
             $this.select().focus();
         }
     });
+};
+
+
+/**
+ * 特殊发帖标题格式变化
+ */
+export const specialPostTitleChange = function () {
+    let wangPanType = $.trim($('#wangPanType').val());
+    let fileSize = $.trim($('#fileSize').val());
+    let expiryDate = $.trim($('#expiryDate').val());
+    let fileFormat = $.trim($('#fileFormat').val());
+    let ziGou = $('#ziGou').prop('checked') ? '[自购]' : '';
+    let xinZuo = $('#xinZuo').prop('checked') ? '[新作]' : '';
+    let fileTitle = $.trim($('#fileTitle').val());
+    let now = new Date();
+    let month = (now.getMonth() + 1).toString().padStart(2, '0');
+    let day = now.getDate().toString().padStart(2, '0');
+
+    let previewTitle = `[${month}.${day}]${ziGou}${xinZuo}${fileTitle}[${wangPanType}${expiryDate}][${fileSize}]${fileFormat ? `[${fileFormat}]` : ''}`;
+    let realTitle = `[${month}.${day}]${ziGou}${fileTitle}[${wangPanType}${expiryDate}][${fileSize}]${fileFormat ? `[${fileFormat}]` : ''}`;
+
+    $('#previewTitle').text(previewTitle);
+    $('#realTitle').val(realTitle);
 };

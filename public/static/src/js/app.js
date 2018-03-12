@@ -115,6 +115,7 @@ const init = function () {
         Post.handleAttachBtns();
         Post.handleClearMultiQuoteDataBtn();
         if (Info.multiQuote) Post.handleMultiQuote(2);
+        $('#postTitleFormatArea').on('change', '[type="text"], [type="checkbox"]', () => Post.specialPostTitleChange());
     }
     else if (pageId === 'gjcPage') {
         Other.highlightUnReadAtTipsMsg();

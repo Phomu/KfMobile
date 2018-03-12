@@ -60,6 +60,7 @@ class Post extends Responser
         }
 
         // 发帖标题、关键词等
+        $isSpecialTitleFormat = pq('#diy_titlewplx')->length > 0;
         $threadTitle = htmlspecialchars($pqForm->find('[name="atc_title"]')->val());
         $gjc = trim_strip($pqForm->find('[name="diy_guanjianci"]')->val());
         $xinZuoStatus = $pqForm->find('[name="diy_xinzuo"]')->attr('checked');
@@ -151,6 +152,7 @@ class Post extends Responser
             'parentNavUrl' => $parentNavUrl,
             'parentNavName' => $parentNavName,
             'threadTypeList' => $threadTypeList,
+            'isSpecialTitleFormat' => $isSpecialTitleFormat,
             'threadTitle' => $threadTitle,
             'postContentName' => $postContentName,
             'postContent' => $postContent,
