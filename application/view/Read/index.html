@@ -48,7 +48,7 @@
       <ul class="list-group list-group-sm vote-group mb-3">
         {volist name="voteList" id="vo"}
         <li class="list-group-item">
-          <div class="form-check mb-1">
+          <div class="form-check mb-1 {empty name='vo.itemType'}pl-0{/empty}">
             {notempty name="vo.itemType"}
             <input class="form-check-input" id="voteid_{$i}" name="voteid[]" type="{$vo.itemType}" value="{$vo.itemValue}">
             <label class="form-check-label" for="voteid_{$i}"><b>{$vo.itemName}</b></label>
