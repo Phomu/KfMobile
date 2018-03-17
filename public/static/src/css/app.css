@@ -6534,7 +6534,9 @@ main {
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     font-size: inherit;
-    text-align: left !important; }
+    text-align: left !important;
+    border: 1px solid rgba(209, 209, 209, 0.7);
+    border-radius: 0.25rem; }
     .read-content .blockquote p {
       margin-bottom: 0;
       padding-bottom: 0; }
@@ -6545,7 +6547,9 @@ main {
     padding-right: 0.5rem;
     font-size: 0.875rem;
     text-align: left !important;
-    background-color: rgba(234, 234, 234, 0.7); }
+    background-color: rgba(234, 234, 234, 0.7);
+    border: 1px solid rgba(209, 209, 209, 0.7);
+    border-radius: 0.25rem; }
     .read-content .code-area .copy-code {
       line-height: 2.5; }
     .read-content .code-area pre {

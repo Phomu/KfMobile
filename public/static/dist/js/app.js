@@ -2255,7 +2255,7 @@ var checkPostForm = exports.checkPostForm = function checkPostForm() {
                 $postTitle.focus();
                 return false;
             } else if (length > 100) {
-                alert('标题超过最大长度 100 个字节');
+                alert('\u6807\u9898\u957F\u5EA6\u4E3A ' + length + ' \u5B57\u8282(\u4E0D\u53EF\u8D85\u8FC7 100 \u5B57\u8282)\uFF0C\u8BF7\u51CF\u5C11\u6807\u9898\u957F\u5EA6');
                 $postTitle.focus();
                 return false;
             }
@@ -2572,7 +2572,12 @@ var specialPostTitleChange = exports.specialPostTitleChange = function specialPo
     var previewTitle = '[' + month + '.' + day + ']' + ziGou + xinZuo + fileTitle + '[' + wangPanType + expiryDate + '][' + fileSize + ']' + (fileFormat ? '[' + fileFormat + ']' : '');
     var realTitle = '[' + month + '.' + day + ']' + ziGou + fileTitle + '[' + wangPanType + expiryDate + '][' + fileSize + ']' + (fileFormat ? '[' + fileFormat + ']' : '');
 
-    $('#previewTitle').text(previewTitle);
+    var titleLength = Util.getStrByteLen(realTitle);
+    if (titleLength > 100) {
+        $('#previewTitle').text('\u6807\u9898\u603B\u957F\u5EA6\u4E3A' + titleLength + '\u5B57\u8282(\u4E0D\u53EF\u8D85\u8FC7100\u5B57\u8282)\uFF0C\u8BF7\u51CF\u5C11\u6807\u9898\u957F\u5EA6').addClass('text-danger');
+    } else {
+        $('#previewTitle').text(previewTitle).removeClass('text-danger');
+    }
     $('#realTitle').val(realTitle);
 };
 
@@ -3699,7 +3704,7 @@ var showDialog = exports.showDialog = function showDialog() {
      * @param {boolean} enabled 是否启用脚本
      * @param {string} name 脚本名称
      * @param {string} version 版本号
-     * @param {url} homepage 首页
+     * @param {string} homepage 首页
      * @param {string} trigger 脚本执行时机
      * @param {string} content 脚本内容
      */
@@ -3719,7 +3724,7 @@ var showDialog = exports.showDialog = function showDialog() {
             content = _ref$content === undefined ? '' : _ref$content;
 
         var count = $customScriptList.find('.custom-script-container').length;
-        $customScriptList.append('\n<div class="card custom-script-container">\n  <div class="card-header d-flex p-1" id="customScriptHeader' + count + '">\n    <div class="form-check form-check-inline mx-1">\n      <input class="form-check-input position-static" name="enabled" type="checkbox" ' + (enabled ? 'checked' : '') + ' title="\u662F\u5426\u542F\u7528" aria-label="\u662F\u5426\u542F\u7528">\n    </div>\n\n    <button class="btn btn-link btn-sm mx-1 px-0 text-truncate custom-script-name" data-toggle="collapse" data-target="#customScriptContent' + count + '" type="button"\n            title="' + name + '" aria-expanded="true" aria-controls="customScriptContent' + count + '">' + name + '</button>\n\n    <div class="ml-auto col-auto px-0">\n      <span class="badge badge-warning align-middle custom-script-version" ' + (!version ? 'hidden' : '') + '>' + version + '</span>\n      <span class="badge badge-' + (trigger === 'start' ? 'danger' : 'info') + ' align-middle custom-script-trigger" title="\u811A\u672C\u6267\u884C\u65F6\u673A">' + (trigger === 'start' ? '开始时' : '结束时') + '</span>\n      <button class="btn btn-link btn-sm text-danger" name="delete" type="button">\u5220</button>\n    </div>\n  </div>\n\n  <div class="collapse custom-script-content" id="customScriptContent' + count + '" aria-labelledby="customScriptHeader' + count + '" data-parent="#customScriptList">\n    <div class="card-body p-0">\n      <textarea class="form-control border-0 font-size-sm font-monospace" name="customScriptContent" rows="12" style="white-space: pre;" wrap="off">' + content + '</textarea>\n    </div>\n  </div>\n</div>\n');
+        $customScriptList.append('\n<div class="card custom-script-container">\n  <div class="card-header d-flex p-1" id="customScriptHeader' + count + '">\n    <div class="form-check form-check-inline mx-1">\n      <input class="form-check-input position-static" name="enabled" type="checkbox" ' + (enabled ? 'checked' : '') + ' title="\u662F\u5426\u542F\u7528" aria-label="\u662F\u5426\u542F\u7528">\n    </div>\n\n    <button class="btn btn-link btn-sm mx-1 px-0 text-truncate custom-script-name" data-toggle="collapse" data-target="#customScriptContent' + count + '" type="button"\n            title="' + name + '" aria-expanded="true" aria-controls="customScriptContent' + count + '">' + name + '</button>\n\n    <div class="ml-auto col-auto px-0">\n      <a class="badge badge-primary align-middle custom-script-homepage" ' + (!homepage ? 'hidden' : '') + '\n         href="' + (homepage.startsWith('http') ? '' : Info.rootPath) + homepage + '" target="_blank">\u4E3B\u9875</a>\n      <span class="badge badge-warning align-middle custom-script-version" ' + (!version ? 'hidden' : '') + '>' + version + '</span>\n      <span class="badge badge-' + (trigger === 'start' ? 'danger' : 'info') + ' align-middle custom-script-trigger" title="\u811A\u672C\u6267\u884C\u65F6\u673A">' + (trigger === 'start' ? '开' : '结') + '</span>\n      <button class="btn btn-link btn-sm text-danger" name="delete" type="button">\u5220</button>\n    </div>\n  </div>\n\n  <div class="collapse custom-script-content" id="customScriptContent' + count + '" aria-labelledby="customScriptHeader' + count + '" data-parent="#customScriptList">\n    <div class="card-body p-0">\n      <textarea class="form-control border-0 font-size-sm font-monospace" name="customScriptContent" rows="12" style="white-space: pre;" wrap="off">' + content + '</textarea>\n    </div>\n  </div>\n</div>\n');
     };
 
     $dialog.find('[name="add"]').click(function () {
@@ -3748,9 +3753,9 @@ var showDialog = exports.showDialog = function showDialog() {
 
         var $container = $this.closest('.custom-script-container');
         $container.find('.custom-script-name').text(name ? name : defScriptName);
+        $container.find('.custom-script-homepage').attr('href', homepage ? homepage : '').prop('hidden', !homepage);
         $container.find('.custom-script-version').text(version).prop('hidden', !version);
-        //$container.find('.custom-script-homepage').attr('href', homepage ? homepage : '').prop('hidden', !homepage);
-        $container.find('.custom-script-trigger').text(trigger === 'start' ? '开始时' : '结束时').removeClass('badge-' + (trigger === 'start' ? 'info' : 'danger')).addClass('badge-' + (trigger === 'start' ? 'danger' : 'info'));
+        $container.find('.custom-script-trigger').text(trigger === 'start' ? '开' : '结').removeClass('badge-' + (trigger === 'start' ? 'info' : 'danger')).addClass('badge-' + (trigger === 'start' ? 'danger' : 'info'));
     });
 
     var _iteratorNormalCompletion2 = true;

@@ -126,7 +126,7 @@ export const showDialog = function (showIndex = null) {
      * @param {boolean} enabled 是否启用脚本
      * @param {string} name 脚本名称
      * @param {string} version 版本号
-     * @param {url} homepage 首页
+     * @param {string} homepage 首页
      * @param {string} trigger 脚本执行时机
      * @param {string} content 脚本内容
      */
@@ -150,8 +150,10 @@ export const showDialog = function (showIndex = null) {
             title="${name}" aria-expanded="true" aria-controls="customScriptContent${count}">${name}</button>
 
     <div class="ml-auto col-auto px-0">
+      <a class="badge badge-primary align-middle custom-script-homepage" ${!homepage ? 'hidden' : ''}
+         href="${homepage.startsWith('http') ? '' : Info.rootPath}${homepage}" target="_blank">主页</a>
       <span class="badge badge-warning align-middle custom-script-version" ${!version ? 'hidden' : ''}>${version}</span>
-      <span class="badge badge-${trigger === 'start' ? 'danger' : 'info'} align-middle custom-script-trigger" title="脚本执行时机">${trigger === 'start' ? '开始时' : '结束时'}</span>
+      <span class="badge badge-${trigger === 'start' ? 'danger' : 'info'} align-middle custom-script-trigger" title="脚本执行时机">${trigger === 'start' ? '开' : '结'}</span>
       <button class="btn btn-link btn-sm text-danger" name="delete" type="button">删</button>
     </div>
   </div>
@@ -194,9 +196,9 @@ export const showDialog = function (showIndex = null) {
         let {name, version, homepage, trigger} = getScriptMeta($this.val());
         let $container = $this.closest('.custom-script-container');
         $container.find('.custom-script-name').text(name ? name : defScriptName);
+        $container.find('.custom-script-homepage').attr('href', homepage ? homepage : '').prop('hidden', !homepage);
         $container.find('.custom-script-version').text(version).prop('hidden', !version);
-        //$container.find('.custom-script-homepage').attr('href', homepage ? homepage : '').prop('hidden', !homepage);
-        $container.find('.custom-script-trigger').text(trigger === 'start' ? '开始时' : '结束时')
+        $container.find('.custom-script-trigger').text(trigger === 'start' ? '开' : '结')
             .removeClass(`badge-${trigger === 'start' ? 'info' : 'danger'}`)
             .addClass(`badge-${trigger === 'start' ? 'danger' : 'info'}`);
     });

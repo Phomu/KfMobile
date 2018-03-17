@@ -170,7 +170,7 @@ export const checkPostForm = function () {
                 return false;
             }
             else if (length > 100) {
-                alert('标题超过最大长度 100 个字节');
+                alert(`标题长度为 ${length} 字节(不可超过 100 字节)，请减少标题长度`);
                 $postTitle.focus();
                 return false;
             }
@@ -447,6 +447,12 @@ export const specialPostTitleChange = function () {
     let previewTitle = `[${month}.${day}]${ziGou}${xinZuo}${fileTitle}[${wangPanType}${expiryDate}][${fileSize}]${fileFormat ? `[${fileFormat}]` : ''}`;
     let realTitle = `[${month}.${day}]${ziGou}${fileTitle}[${wangPanType}${expiryDate}][${fileSize}]${fileFormat ? `[${fileFormat}]` : ''}`;
 
-    $('#previewTitle').text(previewTitle);
+    let titleLength = Util.getStrByteLen(realTitle);
+    if(titleLength > 100) {
+        $('#previewTitle').text(`标题总长度为${titleLength}字节(不可超过100字节)，请减少标题长度`).addClass('text-danger');
+    }
+    else {
+        $('#previewTitle').text(previewTitle).removeClass('text-danger');
+    }
     $('#realTitle').val(realTitle);
 };

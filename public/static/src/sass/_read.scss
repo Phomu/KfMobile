@@ -64,6 +64,8 @@
     padding: $spacer-2;
     font-size: inherit;
     text-align: left !important;
+    border: 1px solid darken($blockquote-bg, 10%);
+    border-radius: $card-border-radius;
 
     p {
       margin-bottom: 0;
@@ -84,6 +86,8 @@
     font-size: $font-size-sm;
     text-align: left !important;
     background-color: $blockquote-bg;
+    border: 1px solid darken($blockquote-bg, 10%);
+    border-radius: $card-border-radius;
 
     .copy-code {
       line-height: 2.5;
