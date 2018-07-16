@@ -7,9 +7,9 @@ return [
     // 应用版本号
     'app_version' => '3.0',
     // 反向代理的KF目标域名
-    'proxy_domain' => 'http://www.9moe.com/',
+    'proxy_domain' => 'https://www.9moe.com/',
     // 注册页面反向代理的KF目标域名
-    'register_page_proxy_domain' => 'http://bbs.2dkf.com/',
+    'register_page_proxy_domain' => 'https://bbs.2dkf.com/',
     // 电脑版的域名
     'pc_version_domain' => 'https://kf.miaola.info/',
     // 游戏介绍图片的域名
