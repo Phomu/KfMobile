@@ -9,7 +9,7 @@ const browserify = require('browserify');
 const babelify = require('babelify');
 const watchify = require('watchify');
 const uglify = require('gulp-uglify');
-const minifycss = require('gulp-minify-css');
+const cleanCss = require('gulp-clean-css');
 const autoprefixer = require('gulp-autoprefixer');
 const sass = require('gulp-sass');
 const del = require('del');
@@ -79,7 +79,7 @@ gulp.task('sass', function () {
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(cssSrcPath))
-        .pipe(minifycss())
+        .pipe(cleanCss())
         .pipe(autoprefixer({
             browsers: [
                 'Chrome >= 45',

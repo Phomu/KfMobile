@@ -30,17 +30,17 @@ export const handleEditorBtns = function () {
             case 'audio': {
                 value = prompt('请输入HTML5音频实际地址：\n（可直接输入网易云音乐的单曲地址，将自动转换为外链地址）', 'http://');
                 let matches = /^https?:\/\/music\.163\.com\/(?:#\/)?song\?id=(\d+)/i.exec(value);
-                if (matches) value = `http://music.miaola.info/163/${matches[1]}.mp3`;
+                if (matches) value = `https://music.miaola.info/163/${matches[1]}.mp3`;
                 matches = /^https?:\/\/www\.xiami\.com\/song\/(\w+)/i.exec(value);
-                if (matches) value = `http://music.miaola.info/xiami/${matches[1]}.mp3`;
+                if (matches) value = `https://music.miaola.info/xiami/${matches[1]}.mp3`;
             }
                 break;
             case 'video': {
                 value = prompt('请输入HTML5视频实际地址：\n（可直接输入YouTube视频页面的地址，将自动转换为外链地址）', 'http://');
                 let matches = /^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([\w\-]+)/i.exec(value);
-                if (matches) value = `http://video.miaola.info/youtube/${matches[1]}`;
+                if (matches) value = `https://video.miaola.info/youtube/${matches[1]}`;
                 matches = /^https?:\/\/youtu\.be\/([\w\-]+)$/i.exec(value);
-                if (matches) value = `http://video.miaola.info/youtube/${matches[1]}`;
+                if (matches) value = `https://video.miaola.info/youtube/${matches[1]}`;
             }
                 break;
         }
