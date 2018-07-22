@@ -9,7 +9,7 @@ _Present for every KFer!_
 https://m.miaola.info/
 
 ## 讨论帖
-http://bbs.2dkf.com/read.php?tid=564787
+https://bbs.2dkf.com/read.php?tid=564787
 
 ## 更新日志
 [详细日志请参见此页面&raquo;](https://github.com/miaolapd/KfMobile/releases)
@@ -85,7 +85,7 @@ Nginx虚拟主机配置参考：
         }
     
         location ~ ^/(ys|js|data|\d+)/ {
-            proxy_pass http://www.9moe.com;
+            proxy_pass https://www.9moe.com;
             expires 1d;
     
             proxy_cache_key       'kf_$request_uri';
@@ -104,17 +104,17 @@ Nginx虚拟主机配置参考：
         }
     
         location ~ ^/(?!index)\w+\.php$ {
-            proxy_pass http://www.9moe.com;
+            proxy_pass https://www.9moe.com;
             proxy_redirect off;
     
             proxy_set_header Host www.9moe.com;
             proxy_set_header User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0';
-            proxy_set_header Referer http://www.9moe.com;
+            proxy_set_header Referer https://www.9moe.com;
             proxy_set_header Accept-Encoding '';
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     
-            sub_filter 'http://www.9moe.com' 'http://$host';
+            sub_filter 'https://www.9moe.com' 'http://$host';
         }
     
         location ~ \.php$ {

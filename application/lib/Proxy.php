@@ -65,6 +65,10 @@ class Proxy
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
+        if (!config('verify_ssl_cert')) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
 
         if (!is_null($postData)) {
             curl_setopt($ch, CURLOPT_POST, true);
