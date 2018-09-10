@@ -6627,10 +6627,6 @@ main {
   .vote-group li {
     display: block; }
 
-.good-post-mark {
-  outline: 3px solid #dc3545;
-  outline-offset: -3px; }
-
 #postPage .breadcrumb li:nth-child(2) {
   max-width: 190px; }
 

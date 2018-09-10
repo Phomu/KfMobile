@@ -203,7 +203,8 @@ class Read extends Responser
         $publishTime = '';
         $sign = '';
         $pqFloorTop = $pqFloor->prev('div')->prev('.readlou');
-        $pid = $pqFloorTop->prev('a')->attr('name');
+        $pqFloorUser = $pqFloorTop->prev('.readlou');
+        $pid = $pqFloorUser->prev('a')->attr('name');
         $pqFloorTopInfo = $pqFloorTop->find('> div:nth-child(2)');
         $floorNumText = $pqFloorTopInfo->find('span:first-child')->text();
         if (preg_match('/(\d+)楼/', $floorNumText, $matches)) {
@@ -229,11 +230,11 @@ class Read extends Responser
         if (preg_match('/#\w+/', $pqFloor->attr('style'), $matches)) {
             $smColor = $matches[0];
         }
-        $pqAvatar = $pqFloor->find('.readidm');
+        $pqAvatar = $pqFloorUser->find('.readidm');
         if ($pqAvatar->length > 0) {
             $avatarType = 2;
         } else {
-            $pqAvatar = $pqFloor->find('.readidms');
+            $pqAvatar = $pqFloorUser->find('.readidms');
         }
         if ($avatarType === 2) {
             if (preg_match('/url\((.+?)\.png\)/i', $pqAvatar->attr('style'), $matches)) {
@@ -248,15 +249,15 @@ class Read extends Responser
             $smLevel = trim_strip($pqAvatar->find('.readidmright')->text());
         } else {
             $avatar = $pqAvatar->find('.readidmstop > img')->attr('src');
-            $pqUser = $pqAvatar->find('.readidmsbottom');
-            $pqUserLink = $pqUser->find('a');
+            $pqUserInfo = $pqAvatar->find('.readidmsbottom');
+            $pqUserLink = $pqUserInfo->find('a');
             if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
                 $uid = intval($matches[1]);
                 $sf = $matches[2];
             }
             $userName = trim_strip($pqUserLink->text());
 
-            $userHtmlArray = explode('<br>', $pqUser->html());
+            $userHtmlArray = explode('<br>', $pqUserInfo->html());
             if (count($userHtmlArray) >= 2) {
                 if (preg_match('/(\S+) 级神秘/', strip_tags($userHtmlArray[1]), $matches)) {
                     $smLevel = $matches[1];
@@ -266,7 +267,7 @@ class Read extends Responser
         if (strpos($avatar, 'none.gif') > 0) $avatar = '';
         elseif (!empty($avatar) && strpos($avatar, 'http') !== 0) $avatar = '/' . $avatar;
 
-        $content = $this->getFloorContent($pqFloor->find('tr:first > td'));
+        $content = $this->getFloorContent($pqFloor->find('tr:first > td > div'));
 
         return [
             'pid' => $pid,
@@ -291,9 +292,6 @@ class Read extends Responser
      */
     protected function getFloorContent($pqFloor)
     {
-        // 删除头像节点
-        $pqFloor->find('.readidms, .readidm')->remove();
-
         // 替换楼层内容
         $pqFloor->html(replace_floor_content(replace_common_html_content($pqFloor->html())));
 

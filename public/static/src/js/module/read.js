@@ -43,22 +43,13 @@ export const handleFastReplyBtn = function () {
 export const handleGoodPostBtn = function () {
     $(document).on('click', '.handle-post-btn', function () {
         let $this = $(this);
-        if (!Info.goodPostTips || $this.data('wait')) return;
+        if ($this.data('wait')) return;
         let $floor = $(this).closest('.read-floor');
         let pid = $floor.data('pid');
-        let userName = $floor.data('username');
-        $floor.addClass('good-post-mark');
-        if (!confirm(`是否提交本楼层为优秀帖子？\n（${Info.goodPostTips}）`)) {
-            $floor.removeClass('good-post-mark');
-            return;
-        }
-        let $sameUserNameFloors = $(`.read-floor[data-username="${userName}"]`).not($floor);
-        if ($sameUserNameFloors.find('.fieldset-alert:contains("本帖为优秀帖")').length > 0) {
-            if (!confirm('在当前页面中该会员已经有回帖被评为优秀帖，是否继续？')) {
-                $floor.removeClass('good-post-mark');
-                return;
-            }
-        }
+
+        let tips = '是否提交本楼层为优秀帖子？';
+        if (Info.goodPostTips) tips += `\n（${Info.goodPostTips}）`;
+        if (!confirm(tips)) return;
 
         $this.data('wait', true);
         $.post('/diy_read_cztz.php', `tid=${Info.tid}&pid=${pid}&safeid=${Info.safeId}`)
@@ -68,9 +59,6 @@ export const handleGoodPostBtn = function () {
                     if (!$content.find('.fieldset-alert:contains("本帖为优秀帖")').length) {
                         $content.prepend('<fieldset class="fieldset fieldset-alert"><legend>↓</legend>本帖为优秀帖</fieldset>');
                     }
-                }
-                if (!/已将本楼层提交为优秀帖申请/.test(html)) {
-                    $floor.removeClass('good-post-mark');
                 }
                 alert(html);
             }).always(() => $this.removeData('wait'));

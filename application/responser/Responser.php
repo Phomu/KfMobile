@@ -107,14 +107,14 @@ class Responser
         $keywords = trim_strip(pq('meta[name="keywords"]', $doc)->attr('content'));
         $description = trim_strip(pq('meta[name="description"]', $doc)->attr('content'));
 
-        $pqUserMenu = pq('.topmenuo1 > .topmenuo3:last-child > .topmenuo2', $doc);
+        $pqUserMenu = pq('#kf_information > ul', $doc);
 
-        $pqUserName = pq('.topmenuo1 > .topmenuo3:last-child > a[href="javascript:;"]', $doc);
+        $pqUserName = pq('#kf_topuser > a[href="javascript:;"]', $doc);
         $userName = '';
         if ($pqUserName->length > 0) $userName = trim_strip($pqUserName->contents()->get(0)->textContent);
         $userTitle = trim_strip($pqUserName->attr('title'));
 
-        $pqUid = $pqUserMenu->find('a[href^="profile.php?action=show&uid="]:contains("我的信息")');
+        $pqUid = $pqUserMenu->find('> li > a[href^="profile.php?action=show&uid="]');
         $uid = 0;
         if (preg_match('/&uid=(\d+)/i', $pqUid->attr('href'), $matches)) $uid = intval($matches[1]);
         if (!$userName && !$this->noCheckLogin) {
@@ -122,7 +122,8 @@ class Responser
         }
 
         $hasNewMsg = trim($pqUserMenu->find('a[href="message.php"]')->text()) === '有新消息';
-        $hasNewRateMsg = trim($pqUserMenu->find('a[href^="kf_fw_1wkfb.php"]')->text()) === '有新的评分';
+        $hasNewAtTips = trim($pqUserMenu->find('a[href^="guanjianci.php"]')->text()) === '有人@我';
+        $hasNewRateMsg = trim($pqUserMenu->find('a[href^="kf_fw_1wkfb.php"]')->text()) === '有新评分';
 
         $verify = '';
         if (preg_match('/&verify=(\w+)/', $pqUserMenu->find('a[href^="login.php?action=quit&verify="]')->attr('href'), $matches)) {
@@ -148,6 +149,7 @@ class Responser
             'userName' => $userName,
             'userTitle' => $userTitle,
             'hasNewMsg' => $hasNewMsg,
+            'hasNewAtTips'=> $hasNewAtTips,
             'hasNewRateMsg' => $hasNewRateMsg,
             'verify' => $verify,
             'safeId' => $safeId,

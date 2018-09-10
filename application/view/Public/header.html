@@ -14,8 +14,8 @@
         <a class="dropdown-toggle d-inline-block align-middle py-0" id="userMenuDropdownBtn" data-toggle="dropdown" href="#"
            title="{$userTitle}" role="button" aria-haspopup="true" aria-expanded="false">
           {$userName}
-          {if condition="$hasNewMsg OR $hasNewRateMsg"}
-          <span class="badge badge-{eq name='hasNewMsg' value='true'}danger{else /}success{/eq}">New</span>
+          {if condition="$hasNewMsg OR $hasNewAtTips OR $hasNewRateMsg"}
+          <span class="badge badge-{$hasNewMsg ? 'danger' : ($hasNewAtTips ? 'primary' : 'success')}">New</span>
           {/if}
         </a>
         <div class="dropdown-menu" aria-labelledby="userMenuDropdownBtn">
@@ -24,11 +24,12 @@
           </a>
           <div class="dropdown-divider" role="separator"></div>
           <a class="dropdown-item" href="{:url('Message/index')}">
-            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> 短消息
+            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> 我的消息
             {eq name="hasNewMsg" value="true"}<span class="badge badge-danger">New</span>{/eq}
           </a>
           <a class="dropdown-item" href="{:url('GuanJianCi/index', 'gjc=' . $userName)}">
-            <i class="fa fa-at fa-fw" aria-hidden="true"></i> 提醒
+            <i class="fa fa-at fa-fw" aria-hidden="true"></i> 被@记录
+            {eq name="hasNewAtTips" value="true"}<span class="badge badge-primary">New</span>{/eq}
           </a>
           <a class="dropdown-item" href="{:url('Personal/topic')}">
             <i class="fa fa-comments fa-fw" aria-hidden="true"></i> 我的主题
@@ -88,7 +89,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{:url('Bank/index')}">
-            <i class="fa fa-yen fa-fw" aria-hidden="true"></i> 银行
+            <i class="fa fa-yen fa-fw" aria-hidden="true"></i> 贡献转账
           </a>
         </li>
         <li class="dropdown-divider" role="separator"></li>
@@ -122,22 +123,10 @@
         </li>
         <li class="dropdown-divider" role="separator"></li>
         <li class="nav-item">
-          <a href="javascript:;" class="nav-link disabled">
-            <i class="fa fa-gg fa-fw" aria-hidden="true"></i> 游戏·资源
+          <a class="nav-link" href="{:url('Share/index')}">
+            <i class="fa fa-gg fa-fw" aria-hidden="true"></i> 最新共享
           </a>
-          <ul class="nav flex-column ml-3">
-            <li class="nav-item">
-              <a class="nav-link" href="{:url('GameIntro/index')}">游戏介绍</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{:url('GameIntro/moon')}">本月新作</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{:url('Share/index')}">最新共享</a>
-            </li>
-          </ul>
         </li>
-        <li class="dropdown-divider" role="separator"></li>
         <li class="nav-item">
           <a class="nav-link" href="{:url('Faq/index?id=101')}">
             <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i> 帮助
@@ -327,19 +316,10 @@
 
             <div class="row mb-3">
               <div class="col-6">
-                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=98')}">日本语版</a>
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=4')}">意见投诉</a>
               </div>
               <div class="col-6">
-                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=4')}">论坛管理</a>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col-6">
-                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=93')}">管理组区(内部)</a>
-              </div>
-              <div class="col-6">
-                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=59')}">原创组区(内部)</a>
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=93')}">内部管理</a>
               </div>
             </div>
           </div>
