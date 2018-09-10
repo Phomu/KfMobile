@@ -16,19 +16,6 @@
 <main class="container pt-3">
   <!-- 功能区 -->
   <section class="mb-4">
-    {empty name="atTipsTime"}
-    <a class="btn btn-outline-primary btn-block" href="{:url('GuanJianCi/index', 'gjc=' . $userName)}" target="_blank">最近无人@你</a>
-    {else /}
-    {eq name="atTipsTime" value=":user_cookie($uid, 'atTipsTime')"}
-    {assign name="atTipsTimeColor" value="primary" /}
-    {else /}
-    {assign name="atTipsTimeColor" value="danger" /}
-    {/eq}
-    <a class="btn btn-outline-{$atTipsTimeColor} btn-block" id="atTips" data-time="{$atTipsTime}"
-       href="{:url('GuanJianCi/index', 'gjc=' . $userName)}" target="_blank">
-      有人@你 ({$atTipsTime})
-    </a>
-    {/empty}
     <a class="btn btn-outline-danger btn-block" data-kfb="{$kfb}" data-gongxian="{$gongXian}" href="javascript:;" title="网站虚拟货币">
       <b>{$kfb|number_format}</b>KFB | <b>{$gongXian}</b>贡献
     </a>
@@ -36,14 +23,8 @@
       data-smlevel="{$smLevel}" data-smrank="{$smRank}">
       神秘<b>{$smLevel|intval|number_format}</b>级 (系数排名第<b class="text-primary">{$smRank}</b>位)
     </a>
-    <a class="btn btn-outline-danger btn-block" href="/kf_fw_ig_index.php" title="通过简单游戏获得每日KFB奖励">争夺奖励</a>
-    {eq name="hasRatingBonus" value="true"}
-    <a class="btn btn-outline-danger btn-block" href="{:url('SelfRate/my')}" title="参与分享贴评分获得奖励">
-      自助评分<span class="text-success">+你获得新的奖励</span>
-    </a>
-    {else /}
     <a class="btn btn-outline-danger btn-block" href="{:url('SelfRate/latest')}" title="参与分享贴评分获得奖励">自助评分</a>
-    {/eq}
+    <a class="btn btn-outline-danger btn-block" href="/kf_fw_ig_index.php" title="通过简单游戏获得每日KFB奖励">争夺奖励</a>
   </section>
 
   <!-- 版块列表 -->
@@ -63,16 +44,19 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#indexGalgameForumPanel" role="tab" aria-controls="indexGalgameForumPanel">游戏区</a>
+        <a class="nav-link" data-toggle="tab" href="#indexDiscussForumPanel" role="tab" aria-controls="indexDiscussForumPanel">聊天交流</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#indexResourceForumPanel" role="tab" aria-controls="indexResourceForumPanel">动漫区</a>
+        <a class="nav-link" data-toggle="tab" href="#indexGalTalkForumPanel" role="tab" aria-controls="indexGalTalkForumPanel">Gal讨论</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#indexAcgForumPanel" role="tab" aria-controls="indexAcgForumPanel">综合区</a>
+        <a class="nav-link" data-toggle="tab" href="#indexGalShareForumPanel" role="tab" aria-controls="indexGalShareForumPanel">Gal分享</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#indexDiscussForumPanel" role="tab" aria-controls="indexDiscussForumPanel">交流区</a>
+        <a class="nav-link" data-toggle="tab" href="#indexAnimeMusicForumPanel" role="tab" aria-controls="indexAnimeMusicForumPanel">动漫音乐</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#indexAcgForumPanel" role="tab" aria-controls="indexAcgForumPanel">ACG相关</a>
       </li>
     </ul>
 
@@ -114,45 +98,68 @@
         </div>
       </div>
 
-      <div class="tab-pane" id="indexGalgameForumPanel" role="tabpanel">
+      <div class="tab-pane" id="indexDiscussForumPanel" role="tabpanel">
         <div class="row mb-3">
           <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作游戏动态</a>
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=5')}">自由讨论区</a>
           </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=56')}">个人日记区</a>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=4')}">意见投诉</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=93')}">内部管理</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="indexGalTalkForumPanel" role="tabpanel">
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=102')}">游戏推荐</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作动态</a>
+          </div>
+        </div>
+        <div class="row mb-3">
           <div class="col-6">
             <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=52')}">游戏综合讨论</a>
           </div>
-        </div>
-        <div class="row mb-3">
           <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=41')}">网盘下载</a>
-          </div>
-          <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=67')}">CG下载</a>
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=24')}">游戏疑难互助</a>
           </div>
         </div>
+      </div>
+
+      <div class="tab-pane" id="indexGalShareForumPanel" role="tabpanel">
         <div class="row mb-3">
           <div class="col-6">
             <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=16')}">BT下载</a>
           </div>
           <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=9')}">无限制资源</a>
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=41')}">网盘下载</a>
           </div>
         </div>
         <div class="row mb-3">
           <div class="col-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=102')}">游戏推荐</a>
-          </div>
-          <div class="col-4">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=24')}">疑难互助</a>
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=67')}">CG下载</a>
           </div>
           <div class="col-4">
             <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=57')}">同人漫本</a>
           </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=9')}">无限制资源</a>
+          </div>
         </div>
       </div>
 
-      <div class="tab-pane" id="indexResourceForumPanel" role="tabpanel">
+      <div class="tab-pane" id="indexAnimeMusicForumPanel" role="tabpanel">
         <div class="row mb-3">
           <div class="col-6">
             <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=84')}">动漫综合讨论</a>
@@ -177,10 +184,10 @@
       <div class="tab-pane" id="indexAcgForumPanel" role="tabpanel">
         <div class="row mb-3">
           <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=94')}">原创绘画作品</a>
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=94')}">原创绘画美图</a>
           </div>
           <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=87')}">ACG宅物交流</a>
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=87')}">ACG实物交流</a>
           </div>
         </div>
 
@@ -198,36 +205,7 @@
             <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=96')}">图片来源出处</a>
           </div>
           <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=36')}">资源下载求助</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-pane" id="indexDiscussForumPanel" role="tabpanel">
-        <div class="row mb-3">
-          <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=5')}">自由讨论区</a>
-          </div>
-          <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=56')}">个人日记区</a>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=98')}">日本语版</a>
-          </div>
-          <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=4')}">论坛管理</a>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=93')}">管理组区(内部)</a>
-          </div>
-          <div class="col-6">
-            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=59')}">原创组区(内部)</a>
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=36')}">寻求资源共享</a>
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ const Const = {
         {fid: 68, name: 'ACG音乐'},
         {fid: 163, name: 'LIVE资源'},
         {fid: 94, name: '原创绘画'},
-        {fid: 87, name: '宅物交流'},
+        {fid: 87, name: '实物交流'},
         {fid: 86, name: '电子产品'},
         {fid: 115, name: '文字作品'},
         {fid: 96, name: '图片来源'},

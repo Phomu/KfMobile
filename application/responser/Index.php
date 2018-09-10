@@ -30,17 +30,13 @@ class Index extends Responser
         $matches = [];
 
         // 功能区
-        $atTipsTime = '';
-        if (preg_match('/\d+日\d+时\d+分/', pq('a[href^="guanjianci.php?gjc="]')->text(), $matches)) {
-            $atTipsTime = $matches[0];
-        }
         $kfb = 0;
         $gongXian = 0;
-        if (preg_match('/(-?\d+)KFB\s*\|\s*(-?\d+(?:\.\d+)?)贡献/', pq('a.indbox5[title="网站虚拟货币"]')->text(), $matches)) {
+        if (preg_match('/(-?\d+)KFB\s*\|\s*(-?\d+(?:\.\d+)?)贡献/', pq('a.rightbox1[title="网站虚拟货币"]')->text(), $matches)) {
             $kfb = intval($matches[1]);
             $gongXian = floatval($matches[2]);
         }
-        $pqSmArea = pq('a.indbox5[href="kf_growup.php"]');
+        $pqSmArea = pq('a.rightbox1[href="kf_growup.php"]');
         $smLevel = 0;
         $smRank = '';
         if (preg_match('/神秘(-?\d+)级\s*\(系数排名第\s*(\d+\+?)\s*位\)/', $pqSmArea->text(), $matches)) {
@@ -48,7 +44,6 @@ class Index extends Responser
             $smRank = $matches[2];
         }
         $smTips = $pqSmArea->attr('title');
-        $hasRatingBonus = pq('a.indbox5[href^="kf_fw_1wkfb.php?ping=3"]')->length > 0;
 
         // 最新回复帖子
         $galgameNewReplyList = [];
@@ -93,13 +88,11 @@ class Index extends Responser
         }
 
         $data = [
-            'atTipsTime' => $atTipsTime,
             'kfb' => $kfb,
             'gongXian' => $gongXian,
             'smLevel' => $smLevel,
             'smRank' => $smRank,
             'smTips' => $smTips,
-            'hasRatingBonus' => $hasRatingBonus,
             'galgameNewReplyList' => $galgameNewReplyList,
             'resourceNewReplyList' => $resourceNewReplyList,
             'otherNewReplyList' => $otherNewReplyList,
