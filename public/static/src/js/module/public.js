@@ -91,13 +91,7 @@ export const handleSearchDialog = function () {
             $searchKeyword.attr('name', searchType === 'author' ? 'pwuser' : 'keyword');
             if (searchType === 'title') {
                 if (keyword.length && Util.getStrByteLen(keyword) <= 2) {
-                    let $method = $this.find('[name="method"]');
-                    $method.val('OR');
-                    $searchKeyword.val(keyword + ' ' + Math.floor(new Date().getTime() / 1000));
-                    setTimeout(() => {
-                        $searchKeyword.val(keyword);
-                        $method.val('AND');
-                    }, 200);
+                    $searchKeyword.val(keyword + ' ' + keyword);
                 }
             }
         }

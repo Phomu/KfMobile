@@ -238,9 +238,11 @@ var name = 'kf_config';
  */
 var Config = exports.Config = {
     // 当前激活的最新回复面板
-    activeNewReplyPanel: '#galgameNewReplyPanel',
-    // 当前激活的当前推荐面板
-    activeTopRecommendPanel: '#galgameTopRecommendPanel',
+    activeNewReplyPanel: '#newReplyPanel1',
+    // 当前激活的最新发表面板
+    activeNewPublishPanel: '#newPublishPanel1',
+    // 当前激活的其它帖子面板
+    activeNewExtraPanel: '#newExtraPanel1',
     // 常用版块列表
     commonForumList: [],
 
@@ -1254,7 +1256,7 @@ var Const = {
     // 常用版块列表
     commonForumList: [{ fid: 106, name: '新作动态' }, { fid: 41, name: '网盘下载' }, { fid: 16, name: 'BT下载' }, { fid: 52, name: '游戏讨论' }, { fid: 84, name: '动漫讨论' }, { fid: 67, name: 'CG下载' }, { fid: 5, name: '自由讨论' }, { fid: 56, name: '个人日记' }, { fid: 57, name: '同人漫本' }],
     // 可用版块列表
-    availableForumList: [{ fid: 106, name: '新作动态' }, { fid: 52, name: '游戏讨论' }, { fid: 41, name: '网盘下载' }, { fid: 67, name: 'CG下载' }, { fid: 16, name: 'BT下载' }, { fid: 9, name: '无限资源' }, { fid: 102, name: '游戏推荐' }, { fid: 24, name: '疑难互助' }, { fid: 57, name: '同人漫本' }, { fid: 84, name: '动漫讨论' }, { fid: 92, name: '动画下载' }, { fid: 127, name: '漫画小说' }, { fid: 68, name: 'ACG音乐' }, { fid: 163, name: 'LIVE资源' }, { fid: 94, name: '原创绘画' }, { fid: 87, name: '宅物交流' }, { fid: 86, name: '电子产品' }, { fid: 115, name: '文字作品' }, { fid: 96, name: '图片来源' }, { fid: 36, name: '寻求资源' }, { fid: 5, name: '自由讨论' }, { fid: 56, name: '个人日记' }, { fid: 4, name: '论坛管理' }, { fid: 93, name: '管理组区' }, { fid: 59, name: '原创组区' }, { fid: 125, name: '水楼林立' }, { fid: 181, name: '私人日记' }, { fid: 98, name: '日本语版' }, { fid: 99, name: '意見箱' }, { fid: 112, name: '掲示板' }, { fid: 100, name: '創作感想' }]
+    availableForumList: [{ fid: 106, name: '新作动态' }, { fid: 52, name: '游戏讨论' }, { fid: 41, name: '网盘下载' }, { fid: 67, name: 'CG下载' }, { fid: 16, name: 'BT下载' }, { fid: 9, name: '无限资源' }, { fid: 102, name: '游戏推荐' }, { fid: 24, name: '疑难互助' }, { fid: 57, name: '同人漫本' }, { fid: 84, name: '动漫讨论' }, { fid: 92, name: '动画下载' }, { fid: 127, name: '漫画小说' }, { fid: 68, name: 'ACG音乐' }, { fid: 163, name: 'LIVE资源' }, { fid: 94, name: '原创绘画' }, { fid: 87, name: '实物交流' }, { fid: 86, name: '电子产品' }, { fid: 115, name: '文字作品' }, { fid: 96, name: '图片来源' }, { fid: 36, name: '寻求资源' }, { fid: 5, name: '自由讨论' }, { fid: 56, name: '个人日记' }, { fid: 4, name: '意见投诉' }, { fid: 93, name: '内部管理' }, { fid: 125, name: '水楼林立' }, { fid: 181, name: '私人日记' }, { fid: 98, name: '日本语版' }, { fid: 99, name: '意見箱' }, { fid: 112, name: '掲示板' }, { fid: 100, name: '創作感想' }]
 };
 
 exports.default = Const;
@@ -1412,14 +1414,21 @@ var handleAtTipsBtn = exports.handleAtTipsBtn = function handleAtTipsBtn() {
  * 处理首页主题链接面板
  */
 var handleIndexThreadPanel = exports.handleIndexThreadPanel = function handleIndexThreadPanel() {
-    if (Config.activeNewReplyPanel) $('a[data-toggle="tab"][href="' + Config.activeNewReplyPanel + '"]').tab('show');
-    if (Config.activeTopRecommendPanel) $('a[data-toggle="tab"][href="' + Config.activeTopRecommendPanel + '"]').tab('show');
+    if (Config.activeNewReplyPanel) {
+        $('a[data-toggle="tab"][href="' + Config.activeNewReplyPanel + '"]:not(:contains("\u7EFC\u5408"))').tab('show');
+    }
+    if (Config.activeNewPublishPanel) {
+        $('a[data-toggle="tab"][href="' + Config.activeNewPublishPanel + '"]:not(:contains("\u7EFC\u5408"))').tab('show');
+    }
+    if (Config.activeNewExtraPanel) {
+        $('a[data-toggle="tab"][href="' + Config.activeNewExtraPanel + '"]').tab('show');
+    }
 
     $(document).on('shown.bs.tab', '[data-toggle="tab"]', function (e) {
         var $target = $(e.target);
         var targetPanel = $target.attr('href');
         var typeName = '';
-        if (targetPanel.includes('NewReplyPanel')) typeName = 'activeNewReplyPanel';else if (targetPanel.includes('TopRecommendPanel')) typeName = 'activeTopRecommendPanel';
+        if (targetPanel.includes('newReplyPanel')) typeName = 'activeNewReplyPanel';else if (targetPanel.includes('newPublishPanel')) typeName = 'activeNewPublishPanel';else if (targetPanel.includes('newExtraPanel')) typeName = 'activeNewExtraPanel';
         if (typeName && Config[typeName] !== targetPanel) {
             (0, _config.read)();
             Config[typeName] = targetPanel;
@@ -2696,13 +2705,7 @@ var handleSearchDialog = exports.handleSearchDialog = function handleSearchDialo
             $searchKeyword.attr('name', searchType === 'author' ? 'pwuser' : 'keyword');
             if (searchType === 'title') {
                 if (keyword.length && Util.getStrByteLen(keyword) <= 2) {
-                    var $method = $this.find('[name="method"]');
-                    $method.val('OR');
-                    $searchKeyword.val(keyword + ' ' + Math.floor(new Date().getTime() / 1000));
-                    setTimeout(function () {
-                        $searchKeyword.val(keyword);
-                        $method.val('AND');
-                    }, 200);
+                    $searchKeyword.val(keyword + ' ' + keyword);
                 }
             }
         }
@@ -3270,22 +3273,13 @@ var handleFastReplyBtn = exports.handleFastReplyBtn = function handleFastReplyBt
 var handleGoodPostBtn = exports.handleGoodPostBtn = function handleGoodPostBtn() {
     $(document).on('click', '.handle-post-btn', function () {
         var $this = $(this);
-        if (!Info.goodPostTips || $this.data('wait')) return;
+        if ($this.data('wait')) return;
         var $floor = $(this).closest('.read-floor');
         var pid = $floor.data('pid');
-        var userName = $floor.data('username');
-        $floor.addClass('good-post-mark');
-        if (!confirm('\u662F\u5426\u63D0\u4EA4\u672C\u697C\u5C42\u4E3A\u4F18\u79C0\u5E16\u5B50\uFF1F\n\uFF08' + Info.goodPostTips + '\uFF09')) {
-            $floor.removeClass('good-post-mark');
-            return;
-        }
-        var $sameUserNameFloors = $('.read-floor[data-username="' + userName + '"]').not($floor);
-        if ($sameUserNameFloors.find('.fieldset-alert:contains("本帖为优秀帖")').length > 0) {
-            if (!confirm('在当前页面中该会员已经有回帖被评为优秀帖，是否继续？')) {
-                $floor.removeClass('good-post-mark');
-                return;
-            }
-        }
+
+        var tips = '是否提交本楼层为优秀帖子？';
+        if (Info.goodPostTips) tips += '\n\uFF08' + Info.goodPostTips + '\uFF09';
+        if (!confirm(tips)) return;
 
         $this.data('wait', true);
         $.post('/diy_read_cztz.php', 'tid=' + Info.tid + '&pid=' + pid + '&safeid=' + Info.safeId).done(function (html) {
@@ -3294,9 +3288,6 @@ var handleGoodPostBtn = exports.handleGoodPostBtn = function handleGoodPostBtn()
                 if (!$content.find('.fieldset-alert:contains("本帖为优秀帖")').length) {
                     $content.prepend('<fieldset class="fieldset fieldset-alert"><legend>↓</legend>本帖为优秀帖</fieldset>');
                 }
-            }
-            if (!/已将本楼层提交为优秀帖申请/.test(html)) {
-                $floor.removeClass('good-post-mark');
             }
             alert(html);
         }).always(function () {

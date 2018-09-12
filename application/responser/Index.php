@@ -45,46 +45,86 @@ class Index extends Responser
         }
         $smTips = $pqSmArea->attr('title');
 
-        // 最新回复帖子
-        $galgameNewReplyList = [];
-        $resourceNewReplyList = [];
-        $otherNewReplyList = [];
-        $pqNewReplyList = pq('li.b_tit4 > a');
-        foreach ($pqNewReplyList as $i => $link) {
-            $pqLink = pq($link);
-            $threadUrl = convert_url($pqLink->attr('href'));
-            $title = '';
-            $author = '';
-            if (preg_match('/^《(.+)》by：(.+)$/', trim_strip($pqLink->attr('title')), $matches)) {
-                $title = $matches[1];
-                $author = $matches[2];
+        // 最新回复 & 最新主题
+        $newReplyList = [];
+        $newPublishList = [];
+        $pqPanelTitleList = pq('.indexlbtit2tit');
+        foreach ($pqPanelTitleList as $panelTitleNode) {
+            $pqPanelTitleNode = pq($panelTitleNode);
+            $panelTitle = trim($pqPanelTitleNode->text());
+            $pqPanel = $pqPanelTitleNode->parent('li')->parent('ul');
+
+            if (mb_strpos($panelTitle, '最新回复') > 0) {
+                $currentList = &$newReplyList;
+                $index = count($currentList);
+                $title = mb_ereg_replace('最新回复', '', $panelTitle);
+                if ($title == '综合') $title = $title . ($index + 1);
+                $currentList[$index] = [
+                    'title' => $title,
+                    'data' => [],
+                ];
+            } else {
+                $currentList = &$newPublishList;
+                $index = count($currentList);
+                $title = mb_ereg_replace('最新主题', '', $panelTitle);
+                if ($title == '综合') $title = $title . ($index + 1);
+                $currentList[$index] = [
+                    'title' => $title,
+                    'data' => [],
+                ];
             }
-            $linkData = ['threadUrl' => $threadUrl, 'title' => $title, 'author' => $author];
-            if ($i >= 20) $otherNewReplyList[] = $linkData;
-            elseif ($i >= 10) $resourceNewReplyList[] = $linkData;
-            else $galgameNewReplyList[] = $linkData;
+
+            foreach ($pqPanel->find('> li.indexlbtit2 > a') as $i => $link) {
+                $pqLink = pq($link);
+                if ($i !== 0 && $i % 11 === 0) {
+                    $index++;
+                    $title = mb_ereg_replace(mb_strpos($panelTitle, '最新回复') > 0 ? '最新回复' : '最新主题', '', $panelTitle);
+                    if ($title == '综合') $title = $title . ($index + 1);
+                    $currentList[$index] = [
+                        'title' => $title,
+                        'data' => [],
+                    ];
+                }
+
+                $threadUrl = $pqLink->attr('href');
+                $threadTitle = $pqLink->find('.indexlbtit2_t')->text();
+                $threadTime = $pqLink->find('.indexlbtit2_s')->text();
+                $linkData = [
+                    'threadUrl' => convert_url($threadUrl),
+                    'threadTitle' => $threadTitle,
+                    'threadTime' => $threadTime,
+                ];
+                $currentList[$index]['data'][] = $linkData;
+            }
         }
 
-        // 当前推荐帖子 & 最新发表帖子
-        $galgameTopRecommendList = [];
-        $resourceTopRecommendList = [];
-        $otherTopRecommendList = [];
-        $newPublishList = [];
-        $pqNewReplyList = pq('li.b_tit4_1 > a');
-        foreach ($pqNewReplyList as $i => $link) {
-            $pqLink = pq($link);
-            $threadUrl = convert_url($pqLink->attr('href'));
-            $title = '';
-            $author = '';
-            if (preg_match('/^《(.+)》by：(.+)$/', trim_strip($pqLink->attr('title')), $matches)) {
-                $title = $matches[1];
-                $author = $matches[2];
+
+        // 内部管理 & 最新被推
+        $newExtraList = [];
+        $pqPanelTitleList = pq('.rightlbtit_tit');
+        foreach ($pqPanelTitleList as $panelTitleNode) {
+            $pqPanelTitleNode = pq($panelTitleNode);
+            $panelTitle = trim($pqPanelTitleNode->text());
+            $pqPanel = $pqPanelTitleNode->parent('li')->parent('ul');
+
+            $index = count($newExtraList);
+            $newExtraList[$index] = [
+                'title' => $panelTitle == '内部管理专用' ? '内部管理' : '最新被推',
+                'data' => [],
+            ];
+
+            foreach ($pqPanel->find('> li.rightlbtit > a') as $i => $link) {
+                $pqLink = pq($link);
+                $threadUrl = $pqLink->attr('href');
+                $threadTitle = $pqLink->find('.rightlbtit_t')->text();
+                $threadTime = $pqLink->find('.rightlbtit_s')->text();
+                $linkData = [
+                    'threadUrl' => convert_url($threadUrl),
+                    'threadTitle' => $threadTitle,
+                    'threadTime' => $threadTime,
+                ];
+                $newExtraList[$index]['data'][] = $linkData;
             }
-            $linkData = ['threadUrl' => $threadUrl, 'title' => $title, 'author' => $author];
-            if ($i >= 24) $newPublishList[] = $linkData;
-            elseif ($i >= 16) $otherTopRecommendList[] = $linkData;
-            elseif ($i >= 8) $resourceTopRecommendList[] = $linkData;
-            else $galgameTopRecommendList[] = $linkData;
         }
 
         $data = [
@@ -93,13 +133,9 @@ class Index extends Responser
             'smLevel' => $smLevel,
             'smRank' => $smRank,
             'smTips' => $smTips,
-            'galgameNewReplyList' => $galgameNewReplyList,
-            'resourceNewReplyList' => $resourceNewReplyList,
-            'otherNewReplyList' => $otherNewReplyList,
-            'galgameTopRecommendList' => $galgameTopRecommendList,
-            'resourceTopRecommendList' => $resourceTopRecommendList,
-            'otherTopRecommendList' => $otherTopRecommendList,
+            'newReplyList' => $newReplyList,
             'newPublishList' => $newPublishList,
+            'newExtraList' => $newExtraList,
             'pcVersionUrl' => $commonData['pcVersionUrl'] . '?nomible=1',
         ];
         debug('end');

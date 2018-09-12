@@ -10,9 +10,11 @@ const name = 'kf_config';
  */
 export const Config = {
     // 当前激活的最新回复面板
-    activeNewReplyPanel: '#galgameNewReplyPanel',
-    // 当前激活的当前推荐面板
-    activeTopRecommendPanel: '#galgameTopRecommendPanel',
+    activeNewReplyPanel: '#newReplyPanel1',
+    // 当前激活的最新发表面板
+    activeNewPublishPanel: '#newPublishPanel1',
+    // 当前激活的其它帖子面板
+    activeNewExtraPanel: '#newExtraPanel1',
     // 常用版块列表
     commonForumList: [],
 

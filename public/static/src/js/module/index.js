@@ -29,15 +29,23 @@ export const handleAtTipsBtn = function () {
  * 处理首页主题链接面板
  */
 export const handleIndexThreadPanel = function () {
-    if (Config.activeNewReplyPanel) $(`a[data-toggle="tab"][href="${Config.activeNewReplyPanel}"]`).tab('show');
-    if (Config.activeTopRecommendPanel) $(`a[data-toggle="tab"][href="${Config.activeTopRecommendPanel}"]`).tab('show');
+    if (Config.activeNewReplyPanel) {
+        $(`a[data-toggle="tab"][href="${Config.activeNewReplyPanel}"]:not(:contains("综合"))`).tab('show');
+    }
+    if (Config.activeNewPublishPanel) {
+        $(`a[data-toggle="tab"][href="${Config.activeNewPublishPanel}"]:not(:contains("综合"))`).tab('show');
+    }
+    if (Config.activeNewExtraPanel) {
+        $(`a[data-toggle="tab"][href="${Config.activeNewExtraPanel}"]`).tab('show');
+    }
 
     $(document).on('shown.bs.tab', '[data-toggle="tab"]', function (e) {
         let $target = $(e.target);
         let targetPanel = $target.attr('href');
         let typeName = '';
-        if (targetPanel.includes('NewReplyPanel')) typeName = 'activeNewReplyPanel';
-        else if (targetPanel.includes('TopRecommendPanel')) typeName = 'activeTopRecommendPanel';
+        if (targetPanel.includes('newReplyPanel')) typeName = 'activeNewReplyPanel';
+        else if (targetPanel.includes('newPublishPanel')) typeName = 'activeNewPublishPanel';
+        else if (targetPanel.includes('newExtraPanel')) typeName = 'activeNewExtraPanel';
         if (typeName && Config[typeName] !== targetPanel) {
             readConfig();
             Config[typeName] = targetPanel;

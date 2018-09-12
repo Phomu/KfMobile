@@ -6432,25 +6432,28 @@ main {
   margin-left: -15px;
   margin-left: 0 !important;
   margin-right: 0 !important;
-  padding: 0; }
+  padding: 0;
+  line-height: 2.72rem;
+  align-items: center; }
   .thread-link-group .thread-link {
-    flex: 0 0 83.33333%;
-    max-width: 83.33333%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding-left: 0.5rem;
-    line-height: 2.75; }
+    flex: 0 0 80%;
+    max-width: 80%;
+    padding-left: 0.5rem; }
     .thread-link-group .thread-link:hover {
       text-decoration: none;
       background-color: rgba(233, 236, 239, 0.5); }
   .thread-link-group .thread-link-jump {
-    flex: 0 0 16.66667%;
-    max-width: 16.66667%;
-    line-height: 2.75;
+    flex: 0 0 20%;
+    max-width: 20%;
+    padding-right: 0.5rem;
+    font-size: .857rem;
     color: #6c757d;
-    text-align: center; }
+    text-align: right; }
     .thread-link-group .thread-link-jump:hover {
+      text-decoration: none;
       background-color: rgba(233, 236, 239, 0.5); }
 
 .thread-list-group {
