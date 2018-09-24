@@ -167,16 +167,16 @@ class Log
                 unset($log['debug']);
             }
 
-			// 排除phpQuery的部分错误日志
-			if (!empty($log) && isset($log['error'])) {
-				$errors = [];
-				foreach ($log['error'] as $error) {
-					if (!strpos($error, 'DOMDocument::loadHTML()')) {
-						$errors[] = $error;
-					}
-				}
-				$log['error'] = $errors;
-			}
+            // 排除phpQuery的部分错误日志
+            if (!empty($log) && isset($log['error'])) {
+                $errors = [];
+                foreach ($log['error'] as $error) {
+                    if (!strpos($error, 'DOMDocument::loadHTML()')) {
+                        $errors[] = $error;
+                    }
+                }
+                $log['error'] = $errors;
+            }
         } else {
             // 记录允许级别
             $log = [];

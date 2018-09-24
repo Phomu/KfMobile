@@ -25,6 +25,7 @@ class File
         'file_size'   => 2097152,
         'path'        => LOG_PATH,
         'apart_level' => [],
+        'max_files'   => 0,
     ];
 
     protected $writed = [];
@@ -48,8 +49,20 @@ class File
         if ($this->config['single']) {
             $destination = $this->config['path'] . 'single.log';
         } else {
-            $cli         = IS_CLI ? '_cli' : '';
-            $destination = $this->config['path'] . date('Ym') . DS . date('d') . $cli . '.log';
+            $cli = IS_CLI ? '_cli' : '';
+
+            if ($this->config['max_files']) {
+                $filename = date('Ymd') . $cli . '.log';
+                $files    = glob($this->config['path'] . '*.log');
+
+                if (count($files) > $this->config['max_files']) {
+                    unlink($files[0]);
+                }
+            } else {
+                $filename = date('Ym') . '/' . date('d') . $cli . '.log';
+            }
+
+            $destination = $this->config['path'] . $filename;
         }
 
         $path = dirname($destination);
@@ -68,6 +81,8 @@ class File
                 // 独立记录的日志级别
                 if ($this->config['single']) {
                     $filename = $path . DS . $type . '.log';
+                } elseif ($this->config['max_files']) {
+                    $filename = $path . DS . date('Ymd') . '_' . $type . $cli . '.log';
                 } else {
                     $filename = $path . DS . date('d') . '_' . $type . $cli . '.log';
                 }
@@ -94,7 +109,7 @@ class File
         }
 
         if (empty($this->writed[$destination]) && !IS_CLI) {
-            if (true || App::$debug && !$apart) {
+            if (true && App::$debug && !$apart) {
                 // 获取基本信息
                 if (isset($_SERVER['HTTP_HOST'])) {
                     $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
