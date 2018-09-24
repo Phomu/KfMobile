@@ -145,3 +145,20 @@
     line-height: 1.8;
   }
 }
+
+// 选择自定义布局
+.select-layout-box {
+  .card-header {
+    font-weight: 600;
+  }
+
+  td {
+    border: none;
+  }
+
+  @include media-breakpoint-down(xs) {
+    td[colspan="3"] {
+      height: 4rem;
+    }
+  }
+}

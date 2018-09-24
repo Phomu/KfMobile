@@ -6755,6 +6755,16 @@ main {
 #fightReadmeContent .card-block {
   line-height: 1.8; }
 
+.select-layout-box .card-header, .select-layout-box .list-group-item.list-group-item-header {
+  font-weight: 600; }
+
+.select-layout-box td {
+  border: none; }
+
+@media (max-width: 575.98px) {
+  .select-layout-box td[colspan="3"] {
+    height: 4rem; } }
+
 .bg-sprite {
   background-image: url("../img/bg/small/sprite.jpg");
   background-repeat: no-repeat; }
