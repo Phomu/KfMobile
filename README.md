@@ -17,7 +17,7 @@ https://bbs.2dkf.com/read.php?tid=564787
 ## 环境要求
 本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
 
-    php >= 5.6.0
+    php >= 5.6.0 && < 7.2.0
     cURL PHP Extension
     mbstring PHP Extension
 
