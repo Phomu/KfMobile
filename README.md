@@ -98,7 +98,7 @@ Nginx虚拟主机配置参考：
     
             proxy_set_header     Host www.9moe.com;
             proxy_set_header     X-Real-IP $remote_addr;
-            proxy_set_header     X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header     X-Forwarded-For $remote_addr;
             proxy_set_header     Accept-Encoding '';
             proxy_ignore_headers 'Cache-Control' 'Expires';
         }
@@ -112,9 +112,9 @@ Nginx虚拟主机配置参考：
             proxy_set_header Referer https://www.9moe.com;
             proxy_set_header Accept-Encoding '';
             proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-For $remote_addr;
     
-            sub_filter 'https://www.9moe.com' 'http://$host';
+            sub_filter 'https://www.9moe.com' '$scheme://$host';
         }
     
         location ~ \.php$ {
