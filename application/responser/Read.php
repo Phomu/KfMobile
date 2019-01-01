@@ -237,31 +237,23 @@ class Read extends Responser
             $pqAvatar = $pqFloorUser->find('.readidms');
         }
         if ($avatarType === 2) {
-            if (preg_match('/url\((.+?)\.png\)/i', $pqAvatar->attr('style'), $matches)) {
-                $avatar = $matches[1] . 's.png';
-            }
-            $pqUserLink = $pqAvatar->find('.readidmleft a');
-            if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
-                $uid = intval($matches[1]);
-                $sf = $matches[2];
-            }
-            $userName = trim_strip($pqUserLink->text());
-            $smLevel = trim_strip($pqAvatar->find('.readidmright')->text());
+            $avatar = $pqAvatar->find('.readidmtop > img')->attr('src');
+            $pqUserInfo = $pqAvatar->find('.readidmbottom');
         } else {
             $avatar = $pqAvatar->find('.readidmstop > img')->attr('src');
             $pqUserInfo = $pqAvatar->find('.readidmsbottom');
-            $pqUserLink = $pqUserInfo->find('a');
-            if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
-                $uid = intval($matches[1]);
-                $sf = $matches[2];
-            }
-            $userName = trim_strip($pqUserLink->text());
+        }
+        $pqUserLink = $pqUserInfo->find('a');
+        if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
+            $uid = intval($matches[1]);
+            $sf = $matches[2];
+        }
+        $userName = trim_strip($pqUserLink->text());
 
-            $userHtmlArray = explode('<br>', $pqUserInfo->html());
-            if (count($userHtmlArray) >= 2) {
-                if (preg_match('/(\S+) 级神秘/', strip_tags($userHtmlArray[1]), $matches)) {
-                    $smLevel = $matches[1];
-                }
+        $userHtmlArray = explode('<br>', $pqUserInfo->html());
+        if (count($userHtmlArray) >= 2) {
+            if (preg_match('/(\S+) 级神秘/', strip_tags($userHtmlArray[1]), $matches)) {
+                $smLevel = $matches[1];
             }
         }
         if (strpos($avatar, 'none.gif') > 0) $avatar = '';
