@@ -55,7 +55,7 @@
             <div class="form-check form-check-inline mr-0">
               <input class="form-check-input position-static" name="delid[]" type="checkbox" value="{$vo.tid}" aria-label="选择主题">
             </div>
-            <a class="thread-link d-inline" href="{:url('Read/index?tid=' . $vo['tid'])}" target="_blank">{$vo.threadTitle}</a>
+            <a class="thread-link d-inline" href="{$vo.threadLink}" target="_blank">{$vo.threadTitle}</a>
           </div>
           <footer class="thread-footer">
             <div class="col-6 thread-footer-column">

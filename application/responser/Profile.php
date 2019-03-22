@@ -146,7 +146,9 @@ class Profile extends Responser
             $author = '';
 
             $pqThreadLink = $pqItem->find('> td:first-child > a');
-            if (preg_match('/tid=(\d+)/i', $pqThreadLink->attr('href'), $matches)) {
+            $oriThreadLink = $pqThreadLink->attr('href');
+            $threadLink = convert_url($oriThreadLink);
+            if (preg_match('/tid=(\d+)/i', $oriThreadLink, $matches)) {
                 $tid = intval($matches[1]);
             }
             $threadTitle = trim($pqThreadLink->html());
@@ -165,6 +167,7 @@ class Profile extends Responser
 
             $threadList[] = [
                 'tid' => $tid,
+                'threadLink' => $threadLink,
                 'threadTitle' => $threadTitle,
                 'fid' => $fid,
                 'threadForum' => $threadForum,
