@@ -692,7 +692,19 @@ class SelfRate extends Responser
                 );
             }, $disagreeInfo);
             $disagreeInfo = preg_replace_callback('/\[帖子:(\d+)\]/', function ($matches) {
-                return sprintf('[帖子:<a href="%s" target="_blank">%s</a>]', url('Read/index?tid=' . $matches[1]), $matches[1]);
+                return sprintf(
+                    '[帖子:<a class="not-click-link" href="%s" target="_blank" data-not-click="true">%s</a>]',
+                    url('Read/index?tid=' . $matches[1]),
+                    $matches[1]
+                );
+            }, $disagreeInfo);
+            $disagreeInfo = preg_replace_callback('/\[帖子(\d+)回复(\d+)\]/', function ($matches) {
+                return sprintf(
+                    '[帖子<a class="not-click-link" href="%s" target="_blank" data-not-click="true">%s</a>回复%s]',
+                    url('Read/index', 'tid=' . $matches[1] . '&spid=' . $matches[2]),
+                    $matches[1],
+                    $matches[2]
+                );
             }, $disagreeInfo);
             $disagreeInfo = preg_replace('/\[([^\[\]]+?):([^\[\]]+)\]/', '[<span class="text-danger">$1</span>: $2]', $disagreeInfo);
 
