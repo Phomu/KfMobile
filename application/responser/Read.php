@@ -76,7 +76,7 @@ class Read extends Responser
         }
         $sf = empty($sf) ? input('sf', '') : $sf;
         $pageParamList = $request->except(['page', 'sf']);
-        if(!empty($sf)) {
+        if (!empty($sf)) {
             $pageParamList['sf'] = $sf;
         }
         $pageParam = http_build_query($pageParamList);
@@ -100,6 +100,7 @@ class Read extends Responser
         $voteTitle = '';
         $voteStatus = 'open';
         $voteTotalCount = 0;
+        $maxVoteCount = 0;
         $voteList = [];
         $votedInfo = '';
         $voteLimitNum = 0;
@@ -139,6 +140,7 @@ class Read extends Responser
                     else {
                         $itemVoteCount = intval($matches[1]);
                         $voteTotalCount += $itemVoteCount;
+                        if ($maxVoteCount < $itemVoteCount) $maxVoteCount = $itemVoteCount;
                     }
                 }
 
@@ -177,6 +179,7 @@ class Read extends Responser
             'hasMoveThreadLink' => $hasMoveThreadLink,
             'voteTitle' => $voteTitle,
             'voteStatus' => $voteStatus,
+            'maxVoteCount' => $maxVoteCount,
             'voteTotalCount' => $voteTotalCount,
             'voteList' => $voteList,
             'votedInfo' => $votedInfo,

@@ -59,13 +59,13 @@
           {eq name="vo.itemVoteCount" value="-1"}
           <div class="d-inline-block small text-secondary pl-1">* 票</div>
           {else /}
-          {assign name="itemVotePercent" value="$voteTotalCount > 0 ? $vo.itemVoteCount / $voteTotalCount * 100 : 0"}
+          {assign name="itemVotePercent" value="$maxVoteCount > 0 ? $vo.itemVoteCount / $maxVoteCount * 100 : 0"}
           <div class="progress w-100">
             <div class="progress-bar progress-bar-striped bg-{:get_color_from_number($i-1)}" style="width: {$itemVotePercent|intval}%"
                  role="progressbar" aria-valuenow="{$itemVotePercent|intval}" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
           <div class="small text-{:get_color_from_number($i-1)}">
-            {$vo.itemVoteCount} 票 ({:number_format($itemVotePercent, 2)}%)
+            {$vo.itemVoteCount} 票 ({:number_format($voteTotalCount > 0 ? $vo.itemVoteCount / $voteTotalCount * 100 : 0, 2)}%)
           </div>
           {/eq}
         </li>
