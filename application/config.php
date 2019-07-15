@@ -17,7 +17,7 @@ return [
     // 反向代理的User Agent
     'proxy_user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
     // 网站名称
-    'site_name' => '绯月Galgame',
+    'site_name' => '绯月ScarletMoon',
     // 静态资源目录的路径
     'static_path' => 'static/dist/',
     // 是否使用CDN传输部分静态资源文件（如jQuery、Bootstrap脚本及Font Awesome字体文件等）
