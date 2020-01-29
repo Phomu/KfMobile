@@ -424,3 +424,18 @@ export const removeUnpairedBBCodeContent = function (content) {
     }
     return content;
 };
+
+/**
+ * 获取发帖人
+ * @param {string} name 处理前的发帖人
+ * @returns {string} 真实发帖人
+ */
+export const getFloorUserName = function (name) {
+    name = $.trim(name);
+    if (name.includes(' ')) {
+        let arr = name.split(' ');
+        return arr.length === 2 ? arr[1] : name;
+    } else {
+        return name;
+    }
+};

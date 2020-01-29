@@ -3006,7 +3006,7 @@ var followUsers = exports.followUsers = function followUsers() {
     } else if (pageId === 'readPage') {
         $('.read-floor').each(function () {
             var $this = $(this);
-            if (Util.inFollowOrBlockUserList($this.data('username'), Config.followUserList) > -1) {
+            if (Util.inFollowOrBlockUserList(Util.getFloorUserName($this.data('username')), Config.followUserList) > -1) {
                 $this.find('.floor-num').addClass('text-danger');
             }
         });
@@ -3049,7 +3049,7 @@ var blockUsers = exports.blockUsers = function blockUsers() {
         if (Config.blockUserForumType === 1 && !Config.blockUserFidList.includes(Info.fid)) return;else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(Info.fid)) return;
         $('.read-floor').each(function () {
             var $this = $(this);
-            var index = Util.inFollowOrBlockUserList($this.data('username'), Config.blockUserList);
+            var index = Util.inFollowOrBlockUserList(Util.getFloorUserName($this.data('username')), Config.blockUserList);
             if (index > -1) {
                 var floor = parseInt($this.data('floor'));
                 if (Config.blockUserList[index].type === 2 && floor === 0) return;else if (Config.blockUserList[index].type === 1 && floor > 0) return;
@@ -3200,7 +3200,7 @@ var blockThread = exports.blockThread = function blockThread() {
         if (Info.currentPageNum !== 1) return;
         var $topFloor = $('.read-floor[data-floor="0"]');
         if (!$topFloor.length) return;
-        if (isBlock($('.thread-title').text().trim(), $topFloor.data('username'), Info.fid)) {
+        if (isBlock($('.thread-title').text().trim(), Util.getFloorUserName($topFloor.data('username')), Info.fid)) {
             num++;
             $topFloor.remove();
         }
@@ -3257,7 +3257,7 @@ var handleFastReplyBtn = exports.handleFastReplyBtn = function handleFastReplyBt
     $(document).on('click', '.fast-reply-btn', function () {
         var $article = $(this).closest('article');
         var floor = $article.data('floor');
-        var userName = $article.data('username');
+        var userName = Util.getFloorUserName($article.data('username'));
         $('#postGjc').val(userName);
         var postContent = $('#postContent').get(0);
         postContent.value = '[quote]\u56DE ' + floor + '\u697C(' + userName + ') \u7684\u5E16\u5B50[/quote]\n';
@@ -3466,7 +3466,7 @@ var getCheckedMultiQuoteData = function getCheckedMultiQuoteData() {
     var quoteList = [];
     $('.multi-quote-check:checked').each(function () {
         var $article = $(this).closest('article');
-        quoteList.push({ floor: $article.data('floor'), pid: $article.data('pid'), userName: $article.data('username') });
+        quoteList.push({ floor: $article.data('floor'), pid: $article.data('pid'), userName: Util.getFloorUserName($article.data('username')) });
     });
     return quoteList;
 };
@@ -3504,7 +3504,7 @@ var addUserMemo = exports.addUserMemo = function addUserMemo() {
     if ($.isEmptyObject(Config.userMemoList)) return;
     $('.read-floor').each(function () {
         var $this = $(this);
-        var userName = $this.data('username');
+        var userName = Util.getFloorUserName($this.data('username'));
         var key = Object.keys(Config.userMemoList).find(function (name) {
             return name === userName;
         });
@@ -4298,6 +4298,21 @@ var removeUnpairedBBCodeContent = exports.removeUnpairedBBCodeContent = function
         }
     }
     return content;
+};
+
+/**
+ * 获取发帖人
+ * @param {string} name 处理前的发帖人
+ * @returns {string} 真实发帖人
+ */
+var getFloorUserName = exports.getFloorUserName = function getFloorUserName(name) {
+    name = $.trim(name);
+    if (name.includes(' ')) {
+        var arr = name.split(' ');
+        return arr.length === 2 ? arr[1] : name;
+    } else {
+        return name;
+    }
 };
 
 },{}]},{},[1])

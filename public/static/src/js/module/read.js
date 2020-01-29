@@ -27,7 +27,7 @@ export const handleFastReplyBtn = function () {
     $(document).on('click', '.fast-reply-btn', function () {
         let $article = $(this).closest('article');
         let floor = $article.data('floor');
-        let userName = $article.data('username');
+        let userName = Util.getFloorUserName($article.data('username'));
         $('#postGjc').val(userName);
         let postContent = $('#postContent').get(0);
         postContent.value = `[quote]回 ${floor}楼(${userName}) 的帖子[/quote]\n`;
@@ -258,7 +258,7 @@ const getCheckedMultiQuoteData = function () {
     let quoteList = [];
     $('.multi-quote-check:checked').each(function () {
         let $article = $(this).closest('article');
-        quoteList.push({floor: $article.data('floor'), pid: $article.data('pid'), userName: $article.data('username')});
+        quoteList.push({floor: $article.data('floor'), pid: $article.data('pid'), userName: Util.getFloorUserName($article.data('username'))});
     });
     return quoteList;
 };
@@ -300,7 +300,7 @@ export const addUserMemo = function () {
     if ($.isEmptyObject(Config.userMemoList)) return;
     $('.read-floor').each(function () {
         let $this = $(this);
-        let userName = $this.data('username');
+        let userName = Util.getFloorUserName($this.data('username'));
         let key = Object.keys(Config.userMemoList).find(name => name === userName);
         if (!key) return;
         $this.find('.floor-user').after(

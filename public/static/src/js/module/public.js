@@ -346,7 +346,7 @@ export const followUsers = function () {
     else if (pageId === 'readPage') {
         $('.read-floor').each(function () {
             let $this = $(this);
-            if (Util.inFollowOrBlockUserList($this.data('username'), Config.followUserList) > -1) {
+            if (Util.inFollowOrBlockUserList(Util.getFloorUserName($this.data('username')), Config.followUserList) > -1) {
                 $this.find('.floor-num').addClass('text-danger');
             }
         });
@@ -394,7 +394,7 @@ export const blockUsers = function () {
         else if (Config.blockUserForumType === 2 && Config.blockUserFidList.includes(Info.fid)) return;
         $('.read-floor').each(function () {
             let $this = $(this);
-            let index = Util.inFollowOrBlockUserList($this.data('username'), Config.blockUserList);
+            let index = Util.inFollowOrBlockUserList(Util.getFloorUserName($this.data('username')), Config.blockUserList);
             if (index > -1) {
                 let floor = parseInt($this.data('floor'));
                 if (Config.blockUserList[index].type === 2 && floor === 0) return;
@@ -506,7 +506,7 @@ export const blockThread = function () {
         if (Info.currentPageNum !== 1) return;
         let $topFloor = $('.read-floor[data-floor="0"]');
         if (!$topFloor.length) return;
-        if (isBlock($('.thread-title').text().trim(), $topFloor.data('username'), Info.fid)) {
+        if (isBlock($('.thread-title').text().trim(), Util.getFloorUserName($topFloor.data('username')), Info.fid)) {
             num++;
             $topFloor.remove();
         }
