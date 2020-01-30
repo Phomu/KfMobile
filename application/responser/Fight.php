@@ -74,6 +74,11 @@ class Fight extends Responser
         $commonData = array_merge($this->getCommonData($doc), $extraData);
         $matches = [];
 
+        if (preg_match('/开启新争夺后本功能不可用/', $this->response['document'], $matches) > 0) {
+            error($matches[0]);
+            return;
+        }
+
         // 战力光环信息
         $pqArea = pq('.kf_fw_ig1:first');
         $haloIntro = trim($pqArea->find('> tr:first-child > td')->html());
