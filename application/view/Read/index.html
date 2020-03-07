@@ -200,7 +200,7 @@
               {$vo.userName}
             </a>
             {eq name="vo.smLevel" value="*"}
-            <span class="badge badge-secondary" title="该用户已被禁言">禁</span>
+            &nbsp;<span class="badge badge-secondary" title="该用户已被禁言">禁</span>
             {/eq}
           </div>
 
@@ -230,6 +230,11 @@
           <span class="sm-level" title="神秘等级" aria-label="神秘等级">
             <i class="fa fa-star-o" aria-hidden="true"></i> {$vo.smLevel}级
           </span>&nbsp;
+          {notempty name="vo.gameRank"}
+          <span class="game-rank" title="段位" aria-label="段位" style="color: {$vo.smColor};">
+            <i class="fa fa-trophy" aria-hidden="true"></i> {$vo.gameRank}
+          </span>&nbsp;
+          {/notempty}
           <span title="发表时间" aria-label="发表时间">
             <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$vo.publishTime}</time>
           </span>&nbsp;

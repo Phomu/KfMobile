@@ -43,7 +43,7 @@ class Read extends Responser
         $replyNum = 0;
         $publishTime = '';
         $tuiNum = 0;
-        $isSeeAll = pq('.readtext:first')->prev()->prev('.readlou')->find('a:contains("[全看]")')->length > 0;
+        $isSeeAll = pq('.readtext:first')->find('> table > tr > td > div > div:nth-child(2) > a:contains("全看")')->length > 0;
         if ($pqForumNav->length >= 2) {
             if (preg_match('/fid=(\d+)/', $pqForumNav->eq(0)->attr('href'), $matches)) {
                 $parentFid = intval($matches[1]);
@@ -201,68 +201,42 @@ class Read extends Responser
         $matches = [];
 
         // 楼层顶部信息
-        $pid = '';
         $floorNum = 0;
-        $publishTime = '';
-        $sign = '';
-        $pqFloorTop = $pqFloor->prev('div')->prev('.readlou');
-        $pqFloorUser = $pqFloorTop->prev('.readlou');
-        $pid = $pqFloorUser->prev('a')->attr('name');
-        $pqFloorTopInfo = $pqFloorTop->find('> div:nth-child(2)');
-        $floorNumText = $pqFloorTopInfo->find('span:first-child')->text();
+        $pqFloorTop = $pqFloor->find('table > tr > td:first-child > div:first-child > div:nth-child(2)');
+        $pqFloorUser = $pqFloor->prev('div')->find(' > .readidms');
+        $pid = $pqFloor->prev('div')->prev('.readlou')->prev('a')->attr('name');
+        $floorNumText = $pqFloorTop->find('> span:first-child')->text();
         if (preg_match('/(\d+)楼/', $floorNumText, $matches)) {
             $floorNum = intval($matches[1]);
         }
         $isAdmin = strpos($floorNumText, '（管理成员）') > 0;
-        $infoText = $pqFloorTopInfo->find('span:last-child')->text();
-        if (preg_match('/\s*-\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2})/', $infoText, $matches)) {
-            $publishTime = $matches[1];
-        }
-        if (preg_match('/\(\s(.+)\s\)/', $infoText, $matches)) {
-            $sign = trim_strip($matches[1]);
-        }
+        $publishTime = trim_strip($pqFloorTop->find('> span:nth-child(2)')->text());
+        $sign = trim_strip($pqFloorTop->find('> span:nth-child(3)')->text());
 
         // 楼层用户信息
-        $avatar = '';
         $uid = 0;
         $sf = '';
-        $userName = '';
-        $smLevel = '';
         $smColor = '';
-        $avatarType = 1;
-        if (preg_match('/#\w+/', $pqFloor->attr('style'), $matches)) {
+        if (preg_match('/#\w+/', $pqFloorUser->attr('style'), $matches)) {
             $smColor = $matches[0];
         }
-        $pqAvatar = $pqFloorUser->find('.readidm');
-        if ($pqAvatar->length > 0) {
-            $avatarType = 2;
-        } else {
-            $pqAvatar = $pqFloorUser->find('.readidms');
-        }
-        if ($avatarType === 2) {
-            $avatar = $pqAvatar->find('.readidmtop > img')->attr('src');
-            $pqUserInfo = $pqAvatar->find('.readidmbottom');
-        } else {
-            $avatar = $pqAvatar->find('.readidmstop > img')->attr('src');
-            $pqUserInfo = $pqAvatar->find('.readidmsbottom');
-        }
-        $pqUserLink = $pqUserInfo->find('a');
+        $pqAvatar = $pqFloorUser->find('.readidmstop > img');
+        $avatar = $pqAvatar->attr('src');
+        if (strpos($avatar, 'none.gif') > 0) $avatar = '';
+        elseif (!empty($avatar) && strpos($avatar, 'http') !== 0) $avatar = '/' . $avatar;
+
+        $pqUserInfo = $pqFloorUser->find('.readidmsbottom');
+        $pqUserLink = $pqUserInfo->find('.readidmsbottom_n');
         if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
             $uid = intval($matches[1]);
             $sf = $matches[2];
         }
         $userName = trim_strip($pqUserLink->text());
 
-        $userHtmlArray = explode('<br>', $pqUserInfo->html());
-        if (count($userHtmlArray) >= 2) {
-            if (preg_match('/(\S+) 级神秘/', strip_tags($userHtmlArray[1]), $matches)) {
-                $smLevel = $matches[1];
-            }
-        }
-        if (strpos($avatar, 'none.gif') > 0) $avatar = '';
-        elseif (!empty($avatar) && strpos($avatar, 'http') !== 0) $avatar = '/' . $avatar;
+        $smLevel = trim_strip(str_replace(' ', '', $pqUserInfo->find('.readidmsbottom_s')->text()));
+        $gameRank = trim_strip($pqUserInfo->find('.readidmsbottom_j')->text());
 
-        $content = $this->getFloorContent($pqFloor->find('tr:first > td > div'));
+        $content = $this->getFloorContent($pqFloor->find('tr > td > div'));
 
         return [
             'pid' => $pid,
@@ -275,6 +249,7 @@ class Read extends Responser
             'sf' => $sf,
             'userName' => $userName,
             'smLevel' => $smLevel,
+            'gameRank' => $gameRank,
             'smColor' => $smColor,
             'content' => $content,
         ];
@@ -288,7 +263,11 @@ class Read extends Responser
     protected function getFloorContent($pqFloor)
     {
         // 替换楼层内容
-        $pqFloor->html(replace_floor_content(replace_common_html_content($pqFloor->html())));
+        $floorHtml = '';
+        if (preg_match('/^\s*<div[\s\S]+?<\/div>\s*<div[\s\S]+?<\/div>([\s\S]+)$/', $pqFloor->html(), $matches)) {
+            $floorHtml = $matches[1];
+        }
+        $pqFloor->html(replace_floor_content(replace_common_html_content($floorHtml)));
 
         $this::handleFloorElements($pqFloor);
 
